@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import classNames from 'classnames/bind';
 
 export default class EditRoom extends Component {
   constructor(props) {
@@ -9,7 +8,7 @@ export default class EditRoom extends Component {
   render() {
     return (
       <div>
-        <h1>edit this room yoodfdfoo</h1>
+        <h1>edit this room yo!</h1>
       </div>
     );
   }

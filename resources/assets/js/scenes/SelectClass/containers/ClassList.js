@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import { enterOffering } from '../actions'
-import ClassList from '../components/ClassList'
+import { enterOffering } from '../../../actions'
+import ClassList from '../ClassList'
 
 const mapStateToProps = (state) => {
   return {

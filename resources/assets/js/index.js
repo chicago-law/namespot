@@ -5,7 +5,7 @@ import { createStore, applyMiddleware } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import { createLogger } from 'redux-logger'
 import rootReducer from './reducers'
-import Root from './containers/Root'
+import Root from './components/Root'
 import { fetchOfferings, enterOffering, fetchStudents, fetchRooms } from './actions'
 
 const loggerMiddleware = createLogger()

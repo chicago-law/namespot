@@ -1,6 +1,6 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
-import EditRoomBanner from '../containers/EditRoomBanner'
+import EditRoomBanner from '../scenes/EditRoom/containers/EditRoomBanner'
 
 const seatingChartsBanner = () => (
   <div className="banner-text">
@@ -24,7 +24,7 @@ const Banner = () => (
       <Route exact path="/" component={seatingChartsBanner} />
       <Route path="/classes" component={seatingChartsBanner} />
       <Route exact path="/rooms" component={RoomTemplatesBanner} />
-      <Route path="/rooms/edit/:id" component={EditRoomBanner} />
+      <Route path="/room/:id" component={EditRoomBanner} />
       <Route path="/students" component={StudentsBanner} />
     </Switch>
   </div>

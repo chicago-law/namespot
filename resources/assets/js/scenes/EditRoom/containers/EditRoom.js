@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import EditRoom from '../components/EditRoom'
+import EditRoom from '../EditRoom'
 
 const mapStateToProps = (state) => {
   return {

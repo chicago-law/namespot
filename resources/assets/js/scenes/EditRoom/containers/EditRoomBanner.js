@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import EditRoomBanner from '../components/EditRoomBanner'
+import EditRoomBanner from '../EditRoomBanner'
 
 const mapStateToProps = (state, ownProps) => {
   return {
