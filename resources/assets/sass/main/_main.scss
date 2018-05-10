@@ -1,0 +1,34 @@
+html {
+  box-sizing:border-box;
+}
+*, *:before, *:after {
+  box-sizing:inherit;
+}
+body {
+  background: $off-white;
+}
+img {
+  max-width:100%;
+  height:auto !important;
+}
+ul {
+  padding:0;
+}
+li {
+  list-style-type:none;
+}
+
+.card {
+  box-shadow:0 1px 3px rgba(0,0,0,.15);
+  background: #fff;
+}
+
+.main {
+  padding:2em;
+}
+
+.narrow-wrap {
+  max-width:40em;
+  margin-left: auto;
+  margin-right: auto;
+}

@@ -1,0 +1,37 @@
+.class-list {
+  margin-top: 5em;
+  padding:2em 0 0 0;
+  h5 {
+    text-align:center;
+  }
+  ul li {
+    position:relative;
+    a {
+      display: block;
+      padding:1.5em 3.5em 1.5em 2em; // weird to make space for caret
+      border-top: 1px solid $off-white;
+      h4 {
+        display:block;
+        text-transform:capitalize;
+        color:$dark-gray;
+        margin-bottom:0;
+      }
+      p {
+        margin-bottom: 0;
+        color:$dark-gray;
+      }
+    }
+    i {
+      position:absolute;
+      right:1.5em;
+      top:50%;
+      transform:translateY(-50%);
+      color:$middle-gray;
+    }
+    &:hover {
+      h4, p, i {
+        color:$primary-accent;
+      }
+    }
+  } /* end li */
+}

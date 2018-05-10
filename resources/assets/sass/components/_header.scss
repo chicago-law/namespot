@@ -1,0 +1,117 @@
+.site-header {
+  display:flex;
+  justify-content:space-between;
+  background: #fff;
+  .nav-container {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    .nav-control {
+      line-height:0;
+      padding:2em;
+      color:$primary-accent;
+      i {
+        @include ms1;
+      }
+      &:hover {
+        color:$primary-accent-hover;
+      }
+    }
+    .site-menu {
+      position:absolute;
+      top:0;
+      bottom:0;
+      left:0;
+      width:17em;
+      background: $dark-gray;
+      color:#fff;
+      z-index:100;
+      box-shadow:0 0 15px rgba(0,0,0,.15);
+      transform:translateX(-18em);
+      transition:transform 400ms cubic-bezier(0.000, 0.905, 0.270, 0.975);
+      i {
+        @include ms1;
+        margin-right:1.35em;
+      }
+      header, ul, .school-logo-container {
+        margin:0 2em;
+        padding:1.5em 0;
+        border-bottom: 1px solid lighten($dark-gray,10%);
+      }
+      header {
+        display:flex;
+        align-items:center;
+        button {
+          color:#fff;
+          &:hover {
+            color:$primary-accent;
+          }
+        }
+        h3 {
+          margin:0;
+        }
+      }
+      ul {
+        li {
+          list-style-type:none;
+          a {
+            display:flex;
+            align-items:center;
+            padding:.75em 0;
+            margin:.25em 0;
+          }
+        }
+      }
+      .school-logo-container {
+        border-bottom: none;
+      }
+    } /* end .site-menu */
+    .shader {
+      position:fixed;
+      top:0;
+      left:0;
+      right:0;
+      bottom:0;
+      background:rgba(0,0,0,.2);
+      opacity:0;
+      z-index: 0;
+      pointer-events:none;
+      transition:opacity 400ms ease-out;
+    }
+    &.is-open { /* .nav-container.is-open */
+      .site-menu {
+        transform:translateX(0);
+      }
+      .shader {
+        z-index:99;
+        pointer-events:auto;
+        opacity:1;
+      }
+    }
+  } /* end .nav-container */
+  .banner-container {
+    display:flex;
+    align-items:center;
+    flex-grow:1;
+    padding:1em;
+    .banner-text {
+      position:relative;
+      top:-2px;
+      i {
+        margin-right:.5em;
+      }
+      h3 {
+        margin:0;
+      }
+    }
+  }
+  .logo-container {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:2em;
+    a {
+      line-height:0;
+    }
+  }
+}

@@ -1,0 +1,53 @@
+/* ------ */
+/* COLORS */
+/* ------ */
+
+// Grayscale
+$off-white:#EEEEEE;
+$light-gray:#CCCCCC;
+$middle-gray:#AAAAAA;
+$dark-gray:#444444;
+
+// Colors
+$rose:#DD4343;
+$dark-blue:#0A50A3;
+$light-blue:#2F7AD0;
+
+// Scheme
+$primary-accent:$rose;
+$primary-accent-hover:darken($rose,15%);
+$second-accent:$dark-blue;
+
+
+/* ---------- */
+/* TYPOGRAPHY */
+/* ---------- */
+
+// Fonts
+$primary-font: "Lato", "Helvetica", sans-serif;
+
+// Modular Scale, ratio of 1.25
+@mixin ms-2 {
+  font-size:.64em;
+}
+@mixin ms-1 {
+  font-size:.8em;
+}
+@mixin ms0 {
+  font-size:1em;
+}
+@mixin ms1 {
+  font-size:1.25em;
+}
+@mixin ms2 {
+  font-size:1.563;
+}
+@mixin ms3 {
+  font-size:1.953em;
+}
+@mixin ms4 {
+  font-size:2.441em;
+}
+@mixin ms5 {
+  font-size:3.052em;
+}

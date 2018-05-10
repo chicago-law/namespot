@@ -1,0 +1,51 @@
+html, body {
+  font-family:$primary-font;
+  @include ms0;
+  line-height:1.5;
+  color:$dark-gray;
+  -moz-osx-font-smoothing:grayscale;
+  -webkit-font-smoothing:antialiased;
+}
+h1, h2, h3, h4, h5, h6, h6, p {
+  margin-top: 0;
+}
+h1 {
+  @include ms3;
+}
+h2 {
+  @include ms2;
+}
+h3 {
+  @include ms1;
+  // font-weight:normal;
+}
+h4 {
+  @include ms0;
+  font-weight:bold;
+}
+h5 {
+  @include ms0;
+  color:$middle-gray;
+  text-transform:uppercase;
+}
+h6 {
+  @include ms-1;
+  font-weight:bold;
+}
+p {
+  margin-bottom: 1em;
+}
+a {
+  color:$primary-accent;
+  text-decoration:none;
+  // transition:color 50ms ease-out;
+  &.reverse-colors {
+    color:#fff;
+    &:hover {
+      color:$primary-accent
+    }
+  }
+}
+small {
+  @include ms-1;
+}

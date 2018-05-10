@@ -1,0 +1,49 @@
+{
+  "selectedOffering":"748454",
+  "OfferingList":{
+    "isFetching":false
+  },
+  "entities": {
+    "offerings": {
+      "748454": {
+        "id": "748454",
+        "name": "Family Law",
+        "instructors":"Daniel Abebe"
+      },
+      "123213": {
+        "id": "123213",
+        "name": "Copyright Law",
+        "instructors":"Daniel Abebe, Jonathan Masur"
+      }
+    },
+    "students": {
+      "5234dfdfd": {
+        "id": "5234dfdfd",
+        "name": "William Riker",
+        "rank": "Commander",
+        "seats": {
+          "123213": "s01_02",
+          "23":"s02_51"
+        }
+      },
+      "PC8234J99": {
+        "id": "PC8234J99",
+        "name": "Data",
+        "rank": "Lieutenant Commander",
+        "seats": {
+          "123213": "s02_05"
+        }
+      }
+    },
+    "rooms": {
+      "12": {
+        "id": 12,
+        "name": "Room A"
+      },
+      "25": {
+        "id": 25,
+        "name": "Room B"
+      }
+    }
+  }
+}
