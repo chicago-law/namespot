@@ -3,8 +3,7 @@ import { Switch, Route } from 'react-router-dom'
 import Nav from './Nav'
 import Banner from './Banner'
 import Logo from './Logo'
-// import AssignSeatsActionBar from '../scenes/AssignSeats/containers/ActionBar'
-import EditRoomActionBar from '../scenes/EditRoom/ActionBar'
+import ActionBar from '../scenes/EditRoom/ActionBar'
 
 const Header = () => (
   <div className='card'>
@@ -13,9 +12,8 @@ const Header = () => (
       <Banner />
       <Logo />
     </header>
-    <div className='action-bar'>
-      {/* <Route path="/class/:id" component={AssignSeatsActionBar} /> */}
-      <Route path="/room/:id" component={EditRoomActionBar}/>
+    <div className='action-bar-container'>
+      <Route path="/room/:id" component={ActionBar}/>
     </div>
   </div>
 )

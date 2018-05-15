@@ -2,7 +2,7 @@ import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import SelectClass from '../scenes/SelectClass/SelectClass'
 import SelectRoom from '../scenes/SelectRoom/SelectRoom'
-import EditRoom from '../scenes/EditRoom/containers/EditRoom'
+import EditRoom from '../scenes/EditRoom/EditRoom'
 
 const Main = ({ offerings, match}) => {
   return (
@@ -10,8 +10,8 @@ const Main = ({ offerings, match}) => {
       <Switch>
         <Route exact path="/" component={SelectClass} />
         <Route path="/classes" component={SelectClass} />
-        <Route path={'/rooms'} component={SelectRoom} />
-        <Route path={'/room/:id'} component={EditRoom} />
+        <Route path='/rooms' component={SelectRoom} />
+        <Route path={'/room/:roomID'} component={EditRoom} />
       </Switch>
     </div>
   )

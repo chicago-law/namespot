@@ -1,7 +1,8 @@
 /**
- * Babel polyfills for IE
+ * Polyfills to the rescue
  */
 require('babel-polyfill');
+require('classlist-polyfill');
 
 
 /**

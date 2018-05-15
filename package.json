@@ -23,11 +23,13 @@
         "popper.js": "^1.12",
         "react": "^16.2.0",
         "react-dom": "^16.2.0",
+        "redux-devtools-extension": "^2.13.2",
         "redux-logger": "^3.0.6"
     },
     "dependencies": {
         "ajv": "^6.4.0",
         "babel-polyfill": "^6.26.0",
+        "classlist-polyfill": "^1.2.0",
         "classnames": "^2.2.5",
         "eslint": "^4.19.1",
         "prop-types": "^15.6.1",

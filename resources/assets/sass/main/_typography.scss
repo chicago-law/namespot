@@ -1,6 +1,6 @@
 html, body {
   font-family:$primary-font;
-  @include ms0;
+  font-size:16px;
   line-height:1.5;
   color:$dark-gray;
   -moz-osx-font-smoothing:grayscale;
@@ -8,6 +8,7 @@ html, body {
 }
 h1, h2, h3, h4, h5, h6, h6, p {
   margin-top: 0;
+  margin-bottom: 1em;
 }
 h1 {
   @include ms3;
@@ -31,9 +32,10 @@ h5 {
 h6 {
   @include ms-1;
   font-weight:bold;
+  color:$middle-gray;
 }
 p {
-  margin-bottom: 1em;
+//
 }
 a {
   color:$primary-accent;

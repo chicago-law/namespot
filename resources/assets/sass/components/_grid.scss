@@ -1,0 +1,28 @@
+.outer-grid-container {
+  position:relative;
+  margin-top: 3em;
+  height:700px;
+  .inner-grid-container {
+    position:absolute;
+    top:0;
+    bottom:0;
+    right:4em;
+    left:4em;
+  }
+  #room {
+    position:relative;
+    height:100%;
+    width:100%;
+    overflow: visible;
+  }
+  .blip {
+    position:absolute;
+    fill:$light-gray;
+    &:hover {
+      fill:$dark-gray;
+    }
+    &.active {
+      fill:$primary-accent;
+    }
+  }
+}

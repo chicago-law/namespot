@@ -1,9 +1,20 @@
 {
   "selectedOffering":"748454",
+  "selectedSection":"123",
+
   "OfferingList":{
     "isFetching":false
   },
   "entities": {
+    "sections": {
+      "123":{
+        "id":"123",
+        "room":"1321",
+        "seat_count":"5",
+        "eX":20,
+        "eY":5
+      }
+    },
     "offerings": {
       "748454": {
         "id": "748454",

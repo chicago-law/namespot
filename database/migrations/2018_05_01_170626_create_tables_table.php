@@ -18,7 +18,12 @@ class CreateTablesTable extends Migration
             $table->integer('room_id');
             $table->integer('offering_id')->nullable();
             $table->integer('seatcount');
-            $table->string('path');
+            $table->integer('sX');
+            $table->integer('sY');
+            $table->integer('eX');
+            $table->integer('eY');
+            $table->integer('qX');
+            $table->integer('qY');
             $table->timestamps();
         });
     }

@@ -15,6 +15,7 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Room::class, function (Faker $faker) {
     return [
-        'name' => 'Room ' . $faker->unique()->numberBetween($min = 1, $max = 20)
+        'name' => 'Room ' . $faker->unique()->numberBetween($min = 1, $max = 20),
+        'description' => $faker->sentence()
     ];
 });

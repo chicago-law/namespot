@@ -1,23 +1,32 @@
 import { connect } from 'react-redux';
 import ActionBarEditRoom from '../ActionBarEditRoom'
+import { selectTable, selectPointType, selectPoints } from '../../../actions'
 
 const mapStateToProps = (state, ownProps) => {
-  // console.log(ownProps.roomID);
+  let room = {};
+  if (state.entities.rooms[ownProps.match.params.roomID]) {
+    room = state.entities.rooms[ownProps.match.params.roomID]
+  }
   return {
-    room: state.entities.rooms[ownProps.roomID]
+    room:room,
+    match:ownProps.match
   }
 }
 
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     onOfferingClick: id => {
-//       dispatch(enterOffering(id))
-//     }
-//   }
-// }
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    selectTable: tableID => {
+      dispatch(selectTable(tableID))
+    },
+    selectPointType: type => {
+      dispatch(selectPointType(type))
+    }
+  }
+}
 
 const ActionBarEditRoomContainer = connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(ActionBarEditRoom)
 
 export default ActionBarEditRoomContainer;

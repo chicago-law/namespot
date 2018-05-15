@@ -4,5 +4,21 @@ button {
   padding:0;
   border:0;
   cursor:pointer;
+  border-radius:5px;
   transition:color 200ms ease-out;
+  padding:1em 1.5em;
+  color:$dark-gray;
+  &:hover {
+    background: none;
+    color:$primary-accent;
+  }
+}
+
+.btn-accent {
+  background: $primary-accent;
+  color:#fff;
+  &:hover {
+    color:#fff;
+    background:$primary-accent-hover;
+  }
 }

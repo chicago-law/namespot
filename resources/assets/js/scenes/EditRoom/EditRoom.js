@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Grid from '../../components/containers/Grid'
 
 export default class EditRoom extends Component {
   constructor(props) {
@@ -8,7 +9,9 @@ export default class EditRoom extends Component {
   render() {
     return (
       <div>
-        <h1>edit this room yo!</h1>
+        <div className='outer-grid-container'>
+          <Grid match={this.props.match}/>
+        </div>
       </div>
     );
   }

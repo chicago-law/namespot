@@ -15,7 +15,7 @@ $light-blue:#2F7AD0;
 
 // Scheme
 $primary-accent:$rose;
-$primary-accent-hover:darken($rose,15%);
+$primary-accent-hover:lighten($rose,8%);
 $second-accent:$dark-blue;
 
 
@@ -40,7 +40,7 @@ $primary-font: "Lato", "Helvetica", sans-serif;
   font-size:1.25em;
 }
 @mixin ms2 {
-  font-size:1.563;
+  font-size:1.563em;
 }
 @mixin ms3 {
   font-size:1.953em;

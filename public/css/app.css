@@ -389,7 +389,7 @@ template {
 html,
 body {
   font-family: "Lato", "Helvetica", sans-serif;
-  font-size: 1em;
+  font-size: 16px;
   line-height: 1.5;
   color: #444444;
   -moz-osx-font-smoothing: grayscale;
@@ -405,6 +405,7 @@ h6,
 h6,
 p {
   margin-top: 0;
+  margin-bottom: 1em;
 }
 
 h1 {
@@ -412,7 +413,7 @@ h1 {
 }
 
 h2 {
-  font-size: 1.563;
+  font-size: 1.563em;
 }
 
 h3 {
@@ -433,10 +434,7 @@ h5 {
 h6 {
   font-size: .8em;
   font-weight: bold;
-}
-
-p {
-  margin-bottom: 1em;
+  color: #AAAAAA;
 }
 
 a {
@@ -462,8 +460,34 @@ button {
   padding: 0;
   border: 0;
   cursor: pointer;
+  border-radius: 5px;
   -webkit-transition: color 200ms ease-out;
   transition: color 200ms ease-out;
+  padding: 1em 1.5em;
+  color: #444444;
+}
+
+button:hover {
+  background: none;
+  color: #DD4343;
+}
+
+.btn-accent {
+  background: #DD4343;
+  color: #fff;
+}
+
+.btn-accent:hover {
+  color: #fff;
+  background: #e36666;
+}
+
+input[type='text'],
+input[type='number'] {
+  color: #444444;
+  border-radius: 3px;
+  border: 1px solid #CCCCCC;
+  padding: .25em .25em;
 }
 
 html {
@@ -546,7 +570,7 @@ li {
 }
 
 .site-header .nav-container .nav-control:hover {
-  color: #b32020;
+  color: #e36666;
 }
 
 .site-header .nav-container .site-menu {
@@ -738,5 +762,213 @@ li {
 .class-list ul li:hover p,
 .class-list ul li:hover i {
   color: #DD4343;
+}
+
+.action-bar {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  min-height: 9.5em;
+  padding: 1em 2em;
+  border-top: 1px solid #EEEEEE;
+}
+
+.action-bar h4 i {
+  margin-left: .5em;
+}
+
+.action-bar h6 {
+  margin: 0;
+}
+
+.flex-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding-right: 2em;
+}
+
+.flex-container:last-of-type {
+  padding-right: 0;
+}
+
+.flex-container.pull-top {
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+.flex-container button {
+  padding: 1em;
+}
+
+.flex-container button i {
+  font-size: 1.563em;
+  color: #777777;
+}
+
+.flex-container button p {
+  margin: .75em 0 0 0;
+  color: #444444;
+}
+
+.flex-container button:hover {
+  background: #EEEEEE;
+}
+
+.action-bar-edit-room .description {
+  max-width: 20em;
+}
+
+.action-bar-edit-room .controls {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+}
+
+.action-bar-edit-room .seat-size {
+  text-align: center;
+}
+
+.action-bar-edit-room .seat-size .seat-size-slider {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: .5em;
+}
+
+.action-bar-edit-room .seat-size input {
+  margin: 0 .5em;
+  max-width: 6em;
+}
+
+.action-bar-edit-room .seat-size .smaller,
+.action-bar-edit-room .seat-size .larger {
+  display: inline-block;
+  border: 2px solid #777777;
+  border-radius: 5px;
+}
+
+.action-bar-edit-room .seat-size .smaller {
+  height: 1.25em;
+  width: 1.25em;
+}
+
+.action-bar-edit-room .seat-size .larger {
+  height: 3em;
+  width: 3em;
+}
+
+.action-bar-edit-table {
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+.action-bar-edit-table .point-selector.active button {
+  background: #EEEEEE;
+}
+
+.action-bar-edit-table .point-selector.active p {
+  color: #DD4343;
+}
+
+.action-bar-edit-table .point-selector.active svg circle {
+  fill: #DD4343;
+}
+
+.action-bar-edit-table .point-selector.active svg path {
+  stroke: #DD4343;
+}
+
+.action-bar-edit-table .seats-number {
+  text-align: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.action-bar-edit-table .seats-number input {
+  text-align: center;
+  width: 3em;
+  font-size: 1.563em;
+  margin-bottom: .25em;
+}
+
+.action-bar-edit-table .save-controls {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-left: auto;
+}
+
+.action-bar-edit-table .save-controls .cancel-changes i {
+  position: relative;
+  top: 1px;
+  margin-right: .5em;
+}
+
+.outer-grid-container {
+  position: relative;
+  margin-top: 3em;
+  height: 700px;
+}
+
+.outer-grid-container .inner-grid-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 4em;
+  left: 4em;
+}
+
+.outer-grid-container #room {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow: visible;
+}
+
+.outer-grid-container .blip {
+  position: absolute;
+  fill: #CCCCCC;
+}
+
+.outer-grid-container .blip:hover {
+  fill: #444444;
+}
+
+.outer-grid-container .blip.active {
+  fill: #DD4343;
 }
 
