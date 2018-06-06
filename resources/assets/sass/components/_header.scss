@@ -1,7 +1,9 @@
 .site-header {
+  position: relative;
   display:flex;
   justify-content:space-between;
   background: #fff;
+  z-index: 10000;
   .nav-container {
     display:flex;
     align-items:center;
@@ -18,14 +20,14 @@
       }
     }
     .site-menu {
-      position:absolute;
+      position:fixed;
       top:0;
       bottom:0;
       left:0;
       width:17em;
       background: $dark-gray;
       color:#fff;
-      z-index:100;
+      z-index:1000000;
       box-shadow:0 0 15px rgba(0,0,0,.15);
       transform:translateX(-18em);
       transition:transform 400ms cubic-bezier(0.000, 0.905, 0.270, 0.975);
@@ -43,6 +45,7 @@
         align-items:center;
         button {
           color:#fff;
+          padding:0;
           &:hover {
             color:$primary-accent;
           }
@@ -83,7 +86,7 @@
         transform:translateX(0);
       }
       .shader {
-        z-index:99;
+        z-index:9999;
         pointer-events:auto;
         opacity:1;
       }

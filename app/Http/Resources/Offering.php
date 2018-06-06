@@ -25,9 +25,9 @@ class Offering extends JsonResource
 
         return [
             'id' => $this->id,
+            'room_id' => $this->room()->first()->id,
             'name' => $this->name,
             'course_num' => $this->course_num,
-            'room' => $this->room()->first()->id,
             'instructors' => $this->instructors()->get(),
             'students' => $student_ids
         ];

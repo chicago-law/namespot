@@ -8,6 +8,8 @@ button {
   transition:color 200ms ease-out;
   padding:1em 1.5em;
   color:$dark-gray;
+  font-weight:bold;
+  @include ms0;
   &:hover {
     background: none;
     color:$primary-accent;

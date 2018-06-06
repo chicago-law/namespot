@@ -10,9 +10,7 @@ class HomeController extends Controller
 {
     public function show()
     {
-
-        $data['class'] = Offering::first();
-
+        // $data['class'] = Offering::first();
 
         return view('home', $data);
     }

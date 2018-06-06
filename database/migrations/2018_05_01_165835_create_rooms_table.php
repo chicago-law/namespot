@@ -18,7 +18,7 @@ class CreateRoomsTable extends Migration
             $table->string('name');
             $table->string('type')->nullable();
             $table->text('description')->nullable();
-            $table->string('image_size')->nullable();
+            $table->integer('seat_size')->default(25);
             $table->timestamps();
         });
     }

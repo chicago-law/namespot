@@ -1,28 +1,110 @@
-.outer-grid-container {
-  position:relative;
-  margin-top: 3em;
-  height:700px;
-  .inner-grid-container {
+.outer-room-container {
+  position:absolute;
+  top:0;
+  right:0;
+  left:0;
+  bottom:0;
+  .inner-room-container {
     position:absolute;
-    top:0;
-    bottom:0;
-    right:4em;
-    left:4em;
-  }
-  #room {
-    position:relative;
-    height:100%;
-    width:100%;
-    overflow: visible;
-  }
-  .blip {
-    position:absolute;
-    fill:$light-gray;
-    &:hover {
-      fill:$dark-gray;
-    }
-    &.active {
-      fill:$primary-accent;
+    top:6em;
+    right:6em;
+    left:6em;
+    bottom:6em;
+    >svg {
+      position:absolute;
+      top:0;
+      right:0;
+      left:0;
+      bottom:0;
+      height:100%;
+      width:100%;
+      overflow:visible;
     }
   }
+  .tables-container {
+    z-index:100;
+    .table {
+      stroke:$light-blue;
+      stroke-width:8;
+      stroke-linecap:round;
+      fill:none;
+      cursor:pointer;
+      &:hover {
+        stroke:darken($light-blue, 15%);
+      }
+    }
+    .seat {
+      overflow:visible;
+      rect {
+        fill:$middle-gray;
+      }
+    }
+  }
+
+  .grid-container {
+    z-index:90;
+    .blip {
+      position:absolute;
+      fill:$light-gray;
+      transform-origin:center;
+      transition:transform 150ms ease-out;
+    }
+  }
+
+  .guides-container {
+    .guide {
+      position: relative;
+      stroke:#ccc;
+      stroke-width:1px;
+      &.vert {
+        transform:translateY(-13px);
+      }
+      &.horiz {
+        transform:translateX(-13px);
+      }
+    }
+  }
+
+  &.edit-table { // .outer-room-container.edit-table
+    .grid-container {
+      z-index:1000;
+      .blip {
+        &.belongs-to-any-table {
+          fill:$light-blue;
+        }
+        &.belongs-to-active-table {
+          fill:$dark-blue;
+          transform:scale(2);
+        }
+        &.is-being-replaced {
+          fill:$primary-accent !important;
+          transform:scale(3);
+        }
+      }
+    }
+    .tables-container {
+      .table {
+        opacity:.35;
+      }
+      .is-active {
+        opacity:1;
+      }
+    }
+    &.choosing-a-point {
+      .blip {
+        cursor:pointer;
+        &:hover {
+          fill:$dark-gray;
+        }
+      }
+    }
+  }
+}
+
+.room-label {
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  text-align:center;
 }

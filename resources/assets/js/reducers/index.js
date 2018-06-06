@@ -1,111 +1,197 @@
-import { combineReducers } from 'redux'
+import { combineReducers } from 'redux';
+import C from '../constants';
 
 /**
- * OFFERINGS
+ * App / roomStatus
  */
-const selectedOffering = (state = '', action) => {
+const roomStatus = (state = '', action) => {
   switch (action.type) {
-    case 'ENTER_OFFERING':
-      return action.id
+    case C.SET_ROOM_STATUS:
+      return action.status
     default:
       return state
   }
 }
 
 /**
- * TABLES
+ * App / task
  */
-const newTable = (state = { choosing:null }, action) => {
+const task = (state = '', action) => {
   switch (action.type) {
-    case 'SELECT_TABLE':
+    case C.SET_TASK:
+      return action.task
+    default:
+      return state;
+  }
+}
+
+/**
+ * App / tempTable
+ */
+const tempTable = (state = '', action) => {
+  switch (action.type) {
+    case C.NEW_TABLE:
+      return {
+        id:'new',
+        room_id:null,
+        seatCount:0,
+        coords:{}
+      }
+    case C.SELECT_TABLE:
+      return {
+        id:action.tableID,
+        room_id:action.roomID,
+        seatCount:action.seatCount,
+        coords:{
+          'start':action.coords.start,
+          'end':action.coords.end,
+          'curve':action.coords.curve,
+        }
+      }
+    case C.SET_SEAT_COUNT:
       return {
         ...state,
-        id:action.tableID
+        seatCount: action.seatCount
       }
-    case 'SELECT_POINT_TYPE':
-      return {
-        ...state,
-        choosing:action.pointType
-      }
-    case 'SELECT_START_POINTS':
+    case C.SAVE_POINT_TO_TEMP_TABLE:
       return {
         ...state,
         coords: {
           ...state.coords,
-          start:action.id
+          [action.pointType]:action.pointKey
         }
       }
-    case 'SELECT_END_POINTS':
-      return {
-        ...state,
-        coords: {
-          ...state.coords,
-          end:action.id
-        }
-      }
-    case 'SELECT_CURVE_POINTS':
-      return {
-        ...state,
-        coords: {
-          ...state.coords,
-          curve:action.id
-        }
-      }
+    case C.CLEAR_TEMP_TABLE:
+      return '';
     default:
       return state
   }
 }
 
 /**
- * ENTITIES
+ * App / pointSelection
  */
-const entities = (state = { offerings: {}, students: {}, rooms: {}, tables: {} }, action) => {
+const pointSelection = (state = false, action) => {
   switch (action.type) {
-    // offerings
-    case 'REQUEST_OFFERINGS':
-      return state
-    case 'RECEIVE_OFFERINGS':
+    case C.SET_POINT_SELECTION:
+      return action.pointType
+    default:
+      return state;
+  }
+}
+
+/**
+ * entities / offerings
+ */
+const offerings = (state={}, action) => {
+  switch (action.type) {
+    case C.RECEIVE_OFFERINGS:
+      return action.offerings
+    default:
+      return state;
+  }
+}
+
+/**
+ * entities / students
+ */
+const students = (state={}, action) => {
+  switch (action.type) {
+    case C.RECEIVE_STUDENTS:
+      return action.students;
+    default:
+      return state;
+  }
+}
+
+/**
+ * entities / rooms
+ */
+const rooms = (state={}, action) => {
+  switch (action.type) {
+    case C.RECEIVE_ROOMS:
+      return action.rooms;
+    case C.SET_SEAT_SIZE:
       return {
         ...state,
-        offerings:action.offerings
-      }
-    // students
-    case 'RECEIVE_STUDENTS':
-      return {
-        ...state,
-        students:action.students
-      }
-    // rooms
-    case 'RECEIVE_ROOMS':
-      return {
-        ...state,
-        rooms:action.rooms
-      }
-    // tables
-    case 'SAVE_TABLE':
-      return {
-        ...state,
-        tables: {
-          ...state.tables,
-          [action.tableID]: {
-            id:action.tableID,
-            roomID:action.roomID,
-            seatCount:action.seatCount,
-            coords:{
-              ...action.reformattedCoords
-            }
-          }
+        [action.roomID]: {
+          ...state[action.roomID],
+          seat_size: action.seatSize
         }
       }
     default:
-      return state
+      return state;
   }
 }
+
+/**
+ * entities / tables
+ */
+const tables = (state={}, action) => {
+  switch (action.type) {
+    case C.RECEIVE_TABLES:
+      return action.tables;
+    case C.REMOVE_TABLE:
+      delete state[action.tableID];
+      return state;
+    default:
+      return state;
+  }
+}
+
+// const entities = (state = { offerings: {}, students: {}, rooms: {}, tables: {} }, action) => {
+//   switch (action.type) {
+//     // offerings
+//     case 'RECEIVE_OFFERINGS':
+//       return {
+//         ...state,
+//         offerings:action.offerings
+//       }
+//     // students
+//     case 'RECEIVE_STUDENTS':
+//       return {
+//         ...state,
+//         students:action.students
+//       }
+//     // rooms
+//     case 'RECEIVE_ROOMS':
+//       return {
+//         ...state,
+//         rooms:action.rooms
+//       }
+//     // tables
+//     case 'RECEIVE_TABLES':
+//       return {
+//         ...state,
+//         tables:action.tables
+//       }
+
+//     default:
+//       return state
+//   }
+// }
 
 const rootReducer = combineReducers({
-  selectedOffering,
-  newTable,
-  entities
+  app: combineReducers({
+    roomStatus,
+    task,
+    tempTable,
+    pointSelection,
+    // flipPerspective,
+    // fetching
+  }),
+  entities: combineReducers({
+    students,
+    offerings,
+    rooms,
+    tables
+  })
 })
+// const rootReducer = combineReducers({
+//   selectedOffering,
+//   tempTable,
+//   theRoom,
+//   entities
+// })
 
 export default rootReducer

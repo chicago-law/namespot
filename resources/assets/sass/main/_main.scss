@@ -4,9 +4,24 @@ html {
 *, *:before, *:after {
   box-sizing:inherit;
 }
-body {
-  background: $off-white;
+html, body {
+  height:100%;
+  background: darken($off-white,10%);
 }
+#root {
+  height:100%;
+}
+
+.app-container {
+  display:flex;
+  flex-direction:column;
+  height:100%;
+  max-width:85em;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow:0 0 5px rgba(0,0,0,.15);
+}
+
 img {
   max-width:100%;
   height:auto !important;
@@ -23,8 +38,17 @@ li {
   background: #fff;
 }
 
+.header-container {
+  position:relative;
+  z-index: 1000;
+}
+
 .main {
+  position:relative;
   padding:2em;
+  flex-grow:1;
+  background: $off-white;
+  z-index: 100;
 }
 
 .narrow-wrap {

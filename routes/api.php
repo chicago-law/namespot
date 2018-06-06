@@ -4,9 +4,11 @@ use Illuminate\Http\Request;
 use App\Http\Resources\Offering as OfferingResource;
 use App\Http\Resources\Student as StudentResource;
 use App\Http\Resources\Room as RoomResource;
+use App\Http\Resources\Table as TableResource;
 use App\Offering;
 use App\Student;
 use App\Room;
+use App\Table;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,3 +44,17 @@ Route::get('/enrollment/{offering_id}', function ($offering_id) {
 Route::get('/rooms', function () {
     return RoomResource::collection(Room::all());
 });
+
+// update (or create new) table
+Route::post('/table/update','TableController@update');
+
+// delete a table
+Route::delete('/table/{table_id}','TableController@delete');
+
+// fetch all tables for a given room
+Route::get('/tables/{room_id}', function($room_id) {
+    return TableResource::collection(Table::where('room_id',$room_id)->get());
+});
+
+// update a room
+Route::post('/room/update/{room_id}','RoomController@update');
