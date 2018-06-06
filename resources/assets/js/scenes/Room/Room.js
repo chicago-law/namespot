@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Route } from 'react-router';
 import classNames from 'classnames/bind';
 import Table from './containers/Table';
 import Grid from './containers/Grid';
@@ -21,6 +22,12 @@ export default class Room extends Component {
     return gridCSS;
   }
 
+  setDefaultTask() {
+    // console.log(this.params.)
+    // set the default task on component mounting
+    this.props.setTask('edit-room');
+  }
+
   componentDidMount() {
     // fire action to fectch Tables and load them into global store
     this.props.fetchTables(this.props.match.params.roomID);
@@ -34,10 +41,12 @@ export default class Room extends Component {
       gridRowHeight: parseInt(grid.height) / this.state.gridRows,
       gridColumnWidth: parseInt(grid.width) / this.state.gridColumns,
     });
+
+    this.setDefaultTask();
   }
 
   render() {
-    const outerRoomContainerClass = classNames({
+    const outerRoomContainerClasses = classNames({
       'outer-room-container':true,
       'edit-table':this.props.task === 'edit-table',
       'choosing-a-point':this.props.pointSelection
@@ -56,7 +65,7 @@ export default class Room extends Component {
     );
 
     return (
-      <div className={outerRoomContainerClass}>
+      <div className={outerRoomContainerClasses}>
         <div className='inner-room-container' ref={this.gridContRef}>
 
           {/* Here be the tables! */}
@@ -76,6 +85,8 @@ export default class Room extends Component {
               gridRowHeight={this.state.gridRowHeight}
             />
           </svg>
+
+          {null}
 
           {/* Here be the guide lines! */}
           <svg className='guides-container' xmlns="http://www.w3.org/2000/svg">

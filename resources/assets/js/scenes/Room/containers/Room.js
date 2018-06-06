@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Room from '../Room'
 import { withRouter } from 'react-router'
-import { fetchTables } from '../../../actions'
+import { fetchTables, setTask } from '../../../actions'
 
 const mapStateToProps = (state, ownProps) => {
 
@@ -44,6 +44,9 @@ const mapDispatchToProps = (dispatch) => {
     fetchTables:(roomID) => {
       dispatch(fetchTables(roomID))
     },
+    setTask:(task) => {
+      dispatch(setTask(task))
+    }
   }
 }
 

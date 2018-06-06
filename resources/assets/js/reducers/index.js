@@ -71,7 +71,7 @@ const tempTable = (state = '', action) => {
 /**
  * App / pointSelection
  */
-const pointSelection = (state = false, action) => {
+const pointSelection = (state = null, action) => {
   switch (action.type) {
     case C.SET_POINT_SELECTION:
       return action.pointType

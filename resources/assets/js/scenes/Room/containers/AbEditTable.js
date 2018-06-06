@@ -1,11 +1,12 @@
 import { connect } from 'react-redux';
-import AbEditTable from '../AbEditTable'
+import { withRouter } from 'react-router';
+import AbEditTable from '../AbEditTable';
 import { saveTable, clearTempTable, setTask, setPointSelection, setSeatCount } from '../../../actions'
 
 const mapStateToProps = (state, ownProps) => {
   let currentRoom = {};
-  if (state.entities.rooms[ownProps.match.params.roomID]) {
-    currentRoom = state.entities.rooms[ownProps.match.params.roomID]
+  if (state.entities.rooms[ownProps.roomID]) {
+    currentRoom = state.entities.rooms[ownProps.roomID]
   }
   return {
     currentRoom,
@@ -33,14 +34,12 @@ const mapDispatchToProps = (dispatch) => {
     setSeatCount:count => {
       dispatch(setSeatCount(count))
     }
-
-
   }
 }
 
-const AbEditTableContainer = connect(
+const AbEditTableContainer = withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(AbEditTable)
+)(AbEditTable))
 
 export default AbEditTableContainer;

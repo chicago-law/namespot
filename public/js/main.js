@@ -384,7 +384,7 @@ if (true) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__matchPath__ = __webpack_require__(445);
 /* unused harmony reexport matchPath */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__withRouter__ = __webpack_require__(446);
-/* unused harmony reexport withRouter */
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_12__withRouter__["a"]; });
 
 
 
@@ -922,25 +922,26 @@ module.exports = invariant;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return rootUrl; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return rootUrl; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tables__ = __webpack_require__(483);
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_0__tables__["a"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_0__tables__["b"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_0__tables__["b"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "i", function() { return __WEBPACK_IMPORTED_MODULE_0__tables__["c"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__students__ = __webpack_require__(489);
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__offerings__ = __webpack_require__(490);
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_2__offerings__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__rooms__ = __webpack_require__(491);
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_3__rooms__["a"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "l", function() { return __WEBPACK_IMPORTED_MODULE_3__rooms__["b"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "m", function() { return __WEBPACK_IMPORTED_MODULE_3__rooms__["b"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app__ = __webpack_require__(182);
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["a"]; });
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["b"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["c"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "i", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["d"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "j", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["e"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "k", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["f"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "m", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["g"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["c"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "j", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["d"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "k", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["e"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "l", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["f"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "n", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["g"]; });
 
 
 
@@ -2055,7 +2056,8 @@ var constants = {
   RECEIVE_OFFERINGS: 'RECEIVE_OFFERINGS',
   RECEIVE_STUDENTS: 'RECEIVE_STUDENTS',
   RECEIVE_ROOMS: 'RECEIVE_ROOMS',
-  RECEIVE_TABLES: 'RECEIVE_TABLES'
+  RECEIVE_TABLES: 'RECEIVE_TABLES',
+  REMOVE_TABLE: 'REMOVE_TABLE'
 };
 
 /* harmony default export */ __webpack_exports__["a"] = (constants);
@@ -64255,7 +64257,7 @@ var createMemoryHistory = function createMemoryHistory() {
 // Written in this round about way for babel-transform-imports
 
 
-/* unused harmony default export */ var _unused_webpack_default_export = (__WEBPACK_IMPORTED_MODULE_0_react_router_es_withRouter__["a" /* default */]);
+/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0_react_router_es_withRouter__["a" /* default */]);
 
 /***/ }),
 /* 447 */
@@ -64493,7 +64495,7 @@ var tempTable = function tempTable() {
  * App / pointSelection
  */
 var pointSelection = function pointSelection() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
   var action = arguments[1];
 
   switch (action.type) {
@@ -65563,7 +65565,7 @@ var App = function App() {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Banner__ = __webpack_require__(475);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Logo__ = __webpack_require__(478);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ActionBar__ = __webpack_require__(480);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__containers_ActionBar__ = __webpack_require__(516);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Nav__ = __webpack_require__(495);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -65608,7 +65610,7 @@ var Header = function (_Component) {
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
           { className: 'action-bar-container' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__ActionBar__["a" /* default */], null)
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__containers_ActionBar__["a" /* default */], null)
         )
       );
     }
@@ -65782,7 +65784,7 @@ module.exports = "/images/namespot-logo.svg?f9029f32f6002737ee53d2b0dbd7b54e";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__scenes_Room_containers_AbEditRoom__ = __webpack_require__(481);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__scenes_Room_containers_AbEditTable__ = __webpack_require__(492);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__scenes_Room_AbDeleteTable__ = __webpack_require__(494);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__scenes_Room_containers_AbDeleteTable__ = __webpack_require__(518);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -65803,23 +65805,36 @@ var ActionBar = function (_Component) {
   function ActionBar(props) {
     _classCallCheck(this, ActionBar);
 
-    var _this = _possibleConstructorReturn(this, (ActionBar.__proto__ || Object.getPrototypeOf(ActionBar)).call(this, props));
-
-    _this.state = {
-      //
-    };
-    return _this;
+    return _possibleConstructorReturn(this, (ActionBar.__proto__ || Object.getPrototypeOf(ActionBar)).call(this, props));
   }
 
   _createClass(ActionBar, [{
     key: 'render',
     value: function render() {
+      var actionBarContents = void 0;
+      var task = this.props.task;
+      switch (task) {
+        case 'edit-room':
+          actionBarContents = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__scenes_Room_containers_AbEditRoom__["a" /* default */], null);
+          break;
+        case 'edit-table':
+          actionBarContents = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__scenes_Room_containers_AbEditTable__["a" /* default */], null);
+          break;
+        case 'delete-table':
+          actionBarContents = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__scenes_Room_containers_AbDeleteTable__["a" /* default */], null);
+          break;
+        default:
+          actionBarContents = null;
+      }
       return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
         null,
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { exact: true, path: '/room/:roomID', component: __WEBPACK_IMPORTED_MODULE_2__scenes_Room_containers_AbEditRoom__["a" /* default */] }),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: '/room/:roomID/delete/section', component: __WEBPACK_IMPORTED_MODULE_4__scenes_Room_AbDeleteTable__["a" /* default */] }),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: '/room/:roomID/section/:sectionID', component: __WEBPACK_IMPORTED_MODULE_3__scenes_Room_containers_AbEditTable__["a" /* default */] })
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: '/room/:roomID/', render: function render() {
+            return actionBarContents;
+          } }),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: '/offering/:offeringID/', render: function render() {
+            return actionBarContents;
+          } })
       );
     }
   }]);
@@ -65835,8 +65850,10 @@ var ActionBar = function (_Component) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react_redux__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AbEditRoom__ = __webpack_require__(482);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router__ = __webpack_require__(183);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AbEditRoom__ = __webpack_require__(482);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__actions__ = __webpack_require__(24);
+
 
 
 
@@ -65847,29 +65864,29 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     currentRoom = state.entities.rooms[ownProps.match.params.roomID];
   }
   return {
-    currentRoom: currentRoom,
-    match: ownProps.match
+    currentRoom: currentRoom
+    // match:ownProps.match
   };
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
   return {
     newTable: function newTable() {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["e" /* newTable */])());
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["e" /* newTable */])());
     },
     setTask: function setTask(status) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["m" /* setTask */])(status));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["n" /* setTask */])(status));
     },
     setPointSelection: function setPointSelection(status) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["j" /* setPointSelection */])(status));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["k" /* setPointSelection */])(status));
     },
     setSeatSizeRequest: function setSeatSizeRequest(roomID, seatSize) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["l" /* setSeatSizeRequest */])(roomID, seatSize));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["m" /* setSeatSizeRequest */])(roomID, seatSize));
     }
   };
 };
 
-var AbEditRoomContainer = Object(__WEBPACK_IMPORTED_MODULE_0_react_redux__["b" /* connect */])(mapStateToProps, mapDispatchToProps)(__WEBPACK_IMPORTED_MODULE_1__AbEditRoom__["a" /* default */]);
+var AbEditRoomContainer = Object(__WEBPACK_IMPORTED_MODULE_1_react_router__["a" /* withRouter */])(Object(__WEBPACK_IMPORTED_MODULE_0_react_redux__["b" /* connect */])(mapStateToProps, mapDispatchToProps)(__WEBPACK_IMPORTED_MODULE_2__AbEditRoom__["a" /* default */]));
 
 /* harmony default export */ __webpack_exports__["a"] = (AbEditRoomContainer);
 
@@ -65902,6 +65919,12 @@ var AbEditRoom = function (_Component) {
   }
 
   _createClass(AbEditRoom, [{
+    key: 'handleSeatSizeChange',
+    value: function handleSeatSizeChange(e) {
+      var value = e.target.value;
+      this.props.setSeatSizeRequest(this.props.currentRoom.id, value);
+    }
+  }, {
     key: 'handleAddNewClick',
     value: function handleAddNewClick() {
       this.props.newTable();
@@ -65909,10 +65932,9 @@ var AbEditRoom = function (_Component) {
       this.props.setPointSelection('start');
     }
   }, {
-    key: 'handleSeatSizeChange',
-    value: function handleSeatSizeChange(e) {
-      var value = e.target.value;
-      this.props.setSeatSizeRequest(this.props.currentRoom.id, value);
+    key: 'handleDeleteClick',
+    value: function handleDeleteClick() {
+      this.props.setTask('delete-table');
     }
   }, {
     key: 'componentDidMount',
@@ -66004,8 +66026,10 @@ var AbEditRoom = function (_Component) {
             'div',
             { className: 'flex-container' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              __WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
-              { to: this.props.match.url + '/delete/section' },
+              'a',
+              { href: 'javascript:void(0)', onClick: function onClick() {
+                  return _this2.handleDeleteClick();
+                } },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'button',
                 { className: 'big-button' },
@@ -66037,8 +66061,8 @@ var AbEditRoom = function (_Component) {
 "use strict";
 /* unused harmony export receiveTables */
 /* harmony export (immutable) */ __webpack_exports__["a"] = fetchTables;
-/* harmony export (immutable) */ __webpack_exports__["b"] = saveTable;
-/* unused harmony export removeTableRequest */
+/* harmony export (immutable) */ __webpack_exports__["c"] = saveTable;
+/* harmony export (immutable) */ __webpack_exports__["b"] = removeTableRequest;
 /* unused harmony export removeTable */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_normalizr__ = __webpack_require__(56);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_normalizr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_normalizr__);
@@ -66080,7 +66104,7 @@ function receiveTables(response) {
 // fetch the tables from DB
 function fetchTables(roomID) {
   return function (dispatch) {
-    return axios.get(__WEBPACK_IMPORTED_MODULE_2__index__["f" /* rootUrl */] + 'api/tables/' + roomID).then(function (response) {
+    return axios.get(__WEBPACK_IMPORTED_MODULE_2__index__["g" /* rootUrl */] + 'api/tables/' + roomID).then(function (response) {
       // tables downloaded, now load them into state and clear the tempTable
       var normalizedData = Object(__WEBPACK_IMPORTED_MODULE_0_normalizr__["normalize"])(response.data, __WEBPACK_IMPORTED_MODULE_1__schema__["d" /* tableListSchema */]);
       dispatch(receiveTables(normalizedData.entities));
@@ -66119,7 +66143,7 @@ function saveTable(tableID, roomID, coords, seatCount) {
     }
 
     // now make the call
-    return axios.post(__WEBPACK_IMPORTED_MODULE_2__index__["f" /* rootUrl */] + 'api/table/update', _extends({
+    return axios.post(__WEBPACK_IMPORTED_MODULE_2__index__["g" /* rootUrl */] + 'api/table/update', _extends({
       id: tableID,
       room_id: roomID,
       seat_count: seatCount
@@ -66138,7 +66162,7 @@ function removeTableRequest(tableID) {
     dispatch(removeTable(tableID));
 
     // now make call to actually delete from the DB
-    return axios.delete(__WEBPACK_IMPORTED_MODULE_2__index__["f" /* rootUrl */] + 'api/table/' + tableID).then(function (response) {
+    return axios.delete(__WEBPACK_IMPORTED_MODULE_2__index__["g" /* rootUrl */] + 'api/table/' + tableID).then(function (response) {
       console.log(response);
     }).catch(function (error) {
       console.log(error);
@@ -66629,7 +66653,7 @@ function fetchStudents(offering_id) {
   return function (dispatch) {
 
     // make the call
-    return axios.get(__WEBPACK_IMPORTED_MODULE_3__index__["f" /* rootUrl */] + 'api/enrollment/' + offering_id).then(function (response) {
+    return axios.get(__WEBPACK_IMPORTED_MODULE_3__index__["g" /* rootUrl */] + 'api/enrollment/' + offering_id).then(function (response) {
       var normalizedData = Object(__WEBPACK_IMPORTED_MODULE_0_normalizr__["normalize"])(response.data, __WEBPACK_IMPORTED_MODULE_1__schema__["c" /* studentListSchema */]);
       dispatch(receiveStudents(normalizedData.entities));
     }).catch(function (error) {
@@ -66670,7 +66694,7 @@ function fetchOfferings(termCode) {
   return function (dispatch) {
 
     // now make the actual call
-    return axios.get(__WEBPACK_IMPORTED_MODULE_3__index__["f" /* rootUrl */] + 'api/offerings/' + termCode).then(function (response) {
+    return axios.get(__WEBPACK_IMPORTED_MODULE_3__index__["g" /* rootUrl */] + 'api/offerings/' + termCode).then(function (response) {
       var normalizedData = response.data.length ? Object(__WEBPACK_IMPORTED_MODULE_0_normalizr__["normalize"])(response.data, __WEBPACK_IMPORTED_MODULE_1__schema__["a" /* offeringListSchema */]) : null;
       dispatch(receiveOfferings(normalizedData.entities));
     }).catch(function (error) {
@@ -66717,7 +66741,7 @@ function fetchRooms() {
   return function (dispatch) {
 
     // make the call
-    return axios.get(__WEBPACK_IMPORTED_MODULE_3__index__["f" /* rootUrl */] + 'api/rooms').then(function (response) {
+    return axios.get(__WEBPACK_IMPORTED_MODULE_3__index__["g" /* rootUrl */] + 'api/rooms').then(function (response) {
       var normalizedData = Object(__WEBPACK_IMPORTED_MODULE_0_normalizr__["normalize"])(response.data, __WEBPACK_IMPORTED_MODULE_1__schema__["b" /* roomListSchema */]);
       dispatch(receiveRooms(normalizedData.entities));
     }).catch(function (error) {
@@ -66739,7 +66763,7 @@ function setSeatSizeRequest(roomID, seatSize) {
     dispatch(setSeatSize(roomID, seatSize));
 
     // make the call to change it in the DB
-    return axios.post(__WEBPACK_IMPORTED_MODULE_3__index__["f" /* rootUrl */] + 'api/room/update/' + roomID, {
+    return axios.post(__WEBPACK_IMPORTED_MODULE_3__index__["g" /* rootUrl */] + 'api/room/update/' + roomID, {
       seat_size: seatSize
     }).then(function (response) {
       // console.log(response);
@@ -66753,16 +66777,18 @@ function setSeatSizeRequest(roomID, seatSize) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react_redux__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AbEditTable__ = __webpack_require__(493);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router__ = __webpack_require__(183);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AbEditTable__ = __webpack_require__(493);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__actions__ = __webpack_require__(24);
+
 
 
 
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   var currentRoom = {};
-  if (state.entities.rooms[ownProps.match.params.roomID]) {
-    currentRoom = state.entities.rooms[ownProps.match.params.roomID];
+  if (state.entities.rooms[ownProps.roomID]) {
+    currentRoom = state.entities.rooms[ownProps.roomID];
   }
   return {
     currentRoom: currentRoom,
@@ -66776,25 +66802,24 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     saveTable: function saveTable(tableID, roomID, coords, seatCount) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["h" /* saveTable */])(tableID, roomID, coords, seatCount));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["i" /* saveTable */])(tableID, roomID, coords, seatCount));
     },
     clearTempTable: function clearTempTable() {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["a" /* clearTempTable */])());
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["a" /* clearTempTable */])());
     },
     setTask: function setTask(status) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["m" /* setTask */])(status));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["n" /* setTask */])(status));
     },
     setPointSelection: function setPointSelection(status) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["j" /* setPointSelection */])(status));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["k" /* setPointSelection */])(status));
     },
     setSeatCount: function setSeatCount(count) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["k" /* setSeatCount */])(count));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["l" /* setSeatCount */])(count));
     }
-
   };
 };
 
-var AbEditTableContainer = Object(__WEBPACK_IMPORTED_MODULE_0_react_redux__["b" /* connect */])(mapStateToProps, mapDispatchToProps)(__WEBPACK_IMPORTED_MODULE_1__AbEditTable__["a" /* default */]);
+var AbEditTableContainer = Object(__WEBPACK_IMPORTED_MODULE_1_react_router__["a" /* withRouter */])(Object(__WEBPACK_IMPORTED_MODULE_0_react_redux__["b" /* connect */])(mapStateToProps, mapDispatchToProps)(__WEBPACK_IMPORTED_MODULE_2__AbEditTable__["a" /* default */]));
 
 /* harmony default export */ __webpack_exports__["a"] = (AbEditTableContainer);
 
@@ -66841,7 +66866,7 @@ var AbEditTable = function (_React$Component) {
         this.props.setPointSelection(mode);
       } else {
         // deactivating the button
-        this.props.setPointSelection(false);
+        this.props.setPointSelection(null);
       }
     }
   }, {
@@ -66854,16 +66879,16 @@ var AbEditTable = function (_React$Component) {
     key: 'handleCancelClick',
     value: function handleCancelClick() {
       this.props.clearTempTable();
-      // this.props.setTask('edit-room');
-      this.props.setPointSelection(false);
+      this.props.setTask('edit-room');
+      this.props.setPointSelection(null);
     }
   }, {
     key: 'handleApplyChangesClick',
     value: function handleApplyChangesClick() {
       this.props.saveTable(this.props.tempTable.id, this.props.match.params.roomID, this.props.tempTable.coords, this.props.tempTable.seatCount);
       this.props.clearTempTable();
-      // this.props.setTask('edit-room');
-      this.props.setPointSelection(false);
+      this.props.setTask('edit-room');
+      this.props.setPointSelection(null);
     }
   }, {
     key: 'render',
@@ -66984,25 +67009,25 @@ var AbEditTable = function (_React$Component) {
           'div',
           { className: 'save-controls' },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            __WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
-            { to: '/room/' + this.props.match.params.roomID, onClick: function onClick() {
-                return _this2.handleCancelClick();
-              } },
+            'a',
+            { href: 'javascript:void(0);' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'button',
-              { className: 'cancel-changes' },
+              { onClick: function onClick() {
+                  return _this2.handleCancelClick();
+                }, className: 'cancel-changes' },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'far fa-times' }),
               'Cancel'
             )
           ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            __WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
-            { to: '/room/' + this.props.match.params.roomID, onClick: function onClick() {
-                return _this2.handleApplyChangesClick();
-              } },
+            'a',
+            { href: 'javascript:void(0)' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'button',
-              { className: 'btn-accent save-changes' },
+              { onClick: function onClick() {
+                  return _this2.handleApplyChangesClick();
+                }, className: 'btn-accent save-changes' },
               'Save Table'
             )
           )
@@ -67028,7 +67053,7 @@ var AbEditTable = function (_React$Component) {
 
 
 var AbDeleteTable = function AbDeleteTable(_ref) {
-  var history = _ref.history;
+  var setTask = _ref.setTask;
 
 
   return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -67049,7 +67074,7 @@ var AbDeleteTable = function AbDeleteTable(_ref) {
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'a',
         { href: 'javascript:void(0)', onClick: function onClick() {
-            return history.goBack();
+            return setTask('edit-room');
           } },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'button',
@@ -67251,7 +67276,10 @@ module.exports = "/images/uchicago-logo.svg?56b113e5ccd398b319650cf52d9cb660";
 
 
 
-var Main = function Main() {
+var Main = function Main(_ref) {
+  var setTask = _ref.setTask,
+      match = _ref.match;
+
   return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
     'div',
     { className: 'main' },
@@ -67260,6 +67288,7 @@ var Main = function Main() {
       null,
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { exact: true, path: '/', component: __WEBPACK_IMPORTED_MODULE_2__scenes_Select_Select__["a" /* default */] }),
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: '/select', component: __WEBPACK_IMPORTED_MODULE_2__scenes_Select_Select__["a" /* default */] }),
+      '}',
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: '/room/:roomID', component: __WEBPACK_IMPORTED_MODULE_3__scenes_Room_containers_Room__["a" /* default */] })
     )
   );
@@ -67524,6 +67553,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     // },
     fetchTables: function fetchTables(roomID) {
       dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["d" /* fetchTables */])(roomID));
+    },
+    setTask: function setTask(task) {
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["n" /* setTask */])(task));
     }
   };
 };
@@ -67539,11 +67571,12 @@ var RoomContainer = Object(__WEBPACK_IMPORTED_MODULE_2_react_router__["a" /* wit
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_classnames_bind__ = __webpack_require__(85);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_classnames_bind___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_classnames_bind__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__containers_Table__ = __webpack_require__(506);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__containers_Grid__ = __webpack_require__(508);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Guides__ = __webpack_require__(510);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router__ = __webpack_require__(183);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_classnames_bind__ = __webpack_require__(85);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_classnames_bind___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_classnames_bind__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__containers_Table__ = __webpack_require__(506);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__containers_Grid__ = __webpack_require__(508);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Guides__ = __webpack_require__(510);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -67551,6 +67584,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 
 
 
@@ -67583,6 +67617,13 @@ var Room = function (_Component) {
       return gridCSS;
     }
   }, {
+    key: 'setDefaultTask',
+    value: function setDefaultTask() {
+      // console.log(this.params.)
+      // set the default task on component mounting
+      this.props.setTask('edit-room');
+    }
+  }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
       // fire action to fectch Tables and load them into global store
@@ -67597,20 +67638,22 @@ var Room = function (_Component) {
         gridRowHeight: parseInt(grid.height) / this.state.gridRows,
         gridColumnWidth: parseInt(grid.width) / this.state.gridColumns
       });
+
+      this.setDefaultTask();
     }
   }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
 
-      var outerRoomContainerClass = __WEBPACK_IMPORTED_MODULE_1_classnames_bind___default()({
+      var outerRoomContainerClasses = __WEBPACK_IMPORTED_MODULE_2_classnames_bind___default()({
         'outer-room-container': true,
         'edit-table': this.props.task === 'edit-table',
         'choosing-a-point': this.props.pointSelection
       });
 
       var tables = this.props.currentTables.map(function (table) {
-        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__containers_Table__["a" /* default */], {
+        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__containers_Table__["a" /* default */], {
           key: table.id,
           id: table.id,
           sX: table.sX, sY: table.sY, eX: table.eX, eY: table.eY, qX: table.qX, qY: table.qY,
@@ -67623,7 +67666,7 @@ var Room = function (_Component) {
 
       return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
-        { className: outerRoomContainerClass },
+        { className: outerRoomContainerClasses },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
           { className: 'inner-room-container', ref: this.gridContRef },
@@ -67639,7 +67682,7 @@ var Room = function (_Component) {
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'svg',
             { className: 'grid-container', xmlns: 'http://www.w3.org/2000/svg' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__containers_Grid__["a" /* default */], {
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__containers_Grid__["a" /* default */], {
               currentRoomID: this.props.match.params.roomID,
               gridColumns: this.state.gridColumns,
               gridColumnWidth: this.state.gridColumnWidth,
@@ -67647,10 +67690,11 @@ var Room = function (_Component) {
               gridRowHeight: this.state.gridRowHeight
             })
           ),
+          null,
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'svg',
             { className: 'guides-container', xmlns: 'http://www.w3.org/2000/svg' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__Guides__["a" /* default */], {
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__Guides__["a" /* default */], {
               gridColumns: this.state.gridColumns,
               gridColumnWidth: this.state.gridColumnWidth,
               gridRows: this.state.gridRows,
@@ -67705,6 +67749,7 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 
   return {
     currentRoom: currentRoom,
+    task: state.app.task,
     tempTable: state.app.tempTable
   };
 };
@@ -67712,13 +67757,16 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
   return {
     selectTable: function selectTable(tableID, roomID, seatCount, coords) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["i" /* selectTable */])(tableID, roomID, seatCount, coords));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["j" /* selectTable */])(tableID, roomID, seatCount, coords));
     },
     setTask: function setTask(task) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["m" /* setTask */])(task));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["n" /* setTask */])(task));
     },
     setPointSelection: function setPointSelection(pointType) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["j" /* setPointSelection */])(pointType));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["k" /* setPointSelection */])(pointType));
+    },
+    removeTableRequest: function removeTableRequest(tableID) {
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["f" /* removeTableRequest */])(tableID));
     }
   };
 };
@@ -67765,10 +67813,10 @@ var Table = function (_Component) {
   _createClass(Table, [{
     key: 'handleTableClick',
     value: function handleTableClick(e) {
-      // first check if we're just deleting the table, based on URL
-      if (this.props.location.pathname.includes('/delete/section')) {
+      // check what to do with this table by looking at the task:
+      if (this.props.task === 'delete-table') {
         this.props.removeTableRequest(this.props.id);
-        this.props.history.push('/room/' + this.props.match.params.roomID);
+        this.props.setTask('edit-room');
       } else {
 
         // change theRoom status
@@ -67779,7 +67827,7 @@ var Table = function (_Component) {
         this.props.selectTable(this.props.id, this.props.match.params.roomID, this.props.seatCount, this.props.coords);
 
         // change url to editing table url
-        this.props.history.push(this.props.match.url + '/section/' + this.props.id);
+        // this.props.history.push(`${this.props.match.url}/section/${this.props.id}`);
       }
     }
   }, {
@@ -67912,7 +67960,7 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     savePointToTempTable: function savePointToTempTable(id, pointType) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["g" /* savePointToTempTable */])(id, pointType));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["h" /* savePointToTempTable */])(id, pointType));
     }
   };
 };
@@ -67964,7 +68012,7 @@ var Grid = function Grid(_ref) {
     if (tempTable.coords) {
       for (var coordType in tempTable.coords) {
         if (tempTable.coords.hasOwnProperty(coordType)) {
-          if (tempTable.coords[coordType] == pointKey) {
+          if (tempTable.coords[coordType] === pointKey) {
             return coordType;
           }
         }
@@ -67991,7 +68039,7 @@ var Grid = function Grid(_ref) {
       'blip': true,
       'belongs-to-any-table': doesBlipBelongToAnyTable(key, currentTables),
       'belongs-to-active-table': isBlipActive(key, tempTable),
-      'is-being-replaced': isBlipActive(key, tempTable) == pointSelection ? true : false
+      'is-being-replaced': isBlipActive(key, tempTable) === pointSelection ? true : false
     });
     var cx = (x * gridColumnWidth).toFixed(2) + 'px';
     var cy = (y * gridRowHeight).toFixed(2) + 'px';
@@ -68089,6 +68137,73 @@ var Guides = function Guides(_ref) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 512 */,
+/* 513 */,
+/* 514 */,
+/* 515 */,
+/* 516 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react_redux__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ActionBar__ = __webpack_require__(480);
+
+
+
+// import {  } from '../../../actions'
+
+var mapStateToProps = function mapStateToProps(state, ownProps) {
+  return {
+    task: state.app.task
+  };
+};
+
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     //
+//   }
+// }
+
+var ActionBarContainer = Object(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["e" /* withRouter */])(Object(__WEBPACK_IMPORTED_MODULE_0_react_redux__["b" /* connect */])(mapStateToProps
+// mapDispatchToProps
+)(__WEBPACK_IMPORTED_MODULE_2__ActionBar__["a" /* default */]));
+
+/* harmony default export */ __webpack_exports__["a"] = (ActionBarContainer);
+
+/***/ }),
+/* 517 */,
+/* 518 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react_redux__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AbDeleteTable__ = __webpack_require__(494);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__(24);
+
+// import { withRouter } from 'react-router';
+
+
+
+var mapStateToProps = function mapStateToProps(state, ownProps) {
+  return {
+    //
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
+  return {
+    setTask: function setTask(task) {
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["n" /* setTask */])(task));
+    }
+  };
+};
+
+var AbDeleteTableContainer = Object(__WEBPACK_IMPORTED_MODULE_0_react_redux__["b" /* connect */])(mapStateToProps, mapDispatchToProps)(__WEBPACK_IMPORTED_MODULE_1__AbDeleteTable__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (AbDeleteTableContainer);
 
 /***/ })
 /******/ ]);

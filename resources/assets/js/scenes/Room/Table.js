@@ -10,10 +10,10 @@ class Table extends Component {
   }
 
   handleTableClick(e) {
-    // first check if we're just deleting the table, based on URL
-    if (this.props.location.pathname.includes('/delete/section')) {
+    // check what to do with this table by looking at the task:
+    if (this.props.task === 'delete-table') {
       this.props.removeTableRequest(this.props.id);
-      this.props.history.push(`/room/${this.props.match.params.roomID}`);
+      this.props.setTask('edit-room');
     } else {
 
       // change theRoom status
@@ -24,7 +24,7 @@ class Table extends Component {
       this.props.selectTable(this.props.id, this.props.match.params.roomID, this.props.seatCount, this.props.coords);
 
       // change url to editing table url
-      this.props.history.push(`${this.props.match.url}/section/${this.props.id}`);
+      // this.props.history.push(`${this.props.match.url}/section/${this.props.id}`);
     }
   }
 

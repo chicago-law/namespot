@@ -22,7 +22,7 @@ const Grid = ({ gridRows, gridColumns, gridRowHeight, gridColumnWidth, pointSele
     if (tempTable.coords) {
       for (let coordType in tempTable.coords) {
         if (tempTable.coords.hasOwnProperty(coordType)) {
-          if (tempTable.coords[coordType] == pointKey) {
+          if (tempTable.coords[coordType] === pointKey) {
             return coordType;
           }
         }
@@ -49,7 +49,7 @@ const Grid = ({ gridRows, gridColumns, gridRowHeight, gridColumnWidth, pointSele
       'blip': true,
       'belongs-to-any-table': doesBlipBelongToAnyTable(key, currentTables),
       'belongs-to-active-table': isBlipActive(key, tempTable),
-      'is-being-replaced': isBlipActive(key, tempTable) == pointSelection ? true : false
+      'is-being-replaced': isBlipActive(key, tempTable) === pointSelection ? true : false
     });
     const cx = (x * gridColumnWidth).toFixed(2) + 'px';
     const cy = (y * gridRowHeight).toFixed(2) + 'px';

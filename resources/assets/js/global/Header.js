@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Switch, Route } from 'react-router-dom'
 import Banner from './Banner'
 import Logo from './Logo'
-import ActionBar from './ActionBar'
+import ActionBar from './containers/ActionBar'
 import Nav from './Nav'
 
 export default class Header extends Component {

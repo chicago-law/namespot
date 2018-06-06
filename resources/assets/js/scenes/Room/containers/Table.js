@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router'
 import Table from '../Table'
-import { selectTable , setTask, setPointSelection } from '../../../actions'
+import { selectTable , setTask, setPointSelection, removeTableRequest } from '../../../actions'
 
 const mapStateToProps = (state, ownProps) => {
 
@@ -16,6 +16,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     currentRoom,
+    task:state.app.task,
     tempTable: state.app.tempTable,
   }
 }
@@ -30,6 +31,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     setPointSelection: (pointType) => {
       dispatch(setPointSelection(pointType))
+    },
+    removeTableRequest:(tableID) => {
+      dispatch(removeTableRequest(tableID))
     }
   }
 }

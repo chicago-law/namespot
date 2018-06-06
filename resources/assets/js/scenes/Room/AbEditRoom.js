@@ -6,15 +6,19 @@ export default class AbEditRoom extends Component {
     super(props);
   }
 
+  handleSeatSizeChange(e) {
+    const value = e.target.value;
+    this.props.setSeatSizeRequest(this.props.currentRoom.id, value);
+  }
+
   handleAddNewClick() {
     this.props.newTable();
     this.props.setTask('edit-table');
     this.props.setPointSelection('start');
   }
 
-  handleSeatSizeChange(e) {
-    const value = e.target.value;
-    this.props.setSeatSizeRequest(this.props.currentRoom.id, value);
+  handleDeleteClick() {
+    this.props.setTask('delete-table');
   }
 
   componentDidMount() {
@@ -57,12 +61,12 @@ export default class AbEditRoom extends Component {
           </div>
 
           <div className="flex-container">
-            <Link to={`${this.props.match.url}/delete/section`}>
+            <a href="javascript:void(0)" onClick={ () => this.handleDeleteClick() }>
               <button className='big-button'>
                 <i className="far fa-trash-alt"></i>
                 <p>Delete<br />Section</p>
               </button>
-            </Link>
+            </a>
           </div>
         </div>
       </div>

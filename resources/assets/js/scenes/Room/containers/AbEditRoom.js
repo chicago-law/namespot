@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import AbEditRoom from '../AbEditRoom'
 import { newTable, setTask, setPointSelection, setSeatSizeRequest } from '../../../actions'
 
@@ -9,7 +10,7 @@ const mapStateToProps = (state, ownProps) => {
   }
   return {
     currentRoom:currentRoom,
-    match:ownProps.match
+    // match:ownProps.match
   }
 }
 
@@ -30,9 +31,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
 }
 
-const AbEditRoomContainer = connect(
+const AbEditRoomContainer = withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(AbEditRoom)
+)(AbEditRoom))
 
 export default AbEditRoomContainer;

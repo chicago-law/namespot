@@ -18,7 +18,7 @@ export default class AbEditTable extends React.Component {
       this.props.setPointSelection(mode);
     } else {
       // deactivating the button
-      this.props.setPointSelection(false);
+      this.props.setPointSelection(null);
     }
   }
 
@@ -29,15 +29,15 @@ export default class AbEditTable extends React.Component {
 
   handleCancelClick() {
     this.props.clearTempTable();
-    // this.props.setTask('edit-room');
-    this.props.setPointSelection(false);
+    this.props.setTask('edit-room');
+    this.props.setPointSelection(null);
   }
 
   handleApplyChangesClick() {
     this.props.saveTable(this.props.tempTable.id, this.props.match.params.roomID, this.props.tempTable.coords, this.props.tempTable.seatCount);
     this.props.clearTempTable();
-    // this.props.setTask('edit-room');
-    this.props.setPointSelection(false);
+    this.props.setTask('edit-room');
+    this.props.setPointSelection(null);
   }
 
   render() {
@@ -82,12 +82,12 @@ export default class AbEditTable extends React.Component {
 
         {/* Save / Cancel controls */}
         <div className="save-controls">
-          <Link to={`/room/${this.props.match.params.roomID}`} onClick={() => this.handleCancelClick()}>
-            <button className='cancel-changes'><i className="far fa-times"></i>Cancel</button>
-          </Link>
-          <Link to={`/room/${this.props.match.params.roomID}`} onClick={() => this.handleApplyChangesClick()}>
-            <button className='btn-accent save-changes'>Save Table</button>
-          </Link>
+          <a href='javascript:void(0);'>
+            <button onClick={() => this.handleCancelClick()} className='cancel-changes'><i className="far fa-times"></i>Cancel</button>
+          </a>
+          <a href="javascript:void(0)" >
+            <button onClick={() => this.handleApplyChangesClick()} className='btn-accent save-changes'>Save Table</button>
+          </a>
         </div>
       </div>
     )

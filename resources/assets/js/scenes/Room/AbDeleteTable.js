@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 
-const AbDeleteTable = ({ history }) => {
+const AbDeleteTable = ({ setTask }) => {
 
   return (
     <div className='action-bar action-bar-delete-table'>
@@ -9,7 +9,7 @@ const AbDeleteTable = ({ history }) => {
         <h3>Select a table below to delete</h3>
       </div>
       <div className="flex-container">
-        <a href='javascript:void(0)' onClick={() => history.goBack()}>
+        <a href='javascript:void(0)' onClick={ () => setTask('edit-room') }>
           <button><i className="far fa-times"></i> Cancel</button>
         </a>
       </div>
