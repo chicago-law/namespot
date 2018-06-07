@@ -81,6 +81,18 @@ const pointSelection = (state = null, action) => {
 }
 
 /**
+ * app/roomLoading
+ */
+const roomLoading = ( state = false, action ) => {
+  switch (action.type) {
+    case C.ROOM_LOADING:
+      return action.status
+    default:
+      return state
+  }
+}
+
+/**
  * entities / offerings
  */
 const offerings = (state={}, action) => {
@@ -139,44 +151,13 @@ const tables = (state={}, action) => {
   }
 }
 
-// const entities = (state = { offerings: {}, students: {}, rooms: {}, tables: {} }, action) => {
-//   switch (action.type) {
-//     // offerings
-//     case 'RECEIVE_OFFERINGS':
-//       return {
-//         ...state,
-//         offerings:action.offerings
-//       }
-//     // students
-//     case 'RECEIVE_STUDENTS':
-//       return {
-//         ...state,
-//         students:action.students
-//       }
-//     // rooms
-//     case 'RECEIVE_ROOMS':
-//       return {
-//         ...state,
-//         rooms:action.rooms
-//       }
-//     // tables
-//     case 'RECEIVE_TABLES':
-//       return {
-//         ...state,
-//         tables:action.tables
-//       }
-
-//     default:
-//       return state
-//   }
-// }
-
 const rootReducer = combineReducers({
   app: combineReducers({
     roomStatus,
     task,
     tempTable,
     pointSelection,
+    roomLoading
     // flipPerspective,
     // fetching
   }),

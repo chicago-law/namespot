@@ -26,7 +26,7 @@ export default class ActionBar extends Component {
         actionBarContents = null;
     }
     return (
-      <div>
+      <div class='action-bar-container'>
         <Route path={`/room/:roomID/`} render={() => actionBarContents} />
         <Route path={`/offering/:offeringID/`} render={() => actionBarContents} />
       </div>

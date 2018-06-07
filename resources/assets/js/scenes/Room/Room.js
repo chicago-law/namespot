@@ -4,6 +4,7 @@ import classNames from 'classnames/bind';
 import Table from './containers/Table';
 import Grid from './containers/Grid';
 import Guides from './Guides';
+import Loading from '../../global/Loading';
 
 export default class Room extends Component {
   constructor(props) {
@@ -49,7 +50,8 @@ export default class Room extends Component {
     const outerRoomContainerClasses = classNames({
       'outer-room-container':true,
       'edit-table':this.props.task === 'edit-table',
-      'choosing-a-point':this.props.pointSelection
+      'choosing-a-point':this.props.pointSelection,
+      'loading':this.props.roomLoading
     })
 
     const tables = this.props.currentTables.map(table =>
@@ -66,6 +68,7 @@ export default class Room extends Component {
 
     return (
       <div className={outerRoomContainerClasses}>
+        <Loading />
         <div className='inner-room-container' ref={this.gridContRef}>
 
           {/* Here be the tables! */}

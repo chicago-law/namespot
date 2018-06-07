@@ -91,9 +91,9 @@ class Table extends Component {
     });
 
     return (
-      <g ref={this.tableGroupRef}>
+      <g ref={this.tableGroupRef} className={tableClass}>
         { seats }
-        <path ref={this.pathRef} className={tableClass} d={d} onClick={(e) => this.handleTableClick(e)} />
+        <path ref={this.pathRef} d={d} onClick={(e) => this.handleTableClick(e)} />
       </g>
     )
   }

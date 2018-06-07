@@ -52,12 +52,12 @@ export default class AbEditRoom extends Component {
           </div>
 
           <div className="flex-container">
-            <Link to={`${this.props.match.url}/section/new`} onClick={() => this.handleAddNewClick()}>
+            <a href="javascript:void(0)" onClick={() => this.handleAddNewClick()}>
               <button className='big-button'>
                 <i className="far fa-plus-circle"></i>
                 <p>Add New<br />Section</p>
               </button>
-            </Link>
+            </a>
           </div>
 
           <div className="flex-container">

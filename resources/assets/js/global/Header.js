@@ -19,9 +19,7 @@ export default class Header extends Component {
           <Banner />
           <Logo />
         </header>
-        <div className='action-bar-container'>
-          <ActionBar />
-        </div>
+        <Route path="/room" component={ActionBar} />
       </div>
     )
   }

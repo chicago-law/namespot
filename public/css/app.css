@@ -570,236 +570,8 @@ li {
   margin-right: auto;
 }
 
-.site-header {
-  position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  background: #fff;
-  z-index: 10000;
-  /* end .nav-container */
-}
-
-.site-header .nav-container {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  /* end .site-menu */
-}
-
-.site-header .nav-container .nav-control {
-  line-height: 0;
-  padding: 2em;
-  color: #DD4343;
-}
-
-.site-header .nav-container .nav-control i {
-  font-size: 1.25em;
-}
-
-.site-header .nav-container .nav-control:hover {
-  color: #e36666;
-}
-
-.site-header .nav-container .site-menu {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 17em;
-  background: #444444;
-  color: #fff;
-  z-index: 1000000;
-  -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
-          box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
-  -webkit-transform: translateX(-18em);
-          transform: translateX(-18em);
-  -webkit-transition: -webkit-transform 400ms cubic-bezier(0, 0.905, 0.27, 0.975);
-  transition: -webkit-transform 400ms cubic-bezier(0, 0.905, 0.27, 0.975);
-  transition: transform 400ms cubic-bezier(0, 0.905, 0.27, 0.975);
-  transition: transform 400ms cubic-bezier(0, 0.905, 0.27, 0.975), -webkit-transform 400ms cubic-bezier(0, 0.905, 0.27, 0.975);
-}
-
-.site-header .nav-container .site-menu i {
-  font-size: 1.25em;
-  margin-right: 1.35em;
-}
-
-.site-header .nav-container .site-menu header,
-.site-header .nav-container .site-menu ul,
-.site-header .nav-container .site-menu .school-logo-container {
-  margin: 0 2em;
-  padding: 1.5em 0;
-  border-bottom: 1px solid #5e5d5d;
-}
-
-.site-header .nav-container .site-menu header {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
-.site-header .nav-container .site-menu header button {
-  color: #fff;
-  padding: 0;
-}
-
-.site-header .nav-container .site-menu header button:hover {
-  color: #DD4343;
-}
-
-.site-header .nav-container .site-menu header h3 {
-  margin: 0;
-}
-
-.site-header .nav-container .site-menu ul li {
-  list-style-type: none;
-}
-
-.site-header .nav-container .site-menu ul li a {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  padding: .75em 0;
-  margin: .25em 0;
-}
-
-.site-header .nav-container .site-menu .school-logo-container {
-  border-bottom: none;
-}
-
-.site-header .nav-container .shader {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.2);
-  opacity: 0;
-  z-index: 0;
-  pointer-events: none;
-  -webkit-transition: opacity 400ms ease-out;
-  transition: opacity 400ms ease-out;
-}
-
-.site-header .nav-container.is-open {
-  /* .nav-container.is-open */
-}
-
-.site-header .nav-container.is-open .site-menu {
-  -webkit-transform: translateX(0);
-          transform: translateX(0);
-}
-
-.site-header .nav-container.is-open .shader {
-  z-index: 9999;
-  pointer-events: auto;
-  opacity: 1;
-}
-
-.site-header .banner-container {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-flex: 1;
-      -ms-flex-positive: 1;
-          flex-grow: 1;
-  padding: 1em;
-}
-
-.site-header .banner-container .banner-text {
-  position: relative;
-  top: -2px;
-}
-
-.site-header .banner-container .banner-text i {
-  margin-right: .5em;
-}
-
-.site-header .banner-container .banner-text h3 {
-  margin: 0;
-}
-
-.site-header .logo-container {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  padding: 2em;
-}
-
-.site-header .logo-container a {
-  line-height: 0;
-}
-
-.class-list {
-  margin-top: 5em;
-  padding: 2em 0 0 0;
-  /* end li */
-}
-
-.class-list h5 {
-  text-align: center;
-}
-
-.class-list ul li {
-  position: relative;
-}
-
-.class-list ul li a {
-  display: block;
-  padding: 1.5em 3.5em 1.5em 2em;
-  border-top: 1px solid #EEEEEE;
-}
-
-.class-list ul li a h4 {
-  display: block;
-  text-transform: capitalize;
-  color: #444444;
-  margin-bottom: 0;
-}
-
-.class-list ul li a p {
-  margin-bottom: 0;
-  color: #444444;
-}
-
-.class-list ul li i {
-  position: absolute;
-  right: 1.5em;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
-  color: #AAAAAA;
-}
-
-.class-list ul li:hover h4,
-.class-list ul li:hover p,
-.class-list ul li:hover i {
-  color: #DD4343;
+.action-bar-container {
+  height: 9.5em;
 }
 
 .action-bar {
@@ -995,6 +767,255 @@ li {
   margin-right: .5em;
 }
 
+.class-list {
+  margin-top: 5em;
+  padding: 2em 0 0 0;
+  /* end li */
+}
+
+.class-list h5 {
+  text-align: center;
+}
+
+.class-list ul li {
+  position: relative;
+}
+
+.class-list ul li a {
+  display: block;
+  padding: 1.5em 3.5em 1.5em 2em;
+  border-top: 1px solid #EEEEEE;
+}
+
+.class-list ul li a h4 {
+  display: block;
+  text-transform: capitalize;
+  color: #444444;
+  margin-bottom: 0;
+}
+
+.class-list ul li a p {
+  margin-bottom: 0;
+  color: #444444;
+}
+
+.class-list ul li i {
+  position: absolute;
+  right: 1.5em;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  color: #AAAAAA;
+}
+
+.class-list ul li:hover h4,
+.class-list ul li:hover p,
+.class-list ul li:hover i {
+  color: #DD4343;
+}
+
+.site-header {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  background: #fff;
+  z-index: 10000;
+  /* end .nav-container */
+}
+
+.site-header .nav-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  /* end .site-menu */
+}
+
+.site-header .nav-container .nav-control {
+  line-height: 0;
+  padding: 2em;
+  color: #DD4343;
+}
+
+.site-header .nav-container .nav-control i {
+  font-size: 1.25em;
+}
+
+.site-header .nav-container .nav-control:hover {
+  color: #e36666;
+}
+
+.site-header .nav-container .site-menu {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 17em;
+  background: #444444;
+  color: #fff;
+  z-index: 1000000;
+  -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+          box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+  -webkit-transform: translateX(-18em);
+          transform: translateX(-18em);
+  -webkit-transition: -webkit-transform 400ms cubic-bezier(0, 0.905, 0.27, 0.975);
+  transition: -webkit-transform 400ms cubic-bezier(0, 0.905, 0.27, 0.975);
+  transition: transform 400ms cubic-bezier(0, 0.905, 0.27, 0.975);
+  transition: transform 400ms cubic-bezier(0, 0.905, 0.27, 0.975), -webkit-transform 400ms cubic-bezier(0, 0.905, 0.27, 0.975);
+}
+
+.site-header .nav-container .site-menu i {
+  font-size: 1.25em;
+  margin-right: 1.35em;
+}
+
+.site-header .nav-container .site-menu header,
+.site-header .nav-container .site-menu ul,
+.site-header .nav-container .site-menu .school-logo-container {
+  margin: 0 2em;
+  padding: 1.5em 0;
+  border-bottom: 1px solid #5e5d5d;
+}
+
+.site-header .nav-container .site-menu header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.site-header .nav-container .site-menu header button {
+  color: #fff;
+  padding: 0;
+}
+
+.site-header .nav-container .site-menu header button:hover {
+  color: #DD4343;
+}
+
+.site-header .nav-container .site-menu header h3 {
+  margin: 0;
+}
+
+.site-header .nav-container .site-menu ul li {
+  list-style-type: none;
+}
+
+.site-header .nav-container .site-menu ul li a {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: .75em 0;
+  margin: .25em 0;
+}
+
+.site-header .nav-container .site-menu .school-logo-container {
+  border-bottom: none;
+}
+
+.site-header .nav-container .shader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  z-index: 0;
+  pointer-events: none;
+  -webkit-transition: opacity 400ms ease-out;
+  transition: opacity 400ms ease-out;
+}
+
+.site-header .nav-container.is-open {
+  /* .nav-container.is-open */
+}
+
+.site-header .nav-container.is-open .site-menu {
+  -webkit-transform: translateX(0);
+          transform: translateX(0);
+}
+
+.site-header .nav-container.is-open .shader {
+  z-index: 9999;
+  pointer-events: auto;
+  opacity: 1;
+}
+
+.site-header .banner-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  padding: 1em;
+}
+
+.site-header .banner-container .banner-text {
+  position: relative;
+  top: -2px;
+}
+
+.site-header .banner-container .banner-text i {
+  margin-right: .5em;
+}
+
+.site-header .banner-container .banner-text h3 {
+  margin: 0;
+}
+
+.site-header .logo-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 2em;
+}
+
+.site-header .logo-container a {
+  line-height: 0;
+}
+
+.loading {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.loading i {
+  position: absolute;
+  font-size: 2.441em;
+}
+
 .outer-room-container {
   position: absolute;
   top: 0;
@@ -1003,12 +1024,23 @@ li {
   bottom: 0;
 }
 
+.outer-room-container .loading {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
 .outer-room-container .inner-room-container {
   position: absolute;
   top: 6em;
   right: 6em;
   left: 6em;
   bottom: 6em;
+  -webkit-transition: opacity 150ms ease-out;
+  transition: opacity 150ms ease-out;
 }
 
 .outer-room-container .inner-room-container > svg {
@@ -1026,7 +1058,7 @@ li {
   z-index: 100;
 }
 
-.outer-room-container .tables-container .table {
+.outer-room-container .tables-container .table path {
   stroke: #2F7AD0;
   stroke-width: 8;
   stroke-linecap: round;
@@ -1034,7 +1066,7 @@ li {
   cursor: pointer;
 }
 
-.outer-room-container .tables-container .table:hover {
+.outer-room-container .tables-container .table path:hover {
   stroke: #215592;
 }
 
@@ -1082,7 +1114,7 @@ li {
 }
 
 .outer-room-container.edit-table .grid-container .blip.belongs-to-any-table {
-  fill: #2F7AD0;
+  fill: #444444;
 }
 
 .outer-room-container.edit-table .grid-container .blip.belongs-to-active-table {
@@ -1097,12 +1129,22 @@ li {
           transform: scale(3);
 }
 
-.outer-room-container.edit-table .tables-container .table {
+.outer-room-container.edit-table .tables-container .table path {
   opacity: .35;
+  stroke: #AAAAAA;
 }
 
-.outer-room-container.edit-table .tables-container .is-active {
+.outer-room-container.edit-table .tables-container .seat rect {
+  fill: #CCCCCC;
+}
+
+.outer-room-container.edit-table .tables-container .is-active path {
   opacity: 1;
+  stroke: #0A50A3;
+}
+
+.outer-room-container.edit-table .tables-container .is-active .seat rect {
+  fill: #AAAAAA;
 }
 
 .outer-room-container.edit-table.choosing-a-point .blip {
@@ -1111,6 +1153,16 @@ li {
 
 .outer-room-container.edit-table.choosing-a-point .blip:hover {
   fill: #444444;
+}
+
+.outer-room-container.loading .loading {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.outer-room-container.loading .inner-room-container {
+  opacity: .5;
 }
 
 .room-label {

@@ -4,12 +4,21 @@
   right:0;
   left:0;
   bottom:0;
+  .loading {
+    display:none;
+    position:absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+  }
   .inner-room-container {
     position:absolute;
     top:6em;
     right:6em;
     left:6em;
     bottom:6em;
+    transition:opacity 150ms ease-out;
     >svg {
       position:absolute;
       top:0;
@@ -24,13 +33,15 @@
   .tables-container {
     z-index:100;
     .table {
-      stroke:$light-blue;
-      stroke-width:8;
-      stroke-linecap:round;
-      fill:none;
-      cursor:pointer;
-      &:hover {
-        stroke:darken($light-blue, 15%);
+      path {
+        stroke:$light-blue;
+        stroke-width:8;
+        stroke-linecap:round;
+        fill:none;
+        cursor:pointer;
+        &:hover {
+          stroke:darken($light-blue, 15%);
+        }
       }
     }
     .seat {
@@ -70,7 +81,7 @@
       z-index:1000;
       .blip {
         &.belongs-to-any-table {
-          fill:$light-blue;
+          fill:$dark-gray;
         }
         &.belongs-to-active-table {
           fill:$dark-blue;
@@ -84,10 +95,22 @@
     }
     .tables-container {
       .table {
-        opacity:.35;
+        path {
+          opacity:.35;
+          stroke:$middle-gray;
+        }
+      }
+      .seat rect {
+        fill:$light-gray;
       }
       .is-active {
-        opacity:1;
+        path {
+          opacity:1;
+          stroke:$second-accent;
+        }
+        .seat rect {
+          fill:$middle-gray;
+        }
       }
     }
     &.choosing-a-point {
@@ -97,6 +120,14 @@
           fill:$dark-gray;
         }
       }
+    }
+  }
+  &.loading { // .outer-room-container.loading
+    .loading {
+      display:flex;
+    }
+    .inner-room-container {
+      opacity:.5;
     }
   }
 }
