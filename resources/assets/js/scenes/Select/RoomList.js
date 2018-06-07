@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
-const ClassList = ({ rooms }) => {
+const RoomList = ({ rooms }) => {
   return (
     <div>
       <h5>Select Room</h5>
@@ -20,11 +20,11 @@ const ClassList = ({ rooms }) => {
   )
 }
 
-ClassList.propTypes = {
+RoomList.propTypes = {
   rooms: PropTypes.objectOf(PropTypes.shape({
     id:PropTypes.number.isRequired,
     name:PropTypes.string
   }))
 }
 
-export default ClassList;
+export default RoomList;

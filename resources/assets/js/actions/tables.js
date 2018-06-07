@@ -35,9 +35,11 @@ export function fetchTables(roomID) {
     return axios.get(`${rootUrl}api/tables/${roomID}`)
       .then(function (response) {
         // tables downloaded, now load them into state and clear the tempTable
-        const normalizedData = normalize(response.data, schema.tableListSchema);
-        dispatch(receiveTables(normalizedData.entities));
-        dispatch(clearTempTable());
+        if (response.data.length) {
+          const normalizedData = normalize(response.data, schema.tableListSchema);
+          dispatch(receiveTables(normalizedData.entities));
+          dispatch(clearTempTable());
+        }
       })
       .catch(function (error) {
         console.log(error);

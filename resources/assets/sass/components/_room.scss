@@ -1,9 +1,20 @@
 .outer-room-container {
-  position:absolute;
-  top:0;
-  right:0;
-  left:0;
-  bottom:0;
+  // position:absolute;
+  // top:0;
+  // right:0;
+  // left:0;
+  // bottom:0;
+  // margin:0 30em;
+  max-width:900px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top:2em;
+  @media (max-width:$laptop) {
+    padding:0 5em;
+  }
+  @media (max-width:$tablet) {
+    padding:0;
+  }
   .loading {
     display:none;
     position:absolute;
@@ -13,11 +24,14 @@
     left:0;
   }
   .inner-room-container {
-    position:absolute;
-    top:6em;
-    right:6em;
-    left:6em;
-    bottom:6em;
+    position:relative;
+    left:5px;
+    padding-bottom:64.7%; // maintain same aspect ratio as 11 x 17 tabloid paper
+    // position:absolute;
+    // top:6em;
+    // right:6em;
+    // left:6em;
+    // bottom:6em;
     transition:opacity 150ms ease-out;
     >svg {
       position:absolute;
@@ -56,7 +70,7 @@
     z-index:90;
     .blip {
       position:absolute;
-      fill:$light-gray;
+      fill:lighten($light-gray,5%);
       transform-origin:center;
       transition:transform 150ms ease-out;
     }
@@ -81,7 +95,7 @@
       z-index:1000;
       .blip {
         &.belongs-to-any-table {
-          fill:$dark-gray;
+          fill:darken($middle-gray,20%);
         }
         &.belongs-to-active-table {
           fill:$dark-blue;
@@ -133,9 +147,10 @@
 }
 
 .room-label {
-  position:absolute;
-  left:0;
-  right:0;
-  bottom:0;
+  // position:absolute;
+  // left:0;
+  // right:0;
+  // bottom:0;
+  position:relative;
   text-align:center;
 }

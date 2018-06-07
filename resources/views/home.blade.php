@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Namespot</title>
     <link rel="stylesheet" href="{{asset('css/fontawesome-all.min.css')}}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400i">
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
   </head>
   <body data-root='{{asset("")}}'>

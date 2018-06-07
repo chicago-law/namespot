@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import {  } from '../../../actions'
-import ClassList from '../ClassList'
+import OfferingList from '../OfferingList'
 
 const mapStateToProps = (state) => {
   return {
@@ -16,9 +16,9 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const ClassListContainer = connect(
+const OfferingListContainer = connect(
   mapStateToProps,
   // mapDispatchToProps
-)(ClassList)
+)(OfferingList)
 
-export default ClassListContainer;
+export default OfferingListContainer;

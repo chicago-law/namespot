@@ -1,12 +1,11 @@
 .action-bar-container {
-  height:9.5em;
+  //
 }
 
 .action-bar {
   display:flex;
-  align-items:stretch;
+  align-items:center;
   justify-content:space-between;
-  min-height:9.5em;
   padding:1em 2em;
   border-top: 1px solid $off-white;
   h4 {
@@ -16,6 +15,9 @@
   }
   h6 {
     margin:0;
+  }
+  p {
+    margin-bottom:0;
   }
   .big-button {
     padding:1em;
@@ -133,7 +135,6 @@
       @include ms-1;
       i {
         @include ms0;
-        // color:$dark-gray;
         position:relative;
         top:1px;
         margin-right:.5em;
@@ -152,6 +153,25 @@
     }
     i {
       margin-right:.5em;
+    }
+  }
+}
+
+.action-bar-offering-overview {
+  .click-an-empty-seat {
+    display: flex;
+    i {
+      @include ms2;
+      margin-right:.5em;
+      color:lighten($middle-gray,5%);
+    }
+    color:$middle-gray;
+    font-style:italic;
+  }
+  .big-button {
+    margin-right:1em;
+    &:last-of-type {
+      margin-right:0;
     }
   }
 }

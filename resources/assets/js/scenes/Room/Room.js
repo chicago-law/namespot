@@ -24,9 +24,17 @@ export default class Room extends Component {
   }
 
   setDefaultTask() {
-    // console.log(this.params.)
-    // set the default task on component mounting
-    this.props.setTask('edit-room');
+    const url = this.props.match.path.split('/');
+    switch (url[1]) {
+      case 'room':
+        this.props.setTask('edit-room');
+        break;
+      case 'offering':
+        this.props.setTask('offering-overview');
+        break;
+      default:
+        this.props.setTask(null);
+    }
   }
 
   componentDidMount() {
@@ -36,14 +44,15 @@ export default class Room extends Component {
     // force an update now that we can measure CSS of elements
     this.forceUpdate();
 
+    // look at the URL and decide a default task based on that
+    this.setDefaultTask();
+
     // create the grid and load the measurements into local state
     const grid = this.measureGrid();
     this.setState({
       gridRowHeight: parseInt(grid.height) / this.state.gridRows,
       gridColumnWidth: parseInt(grid.width) / this.state.gridColumns,
     });
-
-    this.setDefaultTask();
   }
 
   render() {

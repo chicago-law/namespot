@@ -20,6 +20,7 @@ export default class Header extends Component {
           <Logo />
         </header>
         <Route path="/room" component={ActionBar} />
+        <Route path="/offering" component={ActionBar} />
       </div>
     )
   }

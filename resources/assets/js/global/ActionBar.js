@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom';
 import AbEditRoom from '../scenes/Room/containers/AbEditRoom';
 import AbEditTable from '../scenes/Room/containers/AbEditTable';
 import AbDeleteTable from '../scenes/Room/containers/AbDeleteTable';
+import AbOfferingOverview from '../scenes/Room/containers/AbOfferingOverview';
 
 export default class ActionBar extends Component {
   constructor(props) {
@@ -22,11 +23,14 @@ export default class ActionBar extends Component {
       case 'delete-table':
         actionBarContents = <AbDeleteTable/>;
         break;
+      case 'offering-overview':
+        actionBarContents = <AbOfferingOverview/>;
+        break;
       default:
         actionBarContents = null;
     }
     return (
-      <div class='action-bar-container'>
+      <div className='action-bar-container'>
         <Route path={`/room/:roomID/`} render={() => actionBarContents} />
         <Route path={`/offering/:offeringID/`} render={() => actionBarContents} />
       </div>

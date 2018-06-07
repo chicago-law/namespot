@@ -10,24 +10,7 @@ const Main = ({ setTask, match }) => {
         <Route exact path="/" component={Select} />
         <Route path="/select" component={Select} />}
         <Route path='/room/:roomID' component={Room} />
-        {/* <Route exact path='/' render={() => {
-              // setTask(null);
-              return <Select />
-            }
-          }
-        />
-        <Route path='/select' render={() => {
-              // setTask(null);
-              return <Select />
-            }
-          }
-        />
-        <Route path='/room/:roomID' render={() => {
-              // setTask('edit-room');
-              return <Room />
-            }
-          }
-        /> */}
+        <Route path='/offering/:offeringID' component={Room} />
       </Switch>
     </div>
   )

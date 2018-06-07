@@ -51,3 +51,11 @@ $primary-font: "Lato", "Helvetica", sans-serif;
 @mixin ms5 {
   font-size:3.052em;
 }
+
+/* ----------- */
+/* BREAKPOINTS */
+/* ----------- */
+$tiny:400px;
+$mobile:767px;
+$tablet:900px;
+$laptop:1400px;

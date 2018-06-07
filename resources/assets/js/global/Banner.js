@@ -1,6 +1,7 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import BanEditRoom from '../scenes/Room/containers/BanEditRoom'
+import BanOffering from '../scenes/Room/containers/BanOffering'
 
 const BanSeatingCharts = () => (
   <div className="banner-text">
@@ -22,10 +23,11 @@ const Banner = () => (
   <div className="banner-container">
     <Switch>
       <Route exact path="/" component={BanSeatingCharts} />
-      <Route path="/select/classes" component={BanSeatingCharts} />
+      <Route path="/select/offerings" component={BanSeatingCharts} />
       <Route path="/select/students" component={BanStudents} />
       <Route exact path="/select/rooms" component={BanRoomTemplates} />
       <Route path="/room/:id" component={BanEditRoom} />
+      <Route path="/offering/:id" component={BanOffering} />
     </Switch>
   </div>
 )

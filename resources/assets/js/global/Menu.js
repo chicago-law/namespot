@@ -10,7 +10,7 @@ const Menu = ({toggleMenu}) => (
       <h3>Daniel<br/>Ramus</h3>
     </header>
     <ul>
-      <li><Link className="reverse-colors" to="/select/classes" onClick={toggleMenu}><i className="far fa-map fa-fw"></i>Seating Charts</Link></li>
+      <li><Link className="reverse-colors" to="/select/offerings" onClick={toggleMenu}><i className="far fa-map fa-fw"></i>Seating Charts</Link></li>
       <li><Link className="reverse-colors" to="/select/students" onClick={toggleMenu}><i className="far fa-users fa-fw"></i>Students</Link></li>
       <li><Link className="reverse-colors" to="/select/rooms" onClick={toggleMenu}><i className="far fa-cog fa-fw"></i>Room Templates</Link></li>
     </ul>
