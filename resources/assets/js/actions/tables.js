@@ -2,7 +2,7 @@ import { normalize } from 'normalizr'
 import * as schema from './schema';
 import { rootUrl } from './index';
 import C from '../constants';
-import { clearTempTable, setRoomLoadingStatus } from './app';
+import { clearTempTable, setLoadingStatus } from './app';
 
 /**
  * ENTITY TABLES
@@ -51,7 +51,7 @@ export function saveTable(tableID, roomID, coords, seatCount) {
   return function (dispatch) {
 
     // first change to loading status
-    dispatch(setRoomLoadingStatus(true));
+    dispatch(setLoadingStatus('tables',true));
 
     // first we need to format the coords into the flat, DB-friendly format
     let formattedCoords = { sX: null, sY: null, eX: null, eY: null, qX: null, qY: null };
@@ -89,7 +89,7 @@ export function saveTable(tableID, roomID, coords, seatCount) {
     })
       .then(function (response) { // table succesfully saved, so let's refresh our list with a new Fetch
         dispatch(fetchTables(roomID));
-        dispatch(setRoomLoadingStatus(false))
+        dispatch(setLoadingStatus("tables",false))
       })
       .catch(function (error) {
         console.log(error);

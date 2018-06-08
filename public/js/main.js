@@ -522,7 +522,7 @@ module.exports = function (NAME, exec) {
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_2__offerings__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__rooms__ = __webpack_require__(494);
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_3__rooms__["a"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "p", function() { return __WEBPACK_IMPORTED_MODULE_3__rooms__["b"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "o", function() { return __WEBPACK_IMPORTED_MODULE_3__rooms__["b"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app__ = __webpack_require__(183);
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["a"]; });
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["b"]; });
@@ -530,10 +530,9 @@ module.exports = function (NAME, exec) {
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["d"]; });
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "j", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["e"]; });
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "l", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["f"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "m", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["g"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "n", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["h"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "o", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["i"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "q", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["j"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "m", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["h"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "n", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["i"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "p", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["j"]; });
 
 
 
@@ -2061,7 +2060,7 @@ var constants = {
   RECEIVE_ROOMS: 'RECEIVE_ROOMS',
   RECEIVE_TABLES: 'RECEIVE_TABLES',
   REMOVE_TABLE: 'REMOVE_TABLE',
-  ROOM_LOADING: 'ROOM_LOADING',
+  SET_LOADING_STATUS: 'SET_LOADING_STATUS',
   SET_CURRENT_ROOM: 'SET_CURRENT_ROOM',
   SET_CURRENT_OFFERING: 'SET_CURRENT_OFFERING'
 };
@@ -8437,8 +8436,8 @@ var Symbol = __WEBPACK_IMPORTED_MODULE_0__root_js__["a" /* default */].Symbol;
 /* harmony export (immutable) */ __webpack_exports__["i"] = setSeatCount;
 /* harmony export (immutable) */ __webpack_exports__["e"] = savePointToTempTable;
 /* harmony export (immutable) */ __webpack_exports__["a"] = clearTempTable;
-/* harmony export (immutable) */ __webpack_exports__["g"] = setPointSelection;
-/* harmony export (immutable) */ __webpack_exports__["h"] = setRoomLoadingStatus;
+/* harmony export (immutable) */ __webpack_exports__["h"] = setPointSelection;
+/* harmony export (immutable) */ __webpack_exports__["g"] = setLoadingStatus;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants__ = __webpack_require__(55);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_normalizr__ = __webpack_require__(57);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_normalizr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_normalizr__);
@@ -8561,14 +8560,21 @@ function setPointSelection(pointType) {
 }
 
 /**
- * ROOM LOADING
+ * LOADING
  */
-function setRoomLoadingStatus(status) {
+function setLoadingStatus(loadingType, status) {
   return {
-    type: __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* default */].ROOM_LOADING,
+    type: __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* default */].SET_LOADING_STATUS,
+    loadingType: loadingType,
     status: status
   };
 }
+// export function setRoomLoadingStatus(status) {
+//   return {
+//     type:C.ROOM_LOADING,
+//     status
+//   }
+// }
 
 /***/ }),
 /* 184 */
@@ -42840,12 +42846,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-var store = Object(__WEBPACK_IMPORTED_MODULE_3_redux__["createStore"])(__WEBPACK_IMPORTED_MODULE_6__reducers__["a" /* default */], Object(__WEBPACK_IMPORTED_MODULE_4_redux_devtools_extension__["composeWithDevTools"])(Object(__WEBPACK_IMPORTED_MODULE_3_redux__["applyMiddleware"])(__WEBPACK_IMPORTED_MODULE_5_redux_thunk___default.a
-// loggerMiddleware,
-)));
+var store = Object(__WEBPACK_IMPORTED_MODULE_3_redux__["createStore"])(__WEBPACK_IMPORTED_MODULE_6__reducers__["a" /* default */], Object(__WEBPACK_IMPORTED_MODULE_4_redux_devtools_extension__["composeWithDevTools"])(Object(__WEBPACK_IMPORTED_MODULE_3_redux__["applyMiddleware"])(__WEBPACK_IMPORTED_MODULE_5_redux_thunk___default.a)));
 
-window.store = store;
-
+// window.store = store
 store.dispatch(Object(__WEBPACK_IMPORTED_MODULE_8__actions__["c" /* fetchRooms */])());
 store.dispatch(Object(__WEBPACK_IMPORTED_MODULE_8__actions__["b" /* fetchOfferings */])('2188'));
 
@@ -64591,15 +64594,28 @@ var pointSelection = function pointSelection() {
 };
 
 /**
- * app/roomLoading
+ * app / loading
  */
-var roomLoading = function roomLoading() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+// const roomLoading = ( state = false, action ) => {
+//   switch (action.type) {
+//     case C.ROOM_LOADING:
+//       return action.status
+//     default:
+//       return state
+//   }
+// }
+var loading = function loading() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+    rooms: false,
+    tables: false,
+    offerings: false,
+    students: false
+  };
   var action = arguments[1];
 
   switch (action.type) {
-    case __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* default */].ROOM_LOADING:
-      return action.status;
+    case __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* default */].SET_LOADING_STATUS:
+      return _extends({}, state, _defineProperty({}, action.loadingType, action.status));
     default:
       return state;
   }
@@ -64680,7 +64696,7 @@ var rootReducer = Object(__WEBPACK_IMPORTED_MODULE_0_redux__["combineReducers"])
     task: task,
     tempTable: tempTable,
     pointSelection: pointSelection,
-    roomLoading: roomLoading
+    loading: loading
     // flipPerspective,
     // fetching
   }),
@@ -66044,16 +66060,13 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
       dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["g" /* newTable */])());
     },
     setTask: function setTask(status) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["q" /* setTask */])(status));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["p" /* setTask */])(status));
     },
     setPointSelection: function setPointSelection(status) {
       dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["m" /* setPointSelection */])(status));
     },
     setSeatSizeRequest: function setSeatSizeRequest(roomID, seatSize) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["p" /* setSeatSizeRequest */])(roomID, seatSize));
-    },
-    setRoomLoadingStatus: function setRoomLoadingStatus(status) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["n" /* setRoomLoadingStatus */])(status));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["o" /* setSeatSizeRequest */])(roomID, seatSize));
     }
   };
 };
@@ -66102,7 +66115,6 @@ var AbEditRoom = function (_Component) {
       this.setState({
         seatSize: value
       });
-      this.props.setRoomLoadingStatus(true);
       this.props.setSeatSizeRequest(this.props.currentRoom.id, value);
     }
   }, {
@@ -66296,7 +66308,7 @@ function saveTable(tableID, roomID, coords, seatCount) {
   return function (dispatch) {
 
     // first change to loading status
-    dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__app__["h" /* setRoomLoadingStatus */])(true));
+    dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__app__["g" /* setLoadingStatus */])('tables', true));
 
     // first we need to format the coords into the flat, DB-friendly format
     var formattedCoords = { sX: null, sY: null, eX: null, eY: null, qX: null, qY: null };
@@ -66330,7 +66342,7 @@ function saveTable(tableID, roomID, coords, seatCount) {
     }, formattedCoords)).then(function (response) {
       // table succesfully saved, so let's refresh our list with a new Fetch
       dispatch(fetchTables(roomID));
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__app__["h" /* setRoomLoadingStatus */])(false));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__app__["g" /* setLoadingStatus */])("tables", false));
     }).catch(function (error) {
       console.log(error);
     });
@@ -66942,15 +66954,17 @@ function setSeatSize(roomID, seatSize) {
 function setSeatSizeRequest(roomID, seatSize) {
   return function (dispatch) {
 
-    // change the seat size in the store
+    // change the seat size in the room entity in store
     dispatch(setSeatSize(roomID, seatSize));
 
-    // make the call to change it in the DB
+    // update store's currentRoom
+    dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__app__["c" /* findAndSetCurrentRoom */])(roomID));
+
+    // finally, make a background call to change it in the DB
     return axios.post(__WEBPACK_IMPORTED_MODULE_3__index__["i" /* rootUrl */] + 'api/room/update/' + roomID, {
       seat_size: seatSize
-    }).then(function (response) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__app__["c" /* findAndSetCurrentRoom */])(roomID));
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__app__["h" /* setRoomLoadingStatus */])(false));
+    }).catch(function (response) {
+      console.log(response);
     });
   };
 }
@@ -66988,13 +67002,13 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
       dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["a" /* clearTempTable */])());
     },
     setTask: function setTask(status) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["q" /* setTask */])(status));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["p" /* setTask */])(status));
     },
     setPointSelection: function setPointSelection(status) {
       dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["m" /* setPointSelection */])(status));
     },
     setSeatCount: function setSeatCount(count) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["o" /* setSeatCount */])(count));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["n" /* setSeatCount */])(count));
     }
   };
 };
@@ -67243,7 +67257,7 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
   return {
     setTask: function setTask(task) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["q" /* setTask */])(task));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["p" /* setTask */])(task));
     }
   };
 };
@@ -67844,7 +67858,7 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     task: state.app.task,
     tempTable: state.app.tempTable,
     pointSelection: state.app.pointSelection,
-    roomLoading: state.app.roomLoading
+    loading: state.app.loading
   };
 };
 
@@ -67854,7 +67868,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
       dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["d" /* fetchTables */])(roomID));
     },
     setTask: function setTask(task) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["q" /* setTask */])(task));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["p" /* setTask */])(task));
     },
     findAndSetCurrentRoom: function findAndSetCurrentRoom(roomID) {
       dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["f" /* findAndSetCurrentRoom */])(roomID));
@@ -68003,7 +68017,7 @@ var Room = function (_Component) {
         'edit-table': this.props.task === 'edit-table',
         'offering-overview': this.props.task === 'offering-overview',
         'choosing-a-point': this.props.pointSelection,
-        'is-loading': this.props.roomLoading
+        'is-loading': this.props.loading.rooms || this.props.loading.tables || this.props.loading.offerings
       });
 
       var tables = this.props.currentTables.map(function (table) {
@@ -68092,8 +68106,7 @@ Room.propTypes = {
   currentTables: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.array,
   fetchTables: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.func.isRequired,
   setTask: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.func.isRequired,
-  pointSelection: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.any,
-  roomLoading: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.bool.isRequired
+  pointSelection: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.any
 };
 
 /***/ }),
@@ -68125,7 +68138,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
       dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["l" /* selectTable */])(tableID, roomID, seatCount, coords));
     },
     setTask: function setTask(task) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["q" /* setTask */])(task));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["p" /* setTask */])(task));
     },
     setPointSelection: function setPointSelection(pointType) {
       dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["m" /* setPointSelection */])(pointType));
@@ -68386,8 +68399,6 @@ var Grid = function Grid(_ref) {
       var pointType = pointSelection;
       var pointKey = e.target.getAttribute('id');
       if (isBlipActive(pointKey, tempTable)) {
-        console.log('blip was already active');
-        console.log(pointKey, pointType);
         savePointToTempTable(null, pointType);
       } else {
         savePointToTempTable(pointKey, pointType);

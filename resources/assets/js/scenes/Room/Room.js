@@ -93,7 +93,7 @@ export default class Room extends Component {
       'edit-table':this.props.task === 'edit-table',
       'offering-overview':this.props.task === 'offering-overview',
       'choosing-a-point':this.props.pointSelection,
-      'is-loading':this.props.roomLoading
+      'is-loading':this.props.loading.rooms || this.props.loading.tables || this.props.loading.offerings
     })
 
     const tables = this.props.currentTables.map(table =>
@@ -171,5 +171,4 @@ Room.propTypes = {
   fetchTables: PropTypes.func.isRequired,
   setTask: PropTypes.func.isRequired,
   pointSelection: PropTypes.any,
-  roomLoading: PropTypes.bool.isRequired
 }

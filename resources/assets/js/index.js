@@ -12,14 +12,12 @@ const store = createStore(
   rootReducer,
   composeWithDevTools(
     applyMiddleware(
-      thunkMiddleware,
-      // loggerMiddleware,
+      thunkMiddleware
     )
   )
 )
 
-window.store = store
-
+// window.store = store
 store.dispatch(fetchRooms())
 store.dispatch(fetchOfferings('2188'))
 

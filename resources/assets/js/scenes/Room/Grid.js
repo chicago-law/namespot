@@ -8,8 +8,6 @@ const Grid = ({ gridRows, gridColumns, gridRowHeight, gridColumnWidth, pointSele
       const pointType = pointSelection;
       const pointKey = e.target.getAttribute('id');
       if (isBlipActive(pointKey, tempTable)) {
-        console.log('blip was already active');
-        console.log(pointKey, pointType);
         savePointToTempTable(null, pointType)
       } else {
         savePointToTempTable(pointKey, pointType)

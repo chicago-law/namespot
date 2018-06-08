@@ -14,7 +14,6 @@ export default class AbEditRoom extends Component {
     this.setState({
       seatSize:value
     })
-    this.props.setRoomLoadingStatus(true);
     this.props.setSeatSizeRequest(this.props.currentRoom.id, value);
   }
 

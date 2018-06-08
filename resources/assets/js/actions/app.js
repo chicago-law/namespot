@@ -117,12 +117,19 @@ export function setPointSelection(pointType) {
 }
 
 /**
- * ROOM LOADING
+ * LOADING
  */
-export function setRoomLoadingStatus(status) {
+export function setLoadingStatus(loadingType, status) {
   return {
-    type:C.ROOM_LOADING,
+    type:C.SET_LOADING_STATUS,
+    loadingType,
     status
   }
 }
+// export function setRoomLoadingStatus(status) {
+//   return {
+//     type:C.ROOM_LOADING,
+//     status
+//   }
+// }
 

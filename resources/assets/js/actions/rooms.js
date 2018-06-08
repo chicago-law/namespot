@@ -6,7 +6,7 @@ import { normalize } from 'normalizr'
 import * as schema from './schema';
 import C from '../constants';
 import { rootUrl } from './index';
-import { findAndSetCurrentRoom, setRoomLoadingStatus } from './app';
+import { findAndSetCurrentRoom, setLoadingStatus } from './app';
 
 /**
  * ROOMS
@@ -43,17 +43,18 @@ export function setSeatSize(roomID, seatSize) {
 export function setSeatSizeRequest(roomID, seatSize) {
   return (dispatch) => {
 
-    // change the seat size in the store
+    // change the seat size in the room entity in store
     dispatch(setSeatSize(roomID, seatSize))
 
-    // make the call to change it in the DB
+    // update store's currentRoom
+    dispatch(findAndSetCurrentRoom(roomID));
+
+    // finally, make a background call to change it in the DB
     return axios.post(`${rootUrl}api/room/update/${roomID}`, {
       seat_size: seatSize
     })
-      .then(function(response) {
-        dispatch(findAndSetCurrentRoom(roomID));
-        dispatch(setRoomLoadingStatus(false));
-      });
-
+    .catch(function(response) {
+      console.log(response);
+    });
   }
 }

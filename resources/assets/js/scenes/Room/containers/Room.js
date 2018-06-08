@@ -38,7 +38,7 @@ const mapStateToProps = (state, ownProps) => {
     task:state.app.task,
     tempTable:state.app.tempTable,
     pointSelection:state.app.pointSelection,
-    roomLoading:state.app.roomLoading
+    loading:state.app.loading
   }
 }
 
