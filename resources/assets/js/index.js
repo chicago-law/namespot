@@ -4,12 +4,9 @@ import { BrowserRouter } from 'react-router-dom'
 import { createStore, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import thunkMiddleware from 'redux-thunk'
-import { createLogger } from 'redux-logger'
 import rootReducer from './reducers'
 import Root from './global/Root'
 import { fetchOfferings, enterOffering, fetchStudents, fetchRooms } from './actions'
-
-const loggerMiddleware = createLogger()
 
 const store = createStore(
   rootReducer,

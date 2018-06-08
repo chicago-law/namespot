@@ -4,10 +4,17 @@ import { Link } from 'react-router-dom'
 export default class AbEditRoom extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      seatSize:30
+    }
   }
 
   handleSeatSizeChange(e) {
     const value = e.target.value;
+    this.setState({
+      seatSize:value
+    })
+    this.props.setRoomLoadingStatus(true);
     this.props.setSeatSizeRequest(this.props.currentRoom.id, value);
   }
 
@@ -21,11 +28,6 @@ export default class AbEditRoom extends Component {
     this.props.setTask('delete-table');
   }
 
-  componentDidMount() {
-    // dispatch action to set app state in store to 'edit-table'
-    this.props.setTask('edit-room');
-  }
-
   render() {
     return (
       <div className='action-bar action-bar-edit-room'>
@@ -36,16 +38,11 @@ export default class AbEditRoom extends Component {
           <h4>15</h4>
         </div>
 
-        {/* <div className="flex-container description pull-top">
-          <h6>Description</h6>
-          <h4>{this.props.currentRoom.description ? this.props.currentRoom.description : 'Click to add'}<i className="far fa-pencil"></i></h4>
-        </div> */}
-
         <div className="controls">
           <div className="flex-container seat-size">
             <div className='seat-size-slider'>
               <div className='smaller'></div>
-              <input type="range" min="15" max="45" step="3" value={this.props.currentRoom.seat_size || '30'} onChange={(e) => this.handleSeatSizeChange(e)} />
+              <input type="range" min="15" max="45" step="3" value={this.state.seatSize} onChange={(e) => this.handleSeatSizeChange(e)} />
               <div className="larger"></div>
             </div>
             <p><small>Seat Size</small></p>

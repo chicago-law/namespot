@@ -1,18 +1,20 @@
 import { connect } from 'react-redux';
 import Room from '../Room'
 import { withRouter } from 'react-router'
-import { fetchTables, setTask } from '../../../actions'
+import { fetchTables, setTask, findAndSetCurrentRoom, findAndSetCurrentOffering } from '../../../actions'
 
 const mapStateToProps = (state, ownProps) => {
 
-  // current room ID
-  const currentRoomID = ownProps.match.params.roomID;
+  /**
+   * We come here with the URL providing either the Room ID or the Offering ID.
+   * Either way, we need to load up the offering if possible, definitely the room,
+   * and definitely any tables into props
+   */
 
-  // find the current room
-  let currentRoom = {};
-  if (state.entities.rooms[currentRoomID]) {
-    currentRoom = state.entities.rooms[currentRoomID]
-  }
+  // find current room ID either from URL or from currentOffering
+  const params = ownProps.match.params;
+  const currentOfferingID = params.offeringID ? params.offeringID : null;
+  const currentRoomID = params.roomID ? params.roomID : currentOfferingID ? state.entities.offerings[currentOfferingID] ? state.entities.offerings[currentOfferingID].room_id : null : null;
 
   // find all tables that belong to this room
   let currentTables = [];
@@ -28,8 +30,11 @@ const mapStateToProps = (state, ownProps) => {
   }
 
   return {
-    currentRoom,
+    currentRoomID,
+    currentOfferingID,
     currentTables,
+    currentRoom:state.app.currentRoom,
+    currentOffering:state.app.currentOffering,
     task:state.app.task,
     tempTable:state.app.tempTable,
     pointSelection:state.app.pointSelection,
@@ -39,14 +44,17 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // savePointToTempTable: (key, pointType) => {
-    //   dispatch(selectPoint(key, pointType))
-    // },
     fetchTables:(roomID) => {
       dispatch(fetchTables(roomID))
     },
     setTask:(task) => {
       dispatch(setTask(task))
+    },
+    findAndSetCurrentRoom:(roomID) => {
+      dispatch(findAndSetCurrentRoom(roomID))
+    },
+    findAndSetCurrentOffering:(offeringID) => {
+      dispatch(findAndSetCurrentOffering(offeringID))
     }
   }
 }

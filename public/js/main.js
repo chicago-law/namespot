@@ -511,26 +511,29 @@ module.exports = function (NAME, exec) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return rootUrl; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return rootUrl; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tables__ = __webpack_require__(486);
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_0__tables__["a"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_0__tables__["b"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "i", function() { return __WEBPACK_IMPORTED_MODULE_0__tables__["c"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_0__tables__["b"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "k", function() { return __WEBPACK_IMPORTED_MODULE_0__tables__["c"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__students__ = __webpack_require__(492);
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__offerings__ = __webpack_require__(493);
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_2__offerings__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__rooms__ = __webpack_require__(494);
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_3__rooms__["a"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "m", function() { return __WEBPACK_IMPORTED_MODULE_3__rooms__["b"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "p", function() { return __WEBPACK_IMPORTED_MODULE_3__rooms__["b"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app__ = __webpack_require__(183);
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["a"]; });
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["b"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["c"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "j", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["d"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "k", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["e"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "l", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["g"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["c"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["d"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "j", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["e"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "l", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["f"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "m", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["g"]; });
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "n", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["h"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "o", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["i"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "q", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["j"]; });
 
 
 
@@ -2058,7 +2061,9 @@ var constants = {
   RECEIVE_ROOMS: 'RECEIVE_ROOMS',
   RECEIVE_TABLES: 'RECEIVE_TABLES',
   REMOVE_TABLE: 'REMOVE_TABLE',
-  ROOM_LOADING: 'ROOM_LOADING'
+  ROOM_LOADING: 'ROOM_LOADING',
+  SET_CURRENT_ROOM: 'SET_CURRENT_ROOM',
+  SET_CURRENT_OFFERING: 'SET_CURRENT_OFFERING'
 };
 
 /* harmony default export */ __webpack_exports__["a"] = (constants);
@@ -2075,7 +2080,7 @@ var constants = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Redirect__ = __webpack_require__(172);
 /* unused harmony reexport Redirect */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Route__ = __webpack_require__(120);
-/* unused harmony reexport Route */
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_3__Route__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Router__ = __webpack_require__(81);
 /* unused harmony reexport Router */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__StaticRouter__ = __webpack_require__(174);
@@ -2085,7 +2090,7 @@ var constants = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__matchPath__ = __webpack_require__(82);
 /* unused harmony reexport matchPath */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__withRouter__ = __webpack_require__(176);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_8__withRouter__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_8__withRouter__["a"]; });
 
 
 
@@ -8422,14 +8427,18 @@ var Symbol = __WEBPACK_IMPORTED_MODULE_0__root_js__["a" /* default */].Symbol;
 
 "use strict";
 /* unused harmony export setRoomStatus */
-/* harmony export (immutable) */ __webpack_exports__["h"] = setTask;
-/* harmony export (immutable) */ __webpack_exports__["b"] = newTable;
-/* harmony export (immutable) */ __webpack_exports__["d"] = selectTable;
-/* harmony export (immutable) */ __webpack_exports__["g"] = setSeatCount;
-/* harmony export (immutable) */ __webpack_exports__["c"] = savePointToTempTable;
+/* harmony export (immutable) */ __webpack_exports__["c"] = findAndSetCurrentRoom;
+/* unused harmony export setCurrentRoom */
+/* harmony export (immutable) */ __webpack_exports__["b"] = findAndSetCurrentOffering;
+/* unused harmony export setCurrentOffering */
+/* harmony export (immutable) */ __webpack_exports__["j"] = setTask;
+/* harmony export (immutable) */ __webpack_exports__["d"] = newTable;
+/* harmony export (immutable) */ __webpack_exports__["f"] = selectTable;
+/* harmony export (immutable) */ __webpack_exports__["i"] = setSeatCount;
+/* harmony export (immutable) */ __webpack_exports__["e"] = savePointToTempTable;
 /* harmony export (immutable) */ __webpack_exports__["a"] = clearTempTable;
-/* harmony export (immutable) */ __webpack_exports__["e"] = setPointSelection;
-/* harmony export (immutable) */ __webpack_exports__["f"] = setRoomLoadingStatus;
+/* harmony export (immutable) */ __webpack_exports__["g"] = setPointSelection;
+/* harmony export (immutable) */ __webpack_exports__["h"] = setRoomLoadingStatus;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants__ = __webpack_require__(55);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_normalizr__ = __webpack_require__(57);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_normalizr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_normalizr__);
@@ -8452,6 +8461,40 @@ function setRoomStatus(status) {
   return {
     type: __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* default */].SET_ROOM_STATUS,
     status: status
+  };
+}
+
+/**
+ * currentRoom
+ */
+function findAndSetCurrentRoom(roomID) {
+  return function (dispatch, getState) {
+    if (getState().entities.rooms[roomID]) {
+      dispatch(setCurrentRoom(getState().entities.rooms[roomID]));
+    }
+  };
+}
+function setCurrentRoom(room) {
+  return {
+    type: __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* default */].SET_CURRENT_ROOM,
+    room: room
+  };
+}
+
+/**
+ * currentOffering
+ */
+function findAndSetCurrentOffering(offeringID) {
+  return function (dispatch, getState) {
+    if (getState().entities.offerings[offeringID]) {
+      dispatch(setCurrentOffering(getState().entities.offerings[offeringID]));
+    }
+  };
+}
+function setCurrentOffering(offering) {
+  return {
+    type: __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* default */].SET_CURRENT_OFFERING,
+    offering: offering
   };
 }
 
@@ -42784,11 +42827,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_redux_devtools_extension___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_redux_devtools_extension__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_redux_thunk__ = __webpack_require__(451);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_redux_thunk___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_redux_thunk__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_redux_logger__ = __webpack_require__(452);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_redux_logger___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_redux_logger__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__reducers__ = __webpack_require__(453);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__global_Root__ = __webpack_require__(454);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__actions__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__reducers__ = __webpack_require__(453);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__global_Root__ = __webpack_require__(454);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__actions__ = __webpack_require__(19);
 
 
 
@@ -42799,22 +42840,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-
-var loggerMiddleware = Object(__WEBPACK_IMPORTED_MODULE_6_redux_logger__["createLogger"])();
-
-var store = Object(__WEBPACK_IMPORTED_MODULE_3_redux__["createStore"])(__WEBPACK_IMPORTED_MODULE_7__reducers__["a" /* default */], Object(__WEBPACK_IMPORTED_MODULE_4_redux_devtools_extension__["composeWithDevTools"])(Object(__WEBPACK_IMPORTED_MODULE_3_redux__["applyMiddleware"])(__WEBPACK_IMPORTED_MODULE_5_redux_thunk___default.a
+var store = Object(__WEBPACK_IMPORTED_MODULE_3_redux__["createStore"])(__WEBPACK_IMPORTED_MODULE_6__reducers__["a" /* default */], Object(__WEBPACK_IMPORTED_MODULE_4_redux_devtools_extension__["composeWithDevTools"])(Object(__WEBPACK_IMPORTED_MODULE_3_redux__["applyMiddleware"])(__WEBPACK_IMPORTED_MODULE_5_redux_thunk___default.a
 // loggerMiddleware,
 )));
 
 window.store = store;
 
-store.dispatch(Object(__WEBPACK_IMPORTED_MODULE_9__actions__["c" /* fetchRooms */])());
-store.dispatch(Object(__WEBPACK_IMPORTED_MODULE_9__actions__["b" /* fetchOfferings */])('2188'));
+store.dispatch(Object(__WEBPACK_IMPORTED_MODULE_8__actions__["c" /* fetchRooms */])());
+store.dispatch(Object(__WEBPACK_IMPORTED_MODULE_8__actions__["b" /* fetchOfferings */])('2188'));
 
 Object(__WEBPACK_IMPORTED_MODULE_1_react_dom__["render"])(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
   __WEBPACK_IMPORTED_MODULE_2_react_router_dom__["a" /* BrowserRouter */],
   { basename: '/namespot/public/' },
-  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__global_Root__["a" /* default */], { store: store })
+  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__global_Root__["a" /* default */], { store: store })
 ), document.getElementById('root'));
 
 /***/ }),
@@ -64411,14 +64449,7 @@ thunk.withExtraArgument = createThunkMiddleware;
 exports['default'] = thunk;
 
 /***/ }),
-/* 452 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {!function(e,t){ true?t(exports):"function"==typeof define&&define.amd?define(["exports"],t):t(e.reduxLogger=e.reduxLogger||{})}(this,function(e){"use strict";function t(e,t){e.super_=t,e.prototype=Object.create(t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}})}function r(e,t){Object.defineProperty(this,"kind",{value:e,enumerable:!0}),t&&t.length&&Object.defineProperty(this,"path",{value:t,enumerable:!0})}function n(e,t,r){n.super_.call(this,"E",e),Object.defineProperty(this,"lhs",{value:t,enumerable:!0}),Object.defineProperty(this,"rhs",{value:r,enumerable:!0})}function o(e,t){o.super_.call(this,"N",e),Object.defineProperty(this,"rhs",{value:t,enumerable:!0})}function i(e,t){i.super_.call(this,"D",e),Object.defineProperty(this,"lhs",{value:t,enumerable:!0})}function a(e,t,r){a.super_.call(this,"A",e),Object.defineProperty(this,"index",{value:t,enumerable:!0}),Object.defineProperty(this,"item",{value:r,enumerable:!0})}function f(e,t,r){var n=e.slice((r||t)+1||e.length);return e.length=t<0?e.length+t:t,e.push.apply(e,n),e}function u(e){var t="undefined"==typeof e?"undefined":N(e);return"object"!==t?t:e===Math?"math":null===e?"null":Array.isArray(e)?"array":"[object Date]"===Object.prototype.toString.call(e)?"date":"function"==typeof e.toString&&/^\/.*\//.test(e.toString())?"regexp":"object"}function l(e,t,r,c,s,d,p){s=s||[],p=p||[];var g=s.slice(0);if("undefined"!=typeof d){if(c){if("function"==typeof c&&c(g,d))return;if("object"===("undefined"==typeof c?"undefined":N(c))){if(c.prefilter&&c.prefilter(g,d))return;if(c.normalize){var h=c.normalize(g,d,e,t);h&&(e=h[0],t=h[1])}}}g.push(d)}"regexp"===u(e)&&"regexp"===u(t)&&(e=e.toString(),t=t.toString());var y="undefined"==typeof e?"undefined":N(e),v="undefined"==typeof t?"undefined":N(t),b="undefined"!==y||p&&p[p.length-1].lhs&&p[p.length-1].lhs.hasOwnProperty(d),m="undefined"!==v||p&&p[p.length-1].rhs&&p[p.length-1].rhs.hasOwnProperty(d);if(!b&&m)r(new o(g,t));else if(!m&&b)r(new i(g,e));else if(u(e)!==u(t))r(new n(g,e,t));else if("date"===u(e)&&e-t!==0)r(new n(g,e,t));else if("object"===y&&null!==e&&null!==t)if(p.filter(function(t){return t.lhs===e}).length)e!==t&&r(new n(g,e,t));else{if(p.push({lhs:e,rhs:t}),Array.isArray(e)){var w;e.length;for(w=0;w<e.length;w++)w>=t.length?r(new a(g,w,new i(void 0,e[w]))):l(e[w],t[w],r,c,g,w,p);for(;w<t.length;)r(new a(g,w,new o(void 0,t[w++])))}else{var x=Object.keys(e),S=Object.keys(t);x.forEach(function(n,o){var i=S.indexOf(n);i>=0?(l(e[n],t[n],r,c,g,n,p),S=f(S,i)):l(e[n],void 0,r,c,g,n,p)}),S.forEach(function(e){l(void 0,t[e],r,c,g,e,p)})}p.length=p.length-1}else e!==t&&("number"===y&&isNaN(e)&&isNaN(t)||r(new n(g,e,t)))}function c(e,t,r,n){return n=n||[],l(e,t,function(e){e&&n.push(e)},r),n.length?n:void 0}function s(e,t,r){if(r.path&&r.path.length){var n,o=e[t],i=r.path.length-1;for(n=0;n<i;n++)o=o[r.path[n]];switch(r.kind){case"A":s(o[r.path[n]],r.index,r.item);break;case"D":delete o[r.path[n]];break;case"E":case"N":o[r.path[n]]=r.rhs}}else switch(r.kind){case"A":s(e[t],r.index,r.item);break;case"D":e=f(e,t);break;case"E":case"N":e[t]=r.rhs}return e}function d(e,t,r){if(e&&t&&r&&r.kind){for(var n=e,o=-1,i=r.path?r.path.length-1:0;++o<i;)"undefined"==typeof n[r.path[o]]&&(n[r.path[o]]="number"==typeof r.path[o]?[]:{}),n=n[r.path[o]];switch(r.kind){case"A":s(r.path?n[r.path[o]]:n,r.index,r.item);break;case"D":delete n[r.path[o]];break;case"E":case"N":n[r.path[o]]=r.rhs}}}function p(e,t,r){if(r.path&&r.path.length){var n,o=e[t],i=r.path.length-1;for(n=0;n<i;n++)o=o[r.path[n]];switch(r.kind){case"A":p(o[r.path[n]],r.index,r.item);break;case"D":o[r.path[n]]=r.lhs;break;case"E":o[r.path[n]]=r.lhs;break;case"N":delete o[r.path[n]]}}else switch(r.kind){case"A":p(e[t],r.index,r.item);break;case"D":e[t]=r.lhs;break;case"E":e[t]=r.lhs;break;case"N":e=f(e,t)}return e}function g(e,t,r){if(e&&t&&r&&r.kind){var n,o,i=e;for(o=r.path.length-1,n=0;n<o;n++)"undefined"==typeof i[r.path[n]]&&(i[r.path[n]]={}),i=i[r.path[n]];switch(r.kind){case"A":p(i[r.path[n]],r.index,r.item);break;case"D":i[r.path[n]]=r.lhs;break;case"E":i[r.path[n]]=r.lhs;break;case"N":delete i[r.path[n]]}}}function h(e,t,r){if(e&&t){var n=function(n){r&&!r(e,t,n)||d(e,t,n)};l(e,t,n)}}function y(e){return"color: "+F[e].color+"; font-weight: bold"}function v(e){var t=e.kind,r=e.path,n=e.lhs,o=e.rhs,i=e.index,a=e.item;switch(t){case"E":return[r.join("."),n,"→",o];case"N":return[r.join("."),o];case"D":return[r.join(".")];case"A":return[r.join(".")+"["+i+"]",a];default:return[]}}function b(e,t,r,n){var o=c(e,t);try{n?r.groupCollapsed("diff"):r.group("diff")}catch(e){r.log("diff")}o?o.forEach(function(e){var t=e.kind,n=v(e);r.log.apply(r,["%c "+F[t].text,y(t)].concat(P(n)))}):r.log("—— no diff ——");try{r.groupEnd()}catch(e){r.log("—— diff end —— ")}}function m(e,t,r,n){switch("undefined"==typeof e?"undefined":N(e)){case"object":return"function"==typeof e[n]?e[n].apply(e,P(r)):e[n];case"function":return e(t);default:return e}}function w(e){var t=e.timestamp,r=e.duration;return function(e,n,o){var i=["action"];return i.push("%c"+String(e.type)),t&&i.push("%c@ "+n),r&&i.push("%c(in "+o.toFixed(2)+" ms)"),i.join(" ")}}function x(e,t){var r=t.logger,n=t.actionTransformer,o=t.titleFormatter,i=void 0===o?w(t):o,a=t.collapsed,f=t.colors,u=t.level,l=t.diff,c="undefined"==typeof t.titleFormatter;e.forEach(function(o,s){var d=o.started,p=o.startedTime,g=o.action,h=o.prevState,y=o.error,v=o.took,w=o.nextState,x=e[s+1];x&&(w=x.prevState,v=x.started-d);var S=n(g),k="function"==typeof a?a(function(){return w},g,o):a,j=D(p),E=f.title?"color: "+f.title(S)+";":"",A=["color: gray; font-weight: lighter;"];A.push(E),t.timestamp&&A.push("color: gray; font-weight: lighter;"),t.duration&&A.push("color: gray; font-weight: lighter;");var O=i(S,j,v);try{k?f.title&&c?r.groupCollapsed.apply(r,["%c "+O].concat(A)):r.groupCollapsed(O):f.title&&c?r.group.apply(r,["%c "+O].concat(A)):r.group(O)}catch(e){r.log(O)}var N=m(u,S,[h],"prevState"),P=m(u,S,[S],"action"),C=m(u,S,[y,h],"error"),F=m(u,S,[w],"nextState");if(N)if(f.prevState){var L="color: "+f.prevState(h)+"; font-weight: bold";r[N]("%c prev state",L,h)}else r[N]("prev state",h);if(P)if(f.action){var T="color: "+f.action(S)+"; font-weight: bold";r[P]("%c action    ",T,S)}else r[P]("action    ",S);if(y&&C)if(f.error){var M="color: "+f.error(y,h)+"; font-weight: bold;";r[C]("%c error     ",M,y)}else r[C]("error     ",y);if(F)if(f.nextState){var _="color: "+f.nextState(w)+"; font-weight: bold";r[F]("%c next state",_,w)}else r[F]("next state",w);l&&b(h,w,r,k);try{r.groupEnd()}catch(e){r.log("—— log end ——")}})}function S(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},t=Object.assign({},L,e),r=t.logger,n=t.stateTransformer,o=t.errorTransformer,i=t.predicate,a=t.logErrors,f=t.diffPredicate;if("undefined"==typeof r)return function(){return function(e){return function(t){return e(t)}}};if(e.getState&&e.dispatch)return console.error("[redux-logger] redux-logger not installed. Make sure to pass logger instance as middleware:\n// Logger with default options\nimport { logger } from 'redux-logger'\nconst store = createStore(\n  reducer,\n  applyMiddleware(logger)\n)\n// Or you can create your own logger with custom options http://bit.ly/redux-logger-options\nimport createLogger from 'redux-logger'\nconst logger = createLogger({\n  // ...options\n});\nconst store = createStore(\n  reducer,\n  applyMiddleware(logger)\n)\n"),function(){return function(e){return function(t){return e(t)}}};var u=[];return function(e){var r=e.getState;return function(e){return function(l){if("function"==typeof i&&!i(r,l))return e(l);var c={};u.push(c),c.started=O.now(),c.startedTime=new Date,c.prevState=n(r()),c.action=l;var s=void 0;if(a)try{s=e(l)}catch(e){c.error=o(e)}else s=e(l);c.took=O.now()-c.started,c.nextState=n(r());var d=t.diff&&"function"==typeof f?f(r,l):t.diff;if(x(u,Object.assign({},t,{diff:d})),u.length=0,c.error)throw c.error;return s}}}}var k,j,E=function(e,t){return new Array(t+1).join(e)},A=function(e,t){return E("0",t-e.toString().length)+e},D=function(e){return A(e.getHours(),2)+":"+A(e.getMinutes(),2)+":"+A(e.getSeconds(),2)+"."+A(e.getMilliseconds(),3)},O="undefined"!=typeof performance&&null!==performance&&"function"==typeof performance.now?performance:Date,N="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},P=function(e){if(Array.isArray(e)){for(var t=0,r=Array(e.length);t<e.length;t++)r[t]=e[t];return r}return Array.from(e)},C=[];k="object"===("undefined"==typeof global?"undefined":N(global))&&global?global:"undefined"!=typeof window?window:{},j=k.DeepDiff,j&&C.push(function(){"undefined"!=typeof j&&k.DeepDiff===c&&(k.DeepDiff=j,j=void 0)}),t(n,r),t(o,r),t(i,r),t(a,r),Object.defineProperties(c,{diff:{value:c,enumerable:!0},observableDiff:{value:l,enumerable:!0},applyDiff:{value:h,enumerable:!0},applyChange:{value:d,enumerable:!0},revertChange:{value:g,enumerable:!0},isConflict:{value:function(){return"undefined"!=typeof j},enumerable:!0},noConflict:{value:function(){return C&&(C.forEach(function(e){e()}),C=null),c},enumerable:!0}});var F={E:{color:"#2196F3",text:"CHANGED:"},N:{color:"#4CAF50",text:"ADDED:"},D:{color:"#F44336",text:"DELETED:"},A:{color:"#2196F3",text:"ARRAY:"}},L={level:"log",logger:console,logErrors:!0,collapsed:void 0,predicate:void 0,duration:!1,timestamp:!0,stateTransformer:function(e){return e},actionTransformer:function(e){return e},errorTransformer:function(e){return e},colors:{title:function(){return"inherit"},prevState:function(){return"#9E9E9E"},action:function(){return"#03A9F4"},nextState:function(){return"#4CAF50"},error:function(){return"#F20404"}},diff:!1,diffPredicate:void 0,transformer:void 0},T=function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},t=e.dispatch,r=e.getState;return"function"==typeof t||"function"==typeof r?S()({dispatch:t,getState:r}):void console.error("\n[redux-logger v3] BREAKING CHANGE\n[redux-logger v3] Since 3.0.0 redux-logger exports by default logger with default settings.\n[redux-logger v3] Change\n[redux-logger v3] import createLogger from 'redux-logger'\n[redux-logger v3] to\n[redux-logger v3] import { createLogger } from 'redux-logger'\n")};e.defaults=L,e.createLogger=S,e.logger=T,e.default=T,Object.defineProperty(e,"__esModule",{value:!0})});
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(50)))
-
-/***/ }),
+/* 452 */,
 /* 453 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -64442,6 +64473,47 @@ var roomStatus = function roomStatus() {
   switch (action.type) {
     case __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* default */].SET_ROOM_STATUS:
       return action.status;
+    default:
+      return state;
+  }
+};
+
+/**
+ * app / currentRoom
+ */
+var currentRoom = function currentRoom() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+    id: null,
+    name: null,
+    seat_size: null
+  };
+  var action = arguments[1];
+
+  switch (action.type) {
+    case __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* default */].SET_CURRENT_ROOM:
+      return action.room;
+    default:
+      return state;
+  }
+};
+
+/**
+ * app / currentOffering
+ */
+var currentOffering = function currentOffering() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+    course_num: null,
+    id: null,
+    instructors: [],
+    name: null,
+    room_id: null,
+    students: []
+  };
+  var action = arguments[1];
+
+  switch (action.type) {
+    case __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* default */].SET_CURRENT_OFFERING:
+      return action.offering;
     default:
       return state;
   }
@@ -64603,6 +64675,8 @@ var tables = function tables() {
 var rootReducer = Object(__WEBPACK_IMPORTED_MODULE_0_redux__["combineReducers"])({
   app: Object(__WEBPACK_IMPORTED_MODULE_0_redux__["combineReducers"])({
     roomStatus: roomStatus,
+    currentRoom: currentRoom,
+    currentOffering: currentOffering,
     task: task,
     tempTable: tempTable,
     pointSelection: pointSelection,
@@ -65748,12 +65822,8 @@ var BanEditRoom = function BanEditRoom(_ref) {
 
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
-  var currentOffering = void 0;
-  if (state.entities.offerings[ownProps.match.params.id]) {
-    currentOffering = state.entities.offerings[ownProps.match.params.id];
-  }
   return {
-    currentOffering: currentOffering
+    currentOffering: state.app.currentOffering
   };
 };
 
@@ -65963,34 +66033,32 @@ var ActionBar = function (_Component) {
 
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
-  var currentRoom = {};
-  if (state.entities.rooms[ownProps.match.params.roomID]) {
-    currentRoom = state.entities.rooms[ownProps.match.params.roomID];
-  }
   return {
-    currentRoom: currentRoom
-    // match:ownProps.match
+    currentRoom: state.app.currentRoom
   };
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
   return {
     newTable: function newTable() {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["e" /* newTable */])());
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["g" /* newTable */])());
     },
     setTask: function setTask(status) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["n" /* setTask */])(status));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["q" /* setTask */])(status));
     },
     setPointSelection: function setPointSelection(status) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["k" /* setPointSelection */])(status));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["m" /* setPointSelection */])(status));
     },
     setSeatSizeRequest: function setSeatSizeRequest(roomID, seatSize) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["m" /* setSeatSizeRequest */])(roomID, seatSize));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["p" /* setSeatSizeRequest */])(roomID, seatSize));
+    },
+    setRoomLoadingStatus: function setRoomLoadingStatus(status) {
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["n" /* setRoomLoadingStatus */])(status));
     }
   };
 };
 
-var AbEditRoomContainer = Object(__WEBPACK_IMPORTED_MODULE_1_react_router__["a" /* withRouter */])(Object(__WEBPACK_IMPORTED_MODULE_0_react_redux__["b" /* connect */])(mapStateToProps, mapDispatchToProps)(__WEBPACK_IMPORTED_MODULE_2__AbEditRoom__["a" /* default */]));
+var AbEditRoomContainer = Object(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* withRouter */])(Object(__WEBPACK_IMPORTED_MODULE_0_react_redux__["b" /* connect */])(mapStateToProps, mapDispatchToProps)(__WEBPACK_IMPORTED_MODULE_2__AbEditRoom__["a" /* default */]));
 
 /* harmony default export */ __webpack_exports__["a"] = (AbEditRoomContainer);
 
@@ -66019,13 +66087,22 @@ var AbEditRoom = function (_Component) {
   function AbEditRoom(props) {
     _classCallCheck(this, AbEditRoom);
 
-    return _possibleConstructorReturn(this, (AbEditRoom.__proto__ || Object.getPrototypeOf(AbEditRoom)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (AbEditRoom.__proto__ || Object.getPrototypeOf(AbEditRoom)).call(this, props));
+
+    _this.state = {
+      seatSize: 30
+    };
+    return _this;
   }
 
   _createClass(AbEditRoom, [{
     key: 'handleSeatSizeChange',
     value: function handleSeatSizeChange(e) {
       var value = e.target.value;
+      this.setState({
+        seatSize: value
+      });
+      this.props.setRoomLoadingStatus(true);
       this.props.setSeatSizeRequest(this.props.currentRoom.id, value);
     }
   }, {
@@ -66039,12 +66116,6 @@ var AbEditRoom = function (_Component) {
     key: 'handleDeleteClick',
     value: function handleDeleteClick() {
       this.props.setTask('delete-table');
-    }
-  }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      // dispatch action to set app state in store to 'edit-table'
-      this.props.setTask('edit-room');
     }
   }, {
     key: 'render',
@@ -66089,7 +66160,7 @@ var AbEditRoom = function (_Component) {
               'div',
               { className: 'seat-size-slider' },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'smaller' }),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'range', min: '15', max: '45', step: '3', value: this.props.currentRoom.seat_size || '30', onChange: function onChange(e) {
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'range', min: '15', max: '45', step: '3', value: this.state.seatSize, onChange: function onChange(e) {
                   return _this2.handleSeatSizeChange(e);
                 } }),
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'larger' })
@@ -66208,7 +66279,7 @@ function receiveTables(response) {
 // fetch the tables from DB
 function fetchTables(roomID) {
   return function (dispatch) {
-    return axios.get(__WEBPACK_IMPORTED_MODULE_2__index__["g" /* rootUrl */] + 'api/tables/' + roomID).then(function (response) {
+    return axios.get(__WEBPACK_IMPORTED_MODULE_2__index__["i" /* rootUrl */] + 'api/tables/' + roomID).then(function (response) {
       // tables downloaded, now load them into state and clear the tempTable
       if (response.data.length) {
         var normalizedData = Object(__WEBPACK_IMPORTED_MODULE_0_normalizr__["normalize"])(response.data, __WEBPACK_IMPORTED_MODULE_1__schema__["d" /* tableListSchema */]);
@@ -66225,7 +66296,7 @@ function saveTable(tableID, roomID, coords, seatCount) {
   return function (dispatch) {
 
     // first change to loading status
-    dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__app__["f" /* setRoomLoadingStatus */])(true));
+    dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__app__["h" /* setRoomLoadingStatus */])(true));
 
     // first we need to format the coords into the flat, DB-friendly format
     var formattedCoords = { sX: null, sY: null, eX: null, eY: null, qX: null, qY: null };
@@ -66252,14 +66323,14 @@ function saveTable(tableID, roomID, coords, seatCount) {
     }
 
     // now make the call
-    return axios.post(__WEBPACK_IMPORTED_MODULE_2__index__["g" /* rootUrl */] + 'api/table/update', _extends({
+    return axios.post(__WEBPACK_IMPORTED_MODULE_2__index__["i" /* rootUrl */] + 'api/table/update', _extends({
       id: tableID,
       room_id: roomID,
       seat_count: seatCount
     }, formattedCoords)).then(function (response) {
       // table succesfully saved, so let's refresh our list with a new Fetch
       dispatch(fetchTables(roomID));
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__app__["f" /* setRoomLoadingStatus */])(false));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__app__["h" /* setRoomLoadingStatus */])(false));
     }).catch(function (error) {
       console.log(error);
     });
@@ -66272,7 +66343,7 @@ function removeTableRequest(tableID) {
     dispatch(removeTable(tableID));
 
     // now make call to actually delete from the DB
-    return axios.delete(__WEBPACK_IMPORTED_MODULE_2__index__["g" /* rootUrl */] + 'api/table/' + tableID).then(function (response) {
+    return axios.delete(__WEBPACK_IMPORTED_MODULE_2__index__["i" /* rootUrl */] + 'api/table/' + tableID).then(function (response) {
       console.log(response);
     }).catch(function (error) {
       console.log(error);
@@ -66763,7 +66834,7 @@ function fetchStudents(offering_id) {
   return function (dispatch) {
 
     // make the call
-    return axios.get(__WEBPACK_IMPORTED_MODULE_3__index__["g" /* rootUrl */] + 'api/enrollment/' + offering_id).then(function (response) {
+    return axios.get(__WEBPACK_IMPORTED_MODULE_3__index__["i" /* rootUrl */] + 'api/enrollment/' + offering_id).then(function (response) {
       var normalizedData = Object(__WEBPACK_IMPORTED_MODULE_0_normalizr__["normalize"])(response.data, __WEBPACK_IMPORTED_MODULE_1__schema__["c" /* studentListSchema */]);
       dispatch(receiveStudents(normalizedData.entities));
     }).catch(function (error) {
@@ -66804,7 +66875,7 @@ function fetchOfferings(termCode) {
   return function (dispatch) {
 
     // now make the actual call
-    return axios.get(__WEBPACK_IMPORTED_MODULE_3__index__["g" /* rootUrl */] + 'api/offerings/' + termCode).then(function (response) {
+    return axios.get(__WEBPACK_IMPORTED_MODULE_3__index__["i" /* rootUrl */] + 'api/offerings/' + termCode).then(function (response) {
       var normalizedData = response.data.length ? Object(__WEBPACK_IMPORTED_MODULE_0_normalizr__["normalize"])(response.data, __WEBPACK_IMPORTED_MODULE_1__schema__["a" /* offeringListSchema */]) : null;
       dispatch(receiveOfferings(normalizedData.entities));
     }).catch(function (error) {
@@ -66827,9 +66898,11 @@ function fetchOfferings(termCode) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__schema__ = __webpack_require__(63);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__constants__ = __webpack_require__(55);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__index__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app__ = __webpack_require__(183);
 /**
  * For room entities
  */
+
 
 
 
@@ -66851,7 +66924,7 @@ function fetchRooms() {
   return function (dispatch) {
 
     // make the call
-    return axios.get(__WEBPACK_IMPORTED_MODULE_3__index__["g" /* rootUrl */] + 'api/rooms').then(function (response) {
+    return axios.get(__WEBPACK_IMPORTED_MODULE_3__index__["i" /* rootUrl */] + 'api/rooms').then(function (response) {
       var normalizedData = Object(__WEBPACK_IMPORTED_MODULE_0_normalizr__["normalize"])(response.data, __WEBPACK_IMPORTED_MODULE_1__schema__["b" /* roomListSchema */]);
       dispatch(receiveRooms(normalizedData.entities));
     }).catch(function (error) {
@@ -66873,10 +66946,11 @@ function setSeatSizeRequest(roomID, seatSize) {
     dispatch(setSeatSize(roomID, seatSize));
 
     // make the call to change it in the DB
-    return axios.post(__WEBPACK_IMPORTED_MODULE_3__index__["g" /* rootUrl */] + 'api/room/update/' + roomID, {
+    return axios.post(__WEBPACK_IMPORTED_MODULE_3__index__["i" /* rootUrl */] + 'api/room/update/' + roomID, {
       seat_size: seatSize
     }).then(function (response) {
-      // console.log(response);
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__app__["c" /* findAndSetCurrentRoom */])(roomID));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__app__["h" /* setRoomLoadingStatus */])(false));
     });
   };
 }
@@ -66896,12 +66970,8 @@ function setSeatSizeRequest(roomID, seatSize) {
 
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
-  var currentRoom = {};
-  if (state.entities.rooms[ownProps.roomID]) {
-    currentRoom = state.entities.rooms[ownProps.roomID];
-  }
   return {
-    currentRoom: currentRoom,
+    currentRoom: state.app.currentRoom,
     roomStatus: state.app.roomStatus,
     task: state.app.task,
     tempTable: state.app.tempTable,
@@ -66912,24 +66982,24 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     saveTable: function saveTable(tableID, roomID, coords, seatCount) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["i" /* saveTable */])(tableID, roomID, coords, seatCount));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["k" /* saveTable */])(tableID, roomID, coords, seatCount));
     },
     clearTempTable: function clearTempTable() {
       dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["a" /* clearTempTable */])());
     },
     setTask: function setTask(status) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["n" /* setTask */])(status));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["q" /* setTask */])(status));
     },
     setPointSelection: function setPointSelection(status) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["k" /* setPointSelection */])(status));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["m" /* setPointSelection */])(status));
     },
     setSeatCount: function setSeatCount(count) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["l" /* setSeatCount */])(count));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["o" /* setSeatCount */])(count));
     }
   };
 };
 
-var AbEditTableContainer = Object(__WEBPACK_IMPORTED_MODULE_1_react_router__["a" /* withRouter */])(Object(__WEBPACK_IMPORTED_MODULE_0_react_redux__["b" /* connect */])(mapStateToProps, mapDispatchToProps)(__WEBPACK_IMPORTED_MODULE_2__AbEditTable__["a" /* default */]));
+var AbEditTableContainer = Object(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* withRouter */])(Object(__WEBPACK_IMPORTED_MODULE_0_react_redux__["b" /* connect */])(mapStateToProps, mapDispatchToProps)(__WEBPACK_IMPORTED_MODULE_2__AbEditTable__["a" /* default */]));
 
 /* harmony default export */ __webpack_exports__["a"] = (AbEditTableContainer);
 
@@ -67173,7 +67243,7 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
   return {
     setTask: function setTask(task) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["n" /* setTask */])(task));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["q" /* setTask */])(task));
     }
   };
 };
@@ -67255,7 +67325,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   };
 };
 
-var AbOfferingOverviewContainer = Object(__WEBPACK_IMPORTED_MODULE_1_react_router__["a" /* withRouter */])(Object(__WEBPACK_IMPORTED_MODULE_0_react_redux__["b" /* connect */])(mapStateToProps, mapDispatchToProps)(__WEBPACK_IMPORTED_MODULE_2__AbOfferingOverview__["a" /* default */]));
+var AbOfferingOverviewContainer = Object(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* withRouter */])(Object(__WEBPACK_IMPORTED_MODULE_0_react_redux__["b" /* connect */])(mapStateToProps, mapDispatchToProps)(__WEBPACK_IMPORTED_MODULE_2__AbOfferingOverview__["a" /* default */]));
 
 /* harmony default export */ __webpack_exports__["a"] = (AbOfferingOverviewContainer);
 
@@ -67741,14 +67811,16 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
 
-  // current room ID
-  var currentRoomID = ownProps.match.params.roomID;
+  /**
+   * We come here with the URL providing either the Room ID or the Offering ID.
+   * Either way, we need to load up the offering if possible, definitely the room,
+   * and definitely any tables into props
+   */
 
-  // find the current room
-  var currentRoom = {};
-  if (state.entities.rooms[currentRoomID]) {
-    currentRoom = state.entities.rooms[currentRoomID];
-  }
+  // find current room ID either from URL or from currentOffering
+  var params = ownProps.match.params;
+  var currentOfferingID = params.offeringID ? params.offeringID : null;
+  var currentRoomID = params.roomID ? params.roomID : currentOfferingID ? state.entities.offerings[currentOfferingID] ? state.entities.offerings[currentOfferingID].room_id : null : null;
 
   // find all tables that belong to this room
   var currentTables = [];
@@ -67764,8 +67836,11 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
   }
 
   return {
-    currentRoom: currentRoom,
+    currentRoomID: currentRoomID,
+    currentOfferingID: currentOfferingID,
     currentTables: currentTables,
+    currentRoom: state.app.currentRoom,
+    currentOffering: state.app.currentOffering,
     task: state.app.task,
     tempTable: state.app.tempTable,
     pointSelection: state.app.pointSelection,
@@ -67775,19 +67850,22 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
-    // savePointToTempTable: (key, pointType) => {
-    //   dispatch(selectPoint(key, pointType))
-    // },
     fetchTables: function fetchTables(roomID) {
       dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["d" /* fetchTables */])(roomID));
     },
     setTask: function setTask(task) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["n" /* setTask */])(task));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["q" /* setTask */])(task));
+    },
+    findAndSetCurrentRoom: function findAndSetCurrentRoom(roomID) {
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["f" /* findAndSetCurrentRoom */])(roomID));
+    },
+    findAndSetCurrentOffering: function findAndSetCurrentOffering(offeringID) {
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["e" /* findAndSetCurrentOffering */])(offeringID));
     }
   };
 };
 
-var RoomContainer = Object(__WEBPACK_IMPORTED_MODULE_2_react_router__["a" /* withRouter */])(Object(__WEBPACK_IMPORTED_MODULE_0_react_redux__["b" /* connect */])(mapStateToProps, mapDispatchToProps)(__WEBPACK_IMPORTED_MODULE_1__Room__["a" /* default */]));
+var RoomContainer = Object(__WEBPACK_IMPORTED_MODULE_2_react_router__["b" /* withRouter */])(Object(__WEBPACK_IMPORTED_MODULE_0_react_redux__["b" /* connect */])(mapStateToProps, mapDispatchToProps)(__WEBPACK_IMPORTED_MODULE_1__Room__["a" /* default */]));
 
 /* harmony default export */ __webpack_exports__["a"] = (RoomContainer);
 
@@ -67799,12 +67877,15 @@ var RoomContainer = Object(__WEBPACK_IMPORTED_MODULE_2_react_router__["a" /* wit
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router__ = __webpack_require__(56);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_classnames_bind__ = __webpack_require__(86);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_classnames_bind___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_classnames_bind__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__containers_Table__ = __webpack_require__(512);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__containers_Grid__ = __webpack_require__(514);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Guides__ = __webpack_require__(516);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__global_Loading__ = __webpack_require__(517);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_classnames_bind__ = __webpack_require__(86);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_classnames_bind___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_classnames_bind__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__containers_Table__ = __webpack_require__(512);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__containers_Grid__ = __webpack_require__(514);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Guides__ = __webpack_require__(516);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__containers_RoomHeader__ = __webpack_require__(524);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__global_Loading__ = __webpack_require__(517);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -67812,6 +67893,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
 
 
 
@@ -67831,7 +67914,7 @@ var Room = function (_Component) {
 
     _this.gridContRef = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createRef();
     _this.state = {
-      // set blip dimensions here
+      // set yer blip dimensions here!
       gridRows: 19,
       gridColumns: 39
     };
@@ -67863,14 +67946,8 @@ var Room = function (_Component) {
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
-      // fire action to fectch Tables and load them into global store
-      this.props.fetchTables(this.props.match.params.roomID);
-
       // force an update now that we can measure CSS of elements
-      this.forceUpdate();
-
-      // look at the URL and decide a default task based on that
-      this.setDefaultTask();
+      // this.forceUpdate();
 
       // create the grid and load the measurements into local state
       var grid = this.measureGrid();
@@ -67878,21 +67955,59 @@ var Room = function (_Component) {
         gridRowHeight: parseInt(grid.height) / this.state.gridRows,
         gridColumnWidth: parseInt(grid.width) / this.state.gridColumns
       });
+
+      // fetch the tables if the roomID is ready
+      if (this.props.currentRoomID != null) {
+        this.props.fetchTables(this.props.currentRoomID);
+      }
+
+      // try right away to add current room to store
+      if (this.props.currentRoomID != null) {
+        this.props.findAndSetCurrentRoom(this.props.currentRoomID);
+      }
+
+      // try right away to add current offering to store
+      if (this.props.currentOfferingID != null) {
+        this.props.findAndSetCurrentOffering(this.props.currentOfferingID);
+      }
+
+      // look at the URL and decide a default task based on that
+      this.setDefaultTask();
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate(prevProps) {
+      // get the tables when we have a real roomID or it changes
+      if (this.props.currentRoomID != null && prevProps.currentRoomID != this.props.currentRoomID) {
+        this.props.fetchTables(this.props.currentRoomID);
+      }
+
+      // set current room
+      if (this.props.currentRoomID != null && this.props.currentRoomID != prevProps.currentRoom.id) {
+        this.props.findAndSetCurrentRoom(this.props.currentRoomID);
+      }
+
+      // set current offering
+      if (this.props.currentOfferingID != null && this.props.currentOfferingID != prevProps.currentOffering.id) {
+        this.props.findAndSetCurrentOffering(this.props.currentOfferingID);
+      }
     }
   }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
 
-      var outerRoomContainerClasses = __WEBPACK_IMPORTED_MODULE_2_classnames_bind___default()({
+      var outerRoomContainerClasses = __WEBPACK_IMPORTED_MODULE_3_classnames_bind___default()({
         'outer-room-container': true,
+        'edit-room': this.props.task === 'edit-room',
         'edit-table': this.props.task === 'edit-table',
+        'offering-overview': this.props.task === 'offering-overview',
         'choosing-a-point': this.props.pointSelection,
-        'loading': this.props.roomLoading
+        'is-loading': this.props.roomLoading
       });
 
       var tables = this.props.currentTables.map(function (table) {
-        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__containers_Table__["a" /* default */], {
+        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__containers_Table__["a" /* default */], {
           key: table.id,
           id: table.id,
           sX: table.sX, sY: table.sY, eX: table.eX, eY: table.eY, qX: table.qX, qY: table.qY,
@@ -67906,7 +68021,8 @@ var Room = function (_Component) {
       return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
         { className: outerRoomContainerClasses },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__global_Loading__["a" /* default */], null),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__global_Loading__["a" /* default */], null),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["a" /* Route */], { path: '/offering', component: __WEBPACK_IMPORTED_MODULE_7__containers_RoomHeader__["a" /* default */] }),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
           { className: 'inner-room-container', ref: this.gridContRef },
@@ -67919,28 +68035,31 @@ var Room = function (_Component) {
               tables
             )
           ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'svg',
-            { className: 'grid-container', xmlns: 'http://www.w3.org/2000/svg' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__containers_Grid__["a" /* default */], {
-              currentRoomID: this.props.match.params.roomID,
-              gridColumns: this.state.gridColumns,
-              gridColumnWidth: this.state.gridColumnWidth,
-              gridRows: this.state.gridRows,
-              gridRowHeight: this.state.gridRowHeight
-            })
-          ),
-          null,
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'svg',
-            { className: 'guides-container', xmlns: 'http://www.w3.org/2000/svg' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__Guides__["a" /* default */], {
-              gridColumns: this.state.gridColumns,
-              gridColumnWidth: this.state.gridColumnWidth,
-              gridRows: this.state.gridRows,
-              gridRowHeight: this.state.gridRowHeight
-            })
-          )
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["a" /* Route */], { path: '/room', render: function render() {
+              return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'svg',
+                { className: 'grid-container', xmlns: 'http://www.w3.org/2000/svg' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__containers_Grid__["a" /* default */], {
+                  currentRoomID: _this2.props.match.params.roomID,
+                  gridColumns: _this2.state.gridColumns,
+                  gridColumnWidth: _this2.state.gridColumnWidth,
+                  gridRows: _this2.state.gridRows,
+                  gridRowHeight: _this2.state.gridRowHeight
+                })
+              );
+            } }),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["a" /* Route */], { path: '/room', render: function render() {
+              return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'svg',
+                { className: 'guides-container', xmlns: 'http://www.w3.org/2000/svg' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__Guides__["a" /* default */], {
+                  gridColumns: _this2.state.gridColumns,
+                  gridColumnWidth: _this2.state.gridColumnWidth,
+                  gridRows: _this2.state.gridRows,
+                  gridRowHeight: _this2.state.gridRowHeight
+                })
+              );
+            } })
         ),
         ' ',
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -67962,6 +68081,21 @@ var Room = function (_Component) {
 
 /* harmony default export */ __webpack_exports__["a"] = (Room);
 
+
+Room.propTypes = {
+  currentRoom: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.shape({
+    id: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.isRequired,
+    name: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.isRequired,
+    seat_size: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.oneOfType([__WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.string, __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.number])
+  }).isRequired,
+  currentOffering: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.object.isRequired,
+  currentTables: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.array,
+  fetchTables: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.func.isRequired,
+  setTask: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.func.isRequired,
+  pointSelection: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.any,
+  roomLoading: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.bool.isRequired
+};
+
 /***/ }),
 /* 512 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -67978,17 +68112,8 @@ var Room = function (_Component) {
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
 
-  // current room ID
-  var currentRoomID = ownProps.match.params.roomID;
-
-  // set currentRoom to room corresponding to ID from URL
-  var currentRoom = {};
-  if (state.entities.rooms[currentRoomID]) {
-    currentRoom = state.entities.rooms[currentRoomID];
-  }
-
   return {
-    currentRoom: currentRoom,
+    currentRoom: state.app.currentRoom,
     task: state.app.task,
     tempTable: state.app.tempTable
   };
@@ -67997,21 +68122,21 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
   return {
     selectTable: function selectTable(tableID, roomID, seatCount, coords) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["j" /* selectTable */])(tableID, roomID, seatCount, coords));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["l" /* selectTable */])(tableID, roomID, seatCount, coords));
     },
     setTask: function setTask(task) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["n" /* setTask */])(task));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["q" /* setTask */])(task));
     },
     setPointSelection: function setPointSelection(pointType) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["k" /* setPointSelection */])(pointType));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["m" /* setPointSelection */])(pointType));
     },
     removeTableRequest: function removeTableRequest(tableID) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["f" /* removeTableRequest */])(tableID));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["h" /* removeTableRequest */])(tableID));
     }
   };
 };
 
-var TableContainer = Object(__WEBPACK_IMPORTED_MODULE_1_react_router__["a" /* withRouter */])(Object(__WEBPACK_IMPORTED_MODULE_0_react_redux__["b" /* connect */])(mapStateToProps, mapDispatchToProps)(__WEBPACK_IMPORTED_MODULE_2__Table__["a" /* default */]));
+var TableContainer = Object(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* withRouter */])(Object(__WEBPACK_IMPORTED_MODULE_0_react_redux__["b" /* connect */])(mapStateToProps, mapDispatchToProps)(__WEBPACK_IMPORTED_MODULE_2__Table__["a" /* default */]));
 
 /* harmony default export */ __webpack_exports__["a"] = (TableContainer);
 
@@ -68023,8 +68148,10 @@ var TableContainer = Object(__WEBPACK_IMPORTED_MODULE_1_react_router__["a" /* wi
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_classnames_bind__ = __webpack_require__(86);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_classnames_bind___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_classnames_bind__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_classnames_bind__ = __webpack_require__(86);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_classnames_bind___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_classnames_bind__);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -68032,6 +68159,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 
 
 
@@ -68057,17 +68185,14 @@ var Table = function (_Component) {
       if (this.props.task === 'delete-table') {
         this.props.removeTableRequest(this.props.id);
         this.props.setTask('edit-room');
-      } else {
-
+      }
+      if (this.props.task === 'edit-room') {
         // change theRoom status
         this.props.setTask('edit-table');
         this.props.setPointSelection('start');
 
         // send this table to tempTable
         this.props.selectTable(this.props.id, this.props.match.params.roomID, this.props.seatCount, this.props.coords);
-
-        // change url to editing table url
-        // this.props.history.push(`${this.props.match.url}/section/${this.props.id}`);
       }
     }
   }, {
@@ -68119,31 +68244,40 @@ var Table = function (_Component) {
         seats = Object.keys(seatCoords).map(function (key) {
           return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'svg',
-            { xmlns: 'http://www.w3.org/2000/svg', className: 'seat', key: key },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('rect', {
-              id: key,
+            { xmlns: 'http://www.w3.org/2000/svg',
+              key: key, id: key,
+              className: 'seat',
               x: seatCoords[key].x + 'px', y: seatCoords[key].y + 'px',
               width: seatSize, height: seatSize,
-              rx: '3', ry: '3',
-              transform: 'translate(-' + seatSize / 2 + ' -' + seatSize / 2 + ')'
-            })
+              viewBox: '0 0 40 40'
+            },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'g',
+              { transform: 'translate(-' + 40 / 2 + ' -' + 40 / 2 + ')' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('rect', { x: '0', y: '0', width: '40', height: '40', rx: '3' }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'g',
+                { className: 'pl us-person', transform: 'translate(9.000000, 9.000000)' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('path', { d: 'M15,12 C17.21,12 19,10.21 19,8 C19,5.79 17.21,4 15,4 C12.79,4 11,5.79 11,8 C11,10.21 12.79,12 15,12 Z M6,10 L6,7 L4,7 L4,10 L1,10 L1,12 L4,12 L4,15 L6,15 L6,12 L9,12 L9,10 L6,10 Z M15,14 C12.33,14 7,15.34 7,18 L7,20 L23,20 L23,18 C23,15.34 17.67,14 15,14 Z' })
+              )
+            )
           );
         });
       }
 
       // table classes
-      var tableClass = __WEBPACK_IMPORTED_MODULE_2_classnames_bind___default()({
+      var tableClass = __WEBPACK_IMPORTED_MODULE_3_classnames_bind___default()({
         'table': true,
         'is-active': this.props.id === this.props.tempTable.id ? true : false
       });
 
       return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'g',
-        { ref: this.tableGroupRef, className: tableClass },
-        seats,
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('path', { ref: this.pathRef, d: d, onClick: function onClick(e) {
+        { ref: this.tableGroupRef, className: tableClass, onClick: function onClick(e) {
             return _this2.handleTableClick(e);
-          } })
+          } },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('path', { className: 'table-path', ref: this.pathRef, d: d }),
+        seats
       );
     }
   }]);
@@ -68152,6 +68286,22 @@ var Table = function (_Component) {
 }(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
 
 /* harmony default export */ __webpack_exports__["a"] = (Table);
+
+Table.propTypes = {
+  coords: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.object.isRequired,
+  currentRoom: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.shape({
+    id: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.number.isRequired
+  }).isRequired,
+  gridcolumnwidth: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.number,
+  gridrowheight: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.number,
+  id: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.number.isRequired,
+  seatCount: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.number,
+  removeTableRequest: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.func.isRequired,
+  selectTable: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.func.isRequired,
+  setPointSelection: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.func.isRequired,
+  setTask: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.func.isRequired,
+  task: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.string.isRequired
+};
 
 /***/ }),
 /* 514 */
@@ -68171,9 +68321,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
 
-  // this is being passed down from Room
-  // I could also wrap Grid in connect to give it the URL
-  // I could also store currentRoom in the Store's App state.
+  // Passed manually from Room, for simplicity
   var currentRoomID = ownProps.currentRoomID;
 
   // find all tables that belong to this room
@@ -68200,7 +68348,7 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     savePointToTempTable: function savePointToTempTable(id, pointType) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["h" /* savePointToTempTable */])(id, pointType));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["j" /* savePointToTempTable */])(id, pointType));
     }
   };
 };
@@ -68396,6 +68544,96 @@ var Loading = function Loading() {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 519 */,
+/* 520 */,
+/* 521 */,
+/* 522 */,
+/* 523 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+
+
+
+var RoomHeader = function RoomHeader(_ref) {
+  var currentRoom = _ref.currentRoom,
+      currentOffering = _ref.currentOffering;
+
+  return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+    'div',
+    { className: 'room-header' },
+    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { className: 'top-left' },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'p',
+        null,
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'far fa-map-marker-alt fa-fw' }),
+        ' ',
+        currentRoom.name
+      ),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'p',
+        null,
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'far fa-users fa-fw' }),
+        ' ',
+        currentOffering.students.length,
+        ' Students Enrolled'
+      )
+    ),
+    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { className: 'top-right' },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'p',
+        null,
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'far fa-retweet' }),
+        ' Flip Perspective: OFF'
+      )
+    )
+  );
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (RoomHeader);
+
+RoomHeader.propTypes = {
+  currentRoom: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object,
+  currentOffering: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object
+};
+
+/***/ }),
+/* 524 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react_redux__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__RoomHeader__ = __webpack_require__(523);
+
+
+
+
+var mapStateToProps = function mapStateToProps(state, ownProps) {
+  return {
+    currentRoom: state.app.currentRoom,
+    currentOffering: state.app.currentOffering
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    //
+  };
+};
+
+var RoomHeaderContainer = Object(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["e" /* withRouter */])(Object(__WEBPACK_IMPORTED_MODULE_0_react_redux__["b" /* connect */])(mapStateToProps, mapDispatchToProps)(__WEBPACK_IMPORTED_MODULE_2__RoomHeader__["a" /* default */]));
+/* harmony default export */ __webpack_exports__["a"] = (RoomHeaderContainer);
 
 /***/ })
 /******/ ]);

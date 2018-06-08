@@ -4,9 +4,7 @@ import { savePointToTempTable } from '../../../actions'
 
 const mapStateToProps = (state, ownProps) => {
 
-  // this is being passed down from Room
-  // I could also wrap Grid in connect to give it the URL
-  // I could also store currentRoom in the Store's App state.
+  // Passed manually from Room, for simplicity
   const currentRoomID = ownProps.currentRoomID;
 
   // find all tables that belong to this room

@@ -5,17 +5,8 @@ import { selectTable , setTask, setPointSelection, removeTableRequest } from '..
 
 const mapStateToProps = (state, ownProps) => {
 
-  // current room ID
-  const currentRoomID = ownProps.match.params.roomID;
-
-  // set currentRoom to room corresponding to ID from URL
-  let currentRoom = {};
-  if (state.entities.rooms[currentRoomID]) {
-    currentRoom = state.entities.rooms[currentRoomID]
-  }
-
   return {
-    currentRoom,
+    currentRoom:state.app.currentRoom,
     task:state.app.task,
     tempTable: state.app.tempTable,
   }

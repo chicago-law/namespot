@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router';
+import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import Table from './containers/Table';
 import Grid from './containers/Grid';
 import Guides from './Guides';
+import RoomHeader from './containers/RoomHeader';
 import Loading from '../../global/Loading';
 
 export default class Room extends Component {
@@ -11,7 +13,7 @@ export default class Room extends Component {
     super(props);
     this.gridContRef = React.createRef();
     this.state = {
-      // set blip dimensions here
+      // set yer blip dimensions here!
       gridRows:19,
       gridColumns: 39,
     }
@@ -38,14 +40,8 @@ export default class Room extends Component {
   }
 
   componentDidMount() {
-    // fire action to fectch Tables and load them into global store
-    this.props.fetchTables(this.props.match.params.roomID);
-
     // force an update now that we can measure CSS of elements
-    this.forceUpdate();
-
-    // look at the URL and decide a default task based on that
-    this.setDefaultTask();
+    // this.forceUpdate();
 
     // create the grid and load the measurements into local state
     const grid = this.measureGrid();
@@ -53,14 +49,51 @@ export default class Room extends Component {
       gridRowHeight: parseInt(grid.height) / this.state.gridRows,
       gridColumnWidth: parseInt(grid.width) / this.state.gridColumns,
     });
+
+    // fetch the tables if the roomID is ready
+    if (this.props.currentRoomID != null) {
+      this.props.fetchTables(this.props.currentRoomID);
+    }
+
+    // try right away to add current room to store
+    if (this.props.currentRoomID != null) {
+      this.props.findAndSetCurrentRoom(this.props.currentRoomID);
+    }
+
+    // try right away to add current offering to store
+    if (this.props.currentOfferingID != null) {
+      this.props.findAndSetCurrentOffering(this.props.currentOfferingID);
+    }
+
+    // look at the URL and decide a default task based on that
+    this.setDefaultTask();
+  }
+
+  componentDidUpdate(prevProps) {
+    // get the tables when we have a real roomID or it changes
+    if (this.props.currentRoomID != null && prevProps.currentRoomID != this.props.currentRoomID) {
+      this.props.fetchTables(this.props.currentRoomID);
+    }
+
+    // set current room
+    if (this.props.currentRoomID != null && this.props.currentRoomID != prevProps.currentRoom.id) {
+      this.props.findAndSetCurrentRoom(this.props.currentRoomID);
+    }
+
+    // set current offering
+    if (this.props.currentOfferingID != null && this.props.currentOfferingID != prevProps.currentOffering.id) {
+      this.props.findAndSetCurrentOffering(this.props.currentOfferingID);
+    }
   }
 
   render() {
     const outerRoomContainerClasses = classNames({
       'outer-room-container':true,
+      'edit-room':this.props.task === 'edit-room',
       'edit-table':this.props.task === 'edit-table',
+      'offering-overview':this.props.task === 'offering-overview',
       'choosing-a-point':this.props.pointSelection,
-      'loading':this.props.roomLoading
+      'is-loading':this.props.roomLoading
     })
 
     const tables = this.props.currentTables.map(table =>
@@ -77,7 +110,11 @@ export default class Room extends Component {
 
     return (
       <div className={outerRoomContainerClasses}>
+
         <Loading />
+
+        <Route path="/offering" component={RoomHeader} />
+
         <div className='inner-room-container' ref={this.gridContRef}>
 
           {/* Here be the tables! */}
@@ -87,28 +124,30 @@ export default class Room extends Component {
             </g>
           </svg>
 
-          {/* Here be the blip grid! */}
-          <svg className='grid-container' xmlns="http://www.w3.org/2000/svg">
-            <Grid
-              currentRoomID={this.props.match.params.roomID}
-              gridColumns={this.state.gridColumns}
-              gridColumnWidth={this.state.gridColumnWidth}
-              gridRows={this.state.gridRows}
-              gridRowHeight={this.state.gridRowHeight}
-            />
-          </svg>
-
-          {null}
+          {/* Here be the blips! */}
+          <Route path='/room' render={() =>
+            <svg className = 'grid-container' xmlns = "http://www.w3.org/2000/svg" >
+              <Grid
+                currentRoomID={this.props.match.params.roomID}
+                gridColumns={this.state.gridColumns}
+                gridColumnWidth={this.state.gridColumnWidth}
+                gridRows={this.state.gridRows}
+                gridRowHeight={this.state.gridRowHeight}
+              />
+            </svg>
+          } />
 
           {/* Here be the guide lines! */}
-          <svg className='guides-container' xmlns="http://www.w3.org/2000/svg">
-            <Guides
-              gridColumns={this.state.gridColumns}
-              gridColumnWidth={this.state.gridColumnWidth}
-              gridRows={this.state.gridRows}
-              gridRowHeight={this.state.gridRowHeight}
-            />
-          </svg>
+          <Route path='/room' render={() =>
+            <svg className='guides-container' xmlns="http://www.w3.org/2000/svg">
+              <Guides
+                gridColumns={this.state.gridColumns}
+                gridColumnWidth={this.state.gridColumnWidth}
+                gridRows={this.state.gridRows}
+                gridRowHeight={this.state.gridRowHeight}
+              />
+            </svg>
+          } />
 
         </div> {/* end inner room container */}
 
@@ -119,4 +158,18 @@ export default class Room extends Component {
       </div> /* end outer Room Container */
     );
   }
+}
+
+Room.propTypes = {
+  currentRoom: PropTypes.shape({
+    id: PropTypes.isRequired,
+    name: PropTypes.isRequired,
+    seat_size: PropTypes.oneOfType([PropTypes.string,PropTypes.number])
+  }).isRequired,
+  currentOffering: PropTypes.object.isRequired,
+  currentTables: PropTypes.array,
+  fetchTables: PropTypes.func.isRequired,
+  setTask: PropTypes.func.isRequired,
+  pointSelection: PropTypes.any,
+  roomLoading: PropTypes.bool.isRequired
 }

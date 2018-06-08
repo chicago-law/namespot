@@ -14,6 +14,43 @@ const roomStatus = (state = '', action) => {
 }
 
 /**
+ * app / currentRoom
+ */
+const currentRoom = (state = {
+  id:null,
+  name:null,
+  seat_size:null
+}, action) => {
+  switch (action.type) {
+    case C.SET_CURRENT_ROOM:
+      return action.room
+    default:
+      return state
+  }
+}
+
+/**
+ * app / currentOffering
+ */
+const currentOffering = (state = {
+  course_num:null,
+  id:null,
+  instructors:[],
+  name:null,
+  room_id:null,
+  students:[]
+}, action) => {
+  switch (action.type) {
+    case C.SET_CURRENT_OFFERING:
+      return action.offering
+    default:
+      return state
+  }
+}
+
+
+
+/**
  * App / task
  */
 const task = (state = '', action) => {
@@ -154,6 +191,8 @@ const tables = (state={}, action) => {
 const rootReducer = combineReducers({
   app: combineReducers({
     roomStatus,
+    currentRoom,
+    currentOffering,
     task,
     tempTable,
     pointSelection,

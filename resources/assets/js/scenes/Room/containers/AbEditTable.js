@@ -4,12 +4,8 @@ import AbEditTable from '../AbEditTable';
 import { saveTable, clearTempTable, setTask, setPointSelection, setSeatCount } from '../../../actions'
 
 const mapStateToProps = (state, ownProps) => {
-  let currentRoom = {};
-  if (state.entities.rooms[ownProps.roomID]) {
-    currentRoom = state.entities.rooms[ownProps.roomID]
-  }
   return {
-    currentRoom,
+    currentRoom:state.app.currentRoom,
     roomStatus:state.app.roomStatus,
     task:state.app.task,
     tempTable:state.app.tempTable,

@@ -20,6 +20,40 @@ export function setRoomStatus(status) {
 }
 
 /**
+ * currentRoom
+ */
+export function findAndSetCurrentRoom(roomID) {
+  return (dispatch, getState) => {
+    if (getState().entities.rooms[roomID]) {
+      dispatch(setCurrentRoom(getState().entities.rooms[roomID]));
+    }
+  }
+}
+export function setCurrentRoom(room) {
+  return {
+    type:C.SET_CURRENT_ROOM,
+    room
+  }
+}
+
+/**
+ * currentOffering
+ */
+export function findAndSetCurrentOffering(offeringID) {
+  return (dispatch, getState) => {
+    if (getState().entities.offerings[offeringID]) {
+      dispatch(setCurrentOffering(getState().entities.offerings[offeringID]));
+    }
+  }
+}
+export function setCurrentOffering(offering) {
+  return {
+    type:C.SET_CURRENT_OFFERING,
+    offering
+  }
+}
+
+/**
  * task
  * ’edit-room’,’edit-table’,’delete-table’,’lookup-student’,’student-details’,’edit-offering’
  */

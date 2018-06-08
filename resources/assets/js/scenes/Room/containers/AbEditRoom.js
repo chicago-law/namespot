@@ -1,16 +1,11 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import AbEditRoom from '../AbEditRoom'
-import { newTable, setTask, setPointSelection, setSeatSizeRequest } from '../../../actions'
+import { newTable, setTask, setPointSelection, setSeatSizeRequest, setRoomLoadingStatus } from '../../../actions'
 
 const mapStateToProps = (state, ownProps) => {
-  let currentRoom = {};
-  if (state.entities.rooms[ownProps.match.params.roomID]) {
-    currentRoom = state.entities.rooms[ownProps.match.params.roomID]
-  }
   return {
-    currentRoom:currentRoom,
-    // match:ownProps.match
+    currentRoom:state.app.currentRoom,
   }
 }
 
@@ -27,6 +22,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     setSeatSizeRequest: (roomID, seatSize) => {
       dispatch(setSeatSizeRequest(roomID, seatSize))
+    },
+    setRoomLoadingStatus: (status) => {
+      dispatch(setRoomLoadingStatus(status))
     }
   }
 }
