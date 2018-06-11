@@ -19,7 +19,7 @@ class Student extends JsonResource
         // otherwise it gets lost when encoding to JSON.
         $seats = [];
         foreach($this->offerings as $offering):
-            $seats['offeringid_' . $offering->id] = $offering->pivot->assigned_seat;
+            $seats['offering_' . $offering->id] = $offering->pivot->assigned_seat;
         endforeach;
 
         return [
