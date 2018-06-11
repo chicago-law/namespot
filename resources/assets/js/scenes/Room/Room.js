@@ -40,9 +40,6 @@ export default class Room extends Component {
   }
 
   componentDidMount() {
-    // force an update now that we can measure CSS of elements
-    // this.forceUpdate();
-
     // create the grid and load the measurements into local state
     const grid = this.measureGrid();
     this.setState({
@@ -50,7 +47,12 @@ export default class Room extends Component {
       gridColumnWidth: parseInt(grid.width) / this.state.gridColumns,
     });
 
-    // fetch the tables if the roomID is ready
+    // get the rooms data if we need it
+    this.props.requestRooms();
+
+    // fetch the tables if the roomID is ready. At this point it will be if
+    // it's coming from the URL. If the URL has offeringID, then roomID won't
+    // be ready yet.
     if (this.props.currentRoomID != null) {
       this.props.fetchTables(this.props.currentRoomID);
     }

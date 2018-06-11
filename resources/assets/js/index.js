@@ -18,7 +18,7 @@ const store = createStore(
 )
 
 // window.store = store
-store.dispatch(fetchRooms())
+// store.dispatch(fetchRooms())
 store.dispatch(fetchOfferings('2188'))
 
 render(

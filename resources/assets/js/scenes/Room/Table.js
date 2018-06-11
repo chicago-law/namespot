@@ -107,7 +107,7 @@ export default Table;
 Table.propTypes = {
   coords: PropTypes.object.isRequired,
   currentRoom: PropTypes.shape({
-    id: PropTypes.number.isRequired
+    id: PropTypes.number
   }).isRequired,
   gridcolumnwidth: PropTypes.number,
   gridrowheight: PropTypes.number,

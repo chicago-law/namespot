@@ -11,6 +11,7 @@ import { findAndSetCurrentRoom, setLoadingStatus } from './app';
 /**
  * ROOMS
  */
+
 // Load rooms into state
 export function receiveRooms(response) {
   return {
@@ -21,18 +22,27 @@ export function receiveRooms(response) {
 // Fetch all rooms
 export function fetchRooms() {
   return function (dispatch) {
-
+    // set loading state
+    dispatch(setLoadingStatus('rooms',true));
     // make the call
     return axios.get(`${rootUrl}api/rooms`)
-      .then(function (response) {
-        const normalizedData = normalize(response.data, schema.roomListSchema);
-        dispatch(receiveRooms(normalizedData.entities))
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    .then(function (response) {
+      const normalizedData = normalize(response.data, schema.roomListSchema);
+      dispatch(receiveRooms(normalizedData.entities))
+      dispatch(setLoadingStatus('rooms',false))
+    })
+    .catch(function (error) {
+      console.log(error);
+      dispatch(setLoadingStatus('rooms',false))
+    });
   }
 }
+// Gently ask to hydrate with rooms, if we need them
+export function requestRooms() {
+  return (dispatch, getState) => !Object.keys(getState().entities.rooms).length ? dispatch(fetchRooms()) : false;
+}
+
+
 export function setSeatSize(roomID, seatSize) {
   return {
     type: C.SET_SEAT_SIZE,
@@ -50,7 +60,7 @@ export function setSeatSizeRequest(roomID, seatSize) {
     dispatch(findAndSetCurrentRoom(roomID));
 
     // finally, make a background call to change it in the DB
-    return axios.post(`${rootUrl}api/room/update/${roomID}`, {
+    axios.post(`${rootUrl}api/room/update/${roomID}`, {
       seat_size: seatSize
     })
     .catch(function(response) {

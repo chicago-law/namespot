@@ -40,10 +40,16 @@ Route::get('/enrollment/{offering_id}', function ($offering_id) {
     return StudentResource::collection(Offering::find($offering_id)->students()->get());
 });
 
+// update a student
+Route::post('/student/update/{student_id}', 'StudentController@update');
+
 // fetch all rooms
 Route::get('/rooms', function () {
     return RoomResource::collection(Room::all());
 });
+
+// update a room
+Route::post('/room/update/{room_id}','RoomController@update');
 
 // update (or create new) table
 Route::post('/table/update','TableController@update');
@@ -55,6 +61,3 @@ Route::delete('/table/{table_id}','TableController@delete');
 Route::get('/tables/{room_id}', function($room_id) {
     return TableResource::collection(Table::where('room_id',$room_id)->get());
 });
-
-// update a room
-Route::post('/room/update/{room_id}','RoomController@update');

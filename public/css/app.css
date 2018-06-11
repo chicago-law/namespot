@@ -799,13 +799,29 @@ li {
 }
 
 .select-list {
+  position: relative;
   margin-top: 5em;
   padding: 2em 0 0 0;
   /* end li */
 }
 
+.select-list .loading {
+  display: none;
+  position: absolute;
+  top: 5em;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+.select-list .loading i {
+  position: relative;
+}
+
 .select-list h5 {
   text-align: center;
+  -webkit-transition: opacity 75ms ease-out;
+  transition: opacity 75ms ease-out;
 }
 
 .select-list ul li {
@@ -843,6 +859,14 @@ li {
 .select-list ul li:hover p,
 .select-list ul li:hover i {
   color: #DD4343;
+}
+
+.room-list.is-loading h5 {
+  opacity: .25;
+}
+
+.room-list.is-loading .loading {
+  display: block;
 }
 
 .site-header {

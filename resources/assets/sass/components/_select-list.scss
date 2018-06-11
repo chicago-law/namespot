@@ -1,8 +1,21 @@
 .select-list {
+  position: relative;
   margin-top: 5em;
   padding:2em 0 0 0;
+  .loading {
+    display:none;
+    position:absolute;
+    top:5em;
+    left:0;
+    right:0;
+    text-align:center;
+    i {
+      position:relative;
+    }
+  }
   h5 {
     text-align:center;
+    transition:opacity 75ms ease-out;
   }
   ul li {
     position:relative;
@@ -34,4 +47,15 @@
       }
     }
   } /* end li */
+}
+
+.room-list {
+  &.is-loading {
+    h5 {
+      opacity:.25
+    }
+    .loading {
+      display:block;
+    }
+  }
 }
