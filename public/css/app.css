@@ -1076,22 +1076,10 @@ li {
 }
 
 .outer-room-container {
-  max-width: 900px;
+  max-width: 800px;
   margin-left: auto;
   margin-right: auto;
   margin-top: 3em;
-}
-
-@media (max-width: 1400px) {
-  .outer-room-container {
-    padding: 0 5em;
-  }
-}
-
-@media (max-width: 900px) {
-  .outer-room-container {
-    padding: 0;
-  }
 }
 
 .outer-room-container .loading {

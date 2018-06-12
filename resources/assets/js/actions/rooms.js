@@ -24,8 +24,9 @@ export function fetchRooms() {
   return function (dispatch) {
     // set loading state
     dispatch(setLoadingStatus('rooms',true));
+
     // make the call
-    return axios.get(`${rootUrl}api/rooms`)
+    axios.get(`${rootUrl}api/rooms`)
     .then(function (response) {
       const normalizedData = normalize(response.data, schema.roomListSchema);
       dispatch(receiveRooms(normalizedData.entities))

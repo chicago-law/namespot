@@ -120,14 +120,6 @@ const pointSelection = (state = null, action) => {
 /**
  * app / loading
  */
-// const roomLoading = ( state = false, action ) => {
-//   switch (action.type) {
-//     case C.ROOM_LOADING:
-//       return action.status
-//     default:
-//       return state
-//   }
-// }
 const loading = (state = {
   rooms:false,
   tables:false,
@@ -163,7 +155,23 @@ const offerings = (state={}, action) => {
 const students = (state={}, action) => {
   switch (action.type) {
     case C.RECEIVE_STUDENTS:
-      return action.students;
+      // TO DO: right now this just blows away all of students with teh paylod.
+      // make it so it just adds them in.
+      return {
+        ...state,
+        ...action.students
+      }
+    case C.SEAT_STUDENT:
+      return {
+        ...state,
+        [action.student_id]: {
+          ...state[action.student_id],
+          seats: {
+            ...state[action.student_id].seats,
+            [action.offering_id]:action.seat_id
+          }
+        }
+      }
     default:
       return state;
   }
@@ -214,7 +222,6 @@ const rootReducer = combineReducers({
     pointSelection,
     loading
     // flipPerspective,
-    // fetching
   }),
   entities: combineReducers({
     students,
@@ -223,11 +230,5 @@ const rootReducer = combineReducers({
     tables
   })
 })
-// const rootReducer = combineReducers({
-//   selectedOffering,
-//   tempTable,
-//   theRoom,
-//   entities
-// })
 
 export default rootReducer

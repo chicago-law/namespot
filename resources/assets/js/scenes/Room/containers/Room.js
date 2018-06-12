@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Room from '../Room'
 import { withRouter } from 'react-router'
-import { fetchTables, setTask, findAndSetCurrentRoom, findAndSetCurrentOffering, requestRooms } from '../../../actions'
+import { fetchTables, setTask, findAndSetCurrentRoom, findAndSetCurrentOffering, requestRooms, requestStudents, assignSeat } from '../../../actions'
 
 const mapStateToProps = (state, ownProps) => {
 
@@ -29,10 +29,19 @@ const mapStateToProps = (state, ownProps) => {
     }
   }
 
+  // get the students enrolled in this class
+  let currentStudents = [];
+  Object.keys(state.entities.students).forEach(studentID => {
+    if (state.app.currentOffering.students.includes(parseInt(studentID))) {
+      currentStudents.push(state.entities.students[studentID]);
+    }
+  });
+
   return {
     currentRoomID,
     currentOfferingID,
     currentTables,
+    currentStudents,
     currentRoom:state.app.currentRoom,
     currentOffering:state.app.currentOffering,
     task:state.app.task,
@@ -58,6 +67,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     requestRooms: () => {
       dispatch(requestRooms())
+    },
+    requestStudents: (offeringID) => {
+      dispatch(requestStudents(offeringID))
+    },
+    assignSeat: (offering_id, student_id, seat_id) => {
+      dispatch(assignSeat(offering_id, student_id, seat_id))
     }
   }
 }
