@@ -6,7 +6,7 @@ html {
 }
 html, body {
   height:100%;
-  background: darken($off-white,10%);
+  background: $lighter-gray;
 }
 #root {
   height:100%;

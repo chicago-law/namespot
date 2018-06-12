@@ -15,9 +15,10 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Student::class, function (Faker $faker) {
     return [
-        'chicago_id' => $faker->ean8,
+        'chicago_id' => $faker->randomNumber(8),
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
         'email' => $faker->unique()->safeEmail,
+        'picture' => $faker->numberBetween(1,15)
     ];
 });

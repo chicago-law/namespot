@@ -1,0 +1,34 @@
+.roster-gallery {
+  display:flex;
+  justify-content:space-around;
+  .seated, .unseated {
+    display:flex;
+    align-items:center;
+  }
+  .seated {
+    margin-right: 2.5em;
+  }
+  p {
+    margin-bottom: 0;
+    margin-right:.5em;
+    font-weight:bold;
+    color:$middle-gray;
+    @include ms-1;
+  }
+  ul {
+    li {
+      display:inline-block;
+      width:1.7em;
+      overflow:visible;
+      .picture {
+        display:inline-block;
+        height:2.25em;
+        width:2.25em;
+        border-radius:5px;
+        border:2px solid $off-white;
+        background-size:cover;
+        background-position:center center;
+      }
+    }
+  }
+}

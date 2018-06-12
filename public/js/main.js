@@ -65982,6 +65982,7 @@ var ActionBarContainer = Object(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__scenes_Room_containers_AbEditTable__ = __webpack_require__(495);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__scenes_Room_containers_AbDeleteTable__ = __webpack_require__(497);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__scenes_Room_containers_AbOfferingOverview__ = __webpack_require__(499);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__scenes_Room_containers_AbFindStudent__ = __webpack_require__(527);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -65989,6 +65990,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 
 
 
@@ -66023,6 +66025,9 @@ var ActionBar = function (_Component) {
           break;
         case 'offering-overview':
           actionBarContents = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__scenes_Room_containers_AbOfferingOverview__["a" /* default */], null);
+          break;
+        case 'find-student':
+          actionBarContents = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__scenes_Room_containers_AbFindStudent__["a" /* default */], null);
           break;
         default:
           actionBarContents = null;
@@ -68045,6 +68050,7 @@ var RoomContainer = Object(__WEBPACK_IMPORTED_MODULE_2_react_router__["b" /* wit
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Guides__ = __webpack_require__(516);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__containers_RoomHeader__ = __webpack_require__(517);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__global_Loading__ = __webpack_require__(184);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__containers_RosterGallery__ = __webpack_require__(526);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -68052,6 +68058,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 
 
 
@@ -68101,11 +68108,6 @@ var Room = function (_Component) {
         default:
           this.props.setTask(null);
       }
-    }
-  }, {
-    key: 'handleUnseatedClick',
-    value: function handleUnseatedClick(e) {
-      this.props.assignSeat(this.props.currentOffering.id, e.target.dataset.studentid, '28_8');
     }
   }, {
     key: 'componentDidMount',
@@ -68172,6 +68174,7 @@ var Room = function (_Component) {
         'edit-room': this.props.task === 'edit-room',
         'edit-table': this.props.task === 'edit-table',
         'offering-overview': this.props.task === 'offering-overview',
+        'find-student': this.props.task === 'find-student',
         'choosing-a-point': this.props.pointSelection,
         'is-loading': this.props.loading.rooms || this.props.loading.tables || this.props.loading.offerings
       });
@@ -68230,49 +68233,7 @@ var Room = function (_Component) {
             'FRONT'
           )
         ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'div',
-          { className: 'roster-gallery' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'h3',
-            null,
-            'Seated Students'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'ul',
-            { className: 'seated' },
-            this.props.currentStudents.filter(function (student) {
-              return student.seats['offering_' + _this2.props.currentOffering.id] != null ? true : false;
-            }).map(function (student) {
-              return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                { key: student.id },
-                student.first_name
-              );
-            })
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'h3',
-            null,
-            'Unseated Students'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'ul',
-            { className: 'unseated' },
-            this.props.currentStudents.filter(function (student) {
-              return student.seats['offering_' + _this2.props.currentOffering.id] === null ? true : false;
-            }).map(function (student) {
-              return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                { key: student.id, 'data-studentid': student.id, onClick: function onClick(e) {
-                    return _this2.handleUnseatedClick(e);
-                  } },
-                ' ',
-                student.first_name
-              );
-            })
-          )
-        )
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["a" /* Route */], { path: '/offering', component: __WEBPACK_IMPORTED_MODULE_9__containers_RosterGallery__["a" /* default */] })
       ) /* end outer Room Container */
       ;
     }
@@ -68388,13 +68349,18 @@ var Table = function (_Component) {
         this.props.setTask('edit-room');
       }
       if (this.props.task === 'edit-room') {
-        // change theRoom status
         this.props.setTask('edit-table');
         this.props.setPointSelection('start');
 
         // send this table to tempTable
         this.props.selectTable(this.props.id, this.props.match.params.roomID, this.props.seatCount, this.props.coords);
       }
+    }
+  }, {
+    key: 'handleSeatClick',
+    value: function handleSeatClick(e) {
+      // console.log(e.target);
+      this.props.setTask('find-student');
     }
   }, {
     key: 'componentDidMount',
@@ -68448,6 +68414,9 @@ var Table = function (_Component) {
             { xmlns: 'http://www.w3.org/2000/svg',
               key: key, id: key,
               className: 'seat',
+              onClick: function onClick(e) {
+                return _this2.handleSeatClick(e);
+              },
               x: seatCoords[key].x + 'px', y: seatCoords[key].y + 'px',
               width: seatSize, height: seatSize,
               viewBox: '0 0 40 40'
@@ -68810,6 +68779,290 @@ RoomHeader.propTypes = {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 520 */,
+/* 521 */,
+/* 522 */,
+/* 523 */,
+/* 524 */,
+/* 525 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+
+
+var RosterGallery = function RosterGallery(_ref) {
+  var currentStudents = _ref.currentStudents,
+      currentOffering = _ref.currentOffering,
+      assignSeat = _ref.assignSeat;
+
+  var rootUrl = document.querySelector('body').dataset.root;
+
+  return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+    'div',
+    { className: 'roster-gallery' },
+    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { className: 'seated' },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'p',
+        null,
+        'Seated'
+      ),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'ul',
+        null,
+        currentStudents.filter(function (student) {
+          return student.seats['offering_' + currentOffering.id] != null ? true : false;
+        }).map(function (student) {
+          return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'li',
+            { key: student.id },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', {
+              className: 'picture',
+              style: { 'backgroundImage': 'url(\'' + rootUrl + 'images/faces/' + student.picture + '.jpg\')' },
+              title: student.first_name + ' ' + student.last_name
+            })
+          );
+        })
+      )
+    ),
+    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { className: 'unseated' },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'p',
+        null,
+        'Not Seated'
+      ),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'ul',
+        null,
+        currentStudents.filter(function (student) {
+          return student.seats['offering_' + currentOffering.id] === null ? true : false;
+        }).map(function (student) {
+          return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'li',
+            { key: student.id },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', {
+              className: 'picture',
+              style: { 'backgroundImage': 'url(\'' + rootUrl + 'images/faces/' + student.picture + '.jpg\')' },
+              title: student.first_name + ' ' + student.last_name
+            })
+          );
+        })
+      )
+    )
+  );
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (RosterGallery);
+
+/***/ }),
+/* 526 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react_redux__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__RosterGallery__ = __webpack_require__(525);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__(16);
+
+
+
+
+var mapStateToProps = function mapStateToProps(state, ownProps) {
+
+  // get the students enrolled in this class
+  var currentStudents = [];
+  Object.keys(state.entities.students).forEach(function (studentID) {
+    if (state.app.currentOffering.students.includes(parseInt(studentID))) {
+      currentStudents.push(state.entities.students[studentID]);
+    }
+  });
+
+  return {
+    currentStudents: currentStudents,
+    currentOffering: state.app.currentOffering
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    assignSeat: function assignSeat(offering_id, student_id, seat_i) {
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["a" /* assignSeat */])(offering_id, student_id, seat_i));
+    }
+  };
+};
+
+var RosterGalleryContainer = Object(__WEBPACK_IMPORTED_MODULE_0_react_redux__["b" /* connect */])(mapStateToProps, mapDispatchToProps)(__WEBPACK_IMPORTED_MODULE_1__RosterGallery__["a" /* default */]);
+/* harmony default export */ __webpack_exports__["a"] = (RosterGalleryContainer);
+
+/***/ }),
+/* 527 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react_redux__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router__ = __webpack_require__(55);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AbFindStudent__ = __webpack_require__(528);
+
+
+
+// import {  } from '../../../actions'
+
+var mapStateToProps = function mapStateToProps(state, ownProps) {
+
+  // get the students enrolled in this class
+  var currentStudents = [];
+  Object.keys(state.entities.students).forEach(function (studentID) {
+    if (state.app.currentOffering.students.includes(parseInt(studentID))) {
+      currentStudents.push(state.entities.students[studentID]);
+    }
+  });
+
+  return {
+    currentStudents: currentStudents,
+    currentOffering: state.app.currentOffering
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    //
+  };
+};
+
+var AbFindStudentContainer = Object(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* withRouter */])(Object(__WEBPACK_IMPORTED_MODULE_0_react_redux__["b" /* connect */])(mapStateToProps, mapDispatchToProps)(__WEBPACK_IMPORTED_MODULE_2__AbFindStudent__["a" /* default */]));
+
+/* harmony default export */ __webpack_exports__["a"] = (AbFindStudentContainer);
+
+/***/ }),
+/* 528 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+var AbFindStudent = function (_Component) {
+  _inherits(AbFindStudent, _Component);
+
+  function AbFindStudent(props) {
+    _classCallCheck(this, AbFindStudent);
+
+    var _this = _possibleConstructorReturn(this, (AbFindStudent.__proto__ || Object.getPrototypeOf(AbFindStudent)).call(this, props));
+
+    _this.filterRef = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createRef();
+    _this.state = {
+      search: ''
+    };
+    return _this;
+  }
+
+  _createClass(AbFindStudent, [{
+    key: 'handleSearchInput',
+    value: function handleSearchInput(e) {
+      this.setState({
+        search: e.target.value
+      });
+    }
+  }, {
+    key: 'checkForMatch',
+    value: function checkForMatch(student) {
+      var regex = new RegExp(this.state.search, 'gi');
+      if (student.first_name.match(regex)) {
+        // check the first name
+        return true;
+      }
+      if (student.last_name.match(regex)) {
+        // check the last name
+        return true;
+      }
+      if ((student.first_name + ' ' + student.last_name).match(regex)) {
+        // check concat of first and last name
+        return true;
+      }
+      if (student.email.match(regex)) {
+        // check student's email
+        return true;
+      }
+    }
+  }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      // focus in the search box when component mounts
+      this.filterRef.current.focus();
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var rootUrl = document.querySelector('body').dataset.root;
+      var unseatedStudents = this.props.currentStudents.filter(function (student) {
+        return student.seats['offering_' + _this2.props.currentOffering.id] == null;
+      }).filter(function (student) {
+        return _this2.checkForMatch(student);
+      });
+
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { className: 'action-bar action-bar-find-student' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'filter-container' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'far fa-search' }),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', ref: this.filterRef, placeholder: 'Type to find student...', onChange: function onChange(e) {
+              return _this2.handleSearchInput(e);
+            }, value: this.state.search })
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'roster-container' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'ul',
+            null,
+            unseatedStudents.map(function (student) {
+              return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'li',
+                { key: student.id },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'picture', style: { 'backgroundImage': 'url(\'' + rootUrl + 'images/faces/' + student.picture + '.jpg\')' } }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'p',
+                  { 'data-email': student.email },
+                  student.first_name,
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
+                  student.last_name
+                )
+              );
+            }),
+            unseatedStudents.length == 0 ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              'no kids'
+            ) : false
+          )
+        )
+      );
+    }
+  }]);
+
+  return AbFindStudent;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+/* harmony default export */ __webpack_exports__["a"] = (AbFindStudent);
 
 /***/ })
 /******/ ]);

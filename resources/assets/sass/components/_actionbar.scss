@@ -176,3 +176,65 @@
     }
   }
 }
+
+.action-bar-find-student {
+  justify-content:flex-start;
+  padding-right: 0;
+  padding-bottom: 0;
+  padding-top: 0;
+  .filter-container {
+    position:relative;
+    padding-right:2em;
+    i {
+      position:absolute;
+      top:50%;
+      left:8px;
+      transform:translateY(-50%);
+      color:$middle-gray;
+    }
+    input {
+      padding:7px 0;
+      padding-left:30px;
+      width:18em;
+      transition:box-shadow 125ms ease-out;
+      &:focus {
+        box-shadow:0 0 10px lighten($primary-accent,20%);
+      }
+    }
+  }
+  .roster-container {
+    display:flex;
+    align-items:center;
+    overflow-x:auto;
+    height:100%;
+    ul {
+      display:flex;
+      margin:0;
+      li {
+        display:inline-flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        padding:.75em;
+        border-radius:7px;
+        cursor:pointer;
+        .picture {
+          height:3em;
+          width:3em;
+          background-size:cover;
+          background-position:center center;
+          border-radius:4px;
+        }
+        p {
+          margin-top: .5em;
+          margin-bottom: 0;
+          text-align:center;
+          @include ms-1;
+        }
+        &:hover {
+          background: $off-white;
+        }
+      }
+    }
+  }
+}

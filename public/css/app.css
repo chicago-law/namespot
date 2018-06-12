@@ -513,7 +513,7 @@ html {
 html,
 body {
   height: 100%;
-  background: #dbdada;
+  background: #e6e5e5;
 }
 
 #root {
@@ -798,75 +798,98 @@ li {
   margin-right: 0;
 }
 
-.select-list {
-  position: relative;
-  margin-top: 5em;
-  padding: 2em 0 0 0;
-  /* end li */
+.action-bar-find-student {
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  padding-right: 0;
+  padding-bottom: 0;
+  padding-top: 0;
 }
 
-.select-list .loading {
-  display: none;
+.action-bar-find-student .filter-container {
+  position: relative;
+  padding-right: 2em;
+}
+
+.action-bar-find-student .filter-container i {
   position: absolute;
-  top: 5em;
-  left: 0;
-  right: 0;
-  text-align: center;
-}
-
-.select-list .loading i {
-  position: relative;
-}
-
-.select-list h5 {
-  text-align: center;
-  -webkit-transition: opacity 75ms ease-out;
-  transition: opacity 75ms ease-out;
-}
-
-.select-list ul li {
-  position: relative;
-}
-
-.select-list ul li a {
-  display: block;
-  padding: 1.5em 3.5em 1.5em 2em;
-  border-top: 1px solid #f4f4f4;
-}
-
-.select-list ul li a h4 {
-  display: block;
-  text-transform: capitalize;
-  color: #444444;
-  margin-bottom: 0;
-}
-
-.select-list ul li a p {
-  margin-bottom: 0;
-  color: #444444;
-}
-
-.select-list ul li i {
-  position: absolute;
-  right: 1.5em;
   top: 50%;
+  left: 8px;
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%);
   color: #AAAAAA;
 }
 
-.select-list ul li:hover h4,
-.select-list ul li:hover p,
-.select-list ul li:hover i {
-  color: #DD4343;
+.action-bar-find-student .filter-container input {
+  padding: 7px 0;
+  padding-left: 30px;
+  width: 18em;
+  -webkit-transition: -webkit-box-shadow 125ms ease-out;
+  transition: -webkit-box-shadow 125ms ease-out;
+  transition: box-shadow 125ms ease-out;
+  transition: box-shadow 125ms ease-out, -webkit-box-shadow 125ms ease-out;
 }
 
-.room-list.is-loading h5 {
-  opacity: .25;
+.action-bar-find-student .filter-container input:focus {
+  -webkit-box-shadow: 0 0 10px #ed9999;
+          box-shadow: 0 0 10px #ed9999;
 }
 
-.room-list.is-loading .loading {
-  display: block;
+.action-bar-find-student .roster-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  overflow-x: auto;
+  height: 100%;
+}
+
+.action-bar-find-student .roster-container ul {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 0;
+}
+
+.action-bar-find-student .roster-container ul li {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: .75em;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.action-bar-find-student .roster-container ul li .picture {
+  height: 3em;
+  width: 3em;
+  background-size: cover;
+  background-position: center center;
+  border-radius: 4px;
+}
+
+.action-bar-find-student .roster-container ul li p {
+  margin-top: .5em;
+  margin-bottom: 0;
+  text-align: center;
+  font-size: .8em;
+}
+
+.action-bar-find-student .roster-container ul li:hover {
+  background: #f4f4f4;
 }
 
 .site-header {
@@ -1130,7 +1153,7 @@ li {
 }
 
 .outer-room-container .tables-container .table .seat rect {
-  fill: #AAAAAA;
+  fill: #CCCCCC;
 }
 
 .outer-room-container .tables-container .table .seat .plus-person {
@@ -1226,7 +1249,8 @@ li {
   fill: #444444;
 }
 
-.outer-room-container.offering-overview {
+.outer-room-container.offering-overview,
+.outer-room-container.find-student {
   margin-top: 1em;
 }
 
@@ -1267,5 +1291,122 @@ li {
   font-weight: bold;
   margin-bottom: 0;
   color: #AAAAAA;
+}
+
+.roster-gallery {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+.roster-gallery .seated,
+.roster-gallery .unseated {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.roster-gallery .seated {
+  margin-right: 2.5em;
+}
+
+.roster-gallery p {
+  margin-bottom: 0;
+  margin-right: .5em;
+  font-weight: bold;
+  color: #AAAAAA;
+  font-size: .8em;
+}
+
+.roster-gallery ul li {
+  display: inline-block;
+  width: 1.7em;
+  overflow: visible;
+}
+
+.roster-gallery ul li .picture {
+  display: inline-block;
+  height: 2.25em;
+  width: 2.25em;
+  border-radius: 5px;
+  border: 2px solid #f4f4f4;
+  background-size: cover;
+  background-position: center center;
+}
+
+.select-list {
+  position: relative;
+  margin-top: 5em;
+  padding: 2em 0 0 0;
+  /* end li */
+}
+
+.select-list .loading {
+  display: none;
+  position: absolute;
+  top: 5em;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+.select-list .loading i {
+  position: relative;
+}
+
+.select-list h5 {
+  text-align: center;
+  -webkit-transition: opacity 75ms ease-out;
+  transition: opacity 75ms ease-out;
+}
+
+.select-list ul li {
+  position: relative;
+}
+
+.select-list ul li a {
+  display: block;
+  padding: 1.5em 3.5em 1.5em 2em;
+  border-top: 1px solid #f4f4f4;
+}
+
+.select-list ul li a h4 {
+  display: block;
+  text-transform: capitalize;
+  color: #444444;
+  margin-bottom: 0;
+}
+
+.select-list ul li a p {
+  margin-bottom: 0;
+  color: #444444;
+}
+
+.select-list ul li i {
+  position: absolute;
+  right: 1.5em;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  color: #AAAAAA;
+}
+
+.select-list ul li:hover h4,
+.select-list ul li:hover p,
+.select-list ul li:hover i {
+  color: #DD4343;
+}
+
+.room-list.is-loading h5 {
+  opacity: .25;
+}
+
+.room-list.is-loading .loading {
+  display: block;
 }
 

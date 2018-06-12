@@ -11,7 +11,7 @@ class OfferingsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Offering::class, 15)
+        factory(App\Offering::class, 50)
             ->create()
             ->each(function($o) {
                 // room

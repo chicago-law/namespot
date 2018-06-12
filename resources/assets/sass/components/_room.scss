@@ -45,7 +45,7 @@
       .seat {
         overflow:visible;
         rect {
-          fill:$middle-gray;
+          fill:$light-gray;
         }
         .plus-person {
           fill:$dark-gray;
@@ -142,8 +142,12 @@
     }
   } // end .outer-room-container.edit-table
 
-  &.offering-overview { // outer-room-container.offering-overview
+  // use this for common rules across seating students view
+  &.offering-overview, &.find-student {
     margin-top:1em;
+  }
+
+  &.offering-overview { // outer-room-container.offering-overview
     .tables-container {
       .table {
         .table-path {

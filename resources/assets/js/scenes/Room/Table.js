@@ -17,13 +17,17 @@ class Table extends Component {
       this.props.setTask('edit-room');
     }
     if (this.props.task === 'edit-room') {
-      // change theRoom status
       this.props.setTask('edit-table');
       this.props.setPointSelection('start');
 
       // send this table to tempTable
       this.props.selectTable(this.props.id, this.props.match.params.roomID, this.props.seatCount, this.props.coords);
     }
+  }
+
+  handleSeatClick(e) {
+    // console.log(e.target);
+    this.props.setTask('find-student');
   }
 
   componentDidMount() {
@@ -73,6 +77,7 @@ class Table extends Component {
         <svg xmlns="http://www.w3.org/2000/svg"
           key={key} id={key}
           className='seat'
+          onClick={(e) => this.handleSeatClick(e)}
           x={seatCoords[key].x + 'px'} y={seatCoords[key].y + 'px'}
           width={seatSize} height={seatSize}
           viewBox="0 0 40 40"

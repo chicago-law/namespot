@@ -7,6 +7,7 @@ import Grid from './containers/Grid';
 import Guides from './Guides';
 import RoomHeader from './containers/RoomHeader';
 import Loading from '../../global/Loading';
+import RosterGallery from './containers/RosterGallery';
 
 export default class Room extends Component {
   constructor(props) {
@@ -36,10 +37,6 @@ export default class Room extends Component {
       default:
         this.props.setTask(null);
     }
-  }
-
-  handleUnseatedClick(e) {
-    this.props.assignSeat(this.props.currentOffering.id, e.target.dataset.studentid, '28_8');
   }
 
   componentDidMount() {
@@ -101,6 +98,7 @@ export default class Room extends Component {
       'edit-room':this.props.task === 'edit-room',
       'edit-table':this.props.task === 'edit-table',
       'offering-overview':this.props.task === 'offering-overview',
+      'find-student':this.props.task === 'find-student',
       'choosing-a-point':this.props.pointSelection,
       'is-loading':this.props.loading.rooms || this.props.loading.tables || this.props.loading.offerings
     })
@@ -119,8 +117,8 @@ export default class Room extends Component {
 
     return (
       <div className={outerRoomContainerClasses}>
-
         <Loading />
+
         <Route path="/offering" component={RoomHeader} />
 
         <div className='inner-room-container' ref={this.gridContRef}>
@@ -150,28 +148,7 @@ export default class Room extends Component {
           <h3>FRONT</h3>
         </div>
 
-        <div className="roster-gallery">
-          <h3>Seated Students</h3>
-          <ul className="seated">
-            {
-              this.props.currentStudents.filter(student => student.seats['offering_' + this.props.currentOffering.id] != null ? true : false ).map(student =>
-                <p key={student.id}>
-                  {student.first_name}
-                </p>
-              )
-            }
-          </ul>
-
-          <h3>Unseated Students</h3>
-          <ul className="unseated">
-            {
-              this.props.currentStudents.filter(student => student.seats['offering_' + this.props.currentOffering.id] === null ? true : false ).map(student =>
-                <p key={student.id} data-studentid={student.id} onClick={(e) => this.handleUnseatedClick(e)}> {student.first_name}</p>
-              )
-            }
-          </ul>
-        </div>
-
+        <Route path="/offering" component={RosterGallery} />
 
       </div> /* end outer Room Container */
     );
