@@ -2,7 +2,7 @@ import { normalize } from 'normalizr'
 import * as schema from './schema';
 import C from '../constants';
 import { rootUrl } from './index';
-import { setLoadingStatus, setCurrentSeat } from './app';
+import { setLoadingStatus, setCurrentSeatId } from './app';
 
 /**
  * STUDENTS
@@ -64,7 +64,7 @@ export function assignSeat(offering_id, student_id, seat_id) {
     dispatch(seatStudent(offering_id, student_id, seat_id));
 
     // clear out current seat
-    dispatch(setCurrentSeat(null));
+    dispatch(setCurrentSeatId(null));
 
     // also send update to DB
     axios.post(`${rootUrl}api/student/update/${student_id}`, {

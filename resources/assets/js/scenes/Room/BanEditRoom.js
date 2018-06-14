@@ -12,9 +12,5 @@ const BanEditRoom = ({ currentRoom }) => {
 export default BanEditRoom
 
 BanEditRoom.propTypes = {
-  currentRoom: PropTypes.shape({
-    id: PropTypes.any.isRequired,
-    name: PropTypes.any.isRequired,
-    seat_size: PropTypes.any.isRequired
-  }).isRequired
+  currentRoom: PropTypes.object.isRequired
 }

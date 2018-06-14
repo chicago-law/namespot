@@ -48,7 +48,7 @@ export function setCurrentOffering(offering) {
 /**
  * currentSeatId
  */
-export function setCurrentSeat(seatID) {
+export function setCurrentSeatId(seatID) {
   return {
     type:C.SET_CURRENT_SEAT,
     seatID
@@ -58,7 +58,7 @@ export function setCurrentSeat(seatID) {
 /**
  * currentStudentId
  */
-export function setCurrentStudent(studentID) {
+export function setCurrentStudentId(studentID) {
   return {
     type:C.SET_CURRENT_STUDENT,
     studentID
@@ -78,8 +78,8 @@ export function setTask(task) {
 // export function setTask(task) {
 //   return (dispatch) => {
 //     if (task === 'offering-overview') {
-//       dispatch(setCurrentStudent(null));
-//       dispatch(setCurrentSeat(null));
+//       dispatch(setCurrentStudentId(null));
+//       dispatch(setCurrentSeatId(null));
 //       dispatch(changeTask(task));
 //     } else {
 //       dispatch(changeTask(task))

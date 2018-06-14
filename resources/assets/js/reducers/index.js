@@ -89,7 +89,7 @@ const task = (state = '', action) => {
 /**
  * App / tempTable
  */
-const tempTable = (state = '', action) => {
+const tempTable = (state = {}, action) => {
   switch (action.type) {
     case C.NEW_TABLE:
       return {
@@ -123,7 +123,7 @@ const tempTable = (state = '', action) => {
         }
       }
     case C.CLEAR_TEMP_TABLE:
-      return '';
+      return {};
     default:
       return state
   }

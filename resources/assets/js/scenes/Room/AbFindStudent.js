@@ -76,7 +76,7 @@ AbFindStudent.propTypes = {
   currentOffering: PropTypes.object.isRequired,
   currentSeatId: PropTypes.string.isRequired,
   currentStudents: PropTypes.array.isRequired,
-  setCurrentStudent: PropTypes.func.isRequired,
+  setCurrentStudentId: PropTypes.func.isRequired,
   setTask: PropTypes.func.isRequired,
   task: PropTypes.string.isRequired,
 }

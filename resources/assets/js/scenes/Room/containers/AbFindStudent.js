@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import AbFindStudent from '../AbFindStudent';
-import { assignSeat, setTask, setCurrentStudent } from '../../../actions'
+import { assignSeat, setTask, setCurrentStudentId } from '../../../actions'
 
 const mapStateToProps = (state) => {
 
@@ -29,8 +29,8 @@ const mapDispatchToProps = (dispatch) => {
     setTask: (task) => {
       dispatch(setTask(task))
     },
-    setCurrentStudent: (studentID) => {
-      dispatch(setCurrentStudent(studentID))
+    setCurrentStudentId: (studentID) => {
+      dispatch(setCurrentStudentId(studentID))
     }
   }
 }

@@ -94,5 +94,5 @@ Grid.propTypes = {
   gridRows: PropTypes.number,
   pointSelection: PropTypes.string,
   savePointToTempTable: PropTypes.func.isRequired,
-  tempTable: PropTypes.string
+  tempTable: PropTypes.object
 }

@@ -31,10 +31,10 @@ class Table extends Component {
         case 'offering-overview':
         case 'find-student':
           this.props.setTask('student-details');
-          this.props.setCurrentStudent(e.target.closest('[data-studentid]').dataset.studentid);
+          this.props.setCurrentStudentId(parseInt(e.target.closest('[data-studentid]').dataset.studentid));
           break;
         case 'student-details':
-          this.props.setCurrentStudent(e.target.closest('[data-studentid]').dataset.studentid);
+          this.props.setCurrentStudentId(parseInt(e.target.closest('[data-studentid]').dataset.studentid));
           break;
       }
     }
@@ -42,14 +42,14 @@ class Table extends Component {
       switch (this.props.task) {
         case 'offering-overview':
           this.props.setTask('find-student');
-          this.props.setCurrentSeat(e.target.closest('[data-seatid]').dataset.seatid);
+          this.props.setCurrentSeatId(e.target.closest('[data-seatid]').dataset.seatid);
           break;
         case 'find-student':
-          this.props.setCurrentSeat(e.target.closest('[data-seatid]').dataset.seatid);
+          this.props.setCurrentSeatId(e.target.closest('[data-seatid]').dataset.seatid);
           break;
         case 'student-details':
           this.props.setTask('find-student');
-          this.props.setCurrentSeat(e.target.closest('[data-seatid]').dataset.seatid);
+          this.props.setCurrentSeatId(e.target.closest('[data-seatid]').dataset.seatid);
           break;
       }
     }
@@ -154,6 +154,7 @@ class Table extends Component {
             x={seatCoords[key].x + 'px'} y={seatCoords[key].y + 'px'}
             width={seatSize} height={seatSize}
             viewBox="0 0 40 40"
+            style={{ 'transform': `translate(-${seatSize / 2}px, -${seatSize / 2}px)` }}
           >
             { occupant ? occupiedSeat : emptySeat }
           </svg>

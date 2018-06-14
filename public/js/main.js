@@ -3976,8 +3976,8 @@ var tableListSchema = new __WEBPACK_IMPORTED_MODULE_0_normalizr__["schema"].Arra
 /* unused harmony export setCurrentRoom */
 /* harmony export (immutable) */ __webpack_exports__["b"] = findAndSetCurrentOffering;
 /* unused harmony export setCurrentOffering */
-/* harmony export (immutable) */ __webpack_exports__["g"] = setCurrentSeat;
-/* harmony export (immutable) */ __webpack_exports__["h"] = setCurrentStudent;
+/* harmony export (immutable) */ __webpack_exports__["g"] = setCurrentSeatId;
+/* harmony export (immutable) */ __webpack_exports__["h"] = setCurrentStudentId;
 /* harmony export (immutable) */ __webpack_exports__["l"] = setTask;
 /* harmony export (immutable) */ __webpack_exports__["d"] = newTable;
 /* harmony export (immutable) */ __webpack_exports__["f"] = selectTable;
@@ -4037,7 +4037,7 @@ function setCurrentOffering(offering) {
 /**
  * currentSeatId
  */
-function setCurrentSeat(seatID) {
+function setCurrentSeatId(seatID) {
   return {
     type: __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* default */].SET_CURRENT_SEAT,
     seatID: seatID
@@ -4047,7 +4047,7 @@ function setCurrentSeat(seatID) {
 /**
  * currentStudentId
  */
-function setCurrentStudent(studentID) {
+function setCurrentStudentId(studentID) {
   return {
     type: __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* default */].SET_CURRENT_STUDENT,
     studentID: studentID
@@ -4067,8 +4067,8 @@ function setTask(task) {
 // export function setTask(task) {
 //   return (dispatch) => {
 //     if (task === 'offering-overview') {
-//       dispatch(setCurrentStudent(null));
-//       dispatch(setCurrentSeat(null));
+//       dispatch(setCurrentStudentId(null));
+//       dispatch(setCurrentSeatId(null));
 //       dispatch(changeTask(task));
 //     } else {
 //       dispatch(changeTask(task))
@@ -64579,7 +64579,7 @@ var task = function task() {
  * App / tempTable
  */
 var tempTable = function tempTable() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var action = arguments[1];
 
   switch (action.type) {
@@ -64610,7 +64610,7 @@ var tempTable = function tempTable() {
         coords: _extends({}, state.coords, _defineProperty({}, action.pointType, action.pointKey))
       });
     case __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* default */].CLEAR_TEMP_TABLE:
-      return '';
+      return {};
     default:
       return state;
   }
@@ -65856,11 +65856,7 @@ var BanEditRoom = function BanEditRoom(_ref) {
 /* harmony default export */ __webpack_exports__["a"] = (BanEditRoom);
 
 BanEditRoom.propTypes = {
-  currentRoom: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.shape({
-    id: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.any.isRequired,
-    name: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.any.isRequired,
-    seat_size: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.any.isRequired
-  }).isRequired
+  currentRoom: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired
 };
 
 /***/ }),
@@ -66967,7 +66963,7 @@ function assignSeat(offering_id, student_id, seat_id) {
     dispatch(seatStudent(offering_id, student_id, seat_id));
 
     // clear out current seat
-    dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__app__["g" /* setCurrentSeat */])(null));
+    dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__app__["g" /* setCurrentSeatId */])(null));
 
     // also send update to DB
     axios.post(__WEBPACK_IMPORTED_MODULE_3__index__["k" /* rootUrl */] + 'api/student/update/' + student_id, {
@@ -67621,8 +67617,8 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     setTask: function setTask(task) {
       dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["t" /* setTask */])(task));
     },
-    setCurrentStudent: function setCurrentStudent(studentID) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["p" /* setCurrentStudent */])(studentID));
+    setCurrentStudentId: function setCurrentStudentId(studentID) {
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["p" /* setCurrentStudentId */])(studentID));
     }
   };
 };
@@ -67780,7 +67776,7 @@ AbFindStudent.propTypes = {
   currentOffering: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
   currentSeatId: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string.isRequired,
   currentStudents: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.array.isRequired,
-  setCurrentStudent: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func.isRequired,
+  setCurrentStudentId: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func.isRequired,
   setTask: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func.isRequired,
   task: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string.isRequired
 };
@@ -68010,15 +68006,8 @@ var AbStudentDetails = function (_Component) {
 
 AbStudentDetails.propTypes = {
   assignSeat: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func.isRequired,
-  currentOffering: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.shape({
-    course_num: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string.isRequired,
-    id: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired,
-    instructors: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.array.isRequired,
-    name: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string.isRequired,
-    room_id: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired,
-    students: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.array.isRequired
-  }).isRequired,
-  currentStudentId: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string.isRequired,
+  currentOffering: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
+  currentStudentId: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired,
   setTask: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func.isRequired,
   students: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
   updateAndSaveStudent: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func.isRequired
@@ -68811,7 +68800,7 @@ var Room = function (_Component) {
 
       var outerRoomContainerClasses = __WEBPACK_IMPORTED_MODULE_3_classnames_bind___default()({
         'outer-room-container': true,
-        'edit-room': this.props.task === 'edit-room',
+        'edit-room': this.props.task === 'edit-room' || this.props.task === 'delete-table',
         'edit-table': this.props.task === 'edit-table',
         'offering-overview': this.props.task === 'offering-overview',
         'find-student': this.props.task === 'find-student',
@@ -68902,7 +68891,7 @@ Room.propTypes = {
   setTask: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.func.isRequired,
   setView: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.func.isRequired,
   task: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.string,
-  tempTable: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.string,
+  tempTable: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.object,
   view: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.string
 };
 
@@ -68952,11 +68941,11 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     removeTableRequest: function removeTableRequest(tableID) {
       dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["h" /* removeTableRequest */])(tableID));
     },
-    setCurrentSeat: function setCurrentSeat(seatID) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["o" /* setCurrentSeat */])(seatID));
+    setCurrentSeatId: function setCurrentSeatId(seatID) {
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["o" /* setCurrentSeatId */])(seatID));
     },
-    setCurrentStudent: function setCurrentStudent(studentID) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["p" /* setCurrentStudent */])(studentID));
+    setCurrentStudentId: function setCurrentStudentId(studentID) {
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["p" /* setCurrentStudentId */])(studentID));
     }
   };
 };
@@ -69026,10 +69015,10 @@ var Table = function (_Component) {
           case 'offering-overview':
           case 'find-student':
             this.props.setTask('student-details');
-            this.props.setCurrentStudent(e.target.closest('[data-studentid]').dataset.studentid);
+            this.props.setCurrentStudentId(parseInt(e.target.closest('[data-studentid]').dataset.studentid));
             break;
           case 'student-details':
-            this.props.setCurrentStudent(e.target.closest('[data-studentid]').dataset.studentid);
+            this.props.setCurrentStudentId(parseInt(e.target.closest('[data-studentid]').dataset.studentid));
             break;
         }
       } else {
@@ -69037,14 +69026,14 @@ var Table = function (_Component) {
         switch (this.props.task) {
           case 'offering-overview':
             this.props.setTask('find-student');
-            this.props.setCurrentSeat(e.target.closest('[data-seatid]').dataset.seatid);
+            this.props.setCurrentSeatId(e.target.closest('[data-seatid]').dataset.seatid);
             break;
           case 'find-student':
-            this.props.setCurrentSeat(e.target.closest('[data-seatid]').dataset.seatid);
+            this.props.setCurrentSeatId(e.target.closest('[data-seatid]').dataset.seatid);
             break;
           case 'student-details':
             this.props.setTask('find-student');
-            this.props.setCurrentSeat(e.target.closest('[data-seatid]').dataset.seatid);
+            this.props.setCurrentSeatId(e.target.closest('[data-seatid]').dataset.seatid);
             break;
         }
       }
@@ -69161,7 +69150,8 @@ var Table = function (_Component) {
               },
               x: seatCoords[key].x + 'px', y: seatCoords[key].y + 'px',
               width: seatSize, height: seatSize,
-              viewBox: '0 0 40 40'
+              viewBox: '0 0 40 40',
+              style: { 'transform': 'translate(-' + seatSize / 2 + 'px, -' + seatSize / 2 + 'px)' }
             },
             occupant ? occupiedSeat : emptySeat
           );
@@ -69377,7 +69367,7 @@ Grid.propTypes = {
   gridRows: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number,
   pointSelection: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string,
   savePointToTempTable: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func.isRequired,
-  tempTable: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string
+  tempTable: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object
 };
 
 /***/ }),

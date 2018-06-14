@@ -1246,8 +1246,6 @@ li {
 .outer-room-container .tables-container .table .seat {
   overflow: hidden;
   border-radius: 5px;
-  -webkit-transform: translate(-20px, -20px);
-          transform: translate(-20px, -20px);
 }
 
 .outer-room-container .tables-container .table .seat rect {

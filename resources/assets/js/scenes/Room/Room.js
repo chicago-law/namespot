@@ -97,7 +97,7 @@ export default class Room extends Component {
   render() {
     const outerRoomContainerClasses = classNames({
       'outer-room-container':true,
-      'edit-room':this.props.task === 'edit-room',
+      'edit-room':this.props.task === 'edit-room' || this.props.task === 'delete-table',
       'edit-table':this.props.task === 'edit-table',
       'offering-overview':this.props.task === 'offering-overview',
       'find-student':this.props.task === 'find-student',
@@ -175,6 +175,6 @@ Room.propTypes = {
   setTask: PropTypes.func.isRequired,
   setView: PropTypes.func.isRequired,
   task: PropTypes.string,
-  tempTable: PropTypes.string,
+  tempTable: PropTypes.object,
   view: PropTypes.string
 }

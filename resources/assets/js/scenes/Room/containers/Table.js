@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
 import Table from '../Table'
-import { selectTable , setTask, setPointSelection, removeTableRequest, setCurrentSeat, setCurrentStudent } from '../../../actions'
+import { selectTable , setTask, setPointSelection, removeTableRequest, setCurrentSeatId, setCurrentStudentId } from '../../../actions'
 
 const mapStateToProps = (state) => {
 
@@ -33,11 +33,11 @@ const mapDispatchToProps = (dispatch) => {
     removeTableRequest:(tableID) => {
       dispatch(removeTableRequest(tableID))
     },
-    setCurrentSeat: (seatID) => {
-      dispatch(setCurrentSeat(seatID))
+    setCurrentSeatId: (seatID) => {
+      dispatch(setCurrentSeatId(seatID))
     },
-    setCurrentStudent: (studentID) => {
-      dispatch(setCurrentStudent(studentID))
+    setCurrentStudentId: (studentID) => {
+      dispatch(setCurrentStudentId(studentID))
     }
   }
 }
