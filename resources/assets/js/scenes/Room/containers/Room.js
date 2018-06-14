@@ -13,8 +13,8 @@ const mapStateToProps = (state, ownProps) => {
 
   // find current room ID either from URL or from currentOffering
   const params = ownProps.match.params;
-  const currentOfferingID = params.offeringID ? params.offeringID : null;
-  const currentRoomID = params.roomID ? params.roomID : currentOfferingID ? state.entities.offerings[currentOfferingID] ? state.entities.offerings[currentOfferingID].room_id : null : null;
+  const currentOfferingID = params.offeringID ? parseFloat(params.offeringID) : null;
+  const currentRoomID = params.roomID ? parseFloat(params.roomID) : currentOfferingID ? state.entities.offerings[currentOfferingID] ? state.entities.offerings[currentOfferingID].room_id : null : null;
 
   // find all tables that belong to this room
   let currentTables = [];

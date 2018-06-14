@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export default class AbFindStudent extends Component {
   constructor(props) {
@@ -68,4 +69,14 @@ export default class AbFindStudent extends Component {
       </div>
     );
   }
+}
+
+AbFindStudent.propTypes = {
+  assignSeat: PropTypes.func.isRequired,
+  currentOffering: PropTypes.object.isRequired,
+  currentSeatId: PropTypes.string.isRequired,
+  currentStudents: PropTypes.array.isRequired,
+  setCurrentStudent: PropTypes.func.isRequired,
+  setTask: PropTypes.func.isRequired,
+  task: PropTypes.string.isRequired,
 }

@@ -26,5 +26,9 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const RosterGalleryContainer = connect(mapStateToProps, mapDispatchToProps)(RosterGallery);
+const RosterGalleryContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RosterGallery);
+
 export default RosterGalleryContainer;

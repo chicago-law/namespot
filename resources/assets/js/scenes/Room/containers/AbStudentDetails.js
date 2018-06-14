@@ -25,9 +25,9 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const AbStudentDetailsContainer = withRouter(connect(
+const AbStudentDetailsContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(AbStudentDetails))
+)(AbStudentDetails)
 
 export default AbStudentDetailsContainer;

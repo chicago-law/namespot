@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const RosterGallery = ({ currentStudents, currentOffering, assignSeat }) => {
   const rootUrl = document.querySelector('body').dataset.root;
@@ -45,3 +46,9 @@ const RosterGallery = ({ currentStudents, currentOffering, assignSeat }) => {
 }
 
 export default RosterGallery
+
+RosterGallery.propTypes = {
+  assignSeat: PropTypes.func.isRequired,
+  currentOffering: PropTypes.object.isRequired,
+  currentStudents: PropTypes.array.isRequired
+}

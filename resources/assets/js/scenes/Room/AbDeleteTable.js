@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types';
 
 const AbDeleteTable = ({ setTask }) => {
 
@@ -18,3 +18,7 @@ const AbDeleteTable = ({ setTask }) => {
 }
 
 export default AbDeleteTable;
+
+AbDeleteTable.propTypes = {
+  setTask: PropTypes.func.isRequired
+}

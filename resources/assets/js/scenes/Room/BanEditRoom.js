@@ -1,15 +1,20 @@
-import React from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
 
-const BanEditRoom = ({ rooms, match }) => {
-  let roomName = '';
-  if (rooms[match.params.id]) {
-    roomName = rooms[match.params.id].name;
-  }
+const BanEditRoom = ({ currentRoom }) => {
   return (
     <div className="banner-text">
-      <h3><i className="far fa-cog"></i>{roomName}</h3>
+      <h3><i className="far fa-cog"></i>{currentRoom.name}</h3>
     </div>
   );
 }
 
 export default BanEditRoom
+
+BanEditRoom.propTypes = {
+  currentRoom: PropTypes.shape({
+    id: PropTypes.any.isRequired,
+    name: PropTypes.any.isRequired,
+    seat_size: PropTypes.any.isRequired
+  }).isRequired
+}

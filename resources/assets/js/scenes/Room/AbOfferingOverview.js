@@ -1,7 +1,6 @@
 import React from 'react';
 
 const AbOfferingOverview = () => {
-
   return (
     <div className='action-bar action-bar-offering-overview'>
       <div className='click-an-empty-seat'>

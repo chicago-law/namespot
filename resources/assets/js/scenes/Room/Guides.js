@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const Guides = ({ gridColumns, gridColumnWidth, gridRows, gridRowHeight }) => {
 
@@ -37,3 +38,10 @@ const Guides = ({ gridColumns, gridColumnWidth, gridRows, gridRowHeight }) => {
 }
 
 export default Guides
+
+Guides.propTypes = {
+  gridColumnWidth: PropTypes.number,
+  gridColumns: PropTypes.number,
+  gridRowHeight: PropTypes.number,
+  gridRows: PropTypes.number
+}

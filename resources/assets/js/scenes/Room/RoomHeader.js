@@ -21,7 +21,7 @@ const RoomHeader = ({ currentRoom, currentOffering }) => {
 export default RoomHeader;
 
 RoomHeader.propTypes = {
-  currentRoom: PropTypes.object,
-  currentOffering: PropTypes.object
+  currentRoom: PropTypes.object.isRequired,
+  currentOffering: PropTypes.object.isRequired
 }
 

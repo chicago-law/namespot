@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export default class AbStudentDetails extends Component {
   constructor(props) {
@@ -81,4 +82,20 @@ export default class AbStudentDetails extends Component {
       </div>
     )
   }
+}
+
+AbStudentDetails.propTypes = {
+  assignSeat: PropTypes.func.isRequired,
+  currentOffering: PropTypes.shape({
+    course_num: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+    instructors: PropTypes.array.isRequired,
+    name: PropTypes.string.isRequired,
+    room_id: PropTypes.number.isRequired,
+    students: PropTypes.array.isRequired
+  }).isRequired,
+  currentStudentId: PropTypes.string.isRequired,
+  setTask: PropTypes.func.isRequired,
+  students: PropTypes.object.isRequired,
+  updateAndSaveStudent: PropTypes.func.isRequired
 }

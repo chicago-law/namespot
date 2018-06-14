@@ -178,10 +178,13 @@ class Table extends Component {
 export default Table;
 
 Table.propTypes = {
-  coords: PropTypes.object.isRequired,
-  currentRoom: PropTypes.shape({
-    id: PropTypes.number
-  }).isRequired,
+  coords: PropTypes.any.isRequired,
+  currentOffering: PropTypes.object.isRequired,
+  currentRoom: PropTypes.object.isRequired,
+  currentSeatId: PropTypes.string,
+  currentStudentId: PropTypes.number,
+  currentStudents: PropTypes.array.isRequired,
+  eX: PropTypes.number.isRequired,
   gridcolumnwidth: PropTypes.number,
   gridrowheight: PropTypes.number,
   id: PropTypes.number.isRequired,

@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
-import classNames from 'classnames/bind'
-import Loading from '../../global/Loading'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import classNames from 'classnames/bind';
+import Loading from '../../global/Loading';
 
 export default class RoomList extends Component {
   constructor(props) {
@@ -38,13 +38,10 @@ export default class RoomList extends Component {
       </div>
     );
   }
-
 }
 
-
 RoomList.propTypes = {
-  rooms: PropTypes.objectOf(PropTypes.shape({
-    id:PropTypes.number.isRequired,
-    name:PropTypes.string.isRequired
-  }))
+  requestRooms: PropTypes.func.isRequired,
+  rooms: PropTypes.object.isRequired,
+  setView: PropTypes.func.isRequired,
 }

@@ -44,8 +44,8 @@ export default class Room extends Component {
   componentDidMount() {
     const grid = this.measureGrid();
     this.setState({
-      gridRowHeight: parseInt(grid.height) / this.state.gridRows,
-      gridColumnWidth: parseInt(grid.width) / this.state.gridColumns,
+      gridRowHeight: parseFloat((parseInt(grid.height) / this.state.gridRows).toFixed(2)),
+      gridColumnWidth: parseFloat((parseInt(grid.width) / this.state.gridColumns).toFixed(2)),
     });
 
     // get the rooms data if we need it
@@ -134,7 +134,8 @@ export default class Room extends Component {
           {/* Here be the blips! */}
           <Route path='/room' render={() =>
             <svg className='grid-container' xmlns="http://www.w3.org/2000/svg">
-              <Grid currentRoomID={this.props.match.params.roomID} gridColumns={this.state.gridColumns} gridColumnWidth={this.state.gridColumnWidth} gridRows={this.state.gridRows} gridRowHeight={this.state.gridRowHeight} />
+              {/* <Grid currentRoomID={this.props.match.params.roomID} gridColumns={this.state.gridColumns} gridColumnWidth={this.state.gridColumnWidth} gridRows={this.state.gridRows} gridRowHeight={this.state.gridRowHeight} /> */}
+              <Grid gridColumns={this.state.gridColumns} gridColumnWidth={this.state.gridColumnWidth} gridRows={this.state.gridRows} gridRowHeight={this.state.gridRowHeight} />
             </svg>
           } />
 
@@ -159,14 +160,21 @@ export default class Room extends Component {
 }
 
 Room.propTypes = {
-  currentRoom: PropTypes.shape({
-    id: PropTypes.isRequired,
-    name: PropTypes.isRequired,
-    seat_size: PropTypes.oneOfType([PropTypes.string,PropTypes.number])
-  }).isRequired,
+  assignSeat: PropTypes.func.isRequired,
   currentOffering: PropTypes.object.isRequired,
-  currentTables: PropTypes.array,
+  currentOfferingID: PropTypes.number,
+  currentRoom: PropTypes.object.isRequired,
+  currentRoomID: PropTypes.number,
+  currentTables: PropTypes.array.isRequired,
   fetchTables: PropTypes.func.isRequired,
+  findAndSetCurrentOffering: PropTypes.func.isRequired,
+  findAndSetCurrentRoom: PropTypes.func.isRequired,
+  pointSelection: PropTypes.string,
+  requestRooms: PropTypes.func.isRequired,
+  requestStudents: PropTypes.func.isRequired,
   setTask: PropTypes.func.isRequired,
-  pointSelection: PropTypes.any,
+  setView: PropTypes.func.isRequired,
+  task: PropTypes.string,
+  tempTable: PropTypes.string,
+  view: PropTypes.string
 }

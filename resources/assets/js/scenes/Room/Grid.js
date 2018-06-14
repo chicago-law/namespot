@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 
 const Grid = ({ gridRows, gridColumns, gridRowHeight, gridColumnWidth, pointSelection, currentTables, tempTable, savePointToTempTable }) => {
@@ -84,3 +85,14 @@ const Grid = ({ gridRows, gridColumns, gridRowHeight, gridColumnWidth, pointSele
 }
 
 export default Grid;
+
+Grid.propTypes = {
+  currentTables: PropTypes.array.isRequired,
+  gridColumnWidth: PropTypes.number,
+  gridColumns: PropTypes.number,
+  gridRowHeight: PropTypes.number,
+  gridRows: PropTypes.number,
+  pointSelection: PropTypes.string,
+  savePointToTempTable: PropTypes.func.isRequired,
+  tempTable: PropTypes.string
+}

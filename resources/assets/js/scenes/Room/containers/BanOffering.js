@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import BanOffering from '../BanOffering'
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
     currentOffering:state.app.currentOffering
   }

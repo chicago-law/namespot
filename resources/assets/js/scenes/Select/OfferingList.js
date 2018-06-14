@@ -1,9 +1,9 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 const OfferingList = ({ offerings, setView }) => {
   setView('offering-list');
-
   return (
     <div>
       <h5>Select Class</h5>
@@ -23,3 +23,8 @@ const OfferingList = ({ offerings, setView }) => {
 }
 
 export default OfferingList;
+
+OfferingList.propTypes = {
+  offerings: PropTypes.object.isRequired,
+  setView: PropTypes.func.isRequired
+}

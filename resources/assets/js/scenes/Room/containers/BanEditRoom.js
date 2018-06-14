@@ -1,10 +1,9 @@
 import { connect } from 'react-redux';
 import BanEditRoom from '../BanEditRoom'
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
-    rooms: state.entities.rooms,
-    match:ownProps.match
+    currentRoom:state.app.currentRoom
   }
 }
 

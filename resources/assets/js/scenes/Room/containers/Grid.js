@@ -4,16 +4,13 @@ import { savePointToTempTable } from '../../../actions'
 
 const mapStateToProps = (state, ownProps) => {
 
-  // Passed manually from Room, for simplicity
-  const currentRoomID = ownProps.currentRoomID;
-
   // find all tables that belong to this room
   let currentTables = [];
   if (state.entities.tables) {
     const allTables = state.entities.tables;
     for (let table in allTables) {
       if (allTables.hasOwnProperty(table)) {
-        if (allTables[table].room_id == currentRoomID) {
+        if (allTables[table].room_id == state.app.currentRoom.id) {
           currentTables = [...currentTables, allTables[table]];
         }
       }

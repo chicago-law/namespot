@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 import AbEditRoom from '../scenes/Room/containers/AbEditRoom';
 import AbEditTable from '../scenes/Room/containers/AbEditTable';
@@ -44,4 +45,8 @@ export default class ActionBar extends Component {
       </div>
     )
   }
+}
+
+ActionBar.propTypes = {
+  task:PropTypes.string
 }

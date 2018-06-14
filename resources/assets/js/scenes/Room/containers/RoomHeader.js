@@ -1,19 +1,22 @@
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import RoomHeader from '../RoomHeader';
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
     currentRoom:state.app.currentRoom,
     currentOffering:state.app.currentOffering
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    //
-  }
-}
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     //
+//   }
+// }
 
-const RoomHeaderContainer = withRouter(connect(mapStateToProps,mapDispatchToProps)(RoomHeader));
+const RoomHeaderContainer = connect(
+  mapStateToProps,
+  // mapDispatchToProps
+)(RoomHeader);
+
 export default RoomHeaderContainer;

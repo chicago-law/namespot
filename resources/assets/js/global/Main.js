@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
 import Select from '../scenes/Select/Select';
 import Room from '../scenes/Room/containers/Room';
@@ -26,4 +27,9 @@ export default class Main extends Component {
       </div>
     )
   }
+}
+
+Main.propTypes = {
+  view: PropTypes.string,
+  task: PropTypes.string
 }

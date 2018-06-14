@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 export default class AbEditTable extends React.Component {
   constructor(props) {
@@ -93,3 +93,16 @@ export default class AbEditTable extends React.Component {
     )
   }
 }
+
+AbEditTable.propTypes = {
+    clearTempTable: PropTypes.func.isRequired,
+    currentRoom: PropTypes.object.isRequired,
+    pointSelection: PropTypes.string,
+    saveTable:PropTypes.func.isRequired,
+    setPointSelection: PropTypes.func.isRequired,
+    setSeatCount: PropTypes.func.isRequired,
+    setTask: PropTypes.func.isRequired,
+    task: PropTypes.string,
+    tempTable: PropTypes.object,
+    view: PropTypes.string
+  }
