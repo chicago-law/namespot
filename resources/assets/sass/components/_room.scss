@@ -89,6 +89,9 @@
     .tables-container {
       .table {
         cursor:pointer;
+        .seat rect {
+          fill:rgba(0,0,0,.15);
+        }
       }
     }
   }

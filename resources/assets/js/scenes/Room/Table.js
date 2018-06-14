@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
+import { Route } from 'react-router-dom';
 
 class Table extends Component {
   constructor(props) {
@@ -17,8 +18,6 @@ class Table extends Component {
     if (this.props.task === 'edit-room') {
       this.props.setTask('edit-table');
       this.props.setPointSelection('start');
-
-      // send this table to tempTable
       this.props.selectTable(this.props.id, this.props.match.params.roomID, this.props.seatCount, this.props.coords);
     }
     e.stopPropagation();
@@ -53,7 +52,6 @@ class Table extends Component {
           break;
       }
     }
-    e.stopPropagation();
   }
 
   findOccupant(seat_id) {
@@ -139,6 +137,14 @@ class Table extends Component {
           </g>
         ) : '';
 
+        // and show this if we're in edit room view
+        const blankSeat = (
+          <g>
+            <rect width="40" height="40"></rect>
+          </g>
+        );
+
+
         // seat classes
         const seatClasses = classNames({
           'seat': true,
@@ -156,7 +162,8 @@ class Table extends Component {
             viewBox="0 0 40 40"
             style={{ 'transform': `translate(-${seatSize / 2}px, -${seatSize / 2}px)` }}
           >
-            { occupant ? occupiedSeat : emptySeat }
+            <Route path="/offering" render={() => ( occupant ? occupiedSeat : emptySeat )} />
+            <Route path="/room" render={() => ( blankSeat )} />
           </svg>
         )
       })
