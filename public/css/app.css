@@ -1311,10 +1311,10 @@ li {
   cursor: pointer;
 }
 
-.outer-room-container.edit-room .tables-container .table .seat rect,
-.outer-room-container.edit-table .tables-container .table .seat rect,
-.outer-room-container.choosing-a-point .tables-container .table .seat rect {
-  fill: rgba(0, 0, 0, 0.15);
+.outer-room-container.edit-room .tables-container .table .seat,
+.outer-room-container.edit-table .tables-container .table .seat,
+.outer-room-container.choosing-a-point .tables-container .table .seat {
+  opacity: .5;
 }
 
 .outer-room-container.edit-room .tables-container .table .table-path {

@@ -1,17 +1,19 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import AbOfferingOverview from '../AbOfferingOverview';
-// import {  } from '../../../actions'
+import { setTask } from '../../../actions'
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    //
+    task:state.app.task
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    //
+    setTask: (task) => {
+      dispatch(setTask(task))
+    }
   }
 }
 
