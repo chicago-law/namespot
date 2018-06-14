@@ -34,9 +34,6 @@
     }
     &:hover {
       background: $off-white;
-      i, p {
-        // color:$primary-accent;
-      }
     }
   }
   .flex-container {
@@ -50,10 +47,18 @@
       padding-right: 0;
     }
     &.pull-top {
-      // justify-content:flex-start;
       display:block;
     }
   }
+  .fa-arrow-left {
+    @include ms1;
+    margin-right: 2.4em;
+    cursor:pointer;
+    &:hover {
+      color:$primary-accent;
+    }
+  }
+
 }
 
 .action-bar-edit-room {
@@ -62,8 +67,6 @@
   }
   .controls {
     display:flex;
-    // justify-content:flex-end;
-    // flex-grow:1;
   }
   .seat-size {
     text-align:center;
@@ -188,25 +191,28 @@
     i {
       position:absolute;
       top:50%;
-      left:8px;
+      left:12px;
       transform:translateY(-50%);
       color:$middle-gray;
     }
     input {
-      padding:7px 0;
-      padding-left:30px;
-      width:18em;
-      transition:box-shadow 125ms ease-out;
+      padding:10px 0;
+      padding-left:33px;
+      width:19em;
+      border:2px solid $light-gray;
+      transition:box-shadow 125ms ease-out, border-color 125ms ease-out;
       &:focus {
-        box-shadow:0 0 10px lighten($primary-accent,20%);
+        border-color:lighten($primary-accent,15%);
+        box-shadow:0 0 10px $middle-gray;
       }
     }
   }
   .roster-container {
     display:flex;
     align-items:center;
-    overflow-x:auto;
+    overflow-x:scroll;
     height:100%;
+    width:100%;
     ul {
       display:flex;
       margin:0;
@@ -234,7 +240,70 @@
         &:hover {
           background: $off-white;
         }
+        &.no-results {
+          color:$middle-gray;
+          background:none;
+          cursor:default;
+          font-style:italic;
+        }
       }
     }
+  }
+}
+
+.action-bar-student-details {
+  justify-content:flex-start;
+  p {
+    position:relative;
+    font-weight:bold;
+  }
+  .portrait {
+    height:100%;
+    width:8em;
+    margin-right:3em;
+    background-size:cover;
+    background-position:center center;
+    border-radius:4px;
+  }
+  .flex-column {
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+    height:100%;
+    min-width:10em;
+    margin-right:2em;
+    >div {
+      margin-bottom: 1em;
+    }
+  }
+  .nickname-container {
+    display:inline-block;
+    // justify-content:space-between;
+    position:relative;
+    .nickname-controls {
+      position:absolute;
+      display:block;
+      left:100%;
+      top:50%;
+      transform:translateY(-50%);
+      padding-left:1em;
+      .save-or-cancel {
+        display:flex;
+      }
+      .fa-pencil {
+        cursor:pointer;
+        &:hover {
+          color:$primary-accent;
+        }
+      }
+      button {
+        padding:.45em 1em;
+        margin:0;
+        @include ms-1;
+      }
+    }
+  }
+  .remove-from-seat {
+    margin-left:auto;
   }
 }

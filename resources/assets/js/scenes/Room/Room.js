@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router';
+import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import Table from './containers/Table';
@@ -29,9 +29,11 @@ export default class Room extends Component {
     const url = this.props.match.path.split('/');
     switch (url[1]) {
       case 'room':
+        this.props.setView('edit-room');
         this.props.setTask('edit-room');
         break;
       case 'offering':
+        this.props.setView('assign-seats');
         this.props.setTask('offering-overview');
         break;
       default:
@@ -99,8 +101,9 @@ export default class Room extends Component {
       'edit-table':this.props.task === 'edit-table',
       'offering-overview':this.props.task === 'offering-overview',
       'find-student':this.props.task === 'find-student',
+      'student-details':this.props.task === 'student-details',
       'choosing-a-point':this.props.pointSelection,
-      'is-loading':this.props.loading.rooms || this.props.loading.tables || this.props.loading.offerings
+      'is-loading':this.props.loading.rooms || this.props.loading.tables || this.props.loading.offerings || this.props.loading.students
     })
 
     const tables = this.props.currentTables.map(table =>

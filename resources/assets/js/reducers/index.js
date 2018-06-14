@@ -2,12 +2,12 @@ import { combineReducers } from 'redux';
 import C from '../constants';
 
 /**
- * App / roomStatus
+ * App / view
  */
-const roomStatus = (state = '', action) => {
+const view = (state = null, action) => {
   switch (action.type) {
-    case C.SET_ROOM_STATUS:
-      return action.status
+    case C.SET_VIEW:
+      return action.view
     default:
       return state
   }
@@ -30,6 +30,31 @@ const currentRoom = (state = {
 }
 
 /**
+ * app / currentSeatId
+ */
+const currentSeatId = (state = null, action) => {
+  switch (action.type) {
+    case C.SET_CURRENT_SEAT:
+      return action.seatID
+    default:
+      return state
+  }
+}
+
+/**
+ * app / currentStudentId
+ */
+const currentStudentId = (state = null, action) => {
+  switch (action.type) {
+    case C.SET_CURRENT_STUDENT:
+      return action.studentID
+    default:
+      return state
+  }
+}
+
+
+/**
  * app / currentOffering
  */
 const currentOffering = (state = {
@@ -47,7 +72,6 @@ const currentOffering = (state = {
       return state
   }
 }
-
 
 
 /**
@@ -155,8 +179,6 @@ const offerings = (state={}, action) => {
 const students = (state={}, action) => {
   switch (action.type) {
     case C.RECEIVE_STUDENTS:
-      // TO DO: right now this just blows away all of students with teh paylod.
-      // make it so it just adds them in.
       return {
         ...state,
         ...action.students
@@ -170,6 +192,14 @@ const students = (state={}, action) => {
             ...state[action.student_id].seats,
             [action.offering_id]:action.seat_id
           }
+        }
+      }
+    case C.UPDATE_STUDENT:
+      return {
+        ...state,
+        [action.student_id]: {
+          ...state[action.student_id],
+          [action.attribute]:action.value
         }
       }
     default:
@@ -214,10 +244,12 @@ const tables = (state={}, action) => {
 
 const rootReducer = combineReducers({
   app: combineReducers({
-    roomStatus,
+    view,
     currentRoom,
     currentOffering,
     task,
+    currentSeatId,
+    currentStudentId,
     tempTable,
     pointSelection,
     loading

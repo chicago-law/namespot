@@ -11,6 +11,7 @@ export default class RoomList extends Component {
 
   componentDidMount() {
     this.props.requestRooms();
+    this.props.setView('room-list');
   }
 
   render() {

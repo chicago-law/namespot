@@ -1,21 +1,13 @@
-/**
- * For the App state
- */
-
 import C from '../constants';
-import { normalize } from 'normalizr'
-import * as schema from './schema';
-import { rootUrl } from './index';
-
 
 /**
- * roomStatus
- * 'edit-table','seat-students'
+ * view
+ * 'edit-room','assign-seats','class-list','room-list','student-list'
  */
-export function setRoomStatus(status) {
+export function setView(view) {
   return {
-    type: C.SET_ROOM_STATUS,
-    status
+    type: C.SET_VIEW,
+    view
   }
 }
 
@@ -54,6 +46,26 @@ export function setCurrentOffering(offering) {
 }
 
 /**
+ * currentSeatId
+ */
+export function setCurrentSeat(seatID) {
+  return {
+    type:C.SET_CURRENT_SEAT,
+    seatID
+  }
+}
+
+/**
+ * currentStudentId
+ */
+export function setCurrentStudent(studentID) {
+  return {
+    type:C.SET_CURRENT_STUDENT,
+    studentID
+  }
+}
+
+/**
  * task
  * ’edit-room’,’edit-table’,’delete-table’,’lookup-student’,’student-details’,’edit-offering’
  */
@@ -63,6 +75,17 @@ export function setTask(task) {
     task
   }
 }
+// export function setTask(task) {
+//   return (dispatch) => {
+//     if (task === 'offering-overview') {
+//       dispatch(setCurrentStudent(null));
+//       dispatch(setCurrentSeat(null));
+//       dispatch(changeTask(task));
+//     } else {
+//       dispatch(changeTask(task))
+//     }
+//   }
+// }
 
 /**
  * TEMP TABLE

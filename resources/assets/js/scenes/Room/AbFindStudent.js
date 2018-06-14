@@ -15,6 +15,13 @@ export default class AbFindStudent extends Component {
     });
   }
 
+  handleStudentClick(e) {
+    if (this.props.task === 'find-student') {
+      this.props.assignSeat(this.props.currentOffering.id, e.target.closest('[data-studentid]').dataset.studentid, this.props.currentSeatId)
+      this.props.setTask('offering-overview');
+    }
+  }
+
   checkForMatch(student) {
     const regex = new RegExp(this.state.search, 'gi');
     if (student.first_name.match(regex)) { // check the first name
@@ -42,21 +49,20 @@ export default class AbFindStudent extends Component {
 
     return (
       <div className='action-bar action-bar-find-student'>
+        <i className="far fa-arrow-left" onClick={() => this.props.setTask('offering-overview')}></i>
         <div className="filter-container">
           <i className="far fa-search"></i>
           <input type='text' ref={this.filterRef} placeholder="Type to find student..." onChange={(e) => this.handleSearchInput(e)} value={this.state.search}/>
         </div>
         <div className="roster-container">
           <ul>
-            {
-              unseatedStudents.map(student =>
-                <li key={student.id}>
-                  <div className="picture" style={{'backgroundImage':`url('${rootUrl}images/faces/${student.picture}.jpg')`}}></div>
-                  <p data-email={student.email}>{student.first_name}<br/>{student.last_name}</p>
-                </li>
-              )
-            }
-            { unseatedStudents.length == 0 ? <p>no kids</p> : false }
+            { unseatedStudents.map(student =>
+              <li key={student.id} data-studentid={student.id} onClick={(e) => this.handleStudentClick(e)}>
+                <div className="picture" style={{'backgroundImage':`url('${rootUrl}images/faces/${student.picture}.jpg')`}}></div>
+                <p data-email={student.email}>{student.first_name}<br/>{student.last_name}</p>
+              </li>
+            )}
+            { unseatedStudents.length == 0 ? <li className='no-results'>No unseated students found with "{this.state.search}"</li> : false }
           </ul>
         </div>
       </div>

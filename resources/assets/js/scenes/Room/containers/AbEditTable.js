@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import AbEditTable from '../AbEditTable';
 import { saveTable, clearTempTable, setTask, setPointSelection, setSeatCount } from '../../../actions'
 
 const mapStateToProps = (state, ownProps) => {
   return {
     currentRoom:state.app.currentRoom,
-    roomStatus:state.app.roomStatus,
+    view:state.app.view,
     task:state.app.task,
     tempTable:state.app.tempTable,
     pointSelection:state.app.pointSelection,

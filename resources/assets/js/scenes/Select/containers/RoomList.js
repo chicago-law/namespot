@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import RoomList from '../RoomList'
-import { requestRooms } from '../../../actions'
+import { requestRooms, setView } from '../../../actions'
 
 const mapStateToProps = (state) => {
   return {
@@ -13,6 +13,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     requestRooms: () => {
       dispatch(requestRooms())
+    },
+    setView: (view) => {
+      dispatch(setView(view))
     }
   }
 }

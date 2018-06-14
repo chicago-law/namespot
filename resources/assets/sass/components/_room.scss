@@ -2,13 +2,7 @@
   max-width:800px;
   margin-left: auto;
   margin-right: auto;
-  margin-top:3em;
-  @media (max-width:$laptop) {
-    // padding:0 5em;
-  }
-  @media (max-width:$tablet) {
-    // padding:0;
-  }
+  margin-top:1em;
   .loading {
     display:none;
     position:absolute;
@@ -35,7 +29,6 @@
   .tables-container {
     z-index:100;
     .table {
-      cursor:pointer;
       .table-path {
         stroke-width:8;
         stroke-linecap:round;
@@ -43,12 +36,22 @@
         transition:stroke 75ms ease-out;
       }
       .seat {
-        overflow:visible;
+        overflow:hidden;
+        border-radius:5px;
+        transform:translate(-20px,-20px);
         rect {
           fill:$light-gray;
         }
         .plus-person {
           fill:$dark-gray;
+        }
+        &.is-selected {
+          rect {
+            fill:$primary-accent;
+          }
+          .plus-person {
+            fill:#fff !important;
+          }
         }
       }
       &:hover {
@@ -77,6 +80,16 @@
       }
       &.horiz {
         transform:translateX(-13px);
+      }
+    }
+  }
+
+  // common rules in Edit Room vievw
+  &.edit-room, &.edit-table, &.choosing-a-point {
+    margin-top:3em;
+    .tables-container {
+      .table {
+        cursor:pointer;
       }
     }
   }
@@ -142,12 +155,8 @@
     }
   } // end .outer-room-container.edit-table
 
-  // use this for common rules across seating students view
-  &.offering-overview, &.find-student {
-    margin-top:1em;
-  }
-
-  &.offering-overview { // outer-room-container.offering-overview
+  // common rules across seating students view
+  &.offering-overview, &.find-student, &.student-details {
     .tables-container {
       .table {
         .table-path {
@@ -155,6 +164,7 @@
         }
       }
       .seat {
+        cursor:pointer;
         &:hover {
           .plus-person {
             fill:$rose;
@@ -162,6 +172,10 @@
         }
       }
     }
+  }
+
+  &.offering-overview { // outer-room-container.offering-overview
+
   }
 
   &.is-loading { // .outer-room-container.loading

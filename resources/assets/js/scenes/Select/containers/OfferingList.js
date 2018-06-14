@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import {  } from '../../../actions'
 import OfferingList from '../OfferingList'
+import { setView } from '../../../actions';
 
 const mapStateToProps = (state) => {
   return {
@@ -10,15 +11,15 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // onOfferingClick: id => {
-    //   dispatch(enterOffering(id))
-    // }
+    setView: (view) => {
+      dispatch(setView(view))
+    }
   }
 }
 
 const OfferingListContainer = connect(
   mapStateToProps,
-  // mapDispatchToProps
+  mapDispatchToProps
 )(OfferingList)
 
 export default OfferingListContainer;

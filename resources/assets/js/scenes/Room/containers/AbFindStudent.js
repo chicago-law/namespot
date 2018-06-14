@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import AbFindStudent from '../AbFindStudent';
-// import {  } from '../../../actions'
+import { assignSeat, setTask, setCurrentStudent } from '../../../actions'
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
 
   // get the students enrolled in this class
   let currentStudents = [];
@@ -15,13 +15,23 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     currentStudents,
-    currentOffering:state.app.currentOffering
+    currentOffering:state.app.currentOffering,
+    currentSeatId:state.app.currentSeatId,
+    task:state.app.task
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    //
+    assignSeat: (offering_id, student_id, seat_id) => {
+      dispatch(assignSeat(offering_id, student_id, seat_id))
+    },
+    setTask: (task) => {
+      dispatch(setTask(task))
+    },
+    setCurrentStudent: (studentID) => {
+      dispatch(setCurrentStudent(studentID))
+    }
   }
 }
 

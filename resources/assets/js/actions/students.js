@@ -2,7 +2,7 @@ import { normalize } from 'normalizr'
 import * as schema from './schema';
 import C from '../constants';
 import { rootUrl } from './index';
-import { setLoadingStatus } from './app';
+import { setLoadingStatus, setCurrentSeat } from './app';
 
 /**
  * STUDENTS
@@ -63,17 +63,48 @@ export function assignSeat(offering_id, student_id, seat_id) {
     // update in the store
     dispatch(seatStudent(offering_id, student_id, seat_id));
 
-    // send update to DB
+    // clear out current seat
+    dispatch(setCurrentSeat(null));
+
+    // also send update to DB
     axios.post(`${rootUrl}api/student/update/${student_id}`, {
       offering_id:offering_id,
       assigned_seat:seat_id
     })
     .then(function(response) {
-      console.log(response);
+      console.log(response.data);
     })
     .catch(function(respones) {
-      console.log('error!',response)
+      console.log('error! ',response.data)
     });
+  }
+}
 
+
+
+// update a student's attribute in the store
+export function updateStudent(student_id, attribute, value) {
+  return {
+    type: C.UPDATE_STUDENT,
+    student_id, attribute, value
+  }
+}
+// update a student and save it in the DB
+export function updateAndSaveStudent(student_id, attribute, value) {
+  return (dispatch) => {
+
+    // update in the store
+    dispatch(updateStudent(student_id, attribute, value));
+
+    // send update to DB
+    axios.post(`${rootUrl}api/student/update/${student_id}`, {
+      [attribute]:value
+    })
+    .then(function(response) {
+      console.log(response.data);
+    })
+    .catch(function(respones) {
+      console.log('error!',response.data)
+    });
   }
 }

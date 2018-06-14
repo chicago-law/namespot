@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import AbEditRoom from '../AbEditRoom'
 import { newTable, setTask, setPointSelection, setSeatSizeRequest, setLoadingStatus } from '../../../actions'
 

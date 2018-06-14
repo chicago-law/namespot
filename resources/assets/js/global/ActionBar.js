@@ -5,6 +5,7 @@ import AbEditTable from '../scenes/Room/containers/AbEditTable';
 import AbDeleteTable from '../scenes/Room/containers/AbDeleteTable';
 import AbOfferingOverview from '../scenes/Room/containers/AbOfferingOverview';
 import AbFindStudent from '../scenes/Room/containers/AbFindStudent';
+import AbStudentDetails from '../scenes/Room/containers/AbStudentDetails';
 
 export default class ActionBar extends Component {
   constructor(props) {
@@ -29,6 +30,9 @@ export default class ActionBar extends Component {
         break;
       case 'find-student':
         actionBarContents = <AbFindStudent/>;
+        break;
+      case 'student-details':
+        actionBarContents = <AbStudentDetails/>;
         break;
       default:
         actionBarContents = null;

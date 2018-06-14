@@ -1,18 +1,25 @@
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router'
+import { withRouter } from 'react-router-dom'
 import Table from '../Table'
-import { selectTable , setTask, setPointSelection, removeTableRequest } from '../../../actions'
+import { selectTable , setTask, setPointSelection, removeTableRequest, setCurrentSeat, setCurrentStudent } from '../../../actions'
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
+
+  let currentStudents = [];
+  Object.keys(state.entities.students).forEach(studentID => state.entities.students[studentID].seats.hasOwnProperty(`offering_${state.app.currentOffering.id}`) ? currentStudents.push(state.entities.students[studentID]) : false );
 
   return {
+    currentStudents,
     currentRoom:state.app.currentRoom,
+    currentOffering:state.app.currentOffering,
+    currentSeatId:state.app.currentSeatId,
+    currentStudentId: state.app.currentStudentId,
     task:state.app.task,
     tempTable: state.app.tempTable,
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch) => {
   return {
     selectTable: (tableID, roomID, seatCount, coords) => {
       dispatch(selectTable(tableID, roomID, seatCount, coords))
@@ -25,6 +32,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     removeTableRequest:(tableID) => {
       dispatch(removeTableRequest(tableID))
+    },
+    setCurrentSeat: (seatID) => {
+      dispatch(setCurrentSeat(seatID))
+    },
+    setCurrentStudent: (studentID) => {
+      dispatch(setCurrentStudent(studentID))
     }
   }
 }

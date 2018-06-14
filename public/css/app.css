@@ -653,6 +653,16 @@ li {
   display: block;
 }
 
+.action-bar .fa-arrow-left {
+  font-size: 1.25em;
+  margin-right: 2.4em;
+  cursor: pointer;
+}
+
+.action-bar .fa-arrow-left:hover {
+  color: #DD4343;
+}
+
 .action-bar-edit-room .description {
   max-width: 20em;
 }
@@ -815,25 +825,27 @@ li {
 .action-bar-find-student .filter-container i {
   position: absolute;
   top: 50%;
-  left: 8px;
+  left: 12px;
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%);
   color: #AAAAAA;
 }
 
 .action-bar-find-student .filter-container input {
-  padding: 7px 0;
-  padding-left: 30px;
-  width: 18em;
-  -webkit-transition: -webkit-box-shadow 125ms ease-out;
-  transition: -webkit-box-shadow 125ms ease-out;
-  transition: box-shadow 125ms ease-out;
-  transition: box-shadow 125ms ease-out, -webkit-box-shadow 125ms ease-out;
+  padding: 10px 0;
+  padding-left: 33px;
+  width: 19em;
+  border: 2px solid #CCCCCC;
+  -webkit-transition: border-color 125ms ease-out, -webkit-box-shadow 125ms ease-out;
+  transition: border-color 125ms ease-out, -webkit-box-shadow 125ms ease-out;
+  transition: box-shadow 125ms ease-out, border-color 125ms ease-out;
+  transition: box-shadow 125ms ease-out, border-color 125ms ease-out, -webkit-box-shadow 125ms ease-out;
 }
 
 .action-bar-find-student .filter-container input:focus {
-  -webkit-box-shadow: 0 0 10px #ed9999;
-          box-shadow: 0 0 10px #ed9999;
+  border-color: #e98484;
+  -webkit-box-shadow: 0 0 10px #AAAAAA;
+          box-shadow: 0 0 10px #AAAAAA;
 }
 
 .action-bar-find-student .roster-container {
@@ -843,8 +855,9 @@ li {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  overflow-x: auto;
+  overflow-x: scroll;
   height: 100%;
+  width: 100%;
 }
 
 .action-bar-find-student .roster-container ul {
@@ -890,6 +903,92 @@ li {
 
 .action-bar-find-student .roster-container ul li:hover {
   background: #f4f4f4;
+}
+
+.action-bar-find-student .roster-container ul li.no-results {
+  color: #AAAAAA;
+  background: none;
+  cursor: default;
+  font-style: italic;
+}
+
+.action-bar-student-details {
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+.action-bar-student-details p {
+  position: relative;
+  font-weight: bold;
+}
+
+.action-bar-student-details .portrait {
+  height: 100%;
+  width: 8em;
+  margin-right: 3em;
+  background-size: cover;
+  background-position: center center;
+  border-radius: 4px;
+}
+
+.action-bar-student-details .flex-column {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  height: 100%;
+  min-width: 10em;
+  margin-right: 2em;
+}
+
+.action-bar-student-details .flex-column > div {
+  margin-bottom: 1em;
+}
+
+.action-bar-student-details .nickname-container {
+  display: inline-block;
+  position: relative;
+}
+
+.action-bar-student-details .nickname-container .nickname-controls {
+  position: absolute;
+  display: block;
+  left: 100%;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  padding-left: 1em;
+}
+
+.action-bar-student-details .nickname-container .nickname-controls .save-or-cancel {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.action-bar-student-details .nickname-container .nickname-controls .fa-pencil {
+  cursor: pointer;
+}
+
+.action-bar-student-details .nickname-container .nickname-controls .fa-pencil:hover {
+  color: #DD4343;
+}
+
+.action-bar-student-details .nickname-container .nickname-controls button {
+  padding: .45em 1em;
+  margin: 0;
+  font-size: .8em;
+}
+
+.action-bar-student-details .remove-from-seat {
+  margin-left: auto;
 }
 
 .site-header {
@@ -1102,7 +1201,7 @@ li {
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 3em;
+  margin-top: 1em;
 }
 
 .outer-room-container .loading {
@@ -1136,10 +1235,6 @@ li {
   z-index: 100;
 }
 
-.outer-room-container .tables-container .table {
-  cursor: pointer;
-}
-
 .outer-room-container .tables-container .table .table-path {
   stroke-width: 8;
   stroke-linecap: round;
@@ -1149,7 +1244,10 @@ li {
 }
 
 .outer-room-container .tables-container .table .seat {
-  overflow: visible;
+  overflow: hidden;
+  border-radius: 5px;
+  -webkit-transform: translate(-20px, -20px);
+          transform: translate(-20px, -20px);
 }
 
 .outer-room-container .tables-container .table .seat rect {
@@ -1158,6 +1256,14 @@ li {
 
 .outer-room-container .tables-container .table .seat .plus-person {
   fill: #444444;
+}
+
+.outer-room-container .tables-container .table .seat.is-selected rect {
+  fill: #DD4343;
+}
+
+.outer-room-container .tables-container .table .seat.is-selected .plus-person {
+  fill: #fff !important;
 }
 
 .outer-room-container .tables-container .table:hover .table-path {
@@ -1193,6 +1299,18 @@ li {
 .outer-room-container .guides-container .guide.horiz {
   -webkit-transform: translateX(-13px);
           transform: translateX(-13px);
+}
+
+.outer-room-container.edit-room,
+.outer-room-container.edit-table,
+.outer-room-container.choosing-a-point {
+  margin-top: 3em;
+}
+
+.outer-room-container.edit-room .tables-container .table,
+.outer-room-container.edit-table .tables-container .table,
+.outer-room-container.choosing-a-point .tables-container .table {
+  cursor: pointer;
 }
 
 .outer-room-container.edit-room .tables-container .table .table-path {
@@ -1249,16 +1367,21 @@ li {
   fill: #444444;
 }
 
-.outer-room-container.offering-overview,
-.outer-room-container.find-student {
-  margin-top: 1em;
-}
-
-.outer-room-container.offering-overview .tables-container .table .table-path {
+.outer-room-container.offering-overview .tables-container .table .table-path,
+.outer-room-container.find-student .tables-container .table .table-path,
+.outer-room-container.student-details .tables-container .table .table-path {
   stroke: #e6e5e5;
 }
 
-.outer-room-container.offering-overview .tables-container .seat:hover .plus-person {
+.outer-room-container.offering-overview .tables-container .seat,
+.outer-room-container.find-student .tables-container .seat,
+.outer-room-container.student-details .tables-container .seat {
+  cursor: pointer;
+}
+
+.outer-room-container.offering-overview .tables-container .seat:hover .plus-person,
+.outer-room-container.find-student .tables-container .seat:hover .plus-person,
+.outer-room-container.student-details .tables-container .seat:hover .plus-person {
   fill: #DD4343;
 }
 

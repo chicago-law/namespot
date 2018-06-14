@@ -1,7 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const OfferingList = ({ offerings, onOfferingClick }) => {
+const OfferingList = ({ offerings, setView }) => {
+  setView('offering-list');
+
   return (
     <div>
       <h5>Select Class</h5>
