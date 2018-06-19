@@ -30,7 +30,7 @@ Route::get('/offering/{offering_id}', function ($offering_id) {
     return new OfferingResource(Offering::find($offering_id));
 });
 
-// take an offering, duplciate its room, assign it to the new room
+// take an offering, duplicate its room, assign it to the new room
 Route::get('create-room-for/{offering_id}','OfferingController@createRoomFor');
 
 // fetch array of offerings by term code
@@ -43,8 +43,14 @@ Route::get('/enrollment/{offering_id}', function ($offering_id) {
     return StudentResource::collection(Offering::find($offering_id)->students()->get());
 });
 
+// test how to get and update student's assigned seats for an offering
+Route::get('/offering-students/{offering_id}', 'OfferingController@test');
+
 // update a student
 Route::post('/student/update/{student_id}', 'StudentController@update');
+
+// fetch a single student
+Route::get('/student/{student_id}', 'StudentController@test');
 
 // fetch all rooms
 Route::get('/rooms', function () {

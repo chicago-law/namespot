@@ -41,6 +41,25 @@ export default class Room extends Component {
     }
   }
 
+  handleContinueSeatingClick() {
+    this.props.history.push(`/offering/${this.props.currentOffering.id}`);
+    this.props.setTask('offering-overview');
+    this.props.setView('assign-seats');
+  }
+
+  checkForBadSeats() {
+    if (this.props.currentSeats.length) { // only do the check if currentSeats has been hydrated
+      this.props.currentStudents.forEach(student => {
+        const assigned_seat = student.seats[`offering_${this.props.currentOffering.id}`];
+        if (assigned_seat && !this.props.currentSeats.includes(assigned_seat)) {
+          console.log(`student seated at non-existing seat: ${assigned_seat}, setting to null`);
+          this.props.assignSeat(this.props.currentOffering.id, student.id, null);
+        }
+      });
+    }
+  }
+
+
   componentDidMount() {
     const grid = this.measureGrid();
     this.setState({
@@ -92,11 +111,24 @@ export default class Room extends Component {
     if (this.props.currentOfferingID != null && this.props.currentOfferingID != prevProps.currentOffering.id) {
       this.props.findAndSetCurrentOffering(this.props.currentOfferingID);
     }
+
+    // are any students seated at non-existing seats?
+    this.checkForBadSeats();
+
+    // this is checking for a very specific situation: if the room ID just
+    // changed, and the view is set to 'edit-room', that means we just created
+    // a new room and copied everything over to it, and now we want to edit it
+    if (prevProps.currentRoom.id != this.props.currentRoom.id && this.props.view === 'edit-room') {
+      console.log('new custom room created, redirecting to edit it...');
+      this.props.history.push(`/room/${this.props.currentRoom.id}/${this.props.currentOffering.id}`);
+    }
   }
 
   render() {
-    const outerRoomContainerClasses = classNames({
-      'outer-room-container':true,
+    const outerPageContainerClasses = classNames({
+      'outer-page-container':true,
+      'edit-room-view': this.props.view === 'edit-room',
+      'assign-seats-view': this.props.view === 'assign-seats',
       'edit-room':this.props.task === 'edit-room' || this.props.task === 'delete-table',
       'edit-table':this.props.task === 'edit-table',
       'offering-overview':this.props.task === 'offering-overview',
@@ -119,42 +151,49 @@ export default class Room extends Component {
     );
 
     return (
-      <div className={outerRoomContainerClasses}>
-        <Loading />
+      <div className="room-workspace">
 
-        <Route path="/offering" component={RoomHeader} />
-
-        <div className='inner-room-container' ref={this.gridContRef}>
-
-          {/* Here be the tables! */}
-          <svg className='tables-container' xmlns="http://www.w3.org/2000/svg">
-            <g className="tables">{ tables }</g>
-          </svg>
-
-          {/* Here be the blips! */}
-          <Route path='/room' render={() =>
-            <svg className='grid-container' xmlns="http://www.w3.org/2000/svg">
-              {/* <Grid currentRoomID={this.props.match.params.roomID} gridColumns={this.state.gridColumns} gridColumnWidth={this.state.gridColumnWidth} gridRows={this.state.gridRows} gridRowHeight={this.state.gridRowHeight} /> */}
-              <Grid gridColumns={this.state.gridColumns} gridColumnWidth={this.state.gridColumnWidth} gridRows={this.state.gridRows} gridRowHeight={this.state.gridRowHeight} />
-            </svg>
-          } />
-
-          {/* Here be the guide lines! */}
-          <Route path='/room' render={() =>
-            <svg className='guides-container' xmlns="http://www.w3.org/2000/svg">
-              <Guides gridColumns={this.state.gridColumns} gridColumnWidth={this.state.gridColumnWidth} gridRows={this.state.gridRows} gridRowHeight={this.state.gridRowHeight} />
-            </svg>
-          } />
-
-        </div> {/* end inner room container */}
-
-        <div className="room-label">
-          <h3>FRONT</h3>
+        <div className='room-workspace-left'>
+          <Route path="/offering" component={RoomHeader} />
         </div>
 
-        <Route path="/offering" component={RosterGallery} />
+        <div className={outerPageContainerClasses}>
+          <Loading />
+          <div className='inner-page-container card' ref={this.gridContRef}>
+            {/* Here be the tables! */}
+            <svg className='tables-container' xmlns="http://www.w3.org/2000/svg">
+              <g className="tables">{ tables }</g>
+            </svg>
+            {/* Here be the blips! */}
+            <Route path='/room' render={() =>
+              <svg className='grid-container' xmlns="http://www.w3.org/2000/svg">
+                <Grid gridColumns={this.state.gridColumns} gridColumnWidth={this.state.gridColumnWidth} gridRows={this.state.gridRows} gridRowHeight={this.state.gridRowHeight} />
+              </svg>
+            } />
+            {/* Here be the guide lines! */}
+            <Route path='/room' render={() =>
+              <svg className='guides-container' xmlns="http://www.w3.org/2000/svg">
+                <Guides gridColumns={this.state.gridColumns} gridColumnWidth={this.state.gridColumnWidth} gridRows={this.state.gridRows} gridRowHeight={this.state.gridRowHeight} />
+              </svg>
+            } />
+            {/* Here be the front of room label! */}
+            <div className="front-label">
+              <h3>FRONT</h3>
+            </div>
+          </div>
+        </div>
 
-      </div> /* end outer Room Container */
+        <div className='room-workspace-right'>
+          <Route path="/offering" component={RosterGallery} />
+          <Route path="/room/:roomID/:offeringID" render={() =>
+            <div className='continue-seating' onClick={() => this.handleContinueSeatingClick()}>
+              <button className='btn-accent'>Continue Seating <i className="far fa-long-arrow-right"></i></button>
+              <p>Return to assigning seats when ready</p>
+            </div>
+          } />
+        </div>
+
+      </div>
     );
   }
 }

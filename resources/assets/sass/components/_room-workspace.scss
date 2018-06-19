@@ -1,0 +1,77 @@
+.room-workspace {
+  display:flex;
+  // justify-content:center;
+  // flex-wrap:wrap;
+  .room-workspace-left, .room-workspace-right {
+    flex:1 1 25%;
+  }
+  .room-header {
+    margin-bottom:.5em;
+    margin-top: 1.5em;
+    p {
+      @include ms-1;
+      font-weight:bold;
+      // margin-bottom: 0;
+      color:$middle-gray;
+    }
+  }
+
+  .continue-seating {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content: center;
+    margin-top:2em;
+    @include ms-1;
+    p {
+      font-style:italic;
+      margin-top: 1em;
+    }
+  }
+
+  .roster-gallery {
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+    margin-top:1.5em;
+    padding-left:2em;
+    .enrollment {
+      margin-bottom:2em;
+    }
+    .seated, .unseated {
+      // display:flex;
+      // align-items:center;
+      text-align:right;
+      margin-bottom: 2em;
+    }
+    .seated {
+      // margin-right: 2.5em;
+    }
+    p {
+      position:relative;
+      margin-bottom: 0;
+      // margin-right:.5em;
+      right:-.45em;
+      font-weight:bold;
+      color:$middle-gray;
+      @include ms-1;
+    }
+    ul {
+      margin:0;
+      li {
+        display:inline-block;
+        width:1.7em;
+        overflow:visible;
+        .picture {
+          display:inline-block;
+          height:2.25em;
+          width:2.25em;
+          border-radius:5px;
+          border:2px solid $off-white;
+          background-size:cover;
+          background-position:center center;
+        }
+      }
+    }
+  }
+}

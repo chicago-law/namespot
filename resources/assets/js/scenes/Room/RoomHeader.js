@@ -5,14 +5,13 @@ const RoomHeader = ({ currentRoom, currentOffering }) => {
   return (
     <div className="room-header">
 
-      <div className="top-left">
+      {/* <div className="top-left"> */}
         <p><i className="far fa-map-marker-alt fa-fw"></i> {currentRoom.name}</p>
-        <p><i className="far fa-users fa-fw"></i> {currentOffering.students.length} Students Enrolled</p>
-      </div>
+        <p><i className="far fa-retweet fa-fw"></i> Flip Perspective: OFF</p>
+      {/* </div> */}
 
-      <div className="top-right">
-        <p><i className="far fa-retweet"></i> Flip Perspective: OFF</p>
-      </div>
+      {/* <div className="top-right">
+      </div> */}
 
     </div>
   );

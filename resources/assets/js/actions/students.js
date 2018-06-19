@@ -7,6 +7,7 @@ import { setLoadingStatus, setCurrentSeatId } from './app';
 /**
  * STUDENTS
  */
+// Load all students into the store
 export function receiveStudents(response) {
   return {
     type: C.RECEIVE_STUDENTS,
@@ -72,9 +73,9 @@ export function assignSeat(offering_id, student_id, seat_id) {
       assigned_seat:seat_id
     })
     .then(function(response) {
-      console.log(response.data);
+      // console.log(response.data);
     })
-    .catch(function(respones) {
+    .catch(function(response) {
       console.log('error! ',response.data)
     });
   }
@@ -103,7 +104,7 @@ export function updateAndSaveStudent(student_id, attribute, value) {
     .then(function(response) {
       console.log(response.data);
     })
-    .catch(function(respones) {
+    .catch(function(response) {
       console.log('error!',response.data)
     });
   }

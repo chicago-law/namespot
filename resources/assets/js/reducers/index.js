@@ -164,10 +164,18 @@ const loading = (state = {
 /**
  * entities / offerings
  */
-const offerings = (state={}, action) => {
+const offerings = (state = {}, action) => {
   switch (action.type) {
     case C.RECEIVE_OFFERINGS:
       return action.offerings
+    case C.UPDATE_OFFERING_ROOM:
+      return {
+        ...state,
+        [action.offering_id]: {
+          ...state[action.offering_id],
+          'room_id':action.room_id
+        }
+      }
     default:
       return state;
   }
@@ -176,7 +184,7 @@ const offerings = (state={}, action) => {
 /**
  * entities / students
  */
-const students = (state={}, action) => {
+const students = (state = {}, action) => {
   switch (action.type) {
     case C.RECEIVE_STUDENTS:
       return {

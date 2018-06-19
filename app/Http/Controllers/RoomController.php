@@ -7,8 +7,6 @@ use App\Room;
 
 class RoomController extends Controller
 {
-    protected $fillable = ['name','type','description','seat_size'];
-
     public function update($room_id, Request $request)
     {
         // find the room

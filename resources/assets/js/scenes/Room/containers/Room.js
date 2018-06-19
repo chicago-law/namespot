@@ -29,6 +29,14 @@ const mapStateToProps = (state, ownProps) => {
     }
   }
 
+  // make an array of all the seat IDs at the tables
+  let currentSeats = [];
+  currentTables.forEach(table => {
+    for (let i=0; i<table.seat_count; i++) {
+      currentSeats.push(`${table.id}_${i}`);
+    }
+  });
+
   // get the students enrolled in this class
   let currentStudents = [];
   Object.keys(state.entities.students).forEach(studentID => {
@@ -41,6 +49,7 @@ const mapStateToProps = (state, ownProps) => {
     currentRoomID,
     currentOfferingID,
     currentTables,
+    currentSeats,
     currentStudents,
     currentRoom:state.app.currentRoom,
     currentOffering:state.app.currentOffering,

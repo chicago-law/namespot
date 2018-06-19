@@ -1,11 +1,15 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import AbOfferingOverview from '../AbOfferingOverview';
-import { setTask } from '../../../actions'
+import { setTask, customizeOfferingRoom, setView } from '../../../actions'
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
-    task:state.app.task
+    currentRoom:state.app.currentRoom,
+    currentOffering:state.app.currentOffering,
+    task:state.app.task,
+    loading:state.app.loading,
+    view: state.app.view
   }
 }
 
@@ -13,6 +17,12 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setTask: (task) => {
       dispatch(setTask(task))
+    },
+    customizeOfferingRoom: (offering_id) => {
+      dispatch(customizeOfferingRoom(offering_id))
+    },
+    setView: (view) => {
+      dispatch(setView(view));
     }
   }
 }

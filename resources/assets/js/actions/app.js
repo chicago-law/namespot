@@ -75,17 +75,6 @@ export function setTask(task) {
     task
   }
 }
-// export function setTask(task) {
-//   return (dispatch) => {
-//     if (task === 'offering-overview') {
-//       dispatch(setCurrentStudentId(null));
-//       dispatch(setCurrentSeatId(null));
-//       dispatch(changeTask(task));
-//     } else {
-//       dispatch(changeTask(task))
-//     }
-//   }
-// }
 
 /**
  * TEMP TABLE
@@ -149,10 +138,3 @@ export function setLoadingStatus(loadingType, status) {
     status
   }
 }
-// export function setRoomLoadingStatus(status) {
-//   return {
-//     type:C.ROOM_LOADING,
-//     status
-//   }
-// }
-

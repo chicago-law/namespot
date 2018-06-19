@@ -576,7 +576,7 @@ li {
 }
 
 .action-bar-container {
-  height: 9.5em;
+  height: 9em;
 }
 
 .action-bar {
@@ -591,7 +591,7 @@ li {
           justify-content: space-between;
   padding: 1em 2em;
   border-top: 1px solid #f4f4f4;
-  height: 9.5em;
+  height: 9em;
 }
 
 .action-bar h4 i {
@@ -1197,45 +1197,48 @@ li {
   font-size: 2.441em;
 }
 
-.outer-room-container {
-  max-width: 800px;
+.outer-page-container {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 800px;
+          flex: 0 0 800px;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 1em;
+  margin-top: 1.5em;
 }
 
-.outer-room-container .loading {
+.outer-page-container .loading {
   display: none;
   position: absolute;
   top: 15em;
   right: 0;
   left: 0;
+  -webkit-transform: translateX(5px);
+          transform: translateX(5px);
 }
 
-.outer-room-container .inner-room-container {
+.outer-page-container .inner-page-container {
   position: relative;
-  left: 5px;
   padding-bottom: 64.7%;
   -webkit-transition: opacity 150ms ease-out;
   transition: opacity 150ms ease-out;
 }
 
-.outer-room-container .inner-room-container > svg {
+.outer-page-container .inner-page-container > svg {
   position: absolute;
-  top: 0;
+  top: 13px;
   right: 0;
-  left: 0;
+  left: 13px;
   bottom: 0;
   height: 100%;
   width: 100%;
   overflow: visible;
 }
 
-.outer-room-container .tables-container {
+.outer-page-container .tables-container {
   z-index: 100;
 }
 
-.outer-room-container .tables-container .table .table-path {
+.outer-page-container .tables-container .table .table-path {
   stroke-width: 8;
   stroke-linecap: round;
   fill: none;
@@ -1243,36 +1246,36 @@ li {
   transition: stroke 75ms ease-out;
 }
 
-.outer-room-container .tables-container .table .seat {
+.outer-page-container .tables-container .table .seat {
   overflow: hidden;
   border-radius: 5px;
 }
 
-.outer-room-container .tables-container .table .seat rect {
+.outer-page-container .tables-container .table .seat rect {
   fill: #CCCCCC;
 }
 
-.outer-room-container .tables-container .table .seat .plus-person {
+.outer-page-container .tables-container .table .seat .plus-person {
   fill: #444444;
 }
 
-.outer-room-container .tables-container .table .seat.is-selected rect {
+.outer-page-container .tables-container .table .seat.is-selected rect {
   fill: #DD4343;
 }
 
-.outer-room-container .tables-container .table .seat.is-selected .plus-person {
+.outer-page-container .tables-container .table .seat.is-selected .plus-person {
   fill: #fff !important;
 }
 
-.outer-room-container .tables-container .table:hover .table-path {
+.outer-page-container .tables-container .table:hover .table-path {
   stroke: #2F7AD0;
 }
 
-.outer-room-container .grid-container {
+.outer-page-container .grid-container {
   z-index: 90;
 }
 
-.outer-room-container .grid-container .blip {
+.outer-page-container .grid-container .blip {
   position: absolute;
   fill: #e6e5e5;
   -webkit-transform-origin: center;
@@ -1283,180 +1286,210 @@ li {
   transition: transform 150ms ease-out, -webkit-transform 150ms ease-out;
 }
 
-.outer-room-container .guides-container .guide {
+.outer-page-container .guides-container .guide {
   position: relative;
   stroke: #ccc;
   stroke-width: 1px;
 }
 
-.outer-room-container .guides-container .guide.vert {
+.outer-page-container .guides-container .guide.vert {
   -webkit-transform: translateY(-13px);
           transform: translateY(-13px);
 }
 
-.outer-room-container .guides-container .guide.horiz {
+.outer-page-container .guides-container .guide.horiz {
   -webkit-transform: translateX(-13px);
           transform: translateX(-13px);
 }
 
-.outer-room-container.edit-room,
-.outer-room-container.edit-table,
-.outer-room-container.choosing-a-point {
-  margin-top: 3em;
-}
-
-.outer-room-container.edit-room .tables-container .table,
-.outer-room-container.edit-table .tables-container .table,
-.outer-room-container.choosing-a-point .tables-container .table {
+.outer-page-container.edit-room-view .tables-container .table {
   cursor: pointer;
 }
 
-.outer-room-container.edit-room .tables-container .table .seat,
-.outer-room-container.edit-table .tables-container .table .seat,
-.outer-room-container.choosing-a-point .tables-container .table .seat {
+.outer-page-container.edit-room-view .tables-container .table .seat {
   opacity: .5;
 }
 
-.outer-room-container.edit-room .tables-container .table .table-path {
+.outer-page-container.edit-room .tables-container .table .table-path {
   stroke: #CCCCCC;
 }
 
-.outer-room-container.edit-room .tables-container .table:hover .table-path {
+.outer-page-container.edit-room .tables-container .table:hover .table-path {
   stroke: #2F7AD0;
 }
 
-.outer-room-container.edit-table .grid-container {
+.outer-page-container.edit-table .grid-container {
   z-index: 1000;
 }
 
-.outer-room-container.edit-table .grid-container .blip.belongs-to-any-table {
+.outer-page-container.edit-table .grid-container .blip.belongs-to-any-table {
   fill: #777777;
 }
 
-.outer-room-container.edit-table .grid-container .blip.belongs-to-active-table {
+.outer-page-container.edit-table .grid-container .blip.belongs-to-active-table {
   fill: #2F7AD0;
   -webkit-transform: scale(2);
           transform: scale(2);
 }
 
-.outer-room-container.edit-table .grid-container .blip.is-being-replaced {
+.outer-page-container.edit-table .grid-container .blip.is-being-replaced {
   fill: #DD4343 !important;
   -webkit-transform: scale(3);
           transform: scale(3);
 }
 
-.outer-room-container.edit-table .tables-container .table .table-path {
+.outer-page-container.edit-table .tables-container .table .table-path {
   opacity: .35;
   stroke: #AAAAAA;
 }
 
-.outer-room-container.edit-table .tables-container .seat rect {
+.outer-page-container.edit-table .tables-container .seat rect {
   fill: #CCCCCC;
 }
 
-.outer-room-container.edit-table .tables-container .is-active .table-path {
+.outer-page-container.edit-table .tables-container .is-active .table-path {
   opacity: 1;
   stroke: #0A50A3;
 }
 
-.outer-room-container.edit-table .tables-container .is-active .seat rect {
+.outer-page-container.edit-table .tables-container .is-active .seat rect {
   fill: #AAAAAA;
 }
 
-.outer-room-container.edit-table.choosing-a-point .blip {
+.outer-page-container.edit-table.choosing-a-point .blip {
   cursor: pointer;
 }
 
-.outer-room-container.edit-table.choosing-a-point .blip:hover {
+.outer-page-container.edit-table.choosing-a-point .blip:hover {
   fill: #444444;
 }
 
-.outer-room-container.offering-overview .tables-container .table .table-path,
-.outer-room-container.find-student .tables-container .table .table-path,
-.outer-room-container.student-details .tables-container .table .table-path {
+.outer-page-container.assign-seats-view .tables-container .table .table-path {
   stroke: #e6e5e5;
 }
 
-.outer-room-container.offering-overview .tables-container .seat,
-.outer-room-container.find-student .tables-container .seat,
-.outer-room-container.student-details .tables-container .seat {
+.outer-page-container.assign-seats-view .tables-container .seat {
   cursor: pointer;
 }
 
-.outer-room-container.offering-overview .tables-container .seat:hover .plus-person,
-.outer-room-container.find-student .tables-container .seat:hover .plus-person,
-.outer-room-container.student-details .tables-container .seat:hover .plus-person {
+.outer-page-container.assign-seats-view .tables-container .seat:hover .plus-person {
   fill: #DD4343;
 }
 
-.outer-room-container.is-loading .loading {
+.outer-page-container.is-loading .loading {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
 
-.outer-room-container.is-loading .inner-room-container {
+.outer-page-container.is-loading .inner-page-container {
   opacity: .5;
 }
 
-.room-label {
-  position: relative;
+.outer-page-container .front-label {
+  position: absolute;
+  bottom: 1em;
+  left: 0;
+  right: 0;
   text-align: center;
 }
 
-.room-header {
+.outer-page-container .front-label h3 {
+  margin-bottom: 0;
+}
+
+.room-workspace {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
 }
 
-.room-header p {
+.room-workspace .room-workspace-left,
+.room-workspace .room-workspace-right {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 25%;
+          flex: 1 1 25%;
+}
+
+.room-workspace .room-header {
+  margin-bottom: .5em;
+  margin-top: 1.5em;
+}
+
+.room-workspace .room-header p {
   font-size: .8em;
   font-weight: bold;
-  margin-bottom: 0;
   color: #AAAAAA;
 }
 
-.roster-gallery {
+.room-workspace .continue-seating {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
-}
-
-.roster-gallery .seated,
-.roster-gallery .unseated {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-top: 2em;
+  font-size: .8em;
 }
 
-.roster-gallery .seated {
-  margin-right: 2.5em;
+.room-workspace .continue-seating p {
+  font-style: italic;
+  margin-top: 1em;
 }
 
-.roster-gallery p {
+.room-workspace .roster-gallery {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  margin-top: 1.5em;
+  padding-left: 2em;
+}
+
+.room-workspace .roster-gallery .enrollment {
+  margin-bottom: 2em;
+}
+
+.room-workspace .roster-gallery .seated,
+.room-workspace .roster-gallery .unseated {
+  text-align: right;
+  margin-bottom: 2em;
+}
+
+.room-workspace .roster-gallery p {
+  position: relative;
   margin-bottom: 0;
-  margin-right: .5em;
+  right: -.45em;
   font-weight: bold;
   color: #AAAAAA;
   font-size: .8em;
 }
 
-.roster-gallery ul li {
+.room-workspace .roster-gallery ul {
+  margin: 0;
+}
+
+.room-workspace .roster-gallery ul li {
   display: inline-block;
   width: 1.7em;
   overflow: visible;
 }
 
-.roster-gallery ul li .picture {
+.room-workspace .roster-gallery ul li .picture {
   display: inline-block;
   height: 2.25em;
   width: 2.25em;

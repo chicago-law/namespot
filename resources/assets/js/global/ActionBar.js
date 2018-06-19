@@ -48,5 +48,5 @@ export default class ActionBar extends Component {
 }
 
 ActionBar.propTypes = {
-  task:PropTypes.string
+  task:PropTypes.string.isRequired
 }

@@ -92,7 +92,7 @@ class Table extends Component {
            L ${(this.props.eX * this.props.gridcolumnwidth).toFixed(2)} ${(this.props.eY * this.props.gridrowheight).toFixed(2)}`;
     }
 
-    // make the seat cooridinate list
+    // make the seat coordinate list
     let path = this.pathRef.current;
     let seatCoords = {};
     if (path && path.getTotalLength()) {
@@ -175,7 +175,7 @@ class Table extends Component {
     });
 
     return (
-      <g className={tableClasses} ref={this.tableGroupRef} onClick={(e) => this.handleTableClick(e)} >
+      <g id={'table_' + this.props.id} className={tableClasses} ref={this.tableGroupRef} onClick={(e) => this.handleTableClick(e)} >
         <path className='table-path' ref={this.pathRef} d={d} />
         { seats }
       </g>

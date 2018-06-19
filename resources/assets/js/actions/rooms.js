@@ -1,7 +1,3 @@
-/**
- * For room entities
- */
-
 import { normalize } from 'normalizr'
 import * as schema from './schema';
 import C from '../constants';
@@ -44,6 +40,7 @@ export function requestRooms() {
 }
 
 
+// set new seat size
 export function setSeatSize(roomID, seatSize) {
   return {
     type: C.SET_SEAT_SIZE,
@@ -51,6 +48,7 @@ export function setSeatSize(roomID, seatSize) {
     seatSize
   }
 }
+// request change of seat size
 export function setSeatSizeRequest(roomID, seatSize) {
   return (dispatch) => {
 
