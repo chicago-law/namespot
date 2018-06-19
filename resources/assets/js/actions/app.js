@@ -27,6 +27,11 @@ export function setCurrentRoom(room) {
     room
   }
 }
+export function resetCurrentRoom() {
+  return {
+    type:C.RESET_CURRENT_ROOM
+  }
+}
 
 /**
  * currentOffering
@@ -42,6 +47,11 @@ export function setCurrentOffering(offering) {
   return {
     type:C.SET_CURRENT_OFFERING,
     offering
+  }
+}
+export function resetCurrentOffering() {
+  return {
+    type:C.RESET_CURRENT_OFFERING
   }
 }
 

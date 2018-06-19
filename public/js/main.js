@@ -329,34 +329,38 @@ module.exports = function (it) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return rootUrl; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return rootUrl; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tables__ = __webpack_require__(487);
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_0__tables__["a"]; });
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "i", function() { return __WEBPACK_IMPORTED_MODULE_0__tables__["b"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "n", function() { return __WEBPACK_IMPORTED_MODULE_0__tables__["c"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "p", function() { return __WEBPACK_IMPORTED_MODULE_0__tables__["c"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__students__ = __webpack_require__(177);
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_1__students__["a"]; });
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "k", function() { return __WEBPACK_IMPORTED_MODULE_1__students__["c"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "w", function() { return __WEBPACK_IMPORTED_MODULE_1__students__["d"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "A", function() { return __WEBPACK_IMPORTED_MODULE_1__students__["d"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__offerings__ = __webpack_require__(178);
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_2__offerings__["a"]; });
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_2__offerings__["b"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__rooms__ = __webpack_require__(493);
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "j", function() { return __WEBPACK_IMPORTED_MODULE_3__rooms__["b"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "t", function() { return __WEBPACK_IMPORTED_MODULE_3__rooms__["c"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "x", function() { return __WEBPACK_IMPORTED_MODULE_3__rooms__["c"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app__ = __webpack_require__(84);
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["a"]; });
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["b"]; });
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["c"]; });
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["d"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "m", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["e"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "o", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["f"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "p", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["g"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "l", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["e"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "m", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["f"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "o", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["g"]; });
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "q", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["h"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "r", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["j"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "s", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["k"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "r", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["i"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "s", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["j"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "t", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["k"]; });
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "u", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["l"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "v", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["m"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "v", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["n"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "w", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["o"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "y", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["p"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "z", function() { return __WEBPACK_IMPORTED_MODULE_4__app__["q"]; });
 
 
 
@@ -2046,7 +2050,9 @@ var constants = {
   UPDATE_STUDENT: 'UPDATE_STUDENT',
   SET_CURRENT_SEAT: 'SET_CURRENT_SEAT',
   SET_CURRENT_STUDENT: 'SET_CURRENT_STUDENT',
-  UPDATE_OFFERING_ROOM: 'UPDATE_OFFERING_ROOM'
+  UPDATE_OFFERING_ROOM: 'UPDATE_OFFERING_ROOM',
+  RESET_CURRENT_OFFERING: 'RESET_CURRENT_OFFERING',
+  RESET_CURRENT_ROOM: 'RESET_CURRENT_ROOM'
 };
 
 /* harmony default export */ __webpack_exports__["a"] = (constants);
@@ -3776,21 +3782,23 @@ var tableListSchema = new __WEBPACK_IMPORTED_MODULE_0_normalizr__["schema"].Arra
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["m"] = setView;
+/* harmony export (immutable) */ __webpack_exports__["q"] = setView;
 /* harmony export (immutable) */ __webpack_exports__["c"] = findAndSetCurrentRoom;
-/* unused harmony export setCurrentRoom */
+/* harmony export (immutable) */ __webpack_exports__["j"] = setCurrentRoom;
+/* harmony export (immutable) */ __webpack_exports__["f"] = resetCurrentRoom;
 /* harmony export (immutable) */ __webpack_exports__["b"] = findAndSetCurrentOffering;
-/* unused harmony export setCurrentOffering */
-/* harmony export (immutable) */ __webpack_exports__["g"] = setCurrentSeatId;
-/* harmony export (immutable) */ __webpack_exports__["h"] = setCurrentStudentId;
-/* harmony export (immutable) */ __webpack_exports__["l"] = setTask;
+/* harmony export (immutable) */ __webpack_exports__["i"] = setCurrentOffering;
+/* harmony export (immutable) */ __webpack_exports__["e"] = resetCurrentOffering;
+/* harmony export (immutable) */ __webpack_exports__["k"] = setCurrentSeatId;
+/* harmony export (immutable) */ __webpack_exports__["l"] = setCurrentStudentId;
+/* harmony export (immutable) */ __webpack_exports__["p"] = setTask;
 /* harmony export (immutable) */ __webpack_exports__["d"] = newTable;
-/* harmony export (immutable) */ __webpack_exports__["f"] = selectTable;
-/* harmony export (immutable) */ __webpack_exports__["k"] = setSeatCount;
-/* harmony export (immutable) */ __webpack_exports__["e"] = savePointToTempTable;
+/* harmony export (immutable) */ __webpack_exports__["h"] = selectTable;
+/* harmony export (immutable) */ __webpack_exports__["o"] = setSeatCount;
+/* harmony export (immutable) */ __webpack_exports__["g"] = savePointToTempTable;
 /* harmony export (immutable) */ __webpack_exports__["a"] = clearTempTable;
-/* harmony export (immutable) */ __webpack_exports__["j"] = setPointSelection;
-/* harmony export (immutable) */ __webpack_exports__["i"] = setLoadingStatus;
+/* harmony export (immutable) */ __webpack_exports__["n"] = setPointSelection;
+/* harmony export (immutable) */ __webpack_exports__["m"] = setLoadingStatus;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants__ = __webpack_require__(54);
 
 
@@ -3821,6 +3829,11 @@ function setCurrentRoom(room) {
     room: room
   };
 }
+function resetCurrentRoom() {
+  return {
+    type: __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* default */].RESET_CURRENT_ROOM
+  };
+}
 
 /**
  * currentOffering
@@ -3836,6 +3849,11 @@ function setCurrentOffering(offering) {
   return {
     type: __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* default */].SET_CURRENT_OFFERING,
     offering: offering
+  };
+}
+function resetCurrentOffering() {
+  return {
+    type: __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* default */].RESET_CURRENT_OFFERING
   };
 }
 
@@ -8002,22 +8020,22 @@ function receiveStudents(response) {
 function fetchStudents(offering_id) {
   return function (dispatch) {
     // set loading status
-    dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__app__["i" /* setLoadingStatus */])('students', true));
+    dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__app__["m" /* setLoadingStatus */])('students', true));
 
     // make the call
-    return axios.get(__WEBPACK_IMPORTED_MODULE_3__index__["l" /* rootUrl */] + 'api/enrollment/' + offering_id).then(function (response) {
+    return axios.get(__WEBPACK_IMPORTED_MODULE_3__index__["n" /* rootUrl */] + 'api/enrollment/' + offering_id).then(function (response) {
       // normalize data and load into state
       var normalizedData = Object(__WEBPACK_IMPORTED_MODULE_0_normalizr__["normalize"])(response.data, __WEBPACK_IMPORTED_MODULE_1__schema__["c" /* studentListSchema */]);
       dispatch(receiveStudents(normalizedData.entities));
 
       // reset the loading status
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__app__["i" /* setLoadingStatus */])('students', false));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__app__["m" /* setLoadingStatus */])('students', false));
     }).catch(function (error) {
       // console the error
       console.log(error);
 
       // reset loading status
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__app__["i" /* setLoadingStatus */])('students', false));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__app__["m" /* setLoadingStatus */])('students', false));
     });
   };
 }
@@ -8048,10 +8066,10 @@ function assignSeat(offering_id, student_id, seat_id) {
     dispatch(seatStudent(offering_id, student_id, seat_id));
 
     // clear out current seat
-    dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__app__["g" /* setCurrentSeatId */])(null));
+    dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__app__["k" /* setCurrentSeatId */])(null));
 
     // also send update to DB
-    axios.post(__WEBPACK_IMPORTED_MODULE_3__index__["l" /* rootUrl */] + 'api/student/update/' + student_id, {
+    axios.post(__WEBPACK_IMPORTED_MODULE_3__index__["n" /* rootUrl */] + 'api/student/update/' + student_id, {
       offering_id: offering_id,
       assigned_seat: seat_id
     }).then(function (response) {
@@ -8077,7 +8095,7 @@ function updateAndSaveStudent(student_id, attribute, value) {
     dispatch(updateStudent(student_id, attribute, value));
 
     // send update to DB
-    axios.post(__WEBPACK_IMPORTED_MODULE_3__index__["l" /* rootUrl */] + 'api/student/update/' + student_id, _defineProperty({}, attribute, value)).then(function (response) {
+    axios.post(__WEBPACK_IMPORTED_MODULE_3__index__["n" /* rootUrl */] + 'api/student/update/' + student_id, _defineProperty({}, attribute, value)).then(function (response) {
       console.log(response.data);
     }).catch(function (response) {
       console.log('error!', response.data);
@@ -8124,7 +8142,7 @@ function receiveOfferings(response) {
 // Fetch all offerings for a given term code
 function fetchOfferings(termCode) {
   return function (dispatch) {
-    return axios.get(__WEBPACK_IMPORTED_MODULE_3__index__["l" /* rootUrl */] + 'api/offerings/' + termCode).then(function (response) {
+    return axios.get(__WEBPACK_IMPORTED_MODULE_3__index__["n" /* rootUrl */] + 'api/offerings/' + termCode).then(function (response) {
       var normalizedData = response.data.length ? Object(__WEBPACK_IMPORTED_MODULE_0_normalizr__["normalize"])(response.data, __WEBPACK_IMPORTED_MODULE_1__schema__["a" /* offeringListSchema */]) : null;
       dispatch(receiveOfferings(normalizedData.entities));
     }).catch(function (error) {
@@ -8147,18 +8165,18 @@ function customizeOfferingRoom(offeringID) {
   return function (dispatch) {
 
     // turn on loading
-    dispatch(Object(__WEBPACK_IMPORTED_MODULE_6__app__["i" /* setLoadingStatus */])('rooms', true));
-    dispatch(Object(__WEBPACK_IMPORTED_MODULE_6__app__["i" /* setLoadingStatus */])('students', true));
+    dispatch(Object(__WEBPACK_IMPORTED_MODULE_6__app__["m" /* setLoadingStatus */])('rooms', true));
+    dispatch(Object(__WEBPACK_IMPORTED_MODULE_6__app__["m" /* setLoadingStatus */])('students', true));
 
     // send out the request to make the new room
-    axios.get(__WEBPACK_IMPORTED_MODULE_3__index__["l" /* rootUrl */] + 'api/create-room-for/' + offeringID).then(function (response) {
+    axios.get(__WEBPACK_IMPORTED_MODULE_3__index__["n" /* rootUrl */] + 'api/create-room-for/' + offeringID).then(function (response) {
       // then do an action to update the offering's room ID in the store (rather
       // than re-downloading all offerings to get the update)
       var newRoomID = response.data.newRoomID;
       dispatch(updateOfferingRoom(offeringID, newRoomID));
 
       // now re-download the rooms (to do: download only one room)
-      axios.get(__WEBPACK_IMPORTED_MODULE_3__index__["l" /* rootUrl */] + 'api/rooms').then(function (response) {
+      axios.get(__WEBPACK_IMPORTED_MODULE_3__index__["n" /* rootUrl */] + 'api/rooms').then(function (response) {
         // console.log(response);
         var normalizedData = Object(__WEBPACK_IMPORTED_MODULE_0_normalizr__["normalize"])(response.data, __WEBPACK_IMPORTED_MODULE_1__schema__["b" /* roomListSchema */]);
         dispatch(Object(__WEBPACK_IMPORTED_MODULE_5__rooms__["a" /* receiveRooms */])(normalizedData.entities));
@@ -8168,19 +8186,19 @@ function customizeOfferingRoom(offeringID) {
         dispatch(Object(__WEBPACK_IMPORTED_MODULE_6__app__["c" /* findAndSetCurrentRoom */])(newRoomID));
 
         // finally, turn off loading
-        dispatch(Object(__WEBPACK_IMPORTED_MODULE_6__app__["i" /* setLoadingStatus */])('rooms', false));
+        dispatch(Object(__WEBPACK_IMPORTED_MODULE_6__app__["m" /* setLoadingStatus */])('rooms', false));
       }).catch(function (response) {
         return console.log(response);
       });
 
       // now re-download the students for this offering
-      axios.get(__WEBPACK_IMPORTED_MODULE_3__index__["l" /* rootUrl */] + 'api/enrollment/' + offeringID).then(function (response) {
+      axios.get(__WEBPACK_IMPORTED_MODULE_3__index__["n" /* rootUrl */] + 'api/enrollment/' + offeringID).then(function (response) {
         // console.log(response);
         var normalizedData = Object(__WEBPACK_IMPORTED_MODULE_0_normalizr__["normalize"])(response.data, __WEBPACK_IMPORTED_MODULE_1__schema__["c" /* studentListSchema */]);
         dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__students__["b" /* receiveStudents */])(normalizedData.entities));
 
         // turn off loading
-        dispatch(Object(__WEBPACK_IMPORTED_MODULE_6__app__["i" /* setLoadingStatus */])('students', false));
+        dispatch(Object(__WEBPACK_IMPORTED_MODULE_6__app__["m" /* setLoadingStatus */])('students', false));
       }).catch(function (response) {
         return console.log(response);
       });
@@ -64704,17 +64722,20 @@ var view = function view() {
 /**
  * app / currentRoom
  */
+var currentRoomDefault = {
+  id: null,
+  name: null,
+  seat_size: null
+};
 var currentRoom = function currentRoom() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
-    id: null,
-    name: null,
-    seat_size: null
-  };
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : currentRoomDefault;
   var action = arguments[1];
 
   switch (action.type) {
     case __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* default */].SET_CURRENT_ROOM:
       return action.room;
+    case __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* default */].RESET_CURRENT_ROOM:
+      return currentRoomDefault;
     default:
       return state;
   }
@@ -64753,20 +64774,23 @@ var currentStudentId = function currentStudentId() {
 /**
  * app / currentOffering
  */
+var currentOfferingDefault = {
+  course_num: null,
+  id: null,
+  instructors: [],
+  name: null,
+  room_id: null,
+  students: []
+};
 var currentOffering = function currentOffering() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
-    course_num: null,
-    id: null,
-    instructors: [],
-    name: null,
-    room_id: null,
-    students: []
-  };
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : currentOfferingDefault;
   var action = arguments[1];
 
   switch (action.type) {
     case __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* default */].SET_CURRENT_OFFERING:
       return action.offering;
+    case __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* default */].RESET_CURRENT_OFFERING:
+      return currentOfferingDefault;
     default:
       return state;
   }
@@ -66329,13 +66353,13 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
       dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["h" /* newTable */])());
     },
     setTask: function setTask(status) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["u" /* setTask */])(status));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["y" /* setTask */])(status));
     },
     setPointSelection: function setPointSelection(status) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["r" /* setPointSelection */])(status));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["v" /* setPointSelection */])(status));
     },
     setSeatSizeRequest: function setSeatSizeRequest(roomID, seatSize) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["t" /* setSeatSizeRequest */])(roomID, seatSize));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["x" /* setSeatSizeRequest */])(roomID, seatSize));
     }
   };
 };
@@ -66570,7 +66594,7 @@ function receiveTables(response) {
 // fetch the tables from DB
 function fetchTables(roomID) {
   return function (dispatch) {
-    return axios.get(__WEBPACK_IMPORTED_MODULE_2__index__["l" /* rootUrl */] + 'api/tables/' + roomID).then(function (response) {
+    return axios.get(__WEBPACK_IMPORTED_MODULE_2__index__["n" /* rootUrl */] + 'api/tables/' + roomID).then(function (response) {
       // tables downloaded, now load them into state and clear the tempTable
       if (response.data.length) {
         var normalizedData = Object(__WEBPACK_IMPORTED_MODULE_0_normalizr__["normalize"])(response.data, __WEBPACK_IMPORTED_MODULE_1__schema__["d" /* tableListSchema */]);
@@ -66587,7 +66611,7 @@ function saveTable(tableID, roomID, coords, seatCount) {
   return function (dispatch) {
 
     // first change to loading status
-    dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__app__["i" /* setLoadingStatus */])('tables', true));
+    dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__app__["m" /* setLoadingStatus */])('tables', true));
 
     // first we need to format the coords into the flat, DB-friendly format
     var formattedCoords = { sX: null, sY: null, eX: null, eY: null, qX: null, qY: null };
@@ -66614,14 +66638,14 @@ function saveTable(tableID, roomID, coords, seatCount) {
     }
 
     // now make the call
-    return axios.post(__WEBPACK_IMPORTED_MODULE_2__index__["l" /* rootUrl */] + 'api/table/update', _extends({
+    return axios.post(__WEBPACK_IMPORTED_MODULE_2__index__["n" /* rootUrl */] + 'api/table/update', _extends({
       id: tableID,
       room_id: roomID,
       seat_count: seatCount
     }, formattedCoords)).then(function (response) {
       // table succesfully saved, so let's refresh our list with a new Fetch
       dispatch(fetchTables(roomID));
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__app__["i" /* setLoadingStatus */])("tables", false));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__app__["m" /* setLoadingStatus */])("tables", false));
     }).catch(function (error) {
       console.log(error);
     });
@@ -66634,7 +66658,7 @@ function removeTableRequest(tableID) {
     dispatch(removeTable(tableID));
 
     // now make call to actually delete from the DB
-    return axios.delete(__WEBPACK_IMPORTED_MODULE_2__index__["l" /* rootUrl */] + 'api/table/' + tableID).then(function (response) {
+    return axios.delete(__WEBPACK_IMPORTED_MODULE_2__index__["n" /* rootUrl */] + 'api/table/' + tableID).then(function (response) {
       console.log(response);
     }).catch(function (error) {
       console.log(error);
@@ -67131,16 +67155,16 @@ function receiveRooms(response) {
 function fetchRooms() {
   return function (dispatch) {
     // set loading state
-    dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__app__["i" /* setLoadingStatus */])('rooms', true));
+    dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__app__["m" /* setLoadingStatus */])('rooms', true));
 
     // make the call
-    axios.get(__WEBPACK_IMPORTED_MODULE_3__index__["l" /* rootUrl */] + 'api/rooms').then(function (response) {
+    axios.get(__WEBPACK_IMPORTED_MODULE_3__index__["n" /* rootUrl */] + 'api/rooms').then(function (response) {
       var normalizedData = Object(__WEBPACK_IMPORTED_MODULE_0_normalizr__["normalize"])(response.data, __WEBPACK_IMPORTED_MODULE_1__schema__["b" /* roomListSchema */]);
       dispatch(receiveRooms(normalizedData.entities));
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__app__["i" /* setLoadingStatus */])('rooms', false));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__app__["m" /* setLoadingStatus */])('rooms', false));
     }).catch(function (error) {
       console.log(error);
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__app__["i" /* setLoadingStatus */])('rooms', false));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__app__["m" /* setLoadingStatus */])('rooms', false));
     });
   };
 }
@@ -67170,7 +67194,7 @@ function setSeatSizeRequest(roomID, seatSize) {
     dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__app__["c" /* findAndSetCurrentRoom */])(roomID));
 
     // finally, make a background call to change it in the DB
-    axios.post(__WEBPACK_IMPORTED_MODULE_3__index__["l" /* rootUrl */] + 'api/room/update/' + roomID, {
+    axios.post(__WEBPACK_IMPORTED_MODULE_3__index__["n" /* rootUrl */] + 'api/room/update/' + roomID, {
       seat_size: seatSize
     }).catch(function (response) {
       console.log(response);
@@ -67205,19 +67229,19 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     saveTable: function saveTable(tableID, roomID, coords, seatCount) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["n" /* saveTable */])(tableID, roomID, coords, seatCount));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["p" /* saveTable */])(tableID, roomID, coords, seatCount));
     },
     clearTempTable: function clearTempTable() {
       dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["b" /* clearTempTable */])());
     },
     setTask: function setTask(status) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["u" /* setTask */])(status));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["y" /* setTask */])(status));
     },
     setPointSelection: function setPointSelection(status) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["r" /* setPointSelection */])(status));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["v" /* setPointSelection */])(status));
     },
     setSeatCount: function setSeatCount(count) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["s" /* setSeatCount */])(count));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["w" /* setSeatCount */])(count));
     }
   };
 };
@@ -67481,7 +67505,7 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
   return {
     setTask: function setTask(task) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["u" /* setTask */])(task));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["y" /* setTask */])(task));
     }
   };
 };
@@ -67570,13 +67594,13 @@ var mapStateToProps = function mapStateToProps(state) {
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     setTask: function setTask(task) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["u" /* setTask */])(task));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["y" /* setTask */])(task));
     },
     customizeOfferingRoom: function customizeOfferingRoom(offering_id) {
       dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["c" /* customizeOfferingRoom */])(offering_id));
     },
     setView: function setView(view) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["v" /* setView */])(view));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["z" /* setView */])(view));
     }
   };
 };
@@ -67732,10 +67756,10 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
       dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["a" /* assignSeat */])(offering_id, student_id, seat_id));
     },
     setTask: function setTask(task) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["u" /* setTask */])(task));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["y" /* setTask */])(task));
     },
     setCurrentStudentId: function setCurrentStudentId(studentID) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["q" /* setCurrentStudentId */])(studentID));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["u" /* setCurrentStudentId */])(studentID));
     }
   };
 };
@@ -67923,10 +67947,10 @@ var mapStateToProps = function mapStateToProps(state) {
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     updateAndSaveStudent: function updateAndSaveStudent(student_id, attribute, value) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["w" /* updateAndSaveStudent */])(student_id, attribute, value));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["A" /* updateAndSaveStudent */])(student_id, attribute, value));
     },
     setTask: function setTask(task) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["u" /* setTask */])(task));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["y" /* setTask */])(task));
     },
     assignSeat: function assignSeat(offering_id, student_id, seat_id) {
       dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["a" /* assignSeat */])(offering_id, student_id, seat_id));
@@ -68333,7 +68357,7 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     setTask: function setTask(task) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["u" /* setTask */])(task));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["y" /* setTask */])(task));
     }
   };
 };
@@ -68352,7 +68376,7 @@ var MainContainer = Object(__WEBPACK_IMPORTED_MODULE_2_react_router_dom__["e" /*
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_router_dom__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__scenes_Select_Select__ = __webpack_require__(509);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__scenes_Select_containers_Select__ = __webpack_require__(530);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__scenes_Room_containers_Room__ = __webpack_require__(514);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -68397,8 +68421,8 @@ var Main = function (_Component) {
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           __WEBPACK_IMPORTED_MODULE_2_react_router_dom__["d" /* Switch */],
           null,
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_router_dom__["c" /* Route */], { exact: true, path: '/', component: __WEBPACK_IMPORTED_MODULE_3__scenes_Select_Select__["a" /* default */] }),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_router_dom__["c" /* Route */], { path: '/select', component: __WEBPACK_IMPORTED_MODULE_3__scenes_Select_Select__["a" /* default */] }),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_router_dom__["c" /* Route */], { exact: true, path: '/', component: __WEBPACK_IMPORTED_MODULE_3__scenes_Select_containers_Select__["a" /* default */] }),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_router_dom__["c" /* Route */], { path: '/select', component: __WEBPACK_IMPORTED_MODULE_3__scenes_Select_containers_Select__["a" /* default */] }),
           '}',
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_router_dom__["c" /* Route */], { path: '/room/:roomID', component: __WEBPACK_IMPORTED_MODULE_4__scenes_Room_containers_Room__["a" /* default */] }),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_router_dom__["c" /* Route */], { path: '/offering/:offeringID', component: __WEBPACK_IMPORTED_MODULE_4__scenes_Room_containers_Room__["a" /* default */] })
@@ -68428,24 +68452,53 @@ Main.propTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__containers_RoomList__ = __webpack_require__(510);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__containers_OfferingList__ = __webpack_require__(512);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 
 
 
 
-var Select = function Select() {
-  return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-    'div',
-    { className: 'select-list card narrow-wrap' },
-    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      __WEBPACK_IMPORTED_MODULE_1_react_router_dom__["d" /* Switch */],
-      null,
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { exact: true, path: '/', component: __WEBPACK_IMPORTED_MODULE_3__containers_OfferingList__["a" /* default */] }),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: '/select/offerings', component: __WEBPACK_IMPORTED_MODULE_3__containers_OfferingList__["a" /* default */] }),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: '/select/rooms', component: __WEBPACK_IMPORTED_MODULE_2__containers_RoomList__["a" /* default */] })
-    )
-  );
-};
+
+var Select = function (_Component) {
+  _inherits(Select, _Component);
+
+  function Select(props) {
+    _classCallCheck(this, Select);
+
+    return _possibleConstructorReturn(this, (Select.__proto__ || Object.getPrototypeOf(Select)).call(this, props));
+  }
+
+  _createClass(Select, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.props.resetCurrentOffering();
+      this.props.resetCurrentRoom();
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { className: 'select-list card narrow-wrap' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          __WEBPACK_IMPORTED_MODULE_1_react_router_dom__["d" /* Switch */],
+          null,
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { exact: true, path: '/', component: __WEBPACK_IMPORTED_MODULE_3__containers_OfferingList__["a" /* default */] }),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: '/select/offerings', component: __WEBPACK_IMPORTED_MODULE_3__containers_OfferingList__["a" /* default */] }),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: '/select/rooms', component: __WEBPACK_IMPORTED_MODULE_2__containers_RoomList__["a" /* default */] })
+        )
+      );
+    }
+  }]);
+
+  return Select;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
 
 /* harmony default export */ __webpack_exports__["a"] = (Select);
 
@@ -68474,7 +68527,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
       dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["j" /* requestRooms */])());
     },
     setView: function setView(view) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["v" /* setView */])(view));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["z" /* setView */])(view));
     }
   };
 };
@@ -68602,7 +68655,7 @@ var mapStateToProps = function mapStateToProps(state) {
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     setView: function setView(view) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_1__actions__["v" /* setView */])(view));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_1__actions__["z" /* setView */])(view));
     }
   };
 };
@@ -68756,10 +68809,10 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     setView: function setView(view) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["v" /* setView */])(view));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["z" /* setView */])(view));
     },
     setTask: function setTask(task) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["u" /* setTask */])(task));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["y" /* setTask */])(task));
     },
     fetchTables: function fetchTables(roomID) {
       dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["e" /* fetchTables */])(roomID));
@@ -68948,7 +69001,7 @@ var Room = function (_Component) {
       // this is checking for a very specific situation: if the room ID just
       // changed, and the view is set to 'edit-room', that means we just created
       // a new room and copied everything over to it, and now we want to edit it
-      if (prevProps.currentRoom.id != this.props.currentRoom.id && this.props.view === 'edit-room') {
+      if (prevProps.currentRoom.id != this.props.currentRoom.id && this.props.view === 'edit-room' && this.props.currentOffering.id != null) {
         console.log('new custom room created, redirecting to edit it...');
         this.props.history.push('/room/' + this.props.currentRoom.id + '/' + this.props.currentOffering.id);
       }
@@ -69121,22 +69174,22 @@ var mapStateToProps = function mapStateToProps(state) {
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     selectTable: function selectTable(tableID, roomID, seatCount, coords) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["o" /* selectTable */])(tableID, roomID, seatCount, coords));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["q" /* selectTable */])(tableID, roomID, seatCount, coords));
     },
     setTask: function setTask(task) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["u" /* setTask */])(task));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["y" /* setTask */])(task));
     },
     setPointSelection: function setPointSelection(pointType) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["r" /* setPointSelection */])(pointType));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["v" /* setPointSelection */])(pointType));
     },
     removeTableRequest: function removeTableRequest(tableID) {
       dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["i" /* removeTableRequest */])(tableID));
     },
     setCurrentSeatId: function setCurrentSeatId(seatID) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["p" /* setCurrentSeatId */])(seatID));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["t" /* setCurrentSeatId */])(seatID));
     },
     setCurrentStudentId: function setCurrentStudentId(studentID) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["q" /* setCurrentStudentId */])(studentID));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["u" /* setCurrentStudentId */])(studentID));
     }
   };
 };
@@ -69441,7 +69494,7 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     savePointToTempTable: function savePointToTempTable(id, pointType) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["m" /* savePointToTempTable */])(id, pointType));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["o" /* savePointToTempTable */])(id, pointType));
     }
   };
 };
@@ -69847,6 +69900,49 @@ RosterGallery.propTypes = {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 526 */,
+/* 527 */,
+/* 528 */,
+/* 529 */,
+/* 530 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react_redux__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Select__ = __webpack_require__(509);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__(12);
+
+
+
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    //
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    setCurrentRoom: function setCurrentRoom(room) {
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["s" /* setCurrentRoom */])(room));
+    },
+    setCurrentOffering: function setCurrentOffering(offering) {
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["r" /* setCurrentOffering */])(offering));
+    },
+    resetCurrentOffering: function resetCurrentOffering() {
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["l" /* resetCurrentOffering */])());
+    },
+    resetCurrentRoom: function resetCurrentRoom() {
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["m" /* resetCurrentRoom */])());
+    }
+  };
+};
+
+var SelectContainer = Object(__WEBPACK_IMPORTED_MODULE_0_react_redux__["b" /* connect */])(mapStateToProps, mapDispatchToProps)(__WEBPACK_IMPORTED_MODULE_1__Select__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (SelectContainer);
 
 /***/ })
 /******/ ]);

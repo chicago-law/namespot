@@ -59,7 +59,6 @@ export default class Room extends Component {
     }
   }
 
-
   componentDidMount() {
     const grid = this.measureGrid();
     this.setState({
@@ -118,7 +117,7 @@ export default class Room extends Component {
     // this is checking for a very specific situation: if the room ID just
     // changed, and the view is set to 'edit-room', that means we just created
     // a new room and copied everything over to it, and now we want to edit it
-    if (prevProps.currentRoom.id != this.props.currentRoom.id && this.props.view === 'edit-room') {
+    if (prevProps.currentRoom.id != this.props.currentRoom.id && this.props.view === 'edit-room' && this.props.currentOffering.id != null) {
       console.log('new custom room created, redirecting to edit it...');
       this.props.history.push(`/room/${this.props.currentRoom.id}/${this.props.currentOffering.id}`);
     }

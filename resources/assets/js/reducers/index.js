@@ -16,16 +16,19 @@ const view = (state = null, action) => {
 /**
  * app / currentRoom
  */
-const currentRoom = (state = {
-  id:null,
-  name:null,
-  seat_size:null
-}, action) => {
+const currentRoomDefault = {
+  id: null,
+  name: null,
+  seat_size: null
+}
+const currentRoom = (state = currentRoomDefault, action) => {
   switch (action.type) {
     case C.SET_CURRENT_ROOM:
-      return action.room
+      return action.room;
+    case C.RESET_CURRENT_ROOM:
+      return currentRoomDefault;
     default:
-      return state
+      return state;
   }
 }
 
@@ -57,19 +60,22 @@ const currentStudentId = (state = null, action) => {
 /**
  * app / currentOffering
  */
-const currentOffering = (state = {
-  course_num:null,
-  id:null,
-  instructors:[],
-  name:null,
-  room_id:null,
-  students:[]
-}, action) => {
+const currentOfferingDefault = {
+  course_num: null,
+  id: null,
+  instructors: [],
+  name: null,
+  room_id: null,
+  students: []
+}
+const currentOffering = (state = currentOfferingDefault, action) => {
   switch (action.type) {
     case C.SET_CURRENT_OFFERING:
-      return action.offering
+      return action.offering;
+    case C.RESET_CURRENT_OFFERING:
+      return currentOfferingDefault;
     default:
-      return state
+      return state;
   }
 }
 
@@ -218,7 +224,7 @@ const students = (state = {}, action) => {
 /**
  * entities / rooms
  */
-const rooms = (state={}, action) => {
+const rooms = (state = {}, action) => {
   switch (action.type) {
     case C.RECEIVE_ROOMS:
       return action.rooms;
@@ -238,7 +244,7 @@ const rooms = (state={}, action) => {
 /**
  * entities / tables
  */
-const tables = (state={}, action) => {
+const tables = (state = {}, action) => {
   switch (action.type) {
     case C.RECEIVE_TABLES:
       return action.tables;
