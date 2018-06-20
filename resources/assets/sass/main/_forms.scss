@@ -1,6 +1,27 @@
+.input-container {
+  position:relative;
+  padding-right:2em;
+  .far, .fas, .fal {
+    position:absolute;
+    top:50%;
+    left:12px;
+    transform:translateY(-50%);
+    color:$middle-gray;
+  }
+}
+
 input[type='text'], input[type='number'] {
   color:$dark-gray;
   border-radius:3px;
-  border:1px solid $light-gray;
-  padding:.25em .25em;
+  // border:1px solid $light-gray;
+  // padding:.25em .25em;
+  padding:10px 0;
+  padding-left:33px;
+  width:19em;
+  border:2px solid $light-gray;
+  transition:box-shadow 125ms ease-out, border-color 125ms ease-out;
+  &:focus {
+    border-color:lighten($primary-accent,15%);
+    box-shadow:0 0 10px $middle-gray;
+  }
 }

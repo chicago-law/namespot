@@ -30,13 +30,13 @@ Route::get('/offering/{offering_id}', function ($offering_id) {
     return new OfferingResource(Offering::find($offering_id));
 });
 
-// take an offering, duplicate its room, assign it to the new room
-Route::get('create-room-for/{offering_id}','OfferingController@createRoomFor');
-
-// fetch array of offerings by term code
+// fetch all offerings for given term code
 Route::get('/offerings/{term_code}', function ($term_code) {
     return OfferingResource::collection(Offering::where('term_code',$term_code)->get());
 });
+
+// take an offering, duplicate its room, assign it to the new room
+Route::get('create-room-for/{offering_id}','OfferingController@createRoomFor');
 
 // fetch all students for a given offering ID
 Route::get('/enrollment/{offering_id}', function ($offering_id) {

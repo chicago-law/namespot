@@ -69,26 +69,19 @@ export default class Room extends Component {
     // get the rooms data if we need it
     this.props.requestRooms();
 
-    // fetch the tables if the roomID is ready. At this point it will be if
-    // it's coming from the URL. If the URL has offeringID, then roomID won't
-    // be ready yet.
+    // do these if you have the currentRoomID
     if (this.props.currentRoomID != null) {
+      console.log('had current room id on mounting');
       this.props.fetchTables(this.props.currentRoomID);
-    }
-
-    // try right away to add current room to store
-    if (this.props.currentRoomID != null) {
       this.props.findAndSetCurrentRoom(this.props.currentRoomID);
     }
 
-    // try right away to add current offering to store
+    // do these if you have the currentOfferingID
     if (this.props.currentOfferingID != null) {
+      console.log('had current offering id on mounting');
       this.props.findAndSetCurrentOffering(this.props.currentOfferingID);
-    }
-
-    // get the students in this offering
-    if (this.props.currentOfferingID != null) {
       this.props.requestStudents(this.props.currentOfferingID);
+      this.props.requestSingleOffering(this.props.currentOfferingID);
     }
 
     // look at the URL and decide a default task based on that
@@ -98,16 +91,19 @@ export default class Room extends Component {
   componentDidUpdate(prevProps) {
     // get the tables when we have a real roomID or it changes
     if (this.props.currentRoomID != null && prevProps.currentRoomID != this.props.currentRoomID) {
+      console.log('fetched tables on room update');
       this.props.fetchTables(this.props.currentRoomID);
     }
 
     // set current room
-    if (this.props.currentRoomID != null && this.props.currentRoomID != prevProps.currentRoom.id) {
+    if (this.props.currentRoomID != null && this.props.currentRoom.id == null) {
+      console.log('set current room on room update');
       this.props.findAndSetCurrentRoom(this.props.currentRoomID);
     }
 
     // set current offering
-    if (this.props.currentOfferingID != null && this.props.currentOfferingID != prevProps.currentOffering.id) {
+    if (this.props.currentOfferingID != null && this.props.currentOffering.id == null) {
+      console.log('set current offering on room update');
       this.props.findAndSetCurrentOffering(this.props.currentOfferingID);
     }
 
@@ -121,6 +117,15 @@ export default class Room extends Component {
       console.log('new custom room created, redirecting to edit it...');
       this.props.history.push(`/room/${this.props.currentRoom.id}/${this.props.currentOffering.id}`);
     }
+  }
+
+  componentWillUnmount() {
+    this.props.resetCurrentOffering();
+    this.props.resetCurrentRoom();
+    this.props.setCurrentStudentId(null);
+    this.props.setCurrentSeatId(null);
+    this.props.setView('');
+    this.props.setTask('');
   }
 
   render() {
@@ -208,8 +213,13 @@ Room.propTypes = {
   findAndSetCurrentOffering: PropTypes.func.isRequired,
   findAndSetCurrentRoom: PropTypes.func.isRequired,
   pointSelection: PropTypes.string,
+  resetCurrentOffering: PropTypes.func.isRequired,
+  resetCurrentRoom: PropTypes.func.isRequired,
   requestRooms: PropTypes.func.isRequired,
+  requestSingleOffering: PropTypes.func.isRequired,
   requestStudents: PropTypes.func.isRequired,
+  setCurrentStudentId: PropTypes.func.isRequired,
+  setCurrentSeatId: PropTypes.func.isRequired,
   setTask: PropTypes.func.isRequired,
   setView: PropTypes.func.isRequired,
   task: PropTypes.string,

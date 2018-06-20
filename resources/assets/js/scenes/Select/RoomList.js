@@ -23,8 +23,13 @@ export default class RoomList extends Component {
 
     return (
       <div className={roomListClasses}>
+
         <Loading />
-        <h5>Select Room</h5>
+
+        <header>
+          <h5>Select Room</h5>
+        </header>
+
         <ul>
           {Object.keys(this.props.rooms).map((id) => (
             <li key={id}>

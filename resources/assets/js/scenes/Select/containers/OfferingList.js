@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
-import {  } from '../../../actions'
 import OfferingList from '../OfferingList'
-import { setView } from '../../../actions';
+import { setView, requestOfferings } from '../../../actions';
 
 const mapStateToProps = (state) => {
   return {
     offerings:state.entities.offerings,
+    loading:state.app.loading,
   }
 }
 
@@ -13,6 +13,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setView: (view) => {
       dispatch(setView(view))
+    },
+    requestOfferings: termCode => {
+      dispatch(requestOfferings(termCode))
     }
   }
 }

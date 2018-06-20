@@ -8,44 +8,59 @@ import { clearTempTable, setLoadingStatus } from './app';
  * ENTITY TABLES
  */
 // load tables into state
-export function receiveTables(response) {
+export function receiveTables(tables) {
   // loop through the tables. for each one, concat the coords into start, end, curve
-  let tables = {}
-  Object.keys(response.tables).forEach(key => {
-    tables = {
-      ...tables,
-      [key]: {
-        ...response.tables[key],
+  let formattedTables = {}
+  Object.keys(tables).forEach(tableID => {
+    formattedTables = {
+      ...formattedTables,
+      [tableID]: {
+        ...tables[tableID],
         coords: {
-          'start': response.tables[key].sX + '_' + response.tables[key].sY,
-          'end': response.tables[key].eX + '_' + response.tables[key].eY,
-          'curve': response.tables[key].qX + '_' + response.tables[key].qY,
+          'start': tables[tableID].sX + '_' + tables[tableID].sY,
+          'end': tables[tableID].eX + '_' + tables[tableID].eY,
+          'curve': tables[tableID].qX + '_' + tables[tableID].qY,
         }
       }
     }
   });
   return {
     type: C.RECEIVE_TABLES,
-    tables
+    tables:formattedTables
   }
 }
-// fetch the tables from DB
+// request and fetch the tables from DB
 export function fetchTables(roomID) {
-  return function (dispatch) {
-    return axios.get(`${rootUrl}api/tables/${roomID}`)
-      .then(function (response) {
-        // tables downloaded, now load them into state and clear the tempTable
-        if (response.data.length) {
+  return (dispatch, getState) => {
+    let alreadyHave = false;
+    const tablesObj = getState().entities.tables;
+    Object.keys(tablesObj).forEach(tableID => {
+      if (tablesObj[tableID].room_id === roomID) {
+        alreadyHave = true;
+        return false;
+      }
+    });
+    if (!alreadyHave) {
+      // set loading status
+      dispatch(setLoadingStatus('tables',true));
+      // make the call
+      axios.get(`${rootUrl}api/tables/${roomID}`)
+      .then(response => {
+        if (response.data.length) { // if there were any tables to receive
           const normalizedData = normalize(response.data, schema.tableListSchema);
-          dispatch(receiveTables(normalizedData.entities));
-          dispatch(clearTempTable());
+          dispatch(receiveTables(normalizedData.entities.tables));
         }
+        dispatch(clearTempTable());
+        dispatch(setLoadingStatus('tables',false));
       })
-      .catch(function (error) {
+      .catch(error => {
         console.log(error);
       });
+    }
   }
 }
+
+
 // save a table to the DB, and then fetch new tables
 export function saveTable(tableID, roomID, coords, seatCount) {
   return function (dispatch) {
@@ -118,5 +133,3 @@ export function removeTable(tableID) {
     tableID
   }
 }
-
-

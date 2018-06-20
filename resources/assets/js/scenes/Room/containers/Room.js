@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Room from '../Room'
 import { withRouter } from 'react-router-dom'
-import { fetchTables, setView, setTask, findAndSetCurrentRoom, findAndSetCurrentOffering, requestRooms, requestStudents, assignSeat } from '../../../actions'
+import { fetchTables, setView, setTask, findAndSetCurrentRoom, findAndSetCurrentOffering, requestRooms, requestStudents, assignSeat, requestSingleOffering, resetCurrentOffering, resetCurrentRoom, setCurrentStudentId, setCurrentSeatId } from '../../../actions'
 
 const mapStateToProps = (state, ownProps) => {
 
@@ -81,11 +81,26 @@ const mapDispatchToProps = (dispatch) => {
     requestRooms: () => {
       dispatch(requestRooms())
     },
+    requestSingleOffering: (offeringID) => {
+      dispatch(requestSingleOffering(offeringID))
+    },
     requestStudents: (offeringID) => {
       dispatch(requestStudents(offeringID))
     },
     assignSeat: (offering_id, student_id, seat_id) => {
       dispatch(assignSeat(offering_id, student_id, seat_id))
+    },
+    resetCurrentRoom: () => {
+      dispatch(resetCurrentRoom());
+    },
+    resetCurrentOffering: () => {
+      dispatch(resetCurrentOffering());
+    },
+    setCurrentStudentId: (id) => {
+      dispatch(setCurrentStudentId(id));
+    },
+    setCurrentSeatId: (id) => {
+      dispatch(setCurrentSeatId(id));
     }
   }
 }

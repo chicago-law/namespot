@@ -9,8 +9,7 @@ export default class Select extends Component {
   }
 
   componentDidMount() {
-    this.props.resetCurrentOffering();
-    this.props.resetCurrentRoom();
+
   }
 
   render() {

@@ -51,7 +51,7 @@ export default class AbFindStudent extends Component {
     return (
       <div className='action-bar action-bar-find-student'>
         <i className="far fa-arrow-left" onClick={() => this.props.setTask('offering-overview')}></i>
-        <div className="filter-container">
+        <div className="input-container">
           <i className="far fa-search"></i>
           <input type='text' ref={this.filterRef} placeholder="Type to find student..." onChange={(e) => this.handleSearchInput(e)} value={this.state.search}/>
         </div>

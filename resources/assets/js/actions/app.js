@@ -11,6 +11,18 @@ export function setView(view) {
   }
 }
 
+
+/**
+ * task
+ * ’edit-room’,’edit-table’,’delete-table’,’lookup-student’,’student-details’,’edit-offering’
+ */
+export function setTask(task) {
+  return {
+    type:C.SET_TASK,
+    task
+  }
+}
+
 /**
  * currentRoom
  */
@@ -72,17 +84,6 @@ export function setCurrentStudentId(studentID) {
   return {
     type:C.SET_CURRENT_STUDENT,
     studentID
-  }
-}
-
-/**
- * task
- * ’edit-room’,’edit-table’,’delete-table’,’lookup-student’,’student-details’,’edit-offering’
- */
-export function setTask(task) {
-  return {
-    type:C.SET_TASK,
-    task
   }
 }
 

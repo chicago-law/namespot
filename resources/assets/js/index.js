@@ -6,7 +6,6 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import thunkMiddleware from 'redux-thunk'
 import rootReducer from './reducers'
 import Root from './global/Root'
-import { fetchOfferings } from './actions'
 
 const store = createStore(
   rootReducer,
@@ -16,10 +15,6 @@ const store = createStore(
     )
   )
 )
-
-window.store = store
-// store.dispatch(fetchRooms())
-store.dispatch(fetchOfferings('2188'))
 
 render(
   <BrowserRouter basename="/namespot/public/">

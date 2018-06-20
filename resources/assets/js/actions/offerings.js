@@ -11,23 +11,57 @@ import { setLoadingStatus, findAndSetCurrentRoom } from './app';
  */
 
 // load offerings into store
-export function receiveOfferings(response) {
+export function receiveOfferings(offerings) {
   return {
     type: C.RECEIVE_OFFERINGS,
-    offerings: response.offerings
+    offerings: offerings
   }
 }
 // Fetch all offerings for a given term code
 export function fetchOfferings(termCode) {
-  return function (dispatch) {
-    return axios.get(`${rootUrl}api/offerings/${termCode}`)
-      .then(function (response) {
-        const normalizedData = response.data.length ? normalize(response.data, schema.offeringListSchema) : null;
-        dispatch(receiveOfferings(normalizedData.entities))
+  return (dispatch) => {
+    // set loading state
+    dispatch(setLoadingStatus('offerings',true));
+    // make API call
+    axios.get(`${rootUrl}api/offerings/${termCode}`)
+    .then(response => {
+      const normalizedData = response.data.length ? normalize(response.data, schema.offeringListSchema) : null;
+      normalizedData != null ? dispatch(receiveOfferings(normalizedData.entities.offerings)) : false;
+      dispatch(setLoadingStatus('offerings',false));
+    })
+    .catch(response => {
+      console.log(response);
+    });
+  }
+}
+// Gently request a fresh load of offerings
+export function requestOfferings(termCode) {
+  return (dispatch, getState) => {
+    if (Object.keys(getState().entities.offerings).length < 2) {
+      dispatch(fetchOfferings(termCode));
+    }
+  }
+}
+
+// Request and fetch a single offering by ID
+export function requestSingleOffering(offering_id) {
+  return (dispatch, getState) => {
+    if (!getState().entities.offerings[offering_id]) {
+      // set loading on
+      dispatch(setLoadingStatus('offerings',true));
+      // perform the fetch
+      axios.get(`${rootUrl}api/offering/${offering_id}`)
+      .then(response => {
+        const offeringObj = {
+          [response.data.id]: {
+            ...response.data
+          }
+        }
+        dispatch(receiveOfferings(offeringObj))
+        // turn off loading
+        dispatch(setLoadingStatus('offerings', false));
       })
-      .catch(function (error) {
-        console.log(error);
-      });
+    }
   }
 }
 

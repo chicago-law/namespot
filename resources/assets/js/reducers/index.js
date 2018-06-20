@@ -173,7 +173,10 @@ const loading = (state = {
 const offerings = (state = {}, action) => {
   switch (action.type) {
     case C.RECEIVE_OFFERINGS:
-      return action.offerings
+      return {
+        ...state,
+        ...action.offerings
+      }
     case C.UPDATE_OFFERING_ROOM:
       return {
         ...state,
@@ -259,9 +262,9 @@ const tables = (state = {}, action) => {
 const rootReducer = combineReducers({
   app: combineReducers({
     view,
+    task,
     currentRoom,
     currentOffering,
-    task,
     currentSeatId,
     currentStudentId,
     tempTable,
