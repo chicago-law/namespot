@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
-import AbEditRoom from '../scenes/Room/containers/AbEditRoom';
+import AbRoomOverview from '../scenes/Room/containers/AbRoomOverview';
 import AbEditTable from '../scenes/Room/containers/AbEditTable';
 import AbDeleteTable from '../scenes/Room/containers/AbDeleteTable';
 import AbOfferingOverview from '../scenes/Room/containers/AbOfferingOverview';
@@ -18,7 +18,7 @@ export default class ActionBar extends Component {
     const task = this.props.task;
     switch (task) {
       case 'edit-room':
-        actionBarContents = <AbEditRoom />;
+        actionBarContents = <AbRoomOverview />;
         break;
       case 'edit-table':
         actionBarContents = <AbEditTable />;

@@ -66215,7 +66215,7 @@ var ActionBarContainer = Object(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_router_dom__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__scenes_Room_containers_AbEditRoom__ = __webpack_require__(485);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__scenes_Room_containers_AbRoomOverview__ = __webpack_require__(531);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__scenes_Room_containers_AbEditTable__ = __webpack_require__(494);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__scenes_Room_containers_AbDeleteTable__ = __webpack_require__(496);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__scenes_Room_containers_AbOfferingOverview__ = __webpack_require__(498);
@@ -66255,7 +66255,7 @@ var ActionBar = function (_Component) {
       var task = this.props.task;
       switch (task) {
         case 'edit-room':
-          actionBarContents = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__scenes_Room_containers_AbEditRoom__["a" /* default */], null);
+          actionBarContents = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__scenes_Room_containers_AbRoomOverview__["a" /* default */], null);
           break;
         case 'edit-table':
           actionBarContents = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__scenes_Room_containers_AbEditTable__["a" /* default */], null);
@@ -66299,223 +66299,8 @@ ActionBar.propTypes = {
 };
 
 /***/ }),
-/* 485 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react_redux__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AbEditRoom__ = __webpack_require__(486);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__actions__ = __webpack_require__(14);
-
-
-
-
-
-var mapStateToProps = function mapStateToProps(state, ownProps) {
-  return {
-    currentRoom: state.app.currentRoom
-  };
-};
-
-var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
-  return {
-    newTable: function newTable() {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["g" /* newTable */])());
-    },
-    setTask: function setTask(status) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["x" /* setTask */])(status));
-    },
-    setPointSelection: function setPointSelection(status) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["u" /* setPointSelection */])(status));
-    },
-    setSeatSizeRequest: function setSeatSizeRequest(roomID, seatSize) {
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["w" /* setSeatSizeRequest */])(roomID, seatSize));
-    }
-  };
-};
-
-var AbEditRoomContainer = Object(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["e" /* withRouter */])(Object(__WEBPACK_IMPORTED_MODULE_0_react_redux__["b" /* connect */])(mapStateToProps, mapDispatchToProps)(__WEBPACK_IMPORTED_MODULE_2__AbEditRoom__["a" /* default */]));
-
-/* harmony default export */ __webpack_exports__["a"] = (AbEditRoomContainer);
-
-/***/ }),
-/* 486 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-var AbEditRoom = function (_Component) {
-  _inherits(AbEditRoom, _Component);
-
-  function AbEditRoom(props) {
-    _classCallCheck(this, AbEditRoom);
-
-    var _this = _possibleConstructorReturn(this, (AbEditRoom.__proto__ || Object.getPrototypeOf(AbEditRoom)).call(this, props));
-
-    _this.state = {
-      seatSize: 30
-    };
-    return _this;
-  }
-
-  _createClass(AbEditRoom, [{
-    key: 'handleSeatSizeChange',
-    value: function handleSeatSizeChange(e) {
-      var value = e.target.value;
-      this.setState({
-        seatSize: value
-      });
-      this.props.setSeatSizeRequest(this.props.currentRoom.id, value);
-    }
-  }, {
-    key: 'handleAddNewClick',
-    value: function handleAddNewClick() {
-      this.props.newTable();
-      this.props.setTask('edit-table');
-      this.props.setPointSelection('start');
-    }
-  }, {
-    key: 'handleDeleteClick',
-    value: function handleDeleteClick() {
-      this.props.setTask('delete-table');
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
-
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { className: 'action-bar action-bar-edit-room' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'div',
-          { className: 'flex-container pull-top' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'h6',
-            null,
-            'Name'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'h4',
-            null,
-            this.props.currentRoom.name ? this.props.currentRoom.name : 'Click to add',
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'far fa-pencil' })
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'h6',
-            null,
-            'Total Seats in Room'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'h4',
-            null,
-            '15'
-          )
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'div',
-          { className: 'controls' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'flex-container seat-size' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'seat-size-slider' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'smaller' }),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'range', min: '15', max: '45', step: '3', value: this.state.seatSize, onChange: function onChange(e) {
-                  return _this2.handleSeatSizeChange(e);
-                } }),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'larger' })
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'p',
-              null,
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'small',
-                null,
-                'Seat Size'
-              )
-            )
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'flex-container' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'a',
-              { href: 'javascript:void(0)', onClick: function onClick() {
-                  return _this2.handleAddNewClick();
-                } },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'button',
-                { className: 'big-button' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'far fa-plus-circle' }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  null,
-                  'Add New',
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
-                  'Section'
-                )
-              )
-            )
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'flex-container' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'a',
-              { href: 'javascript:void(0)', onClick: function onClick() {
-                  return _this2.handleDeleteClick();
-                } },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'button',
-                { className: 'big-button' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'far fa-trash-alt' }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  null,
-                  'Delete',
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
-                  'Section'
-                )
-              )
-            )
-          )
-        )
-      );
-    }
-  }]);
-
-  return AbEditRoom;
-}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
-
-/* harmony default export */ __webpack_exports__["a"] = (AbEditRoom);
-
-
-AbEditRoom.propTypes = {
-  currentRoom: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
-  newTable: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func.isRequired,
-  setTask: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func.isRequired,
-  setPointSelection: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func.isRequired,
-  setSeatSizeRequest: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func.isRequired
-};
-
-/***/ }),
+/* 485 */,
+/* 486 */,
 /* 487 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -69124,13 +68909,6 @@ var Room = function (_Component) {
       }
     }
   }, {
-    key: 'handleContinueSeatingClick',
-    value: function handleContinueSeatingClick() {
-      this.props.history.push('/offering/' + this.props.currentOffering.id);
-      this.props.setTask('offering-overview');
-      this.props.setView('assign-seats');
-    }
-  }, {
     key: 'checkForBadSeats',
     value: function checkForBadSeats() {
       var _this2 = this;
@@ -69300,26 +69078,7 @@ var Room = function (_Component) {
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
           { className: 'room-workspace-right' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: '/offering', component: __WEBPACK_IMPORTED_MODULE_9__containers_RosterGallery__["a" /* default */] }),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: '/room/:roomID/:offeringID', render: function render() {
-              return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'div',
-                { className: 'continue-seating', onClick: function onClick() {
-                    return _this3.handleContinueSeatingClick();
-                  } },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'button',
-                  { className: 'btn-accent' },
-                  'Continue Seating ',
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'far fa-long-arrow-right' })
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  null,
-                  'Return to assigning seats when ready'
-                )
-              );
-            } })
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: '/offering', component: __WEBPACK_IMPORTED_MODULE_9__containers_RosterGallery__["a" /* default */] })
         )
       );
     }
@@ -70117,6 +69876,259 @@ RosterGallery.propTypes = {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 527 */,
+/* 528 */,
+/* 529 */,
+/* 530 */,
+/* 531 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react_redux__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AbRoomOverview__ = __webpack_require__(532);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__actions__ = __webpack_require__(14);
+
+
+
+
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    currentRoom: state.app.currentRoom,
+    currentOffering: state.app.currentOffering
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    newTable: function newTable() {
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["g" /* newTable */])());
+    },
+    setView: function setView(status) {
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["y" /* setView */])(status));
+    },
+    setTask: function setTask(status) {
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["x" /* setTask */])(status));
+    },
+    setPointSelection: function setPointSelection(status) {
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["u" /* setPointSelection */])(status));
+    },
+    setSeatSizeRequest: function setSeatSizeRequest(roomID, seatSize) {
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_3__actions__["w" /* setSeatSizeRequest */])(roomID, seatSize));
+    }
+  };
+};
+
+var AbEditRoomContainer = Object(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["e" /* withRouter */])(Object(__WEBPACK_IMPORTED_MODULE_0_react_redux__["b" /* connect */])(mapStateToProps, mapDispatchToProps)(__WEBPACK_IMPORTED_MODULE_2__AbRoomOverview__["a" /* default */]));
+
+/* harmony default export */ __webpack_exports__["a"] = (AbEditRoomContainer);
+
+/***/ }),
+/* 532 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_router_dom__ = __webpack_require__(11);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+var AbRoomOverview = function (_Component) {
+  _inherits(AbRoomOverview, _Component);
+
+  function AbRoomOverview(props) {
+    _classCallCheck(this, AbRoomOverview);
+
+    var _this = _possibleConstructorReturn(this, (AbRoomOverview.__proto__ || Object.getPrototypeOf(AbRoomOverview)).call(this, props));
+
+    _this.state = {
+      seatSize: 30
+    };
+    return _this;
+  }
+
+  _createClass(AbRoomOverview, [{
+    key: 'handleSeatSizeChange',
+    value: function handleSeatSizeChange(e) {
+      var value = e.target.value;
+      this.setState({
+        seatSize: value
+      });
+      this.props.setSeatSizeRequest(this.props.currentRoom.id, value);
+    }
+  }, {
+    key: 'handleAddNewClick',
+    value: function handleAddNewClick() {
+      this.props.newTable();
+      this.props.setTask('edit-table');
+      this.props.setPointSelection('start');
+    }
+  }, {
+    key: 'handleDeleteClick',
+    value: function handleDeleteClick() {
+      this.props.setTask('delete-table');
+    }
+  }, {
+    key: 'handleContinueSeatingClick',
+    value: function handleContinueSeatingClick() {
+      this.props.history.push('/offering/' + this.props.currentOffering.id);
+      this.props.setTask('offering-overview');
+      this.props.setView('assign-seats');
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { className: 'action-bar action-bar-room-overview' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'flex-container pull-top' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'h6',
+            null,
+            'Name'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'h4',
+            null,
+            this.props.currentRoom.name ? this.props.currentRoom.name : 'Click to add',
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'far fa-pencil' })
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'h6',
+            null,
+            'Total Seats in Room'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'h4',
+            null,
+            '15'
+          )
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'controls' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'flex-container seat-size' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'seat-size-slider' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'smaller' }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'range', min: '15', max: '45', step: '3', value: this.state.seatSize, onChange: function onChange(e) {
+                  return _this2.handleSeatSizeChange(e);
+                } }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'larger' })
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'small',
+                null,
+                'Seat Size'
+              )
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'flex-container' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'a',
+              { href: 'javascript:void(0)', onClick: function onClick() {
+                  return _this2.handleAddNewClick();
+                } },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'button',
+                { className: 'big-button' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'far fa-plus-circle' }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'p',
+                  null,
+                  'Add New',
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
+                  'Section'
+                )
+              )
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'flex-container' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'a',
+              { href: 'javascript:void(0)', onClick: function onClick() {
+                  return _this2.handleDeleteClick();
+                } },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'button',
+                { className: 'big-button' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'far fa-trash-alt' }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'p',
+                  null,
+                  'Delete',
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
+                  'Section'
+                )
+              )
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_router_dom__["c" /* Route */], { path: '/room/:roomID/:offeringID', render: function render() {
+              return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'continue-seating', onClick: function onClick() {
+                    return _this2.handleContinueSeatingClick();
+                  } },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'button',
+                  { className: 'btn-accent' },
+                  'Continue Seating ',
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'far fa-long-arrow-right' })
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'p',
+                  null,
+                  'Return to assigning seats when ready'
+                )
+              );
+            } })
+        )
+      );
+    }
+  }]);
+
+  return AbRoomOverview;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+/* harmony default export */ __webpack_exports__["a"] = (AbRoomOverview);
+
+
+AbRoomOverview.propTypes = {
+  currentRoom: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
+  newTable: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func.isRequired,
+  setTask: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func.isRequired,
+  setPointSelection: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func.isRequired,
+  setSeatSizeRequest: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func.isRequired
+};
 
 /***/ })
 /******/ ]);

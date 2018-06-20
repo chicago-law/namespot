@@ -483,6 +483,7 @@ button:hover {
 .btn-accent {
   background: #DD4343;
   color: #fff;
+  font-size: .8em;
 }
 
 .btn-accent:hover {
@@ -692,21 +693,21 @@ li {
   color: #DD4343;
 }
 
-.action-bar-edit-room .description {
+.action-bar-room-overview .description {
   max-width: 20em;
 }
 
-.action-bar-edit-room .controls {
+.action-bar-room-overview .controls {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
 
-.action-bar-edit-room .seat-size {
+.action-bar-room-overview .seat-size {
   text-align: center;
 }
 
-.action-bar-edit-room .seat-size .seat-size-slider {
+.action-bar-room-overview .seat-size .seat-size-slider {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -718,26 +719,50 @@ li {
   margin-bottom: .5em;
 }
 
-.action-bar-edit-room .seat-size input {
+.action-bar-room-overview .seat-size input {
   margin: 0 .5em;
   max-width: 6em;
 }
 
-.action-bar-edit-room .seat-size .smaller,
-.action-bar-edit-room .seat-size .larger {
+.action-bar-room-overview .seat-size .smaller,
+.action-bar-room-overview .seat-size .larger {
   display: inline-block;
   border: 2px solid #777777;
   border-radius: 5px;
 }
 
-.action-bar-edit-room .seat-size .smaller {
+.action-bar-room-overview .seat-size .smaller {
   height: 1.25em;
   width: 1.25em;
 }
 
-.action-bar-edit-room .seat-size .larger {
+.action-bar-room-overview .seat-size .larger {
   height: 3em;
   width: 3em;
+}
+
+.action-bar-room-overview .continue-seating {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  border-left: 1px solid #f4f4f4;
+  padding-left: 3em;
+}
+
+.action-bar-room-overview .continue-seating p {
+  font-style: italic;
+  margin-top: 1em;
+  font-size: .8em;
 }
 
 .action-bar-edit-table {
@@ -775,6 +800,7 @@ li {
   width: 3em;
   font-size: 1.563em;
   margin-bottom: .25em;
+  padding-left: 0;
 }
 
 .action-bar-edit-table .seats-number p {
@@ -1449,29 +1475,6 @@ li {
   font-size: .8em;
   font-weight: bold;
   color: #AAAAAA;
-}
-
-.room-workspace .continue-seating {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  margin-top: 2em;
-  font-size: .8em;
-}
-
-.room-workspace .continue-seating p {
-  font-style: italic;
-  margin-top: 1em;
 }
 
 .room-workspace .roster-gallery {

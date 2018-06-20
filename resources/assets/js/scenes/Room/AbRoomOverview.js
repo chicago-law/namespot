@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Route } from 'react-router-dom';
 
-export default class AbEditRoom extends Component {
+export default class AbRoomOverview extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,9 +28,15 @@ export default class AbEditRoom extends Component {
     this.props.setTask('delete-table');
   }
 
+  handleContinueSeatingClick() {
+    this.props.history.push(`/offering/${this.props.currentOffering.id}`);
+    this.props.setTask('offering-overview');
+    this.props.setView('assign-seats');
+  }
+
   render() {
     return (
-      <div className='action-bar action-bar-edit-room'>
+      <div className='action-bar action-bar-room-overview'>
         <div className="flex-container pull-top">
           <h6>Name</h6>
           <h4>{this.props.currentRoom.name ? this.props.currentRoom.name : 'Click to add'}<i className="far fa-pencil"></i></h4>
@@ -64,13 +71,21 @@ export default class AbEditRoom extends Component {
               </button>
             </a>
           </div>
+
+          <Route path="/room/:roomID/:offeringID" render={() =>
+            <div className='continue-seating' onClick={() => this.handleContinueSeatingClick()}>
+              <button className='btn-accent'>Continue Seating <i className="far fa-long-arrow-right"></i></button>
+              <p>Return to assigning seats when ready</p>
+            </div>
+          } />
+
         </div>
       </div>
     )
   }
 }
 
-AbEditRoom.propTypes = {
+AbRoomOverview.propTypes = {
   currentRoom:PropTypes.object.isRequired,
   newTable:PropTypes.func.isRequired,
   setTask:PropTypes.func.isRequired,

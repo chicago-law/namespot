@@ -41,12 +41,6 @@ export default class Room extends Component {
     }
   }
 
-  handleContinueSeatingClick() {
-    this.props.history.push(`/offering/${this.props.currentOffering.id}`);
-    this.props.setTask('offering-overview');
-    this.props.setView('assign-seats');
-  }
-
   checkForBadSeats() {
     if (this.props.currentSeats.length) { // only do the check if currentSeats has been hydrated
       this.props.currentStudents.forEach(student => {
@@ -189,12 +183,6 @@ export default class Room extends Component {
 
         <div className='room-workspace-right'>
           <Route path="/offering" component={RosterGallery} />
-          <Route path="/room/:roomID/:offeringID" render={() =>
-            <div className='continue-seating' onClick={() => this.handleContinueSeatingClick()}>
-              <button className='btn-accent'>Continue Seating <i className="far fa-long-arrow-right"></i></button>
-              <p>Return to assigning seats when ready</p>
-            </div>
-          } />
         </div>
 
       </div>

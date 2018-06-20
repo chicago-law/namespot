@@ -61,7 +61,7 @@
 
 }
 
-.action-bar-edit-room {
+.action-bar-room-overview {
   .description {
     max-width:20em;
   }
@@ -92,6 +92,20 @@
     .larger {
       height:3em;
       width:3em;
+    }
+  }
+  .continue-seating {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content: center;
+    // margin-top:2em;
+    border-left:1px solid $off-white;
+    padding-left:3em;
+    p {
+      font-style:italic;
+      margin-top: 1em;
+      @include ms-1;
     }
   }
 }
@@ -125,6 +139,7 @@
       width:3em;
       @include ms2;
       margin-bottom:.25em;
+      padding-left: 0;
     }
     p {
       margin-bottom: 0;

@@ -9,7 +9,7 @@ const BanEditRoom = ({ currentRoom }) => {
   );
 }
 
-export default BanEditRoom
+export default BanEditRoom;
 
 BanEditRoom.propTypes = {
   currentRoom: PropTypes.object.isRequired

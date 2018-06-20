@@ -1,18 +1,22 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import AbEditRoom from '../AbEditRoom'
-import { newTable, setTask, setPointSelection, setSeatSizeRequest, setLoadingStatus } from '../../../actions'
+import AbRoomOverview from '../AbRoomOverview'
+import { newTable, setTask, setPointSelection, setSeatSizeRequest, setView } from '../../../actions'
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
     currentRoom:state.app.currentRoom,
+    currentOffering:state.app.currentOffering
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch) => {
   return {
     newTable: () => {
       dispatch(newTable())
+    },
+    setView: status => {
+      dispatch(setView(status))
     },
     setTask: status => {
       dispatch(setTask(status))
@@ -29,6 +33,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 const AbEditRoomContainer = withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(AbEditRoom))
+)(AbRoomOverview))
 
 export default AbEditRoomContainer;
