@@ -16,6 +16,17 @@ export default class RoomList extends Component {
 
   render() {
 
+    const sortedClasses = Object.keys(this.props.rooms).sort((a, b) => {
+      const roomA = parseInt(this.props.rooms[a].name.split(' ')[1]);
+      const roomB = parseInt(this.props.rooms[b].name.split(' ')[1]);
+      if (roomA < roomB) {
+        return -1
+      }
+      if (roomA > roomB) {
+        return 1;
+      }
+    });
+
     const roomListClasses = classNames({
       'room-list':true,
       'is-loading':this.props.loading.rooms
@@ -31,7 +42,7 @@ export default class RoomList extends Component {
         </header>
 
         <ul>
-          {Object.keys(this.props.rooms).map((id) => (
+          {sortedClasses.map((id) => (
             <li key={id}>
               <Link to={`/room/${id}`}>
                 <h4>{this.props.rooms[id].name}</h4>

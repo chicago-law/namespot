@@ -9,10 +9,10 @@ import { findAndSetCurrentRoom, setLoadingStatus } from './app';
  */
 
 // Load rooms into state
-export function receiveRooms(response) {
+export function receiveRooms(rooms) {
   return {
     type: C.RECEIVE_ROOMS,
-    rooms: response.rooms
+    rooms: rooms
   }
 }
 // Fetch all rooms
@@ -24,7 +24,7 @@ export function fetchRooms() {
     axios.get(`${rootUrl}api/rooms`)
     .then(function (response) {
       const normalizedData = normalize(response.data, schema.roomListSchema);
-      dispatch(receiveRooms(normalizedData.entities))
+      dispatch(receiveRooms(normalizedData.entities.rooms))
       dispatch(setLoadingStatus('rooms',false))
     })
     .catch(function (error) {
@@ -35,7 +35,36 @@ export function fetchRooms() {
 }
 // Gently ask to hydrate with rooms, if we need them
 export function requestRooms() {
-  return (dispatch, getState) => !Object.keys(getState().entities.rooms).length ? dispatch(fetchRooms()) : false;
+  return (dispatch, getState) => Object.keys(getState().entities.rooms).length < 3 ? dispatch(fetchRooms()) : false;
+}
+
+// fetch a single room by its ID
+export function fetchRoom(room_id) {
+  return function (dispatch) {
+    dispatch(setLoadingStatus('rooms',true))
+    axios.get(`${rootUrl}api/room/${room_id}`)
+    .then(response => {
+      const room = {
+        [response.data.id]: {
+          ...response.data
+        }
+      }
+      dispatch(receiveRooms(room));
+      dispatch(setLoadingStatus('rooms',false))
+    })
+    .catch(response => {
+      console.log(response);
+      dispatch(setLoadingStatus('rooms',false))
+    })
+  }
+}
+// fetch a single room if we need it
+export function requestRoom(room_id) {
+  return (dispatch, getState) => {
+    if (!getState().entities.rooms[room_id]) {
+      dispatch(fetchRoom(room_id))
+    }
+  }
 }
 
 

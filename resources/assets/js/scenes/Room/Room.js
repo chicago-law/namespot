@@ -42,15 +42,17 @@ export default class Room extends Component {
   }
 
   checkForBadSeats() {
-    if (this.props.currentSeats.length) { // only do the check if currentSeats has been hydrated
+    // only do the check if everything we need is all downloaded
+    if (this.props.loading['offerings'] === false && this.props.loading['rooms'] === false && this.props.loading['tables'] === false && this.props.loading['students'] === false) {
       this.props.currentStudents.forEach(student => {
         const assigned_seat = student.seats[`offering_${this.props.currentOffering.id}`];
         if (assigned_seat && !this.props.currentSeats.includes(assigned_seat)) {
-          console.log(`student seated at non-existing seat: ${assigned_seat}, setting to null`);
+          console.log(`student ${student.id} seated at non-existing seat: ${assigned_seat}, setting to null`);
           this.props.assignSeat(this.props.currentOffering.id, student.id, null);
         }
       });
     }
+
   }
 
   componentDidMount() {
@@ -61,18 +63,20 @@ export default class Room extends Component {
     });
 
     // get the rooms data if we need it
-    this.props.requestRooms();
+    // this.props.requestRooms();
+
 
     // do these if you have the currentRoomID
     if (this.props.currentRoomID != null) {
-      console.log('had current room id on mounting');
-      this.props.fetchTables(this.props.currentRoomID);
+      // console.log('doing stuff with currentRoomID on Room mount');
+      this.props.requestRoom(this.props.currentRoomID);
+      // this.props.fetchTables(this.props.currentRoomID);
       this.props.findAndSetCurrentRoom(this.props.currentRoomID);
     }
 
     // do these if you have the currentOfferingID
     if (this.props.currentOfferingID != null) {
-      console.log('had current offering id on mounting');
+      // console.log('had current offering id on mounting');
       this.props.findAndSetCurrentOffering(this.props.currentOfferingID);
       this.props.requestStudents(this.props.currentOfferingID);
       this.props.requestSingleOffering(this.props.currentOfferingID);
@@ -83,22 +87,29 @@ export default class Room extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    // get the tables when we have a real roomID or it changes
-    if (this.props.currentRoomID != null && prevProps.currentRoomID != this.props.currentRoomID) {
-      console.log('fetched tables on room update');
-      this.props.fetchTables(this.props.currentRoomID);
+    // fetch the room if need be
+    if (this.props.currentRoomID != null && prevProps.currentRoomID === null) {
+      this.props.requestRoom(this.props.currentRoomID);
     }
 
     // set current room
-    if (this.props.currentRoomID != null && this.props.currentRoom.id == null) {
-      console.log('set current room on room update');
+    if (this.props.currentRoomID != null && (this.props.currentRoomID != prevProps.currentRoomID || this.props.currentRoomID != this.props.currentRoom.id)) {
+      // console.log(`set current room on Room update: ${this.props.currentRoomID}`);
       this.props.findAndSetCurrentRoom(this.props.currentRoomID);
     }
 
     // set current offering
-    if (this.props.currentOfferingID != null && this.props.currentOffering.id == null) {
-      console.log('set current offering on room update');
+    if (this.props.currentOfferingID != null && (this.props.currentOfferingID != prevProps.currentOfferingID || this.props.currentOfferingID != this.props.currentOffering.id)) {
+      // console.log('set current offering on Room update');
       this.props.findAndSetCurrentOffering(this.props.currentOfferingID);
+    }
+
+    // get the tables when currentRoom is ready and it has changed
+    if (this.props.currentRoom.id != null && prevProps.currentRoom.id != this.props.currentRoom.id) {
+      // console.log(prevProps.currentRoom.id);
+      // console.log(prevProps.currentRoomID);
+      // console.log('fetched tables on Room update');
+      this.props.fetchTables(this.props.currentRoom.id);
     }
 
     // are any students seated at non-existing seats?

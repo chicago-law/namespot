@@ -140,6 +140,16 @@ export function setPointSelection(pointType) {
 }
 
 /**
+ * MODALS
+ */
+export function setModal(modal, status) {
+  return {
+    type:C.SET_MODAL,
+    modal, status
+  }
+}
+
+/**
  * LOADING
  */
 export function setLoadingStatus(loadingType, status) {

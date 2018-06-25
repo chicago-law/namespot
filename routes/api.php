@@ -35,6 +35,9 @@ Route::get('/offerings/{term_code}', function ($term_code) {
     return OfferingResource::collection(Offering::where('term_code',$term_code)->get());
 });
 
+// update an offering attribute
+Route::post('/offering/{offering_id}', 'OfferingController@update');
+
 // take an offering, duplicate its room, assign it to the new room
 Route::get('create-room-for/{offering_id}','OfferingController@createRoomFor');
 
@@ -44,17 +47,22 @@ Route::get('/enrollment/{offering_id}', function ($offering_id) {
 });
 
 // test how to get and update student's assigned seats for an offering
-Route::get('/offering-students/{offering_id}', 'OfferingController@test');
+// Route::get('/offering-students/{offering_id}', 'OfferingController@test');
 
 // update a student
 Route::post('/student/update/{student_id}', 'StudentController@update');
 
 // fetch a single student
-Route::get('/student/{student_id}', 'StudentController@test');
+// Route::get('/student/{student_id}', 'StudentController@test');
+
+// fetch single room by id
+Route::get('/room/{room_id}', function ($room_id) {
+    return new RoomResource(Room::find($room_id));
+});
 
 // fetch all rooms
 Route::get('/rooms', function () {
-    return RoomResource::collection(Room::all());
+    return RoomResource::collection(Room::where('type','template')->get());
 });
 
 // update a room

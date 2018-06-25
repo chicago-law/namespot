@@ -27,6 +27,14 @@
       justify-content:space-between;
       margin-top: 2em;
     }
+    .semester-dropdown-container {
+      display:flex;
+      align-items:center;
+      p {
+        // @include ms-1;
+        margin-right:.5em;
+      }
+    }
   }
   ul {
     margin:0;

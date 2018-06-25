@@ -1,0 +1,81 @@
+.modal-container {
+  display:none;
+  position:fixed;
+  top:0;
+  bottom:0;
+  right:0;
+  left:0;
+  z-index: 99999;
+  overflow:hidden;
+  .modal-window {
+    position:absolute;
+    width:30em;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-60%);
+    padding:2em;
+    background: #fff;
+    box-shadow:0 5px 15px $middle-gray;
+    z-index: 99999;
+    transition:transform .3s ease-out;
+    .fa-times {
+      position:absolute;
+      top:.75em;
+      right:.75em;
+      @include ms1;
+      color:$middle-gray;
+      cursor:pointer;
+      &:hover {
+        color:$primary-accent;
+      }
+    }
+    .content {
+      header {
+        text-align:center;
+        margin-bottom: 1em;
+        h2 i {
+          margin-right:.5em;
+        }
+      }
+      .controls {
+        display:flex;
+        justify-content: space-between;
+      }
+    }
+  }
+  .shader {
+    position:absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    background:rgba(0,0,0,.15);
+    z-index: 9999;
+  }
+  &.is-active {
+    display:block;
+    .modal-window {
+      transform:translate(-50%,-50%);
+    }
+  }
+}
+
+.modal-change-room {
+  .warning {
+    display:flex;
+    align-items:center;
+    margin:3em 0;
+    i {
+      @include ms3;
+      color:$primary-accent-light;
+      padding-right:.75em;
+    }
+    p {
+      font-style:italic;
+      margin-bottom: 0;
+    }
+  }
+  select {
+    margin:.5em 0;
+  }
+}

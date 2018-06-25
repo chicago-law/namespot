@@ -13,7 +13,7 @@ const Menu = ({toggleMenu}) => (
     <ul>
       <li><Link className="reverse-colors" to="/select/offerings" onClick={toggleMenu}><i className="far fa-map fa-fw"></i>Seating Charts</Link></li>
       <li><Link className="reverse-colors" to="/select/students" onClick={toggleMenu}><i className="far fa-users fa-fw"></i>Students</Link></li>
-      <li><Link className="reverse-colors" to="/select/rooms" onClick={toggleMenu}><i className="far fa-cog fa-fw"></i>Room Templates</Link></li>
+      <li><Link className="reverse-colors" to="/select/rooms" onClick={toggleMenu}><i className="far fa-map-marker-alt fa-fw"></i>Rooms</Link></li>
     </ul>
     <ul>
       <li><Link className="reverse-colors" to="/" onClick={toggleMenu}><i className="far fa-sign-out-alt fa-fw"></i>Logout</Link></li>

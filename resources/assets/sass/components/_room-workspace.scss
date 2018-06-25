@@ -5,6 +5,12 @@
   .room-workspace-left, .room-workspace-right {
     flex:1 1 25%;
   }
+  .room-workspace-left {
+    padding-right:2em;
+  }
+  .room-workspace-right {
+    padding-left:2em;
+  }
   .room-header {
     margin-bottom:.5em;
     margin-top: 1.5em;
@@ -21,7 +27,7 @@
     flex-direction:column;
     justify-content:flex-start;
     margin-top:1.5em;
-    padding-left:2em;
+    // padding-left:2em;
     .enrollment {
       margin-bottom:2em;
     }

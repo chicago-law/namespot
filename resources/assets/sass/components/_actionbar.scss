@@ -177,8 +177,21 @@
 }
 
 .action-bar-offering-overview {
+  display:flex;
+  justify-content: space-between;
+  .center {
+    flex:1 0 auto;
+  }
+  .left, .right {
+    flex:1 1 25%;
+  }
+  .right {
+    text-align:right;
+  }
   .click-an-empty-seat {
     display: flex;
+    align-items:center;
+    justify-content:center;
     i {
       @include ms2;
       margin-right:.5em;
@@ -186,7 +199,24 @@
     }
     color:$middle-gray;
     font-style:italic;
+    .empty-seat-icon {
+      overflow:hidden;
+      border-radius:5px;
+      // border:2px solid $light-gray;
+      rect {
+        fill:$off-white;
+        // stroke:$dark-gray;
+        // stroke-width:2;
+      }
+      .plus-person {
+        fill:$middle-gray;
+      }
+    }
+    p {
+      margin-left: 1em;
+    }
   }
+
   .big-button {
     margin-right:1em;
     &:last-of-type {

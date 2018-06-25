@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Room from '../Room'
 import { withRouter } from 'react-router-dom'
-import { fetchTables, setView, setTask, findAndSetCurrentRoom, findAndSetCurrentOffering, requestRooms, requestStudents, assignSeat, requestSingleOffering, resetCurrentOffering, resetCurrentRoom, setCurrentStudentId, setCurrentSeatId } from '../../../actions'
+import { fetchTables, setView, setTask, findAndSetCurrentRoom, findAndSetCurrentOffering, requestRooms, requestRoom, requestStudents, assignSeat, requestSingleOffering, resetCurrentOffering, resetCurrentRoom, setCurrentStudentId, setCurrentSeatId } from '../../../actions'
 
 const mapStateToProps = (state, ownProps) => {
 
@@ -22,7 +22,7 @@ const mapStateToProps = (state, ownProps) => {
     const allTables = state.entities.tables;
     for (let table in allTables) {
       if (allTables.hasOwnProperty(table)) {
-        if (allTables[table].room_id == currentRoomID) {
+        if (allTables[table].room_id === state.app.currentRoom.id) {
           currentTables = [ ...currentTables, allTables[table] ];
         }
       }
@@ -101,6 +101,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     setCurrentSeatId: (id) => {
       dispatch(setCurrentSeatId(id));
+    },
+    requestRoom: (room_id) => {
+      dispatch(requestRoom(room_id));
     }
   }
 }

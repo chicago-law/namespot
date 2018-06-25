@@ -16,8 +16,10 @@ $light-blue:#2F7AD0;
 
 // Scheme
 $primary-accent:$rose;
-$primary-accent-hover:lighten($rose,8%);
+$primary-accent-light:lighten($rose,8%);
+$primary-accent-hover:$primary-accent-light;
 $second-accent:$dark-blue;
+$second-accent-light:$light-blue;
 
 
 /* ---------- */

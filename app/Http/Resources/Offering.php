@@ -28,6 +28,7 @@ class Offering extends JsonResource
             'room_id' => $this->room()->first()->id,
             'name' => $this->name,
             'course_num' => $this->course_num,
+            'term_code' => $this->term_code,
             'instructors' => $this->instructors()->get(),
             'students' => $student_ids
         ];

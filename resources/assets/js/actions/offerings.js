@@ -4,6 +4,7 @@ import C from '../constants';
 import { rootUrl } from './index';
 import { receiveStudents } from './students';
 import { receiveRooms } from './rooms';
+import { receiveTables } from './tables';
 import { setLoadingStatus, findAndSetCurrentRoom } from './app';
 
 /**
@@ -37,9 +38,18 @@ export function fetchOfferings(termCode) {
 // Gently request a fresh load of offerings
 export function requestOfferings(termCode) {
   return (dispatch, getState) => {
-    if (Object.keys(getState().entities.offerings).length < 2) {
-      dispatch(fetchOfferings(termCode));
-    }
+    // look through the offerings already in entities. if you have more than 1
+    // that has the termCode provided, then we do not need to fetch more.
+
+    const offeringsObj = getState().entities.offerings;
+    const offeringIdArray = Object.keys(offeringsObj);
+
+    let offeringsWithTermCode = 0;
+    offeringIdArray.forEach(id => {
+      offeringsObj[id].term_code === termCode ? offeringsWithTermCode++ : false;
+    });
+
+    offeringsWithTermCode > 1 ? false : dispatch(fetchOfferings(termCode));
   }
 }
 
@@ -72,6 +82,24 @@ export function updateOfferingRoom(offering_id, room_id) {
     offering_id, room_id
   }
 }
+// request update to change an offering's room, including in the DB
+export function requestUpdateOfferingRoom(offering_id, room_id) {
+  return dispatch => {
+    // update it in the store
+    dispatch(updateOfferingRoom(offering_id, room_id))
+
+    // send update to db
+    axios.post(`${rootUrl}api/offering/${offering_id}`, {
+      room_id
+    })
+    .then(response => {
+      // console.log(response);
+    })
+    .catch(response => {
+      console.log(response);
+    })
+  }
+}
 
 // take an offering, duplicate its rooms and tables, and re-assign students
 // to the new tables
@@ -85,19 +113,26 @@ export function customizeOfferingRoom(offeringID) {
     // send out the request to make the new room
     axios.get(`${rootUrl}api/create-room-for/${offeringID}`)
     .then(response => {
+      // duplicates the offering's room and re-assigns offering to the new one,
       // then do an action to update the offering's room ID in the store (rather
       // than re-downloading all offerings to get the update)
+      // console.log(response);
       const newRoomID = response.data.newRoomID;
       dispatch(updateOfferingRoom(offeringID, newRoomID));
 
-      // now re-download the rooms (to do: download only one room)
-      axios.get(`${rootUrl}api/rooms`)
+      // now download the room data for the new room
+      axios.get(`${rootUrl}api/room/${newRoomID}`)
       .then(response => {
         // console.log(response);
-        const normalizedData = normalize(response.data, schema.roomListSchema);
-        dispatch(receiveRooms(normalizedData.entities));
+        // const normalizedData = normalize(response.data, schema.roomListSchema);
+        const normalizedRoom = {
+          [response.data.id]: {
+            ...response.data
+          }
+        }
+        dispatch(receiveRooms(normalizedRoom));
 
-        // once we know the rooms (including the new room) are in the store,
+        // once we know the new room is in the store,
         // we need to set the current room to this
         dispatch(findAndSetCurrentRoom(newRoomID));
 
@@ -106,18 +141,18 @@ export function customizeOfferingRoom(offeringID) {
       })
       .catch(response => console.log(response));
 
-        // now re-download the students for this offering
-        axios.get(`${rootUrl}api/enrollment/${offeringID}`)
-        .then((response) => {
-          // console.log(response);
-          const normalizedData = normalize(response.data, schema.studentListSchema);
-          dispatch(receiveStudents(normalizedData.entities))
+      // now re-download the students for this offering
+      axios.get(`${rootUrl}api/enrollment/${offeringID}`)
+      .then((response) => {
+        // console.log(response);
+        const normalizedData = normalize(response.data, schema.studentListSchema);
+        dispatch(receiveStudents(normalizedData.entities))
 
-          // turn off loading
-          dispatch(setLoadingStatus('students', false));
-        })
-        .catch(response => console.log(response));
+        // turn off loading
+        dispatch(setLoadingStatus('students', false));
       })
       .catch(response => console.log(response));
+    })
+    .catch(response => console.log(response));
   }
 }

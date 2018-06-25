@@ -54,3 +54,33 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/**
+ * Globally-scoped custom helpers!
+ */
+const helpers = {
+    'rootUrl': document.querySelector('body').dataset.root,
+    termCodeToString(termCode) {
+        if (termCode != null) {
+            // year
+            const year = termCode[0] + '0' + termCode[1] + termCode[2];
+            // quarter
+            let quarter = '';
+            switch (String(termCode[3])) {
+                case '2':
+                    quarter = 'Winter';
+                    break;
+                case '4':
+                    quarter = 'Spring';
+                    break;
+                case '8':
+                    quarter = 'Autumn';
+                    break;
+                default:
+                    quarter = termCode[3];
+            }
+            return `${quarter} ${year}`;
+        }
+    }
+}
+export default helpers;

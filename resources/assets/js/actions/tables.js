@@ -32,6 +32,7 @@ export function receiveTables(tables) {
 // request and fetch the tables from DB
 export function fetchTables(roomID) {
   return (dispatch, getState) => {
+    // do we actually need to get the tables?
     let alreadyHave = false;
     const tablesObj = getState().entities.tables;
     Object.keys(tablesObj).forEach(tableID => {

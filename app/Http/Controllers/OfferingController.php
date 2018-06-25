@@ -7,6 +7,20 @@ use App\Offering;
 
 class OfferingController extends Controller
 {
+    public function update($offering_id, Request $request)
+    {
+        // find the offering
+        $offering = Offering::findOrFail($offering_id);
+
+        // currently only updates the room_id. Make it smarter as necessary
+        if ($request->input('room_id')):
+            $offering->room_id = $request->input('room_id');
+            $offering->save();
+        endif;
+
+        return response()->json($offering,200);
+    }
+
     public function createRoomFor($offering_id)
     {
         // find the offering
@@ -42,7 +56,7 @@ class OfferingController extends Controller
         $offering->room_id = $new_room->id;
         $offering->save();
 
-        return response()->json(['newRoomID' => $new_room->id],'200');
+        return response()->json(['newRoomID' => $new_room->id],200);
     }
 
     // public function test($offering_id)

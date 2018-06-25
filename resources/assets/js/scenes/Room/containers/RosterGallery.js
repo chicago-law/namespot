@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import RosterGallery from '../RosterGallery';
-import { assignSeat } from '../../../actions';
+import { assignSeat, setTask, setCurrentStudentId } from '../../../actions';
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
 
   // get the students enrolled in this class
   let currentStudents = [];
@@ -21,7 +21,13 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     assignSeat: (offering_id, student_id, seat_i) => {
-      dispatch(assignSeat(offering_id, student_id, seat_i))
+      dispatch(assignSeat(offering_id, student_id, seat_i));
+    },
+    setTask: task => {
+      dispatch(setTask(task));
+    },
+    setCurrentStudentId: id => {
+      dispatch(setCurrentStudentId(id));
     }
   }
 }

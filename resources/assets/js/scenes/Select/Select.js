@@ -8,10 +8,6 @@ export default class Select extends Component {
     super(props)
   }
 
-  componentDidMount() {
-
-  }
-
   render() {
     return (
       <div className='select-list card narrow-wrap'>

@@ -66,6 +66,7 @@ const currentOfferingDefault = {
   instructors: [],
   name: null,
   room_id: null,
+  term_code:null,
   students: []
 }
 const currentOffering = (state = currentOfferingDefault, action) => {
@@ -144,6 +145,21 @@ const pointSelection = (state = null, action) => {
       return action.pointType
     default:
       return state;
+  }
+}
+
+/**
+ * app / modals
+ */
+const modals = (state = {}, action) => {
+  switch (action.type) {
+    case C.SET_MODAL:
+      return {
+        ...state,
+        [action.modal]:action.status
+      }
+    default:
+      return state
   }
 }
 
@@ -230,7 +246,10 @@ const students = (state = {}, action) => {
 const rooms = (state = {}, action) => {
   switch (action.type) {
     case C.RECEIVE_ROOMS:
-      return action.rooms;
+      return {
+        ...state,
+        ...action.rooms
+      }
     case C.SET_SEAT_SIZE:
       return {
         ...state,
@@ -269,6 +288,7 @@ const rootReducer = combineReducers({
     currentStudentId,
     tempTable,
     pointSelection,
+    modals,
     loading
     // flipPerspective,
   }),

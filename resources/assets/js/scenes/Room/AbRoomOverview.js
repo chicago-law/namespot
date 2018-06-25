@@ -28,6 +28,10 @@ export default class AbRoomOverview extends Component {
     this.props.setTask('delete-table');
   }
 
+  handleRoomChangeClick() {
+    this.props.setModal('change-room',true);
+  }
+
   handleContinueSeatingClick() {
     this.props.history.push(`/offering/${this.props.currentOffering.id}`);
     this.props.setTask('offering-overview');
@@ -71,6 +75,17 @@ export default class AbRoomOverview extends Component {
               </button>
             </a>
           </div>
+
+          <Route path="/room/:roomID/:offeringID" render={() =>
+            <div className="flex-container">
+              <a href="javascript:void(0)" onClick={ () => this.handleRoomChangeClick() }>
+                <button className='big-button'>
+                  <i className="far fa-map-marker-alt"></i>
+                  <p>Change<br />Room</p>
+                </button>
+              </a>
+            </div>
+          } />
 
           <Route path="/room/:roomID/:offeringID" render={() =>
             <div className='continue-seating' onClick={() => this.handleContinueSeatingClick()}>

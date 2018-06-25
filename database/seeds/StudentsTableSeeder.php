@@ -11,10 +11,10 @@ class StudentsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Student::class, 150)
+        factory(App\Student::class, 350)
             ->create()
             ->each(function ($s) {
-                    $offering_ids = UniqueRandomNumbersWithinRange(1, 15, 3);
+                    $offering_ids = UniqueRandomNumbersWithinRange(1, 50, 3);
                     $s->offerings()->attach([
                         $offering_ids[0] => ['assigned_seat' => null],
                         $offering_ids[1] => ['assigned_seat' => null],

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Select from '../Select';
-import { resetCurrentOffering, resetCurrentRoom, setCurrentStudentId, setCurrentSeatId } from '../../../actions';
+// import {  } from '../../../actions';
 
 const mapStateToProps = (state) => {
   return {
@@ -10,18 +10,18 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    resetCurrentOffering: () => {
-      dispatch(resetCurrentOffering())
-    },
-    resetCurrentRoom: () => {
-      dispatch(resetCurrentRoom())
-    },
-    setCurrentStudentId: (id) => {
-      dispatch(setCurrentStudentId(id))
-    },
-    setCurrentSeatId: (id) => {
-      dispatch(setCurrentSeatId(id))
-    }
+    // resetCurrentOffering: () => {
+    //   dispatch(resetCurrentOffering())
+    // },
+    // resetCurrentRoom: () => {
+    //   dispatch(resetCurrentRoom())
+    // },
+    // setCurrentStudentId: (id) => {
+    //   dispatch(setCurrentStudentId(id))
+    // },
+    // setCurrentSeatId: (id) => {
+    //   dispatch(setCurrentSeatId(id))
+    // }
   }
 }
 
