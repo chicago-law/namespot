@@ -17,6 +17,7 @@ class Room extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'db_match_name' => $this->db_match_name,
             'type' => $this->type,
             'seat_size' => $this->seat_size
         ];

@@ -2,16 +2,16 @@ import { normalize } from 'normalizr'
 import * as schema from './schema';
 import C from '../constants';
 import { rootUrl } from './index';
-import { setLoadingStatus, setCurrentSeatId } from './app';
+import { setLoadingStatus, setCurrentSeatId, requestError } from './app';
 
 /**
  * STUDENTS
  */
 // Load all students into the store
-export function receiveStudents(response) {
+export function receiveStudents(students) {
   return {
     type: C.RECEIVE_STUDENTS,
-    students: response.students
+    students
   }
 }
 // Fetch all students for a given offering id
@@ -26,18 +26,15 @@ export function fetchStudents(offering_id) {
     .then(function (response) {
       // normalize data and load into state
       const normalizedData = normalize(response.data, schema.studentListSchema);
-      dispatch(receiveStudents(normalizedData.entities))
+      dispatch(receiveStudents(normalizedData.entities.students))
 
       // reset the loading status
       dispatch(setLoadingStatus('students',false));
     })
-    .catch(function (error) {
-        // console the error
-        console.log(error);
-
-        // reset loading status
-        dispatch(setLoadingStatus('students',false));
-      });
+    .catch(response => {
+      dispatch(requestError('fetch-students', response.message));
+      dispatch(setLoadingStatus('students',false));
+    });
   }
 }
 // Get students, if need be.
@@ -72,16 +69,11 @@ export function assignSeat(offering_id, student_id, seat_id) {
       offering_id:offering_id,
       assigned_seat:seat_id
     })
-    .then(function(response) {
-      // console.log(response.data);
-    })
     .catch(function(response) {
-      console.log('error! ',response.data)
+      dispatch(requestError('assign-seat',response.message));
     });
   }
 }
-
-
 
 // update a student's attribute in the store
 export function updateStudent(student_id, attribute, value) {
@@ -101,11 +93,6 @@ export function updateAndSaveStudent(student_id, attribute, value) {
     axios.post(`${rootUrl}api/student/update/${student_id}`, {
       [attribute]:value
     })
-    .then(function(response) {
-      console.log(response.data);
-    })
-    .catch(function(response) {
-      console.log('error!',response.data)
-    });
+    .catch(response => dispatch(requestError('student-update',response.message)));
   }
 }

@@ -2,7 +2,7 @@ import { normalize } from 'normalizr'
 import * as schema from './schema';
 import { rootUrl } from './index';
 import C from '../constants';
-import { clearTempTable, setLoadingStatus } from './app';
+import { clearTempTable, setLoadingStatus, requestError } from './app';
 
 /**
  * ENTITY TABLES
@@ -54,8 +54,9 @@ export function fetchTables(roomID) {
         dispatch(clearTempTable());
         dispatch(setLoadingStatus('tables',false));
       })
-      .catch(error => {
-        console.log(error);
+      .catch(response => {
+        dispatch(requestError('fetch-tables',response.message));
+        dispatch(setLoadingStatus('tables',false));
       });
     }
   }
@@ -103,12 +104,13 @@ export function saveTable(tableID, roomID, coords, seatCount) {
       seat_count: seatCount,
       ...formattedCoords
     })
-      .then(function (response) { // table succesfully saved, so let's refresh our list with a new Fetch
+      .then(function (response) { // table successfully saved, so let's refresh our list with a new Fetch
         dispatch(fetchTables(roomID));
         dispatch(setLoadingStatus("tables",false))
       })
-      .catch(function (error) {
-        console.log(error);
+      .catch(response => {
+        dispatch(requestError('save-table',response.message));
+        dispatch(setLoadingStatus("tables",false))
       });
   }
 }

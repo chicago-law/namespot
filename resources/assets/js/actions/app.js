@@ -148,6 +148,11 @@ export function setModal(modal, status) {
     modal, status
   }
 }
+export function clearModals() {
+  return {
+    type:C.CLEAR_MODALS
+  }
+}
 
 /**
  * LOADING
@@ -155,7 +160,42 @@ export function setModal(modal, status) {
 export function setLoadingStatus(loadingType, status) {
   return {
     type:C.SET_LOADING_STATUS,
-    loadingType,
-    status
+    loadingType, status
+  }
+}
+
+/**
+ * ERROR MESSAGES
+ */
+export function addError(name, message) {
+  return {
+    type:C.ADD_ERROR,
+    name, message
+  }
+}
+export function removeError(name) {
+  return {
+    type:C.REMOVE_ERROR,
+    name
+  }
+}
+// only add the error message if it isn't already in the errors array
+export function requestError(name, message, shouldLeave) {
+  return (dispatch, getState) => {
+    let duplicate = false;
+    getState().app.errors.forEach(error => {
+      if (error.name === name) {
+        duplicate = true;
+      }
+    });
+    if (!duplicate) {
+      dispatch(addError(name, message));
+      // remove the error message after 4 seconds if true is passed as third parameter
+      if (shouldLeave) {
+        window.setTimeout(function() {
+          dispatch(removeError(name))
+        }, 4000);
+      }
+    }
   }
 }

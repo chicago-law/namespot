@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import RoomHeader from '../RoomHeader';
+import RoomDetails from '../RoomDetails';
 
 const mapStateToProps = (state) => {
 
@@ -37,9 +37,9 @@ const mapStateToProps = (state) => {
 //   }
 // }
 
-const RoomHeaderContainer = connect(
+const RoomDetailsContainer = connect(
   mapStateToProps,
   // mapDispatchToProps
-)(RoomHeader);
+)(RoomDetails);
 
-export default RoomHeaderContainer;
+export default RoomDetailsContainer;

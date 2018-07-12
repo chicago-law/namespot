@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
-import AbRoomOverview from '../scenes/Room/containers/AbRoomOverview';
-import AbEditTable from '../scenes/Room/containers/AbEditTable';
-import AbDeleteTable from '../scenes/Room/containers/AbDeleteTable';
-import AbOfferingOverview from '../scenes/Room/containers/AbOfferingOverview';
-import AbFindStudent from '../scenes/Room/containers/AbFindStudent';
-import AbStudentDetails from '../scenes/Room/containers/AbStudentDetails';
+import AbRoomOverview from '../scenes/room/containers/AbRoomOverview';
+import AbEditTable from '../scenes/room/containers/AbEditTable';
+import AbDeleteTable from '../scenes/room/containers/AbDeleteTable';
+import AbOfferingOverview from '../scenes/room/containers/AbOfferingOverview';
+import AbFindStudent from '../scenes/room/containers/AbFindStudent';
+import AbStudentDetails from '../scenes/room/containers/AbStudentDetails';
 
 export default class ActionBar extends Component {
   constructor(props) {

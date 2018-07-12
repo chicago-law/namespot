@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const RoomHeader = ({ currentRoom, currentOffering, currentSeats }) => {
+const RoomDetails = ({ currentRoom, currentOffering, currentSeats }) => {
   return (
     <div className="room-header">
 
@@ -18,9 +18,9 @@ const RoomHeader = ({ currentRoom, currentOffering, currentSeats }) => {
   );
 }
 
-export default RoomHeader;
+export default RoomDetails;
 
-RoomHeader.propTypes = {
+RoomDetails.propTypes = {
   currentRoom: PropTypes.object.isRequired,
   currentOffering: PropTypes.object.isRequired
 }

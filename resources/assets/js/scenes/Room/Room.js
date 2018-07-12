@@ -5,7 +5,7 @@ import classNames from 'classnames/bind';
 import Table from './containers/Table';
 import Grid from './containers/Grid';
 import Guides from './Guides';
-import RoomHeader from './containers/RoomHeader';
+import RoomDetails from './containers/RoomDetails';
 import Loading from '../../global/Loading';
 import RosterGallery from './containers/RosterGallery';
 
@@ -43,11 +43,10 @@ export default class Room extends Component {
 
   checkForBadSeats() {
     // only do the check if everything we need is all downloaded
-    if (this.props.loading['offerings'] === false && this.props.loading['rooms'] === false && this.props.loading['tables'] === false && this.props.loading['students'] === false) {
+    if (Object.keys(this.props.loading).every(type => this.props.loading[type] === false)) {
       this.props.currentStudents.forEach(student => {
         const assigned_seat = student.seats[`offering_${this.props.currentOffering.id}`];
         if (assigned_seat && !this.props.currentSeats.includes(assigned_seat)) {
-          console.log(`student ${student.id} seated at non-existing seat: ${assigned_seat}, setting to null`);
           this.props.assignSeat(this.props.currentOffering.id, student.id, null);
         }
       });
@@ -57,29 +56,25 @@ export default class Room extends Component {
 
   componentDidMount() {
     const grid = this.measureGrid();
+    // note: we use bottom padding here for row height instead of actual height
+    // cause of the CSS trick to keep aspect ratio of tabloid paper (bc of IE)
+    const gridRowHeight = parseFloat((parseInt(grid.paddingBottom) / this.state.gridRows).toFixed(2));
+    const gridColumnWidth = parseFloat((parseInt(grid.width) / this.state.gridColumns).toFixed(2));
     this.setState({
-      gridRowHeight: parseFloat((parseInt(grid.height) / this.state.gridRows).toFixed(2)),
-      gridColumnWidth: parseFloat((parseInt(grid.width) / this.state.gridColumns).toFixed(2)),
+      gridRowHeight, gridColumnWidth
     });
-
-    // get the rooms data if we need it
-    // this.props.requestRooms();
-
 
     // do these if you have the currentRoomID
     if (this.props.currentRoomID != null) {
-      // console.log('doing stuff with currentRoomID on Room mount');
       this.props.requestRoom(this.props.currentRoomID);
-      // this.props.fetchTables(this.props.currentRoomID);
       this.props.findAndSetCurrentRoom(this.props.currentRoomID);
     }
 
     // do these if you have the currentOfferingID
     if (this.props.currentOfferingID != null) {
-      // console.log('had current offering id on mounting');
       this.props.findAndSetCurrentOffering(this.props.currentOfferingID);
       this.props.requestStudents(this.props.currentOfferingID);
-      this.props.requestSingleOffering(this.props.currentOfferingID);
+      this.props.requestOffering(this.props.currentOfferingID);
     }
 
     // look at the URL and decide a default task based on that
@@ -92,28 +87,35 @@ export default class Room extends Component {
       this.props.requestRoom(this.props.currentRoomID);
     }
 
+    // whenever Room updates, we should update store's currentRoom and currentOffering
+    // to do: maybe make this a little more selective...?
+    this.props.findAndSetCurrentOffering(this.props.currentOfferingID);
+    this.props.findAndSetCurrentRoom(this.props.currentRoomID);
+
     // set current room
-    if (this.props.currentRoomID != null && (this.props.currentRoomID != prevProps.currentRoomID || this.props.currentRoomID != this.props.currentRoom.id)) {
-      // console.log(`set current room on Room update: ${this.props.currentRoomID}`);
-      this.props.findAndSetCurrentRoom(this.props.currentRoomID);
-    }
+    // if (this.props.currentRoomID != null && (this.props.currentRoomID != prevProps.currentRoomID || this.props.currentRoomID != this.props.currentRoom.id)) {
+      // this.props.findAndSetCurrentRoom(this.props.currentRoomID);
+    // }
 
     // set current offering
-    if (this.props.currentOfferingID != null && (this.props.currentOfferingID != prevProps.currentOfferingID || this.props.currentOfferingID != this.props.currentOffering.id)) {
-      // console.log('set current offering on Room update');
-      this.props.findAndSetCurrentOffering(this.props.currentOfferingID);
-    }
+    // if (this.props.currentOfferingID != null && (this.props.currentOfferingID != prevProps.currentOfferingID || this.props.currentOfferingID != this.props.currentOffering.id)) {
+      // this.props.findAndSetCurrentOffering(this.props.currentOfferingID);
+    // }
 
     // get the tables when currentRoom is ready and it has changed
     if (this.props.currentRoom.id != null && prevProps.currentRoom.id != this.props.currentRoom.id) {
-      // console.log(prevProps.currentRoom.id);
-      // console.log(prevProps.currentRoomID);
-      // console.log('fetched tables on Room update');
       this.props.fetchTables(this.props.currentRoom.id);
     }
 
     // are any students seated at non-existing seats?
     this.checkForBadSeats();
+
+    // If the offering has a null value for its room_id, and we're not waiting
+    // on any data, then we can safely decide it just doesn't have a room
+    // assigned to it yet, so we should ask!
+    if (this.props.currentRoomID === null && Object.keys(this.props.loading).every(type => this.props.loading[type] === false) && !this.props.modals['assign-room']) {
+      this.props.setModal('assign-room',true);
+    }
 
     // this is checking for a very specific situation: if the room ID just
     // changed, and the view is set to 'edit-room', that means we just created
@@ -131,6 +133,7 @@ export default class Room extends Component {
     this.props.setCurrentSeatId(null);
     this.props.setView('');
     this.props.setTask('');
+    this.props.clearModals();
   }
 
   render() {
@@ -163,15 +166,15 @@ export default class Room extends Component {
       <div className="room-workspace">
 
         <div className='room-workspace-left'>
-          <Route path="/offering" component={RoomHeader} />
+          <Route path="/offering" component={RoomDetails} />
         </div>
 
         <div className={outerPageContainerClasses}>
           <Loading />
-          <div className='inner-page-container card' ref={this.gridContRef}>
+          <div id='page' className='inner-page-container card' ref={this.gridContRef}>
             {/* Here be the tables! */}
-            <svg className='tables-container' xmlns="http://www.w3.org/2000/svg">
-              <g className="tables">{ tables }</g>
+            <svg className='tables-container' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100% 100%">
+              {tables.length ? <g className="tables">{tables}</g> : !tables.length && this.props.view === 'assign-seats' && Object.keys(this.props.loading).every(type => this.props.loading[type] === false) && !Object.keys(this.props.modals).some(name => this.props.modals[name] === true) ? <text className='no-tables' x="50%" y="50%">No tables in this room yet. Go ahead and add some!</text> : ''}
             </svg>
             {/* Here be the blips! */}
             <Route path='/room' render={() =>
@@ -204,9 +207,9 @@ export default class Room extends Component {
 Room.propTypes = {
   assignSeat: PropTypes.func.isRequired,
   currentOffering: PropTypes.object.isRequired,
-  currentOfferingID: PropTypes.number,
+  currentOfferingID: PropTypes.string,
   currentRoom: PropTypes.object.isRequired,
-  currentRoomID: PropTypes.number,
+  currentRoomID: PropTypes.string,
   currentTables: PropTypes.array.isRequired,
   fetchTables: PropTypes.func.isRequired,
   findAndSetCurrentOffering: PropTypes.func.isRequired,
@@ -215,7 +218,7 @@ Room.propTypes = {
   resetCurrentOffering: PropTypes.func.isRequired,
   resetCurrentRoom: PropTypes.func.isRequired,
   requestRooms: PropTypes.func.isRequired,
-  requestSingleOffering: PropTypes.func.isRequired,
+  requestOffering: PropTypes.func.isRequired,
   requestStudents: PropTypes.func.isRequired,
   setCurrentStudentId: PropTypes.func.isRequired,
   setCurrentSeatId: PropTypes.func.isRequired,

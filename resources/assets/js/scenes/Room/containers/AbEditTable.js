@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import AbEditTable from '../AbEditTable';
-import { saveTable, clearTempTable, setTask, setPointSelection, setSeatCount } from '../../../actions'
+import { saveTable, clearTempTable, setTask, setPointSelection, setSeatCount, requestError } from '../../../actions'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -29,6 +29,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     setSeatCount:count => {
       dispatch(setSeatCount(count))
+    },
+    requestError: (type, message, shouldLeave) => {
+      dispatch(requestError(type, message, shouldLeave));
     }
   }
 }

@@ -4,8 +4,7 @@ import C from '../constants';
 import { rootUrl } from './index';
 import { receiveStudents } from './students';
 import { receiveRooms } from './rooms';
-import { receiveTables } from './tables';
-import { setLoadingStatus, findAndSetCurrentRoom } from './app';
+import { setLoadingStatus, requestError } from './app';
 
 /**
  * OFFERINGS!
@@ -31,7 +30,8 @@ export function fetchOfferings(termCode) {
       dispatch(setLoadingStatus('offerings',false));
     })
     .catch(response => {
-      console.log(response);
+      dispatch(requestError('fetch-offerings',`Offerings fetch: ${response.message}`));
+      dispatch(setLoadingStatus('offerings',false));
     });
   }
 }
@@ -54,7 +54,7 @@ export function requestOfferings(termCode) {
 }
 
 // Request and fetch a single offering by ID
-export function requestSingleOffering(offering_id) {
+export function requestOffering(offering_id) {
   return (dispatch, getState) => {
     if (!getState().entities.offerings[offering_id]) {
       // set loading on
@@ -76,26 +76,50 @@ export function requestSingleOffering(offering_id) {
 }
 
 // update an offering's room ID
-export function updateOfferingRoom(offering_id, room_id) {
+// export function updateOfferingRoom(offering_id, room_id) {
+//   return {
+//     type: C.UPDATE_OFFERING_ROOM,
+//     offering_id, room_id
+//   }
+// }
+// // request update to change an offering's room, including in the DB
+// export function requestUpdateOfferingRoom(offering_id, room_id) {
+//   return dispatch => {
+//     // update it in the store
+//     dispatch(updateOfferingRoom(offering_id, room_id))
+
+//     // send update to db
+//     axios.post(`${rootUrl}api/offering/${offering_id}`, {
+//       room_id
+//     })
+//     // .then(response => console.log(response))
+//     .catch(response => {
+//       console.log(response);
+//     })
+//   }
+// }
+
+// update an offering in the store
+export function updateOffering(offering_id, attribute, value) {
   return {
-    type: C.UPDATE_OFFERING_ROOM,
-    offering_id, room_id
+    type: C.UPDATE_OFFERING,
+    offering_id, attribute, value
   }
 }
-// request update to change an offering's room, including in the DB
-export function requestUpdateOfferingRoom(offering_id, room_id) {
+
+// request update to an offering in the store as well as the DB
+export function requestUpdateOffering(offering_id, attribute, value) {
   return dispatch => {
     // update it in the store
-    dispatch(updateOfferingRoom(offering_id, room_id))
+    dispatch(updateOffering(offering_id, attribute, value))
 
     // send update to db
-    axios.post(`${rootUrl}api/offering/${offering_id}`, {
-      room_id
+    axios.post(`${rootUrl}api/offering/update/${offering_id}`, {
+      [attribute]: value
     })
-    .then(response => {
-      // console.log(response);
-    })
+    // .then(response => console.log(response))
     .catch(response => {
+      dispatch(requestError('update-offering',response.message));
       console.log(response);
     })
   }
@@ -118,7 +142,7 @@ export function customizeOfferingRoom(offeringID) {
       // than re-downloading all offerings to get the update)
       // console.log(response);
       const newRoomID = response.data.newRoomID;
-      dispatch(updateOfferingRoom(offeringID, newRoomID));
+      dispatch(updateOffering(offeringID, 'room_id', newRoomID));
 
       // now download the room data for the new room
       axios.get(`${rootUrl}api/room/${newRoomID}`)
@@ -134,7 +158,9 @@ export function customizeOfferingRoom(offeringID) {
 
         // once we know the new room is in the store,
         // we need to set the current room to this
-        dispatch(findAndSetCurrentRoom(newRoomID));
+        // update: probably doesn't need to happen here because we're doing it
+        // in the Room component on every update
+        // dispatch(findAndSetCurrentRoom(newRoomID));
 
         // finally, turn off loading
         dispatch(setLoadingStatus('rooms', false));
@@ -146,7 +172,7 @@ export function customizeOfferingRoom(offeringID) {
       .then((response) => {
         // console.log(response);
         const normalizedData = normalize(response.data, schema.studentListSchema);
-        dispatch(receiveStudents(normalizedData.entities))
+        dispatch(receiveStudents(normalizedData.entities.students))
 
         // turn off loading
         dispatch(setLoadingStatus('students', false));

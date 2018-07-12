@@ -62,8 +62,13 @@
 }
 
 .action-bar-room-overview {
-  .description {
-    max-width:20em;
+  .descriptions {
+    .editable-text-container {
+      margin-bottom: 1em;
+    }
+    p {
+      font-weight:bold;
+    }
   }
   .controls {
     display:flex;
@@ -264,7 +269,7 @@
       li {
         display:inline-flex;
         flex-direction:column;
-        justify-content:center;
+        justify-content:flex-start;
         align-items:center;
         padding:.75em;
         border-radius:7px;
@@ -281,6 +286,9 @@
           margin-bottom: 0;
           text-align:center;
           @include ms-1;
+        }
+        .short-name {
+          display:block;
         }
         &:hover {
           background: $off-white;
@@ -321,33 +329,7 @@
       margin-bottom: 1em;
     }
   }
-  .nickname-container {
-    display:inline-block;
-    // justify-content:space-between;
-    position:relative;
-    .nickname-controls {
-      position:absolute;
-      display:block;
-      left:100%;
-      top:50%;
-      transform:translateY(-50%);
-      padding-left:1em;
-      .save-or-cancel {
-        display:flex;
-      }
-      .fa-pencil {
-        cursor:pointer;
-        &:hover {
-          color:$primary-accent;
-        }
-      }
-      button {
-        padding:.45em 1em;
-        margin:0;
-        @include ms-1;
-      }
-    }
-  }
+
   .remove-from-seat {
     margin-left:auto;
   }

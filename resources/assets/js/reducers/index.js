@@ -61,7 +61,7 @@ const currentStudentId = (state = null, action) => {
  * app / currentOffering
  */
 const currentOfferingDefault = {
-  course_num: null,
+  catalog_nbr: null,
   id: null,
   instructors: [],
   name: null,
@@ -151,13 +151,15 @@ const pointSelection = (state = null, action) => {
 /**
  * app / modals
  */
-const modals = (state = {}, action) => {
+const modals = (state = { }, action) => {
   switch (action.type) {
     case C.SET_MODAL:
       return {
         ...state,
         [action.modal]:action.status
       }
+    case C.CLEAR_MODALS:
+      return { };
     default:
       return state
   }
@@ -184,6 +186,26 @@ const loading = (state = {
 }
 
 /**
+ * app / errors
+ */
+const errors = ( state = [], action) => {
+  switch (action.type) {
+    case C.ADD_ERROR:
+      return [
+        ...state,
+        {
+          name:action.name,
+          message:action.message
+        }
+      ]
+    case C.REMOVE_ERROR:
+      return state.filter(error => error.name != action.name);
+    default:
+      return state;
+  }
+}
+
+/**
  * entities / offerings
  */
 const offerings = (state = {}, action) => {
@@ -193,12 +215,20 @@ const offerings = (state = {}, action) => {
         ...state,
         ...action.offerings
       }
-    case C.UPDATE_OFFERING_ROOM:
+    // case C.UPDATE_OFFERING_ROOM:
+    //   return {
+    //     ...state,
+    //     [action.offering_id]: {
+    //       ...state[action.offering_id],
+    //       'room_id':action.room_id
+    //     }
+    //   }
+    case C.UPDATE_OFFERING:
       return {
         ...state,
         [action.offering_id]: {
           ...state[action.offering_id],
-          'room_id':action.room_id
+          [action.attribute]: action.value
         }
       }
     default:
@@ -250,12 +280,12 @@ const rooms = (state = {}, action) => {
         ...state,
         ...action.rooms
       }
-    case C.SET_SEAT_SIZE:
+    case C.UPDATE_ROOM:
       return {
         ...state,
         [action.roomID]: {
           ...state[action.roomID],
-          seat_size: action.seatSize
+          [action.key]: action.value
         }
       }
     default:
@@ -289,7 +319,8 @@ const rootReducer = combineReducers({
     tempTable,
     pointSelection,
     modals,
-    loading
+    loading,
+    errors
     // flipPerspective,
   }),
   entities: combineReducers({

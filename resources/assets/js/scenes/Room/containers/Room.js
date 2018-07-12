@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Room from '../Room'
 import { withRouter } from 'react-router-dom'
-import { fetchTables, setView, setTask, findAndSetCurrentRoom, findAndSetCurrentOffering, requestRooms, requestRoom, requestStudents, assignSeat, requestSingleOffering, resetCurrentOffering, resetCurrentRoom, setCurrentStudentId, setCurrentSeatId } from '../../../actions'
+import { fetchTables, setView, setTask, findAndSetCurrentRoom, findAndSetCurrentOffering, requestRooms, requestRoom, requestStudents, assignSeat, requestOffering, resetCurrentOffering, resetCurrentRoom, setCurrentStudentId, setCurrentSeatId, setModal, clearModals } from '../../../actions'
 
 const mapStateToProps = (state, ownProps) => {
 
@@ -13,8 +13,8 @@ const mapStateToProps = (state, ownProps) => {
 
   // find current room ID either from URL or from currentOffering
   const params = ownProps.match.params;
-  const currentOfferingID = params.offeringID ? parseFloat(params.offeringID) : null;
-  const currentRoomID = params.roomID ? parseFloat(params.roomID) : currentOfferingID ? state.entities.offerings[currentOfferingID] ? state.entities.offerings[currentOfferingID].room_id : null : null;
+  const currentOfferingID = params.offeringID ? params.offeringID : null;
+  const currentRoomID = params.roomID ? params.roomID : currentOfferingID ? state.entities.offerings[currentOfferingID] ? state.entities.offerings[currentOfferingID].room_id != null ? String(state.entities.offerings[currentOfferingID].room_id) : null : null : null;
 
   // find all tables that belong to this room
   let currentTables = [];
@@ -53,6 +53,7 @@ const mapStateToProps = (state, ownProps) => {
     currentStudents,
     currentRoom:state.app.currentRoom,
     currentOffering:state.app.currentOffering,
+    modals: state.app.modals,
     task:state.app.task,
     view:state.app.view,
     tempTable:state.app.tempTable,
@@ -81,8 +82,8 @@ const mapDispatchToProps = (dispatch) => {
     requestRooms: () => {
       dispatch(requestRooms())
     },
-    requestSingleOffering: (offeringID) => {
-      dispatch(requestSingleOffering(offeringID))
+    requestOffering: (offeringID) => {
+      dispatch(requestOffering(offeringID))
     },
     requestStudents: (offeringID) => {
       dispatch(requestStudents(offeringID))
@@ -104,6 +105,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     requestRoom: (room_id) => {
       dispatch(requestRoom(room_id));
+    },
+    setModal: (modal, status) => {
+      dispatch(setModal(modal, status));
+    },
+    clearModals: () => {
+      dispatch(clearModals());
     }
   }
 }

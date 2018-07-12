@@ -9,6 +9,7 @@ use App\Offering;
 use App\Student;
 use App\Room;
 use App\Table;
+use App\Jobs\FetchOfferingsByTerm;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,9 +22,20 @@ use App\Table;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+/**
+ * TEST: BOBIFY
+ */
+Route::get('/offerings/ais', function() {
+    FetchOfferingsByTerm::dispatch('2182');
+
+    return response()->json('it worked!',200);
 });
+
+/**
+ *
+ * OFFERINGS
+ *
+ */
 
 // fetch single offering by ID
 Route::get('/offering/{offering_id}', function ($offering_id) {
@@ -36,37 +48,63 @@ Route::get('/offerings/{term_code}', function ($term_code) {
 });
 
 // update an offering attribute
-Route::post('/offering/{offering_id}', 'OfferingController@update');
+Route::post('/offering/update/{offering_id}', 'OfferingController@update');
 
 // take an offering, duplicate its room, assign it to the new room
 Route::get('create-room-for/{offering_id}','OfferingController@createRoomFor');
+
+/**
+ *
+ * STUDENTS
+ *
+ */
 
 // fetch all students for a given offering ID
 Route::get('/enrollment/{offering_id}', function ($offering_id) {
     return StudentResource::collection(Offering::find($offering_id)->students()->get());
 });
 
-// test how to get and update student's assigned seats for an offering
-// Route::get('/offering-students/{offering_id}', 'OfferingController@test');
-
 // update a student
 Route::post('/student/update/{student_id}', 'StudentController@update');
 
-// fetch a single student
-// Route::get('/student/{student_id}', 'StudentController@test');
+// search for a student by name
+Route::get('/students/search', 'StudentController@search');
+
+/**
+ *
+ * ROOMS
+ *
+ */
+
+// fetch all rooms. Only return actual room templates though, ignore the ones
+// customized for a specific offering.
+Route::get('/rooms', function () {
+    return RoomResource::collection(Room::where('type','template')->get());
+});
 
 // fetch single room by id
 Route::get('/room/{room_id}', function ($room_id) {
     return new RoomResource(Room::find($room_id));
 });
 
-// fetch all rooms
-Route::get('/rooms', function () {
-    return RoomResource::collection(Room::where('type','template')->get());
-});
-
 // update a room
 Route::post('/room/update/{room_id}','RoomController@update');
+
+// create a new room
+Route::put('/room','RoomController@new');
+
+// get a count of the rooms in the DB
+Route::get('/rooms/count', 'RoomController@count');
+
+// check if a supplied name to a room is already in use. checks both the
+// regular name and the db_match_name.
+Route::post('/rooms/checkname', 'RoomController@checkname');
+
+/**
+ *
+ * TABLES
+ *
+ */
 
 // update (or create new) table
 Route::post('/table/update','TableController@update');

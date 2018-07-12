@@ -1,21 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
+import EditableText from '../../global/containers/EditableText';
+// import { rootUrl } from '../../actions';
 
 export default class AbRoomOverview extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      seatSize:30
-    }
   }
 
   handleSeatSizeChange(e) {
-    const value = e.target.value;
-    this.setState({
-      seatSize:value
-    })
-    this.props.setSeatSizeRequest(this.props.currentRoom.id, value);
+    this.props.requestRoomUpdate(this.props.currentRoom.id, 'seat_size', e.target.value);
   }
 
   handleAddNewClick() {
@@ -38,21 +33,43 @@ export default class AbRoomOverview extends Component {
     this.props.setView('assign-seats');
   }
 
+  handleSaveRoomName(name, type) {
+    this.props.requestRoomUpdate(this.props.currentRoom.id, type, name);
+  }
+
   render() {
     return (
       <div className='action-bar action-bar-room-overview'>
-        <div className="flex-container pull-top">
-          <h6>Name</h6>
-          <h4>{this.props.currentRoom.name ? this.props.currentRoom.name : 'Click to add'}<i className="far fa-pencil"></i></h4>
-          <h6>Total Seats in Room</h6>
-          <h4>15</h4>
+
+        <div className="descriptions">
+          <div className="flex-container pull-top">
+            <h6>Name</h6>
+            <EditableText
+              text={this.props.currentRoom.name ? this.props.currentRoom.name : 'Click to add'}
+              save={(name) => this.handleSaveRoomName(name, 'name')}
+              validator='unique-room-name'
+            />
+            { this.props.currentRoom.type === 'template' ? (
+              <div>
+                <h6>AIS Name</h6>
+                <EditableText
+                  text={this.props.currentRoom.db_match_name ? this.props.currentRoom.db_match_name : 'Click to add'}
+                  save={(name) => this.handleSaveRoomName(name, 'db_match_name')}
+                  validator='unique-room-db-name'
+                />
+              </div>
+            ) : false }
+            {/* <h6>Total Seats in Room</h6>
+            <h4>{this.props.seatCount}</h4> */}
+          </div>
         </div>
 
         <div className="controls">
+
           <div className="flex-container seat-size">
             <div className='seat-size-slider'>
               <div className='smaller'></div>
-              <input type="range" min="15" max="45" step="3" value={this.state.seatSize} onChange={(e) => this.handleSeatSizeChange(e)} />
+              <input type="range" min="15" max="45" step="3" value={this.props.currentRoom.seat_size || 30} onChange={(e) => this.handleSeatSizeChange(e)} />
               <div className="larger"></div>
             </div>
             <p><small>Seat Size</small></p>
@@ -105,5 +122,5 @@ AbRoomOverview.propTypes = {
   newTable:PropTypes.func.isRequired,
   setTask:PropTypes.func.isRequired,
   setPointSelection:PropTypes.func.isRequired,
-  setSeatSizeRequest:PropTypes.func.isRequired
+  requestRoomUpdate:PropTypes.func.isRequired
 }

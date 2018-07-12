@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Student;
+use App\Http\Resources\Student as StudentResource;
 
 class StudentController extends Controller
 {
@@ -31,5 +32,23 @@ class StudentController extends Controller
         // save and return
         $student->save();
         return response()->json('success',200);
+    }
+
+    public function search(Request $request)
+    {
+        $s = $request->input('s');
+
+        $results = Student::search($s)->get();
+
+        // if a limit is supplied in parameters, take that many, otherwise just
+        // take them all
+        $limit = $request->input('limit') ? $request->input('limit') : $results->count();
+
+        $response = [
+            'count' => $results->count(),
+            'students' => StudentResource::collection($results)->take($limit)
+        ];
+
+        return response()->json($response, 200);
     }
 }

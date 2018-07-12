@@ -17,8 +17,10 @@ export default class ChangeRoom extends Component {
 
   handleRoomChangeButton() {
     if (this.state.selectedRoomId != 0) {
-      this.props.requestUpdateOfferingRoom(this.props.currentOffering.id, this.state.selectedRoomId);
-      this.props.history.push(`/room/${this.state.selectedRoomId}/${this.props.currentOffering.id}`);
+      this.props.requestUpdateOffering(this.props.currentOffering.id, 'room_id', this.state.selectedRoomId);
+      this.props.setTask('offering-overview');
+      this.props.setView('assign-seats');
+      this.props.history.push(`/offering/${this.props.currentOffering.id}`);
       this.props.setModal('change-room',false);
     } else {
       this.props.setModal('change-room',false);
@@ -32,7 +34,7 @@ export default class ChangeRoom extends Component {
   render() {
 
     const modalClasses = classNames({
-      'modal-change-room':true,
+      // 'change-room':true,
       'is-loading':this.props.loading.rooms
     })
 
@@ -41,6 +43,7 @@ export default class ChangeRoom extends Component {
         <header>
           <h2><i className="fa fa-map-marker-alt"></i>Change Room?</h2>
         </header>
+
         <main>
           <label>Change this class's room assignment to:</label><br/>
           <select value={this.state.selectedRoomId} onChange={(e) => this.handleRoomChangeDropdown(e)}>
@@ -53,11 +56,13 @@ export default class ChangeRoom extends Component {
             <i className="far fa-exclamation-circle"></i>
             <p>Please note that changing rooms will erase any seat assignments you've made in the class so far!</p>
           </div>
-          <div className="controls">
-            <button><small>Nevermind</small></button>
-            <button className="btn-accent" onClick={() => this.handleRoomChangeButton()}>Change to this room</button>
-          </div>
         </main>
+
+        <footer className="controls">
+          <button className='btn-clear' onClick={() => this.props.close()}><small>Cancel</small></button>
+          <button className="btn-accent" onClick={() => this.handleRoomChangeButton()}>Change to this room</button>
+        </footer>
+
       </div>
     )
   }

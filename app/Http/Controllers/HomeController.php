@@ -3,15 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Offering;
-use App\Room;
 
 class HomeController extends Controller
 {
-    public function show()
+    public function react()
     {
-        // $data['class'] = Offering::first();
+        return view('react');
+    }
 
-        return view('home', $data);
+    public function blankChart()
+    {
+        return view('blank-chart');
     }
 }

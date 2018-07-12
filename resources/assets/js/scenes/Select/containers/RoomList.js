@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import RoomList from '../RoomList'
-import { requestRooms, setView } from '../../../actions'
+import { requestRooms, receiveRooms, setLoadingStatus, setView, requestError } from '../../../actions'
 
 const mapStateToProps = (state) => {
   return {
@@ -16,6 +16,15 @@ const mapDispatchToProps = (dispatch) => {
     },
     setView: (view) => {
       dispatch(setView(view))
+    },
+    receiveRooms: rooms => {
+      dispatch(receiveRooms(rooms))
+    },
+    setLoadingStatus:(type, status) => {
+      dispatch(setLoadingStatus(type,status))
+    },
+    requestError: (type, message, shouldLeave) => {
+      dispatch(requestError(type, message, shouldLeave));
     }
   }
 }

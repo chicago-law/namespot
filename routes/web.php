@@ -11,8 +11,9 @@
 |
 */
 
-// Route::get('/', 'HomeController@show');
+// specific routes to the printable deliveries
+// Route::get('/blank-chart', 'HomeController@blankChart');
 
-Route::get( '/{path?}', function(){
-    return view( 'home' );
-} )->where('path', '.*');
+// all others go to react
+Route::get('/{path?}', 'HomeController@react')->where('path', '.*');
+

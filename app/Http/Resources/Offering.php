@@ -23,13 +23,29 @@ class Offering extends JsonResource
             $student_ids[] = $student->id;
         endforeach;
 
+        // instructors
+        $instructors = [];
+        foreach ($this->instructors as $instructor):
+            $instructors[] = [
+                'first_name' => $instructor->first_name,
+                'last_name' => $instructor->last_name,
+            ];
+        endforeach;
+
+        // sort instructors alphabetically by last name
+        uasort($instructors, function ($a, $b) {
+            return $a['last_name'] < $b['last_name'] ? -1 : 1;
+        });
+
         return [
             'id' => $this->id,
-            'room_id' => $this->room()->first()->id,
-            'name' => $this->name,
-            'course_num' => $this->course_num,
+            'room_id' => $this->room_id,
+            'ais_room' => $this->ais_room,
+            'long_title' => $this->long_title,
+            'catalog_nbr' => $this->catalog_nbr,
+            'section' => $this->section,
             'term_code' => $this->term_code,
-            'instructors' => $this->instructors()->get(),
+            'instructors' => $instructors,
             'students' => $student_ids
         ];
     }

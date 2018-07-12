@@ -11,8 +11,8 @@ const BanOffering = ({ currentOffering }) => {
   });
   return (
     <div className="banner-text class-banner">
-      <h3>{currentOffering.name}</h3>
-      <p><small>LAWS {currentOffering.course_num} &bull; {instructorString} &bull; {helpers.termCodeToString(currentOffering.term_code)}</small></p>
+      <h3>{currentOffering.long_title}</h3>
+      <p><small>LAWS {currentOffering.catalog_nbr}-{currentOffering.section} &bull; {instructorString} &bull; {helpers.termCodeToString(currentOffering.term_code)}</small></p>
     </div>
   );
 }

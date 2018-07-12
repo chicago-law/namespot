@@ -1,10 +1,11 @@
 import { connect } from 'react-redux';
-import Modals from '../Modals'
-import { setModal } from '../../actions'
+import { withRouter } from 'react-router-dom';
+import Modals from '../Modals';
+import { setModal } from '../../actions';
 
 const mapStateToProps = (state) => {
   return {
-    modals:state.app.modals
+    modals: state.app.modals
   }
 }
 
@@ -16,9 +17,9 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const ModalsContainer = connect(
+const ModalsContainer = withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(Modals)
+)(Modals));
 
 export default ModalsContainer;

@@ -18,6 +18,8 @@ class CreateInstructorOfferingPivotTable extends Migration
             $table->integer('offering_id')->unsigned()->index();
             $table->foreign('offering_id')->references('id')->on('offerings')->onDelete('cascade');
             $table->primary(['instructor_id', 'offering_id']);
+            $table->string('role')->nullable();
+            $table->string('role_descr')->nullable();
         });
     }
 

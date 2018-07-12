@@ -1,7 +1,7 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
-import BanEditRoom from '../scenes/Room/containers/BanEditRoom'
-import BanOffering from '../scenes/Room/containers/BanOffering'
+import BanEditRoom from '../scenes/room/containers/BanEditRoom'
+import BanOffering from '../scenes/room/containers/BanOffering'
 
 const BanSeatingCharts = () => (
   <div className="banner-text">

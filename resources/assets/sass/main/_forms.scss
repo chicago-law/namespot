@@ -25,3 +25,7 @@ input[type='text'], input[type='number'] {
     box-shadow:0 0 10px $middle-gray;
   }
 }
+
+input[type='radio'] {
+  margin:0 .5em 1em .35em;
+}

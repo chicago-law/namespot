@@ -16,6 +16,7 @@ use Faker\Generator as Faker;
 $factory->define(App\Instructor::class, function (Faker $faker) {
     return [
         'chicago_id' => $faker->ean8,
+        'emplid' => $faker->ean8,
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
         'email' => $faker->unique()->safeEmail,

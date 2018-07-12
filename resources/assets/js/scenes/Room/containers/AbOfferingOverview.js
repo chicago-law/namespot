@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import AbOfferingOverview from '../AbOfferingOverview';
-import { setTask, customizeOfferingRoom, setView } from '../../../actions'
+import { setTask, customizeOfferingRoom, setView, setModal } from '../../../actions'
 
 const mapStateToProps = (state) => {
   return {
@@ -23,6 +23,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     setView: (view) => {
       dispatch(setView(view));
+    },
+    setModal: (modal, status) => {
+      dispatch(setModal(modal, status));
     }
   }
 }

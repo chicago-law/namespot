@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
-import Select from '../scenes/Select/containers/Select';
-import Room from '../scenes/Room/containers/Room';
+import Select from '../scenes/select/containers/Select';
+import Room from '../scenes/room/containers/Room';
 
 export default class Main extends Component {
   constructor(props) {

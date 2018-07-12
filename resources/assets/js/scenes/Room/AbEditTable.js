@@ -33,16 +33,28 @@ export default class AbEditTable extends React.Component {
     this.props.setPointSelection(null);
   }
 
+  handleKeyDown(e) {
+    if (e.which === 27) {
+      this.handleCancelClick();
+    }
+  }
+
   handleApplyChangesClick() {
-    this.props.saveTable(this.props.tempTable.id, this.props.match.params.roomID, this.props.tempTable.coords, this.props.tempTable.seatCount);
-    this.props.clearTempTable();
-    this.props.setTask('edit-room');
-    this.props.setPointSelection(null);
+    // first check if we have both a start point and an end point, because those are
+    // required for each table.
+    if (this.props.tempTable.coords['start'] != null && this.props.tempTable.coords['end'] != null) {
+      this.props.saveTable(this.props.tempTable.id, this.props.match.params.roomID, this.props.tempTable.coords, this.props.tempTable.seatCount);
+      this.props.clearTempTable();
+      this.props.setTask('edit-room');
+      this.props.setPointSelection(null);
+    } else {
+      this.props.requestError('start-end-required', 'Both a starting point and an ending point are required for all tables', true);
+    }
   }
 
   render() {
     return (
-      <div className='action-bar action-bar-edit-table'>
+      <div className='action-bar action-bar-edit-table' onKeyDown={e => this.handleKeyDown(e)}>
 
         {/* Select Start Point Button */}
         <div className={`flex-container point-selector start-point ${ this.props.pointSelection === 'start' ? 'active' : ''}`} data-select="start" onClick={(e) => this.handlePointSelectorButtonClick(e)}>

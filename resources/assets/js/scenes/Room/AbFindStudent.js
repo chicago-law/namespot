@@ -23,15 +23,19 @@ export default class AbFindStudent extends Component {
     }
   }
 
+  handleCancelSearch() {
+    this.props.setTask('offering-overview');
+  }
+
+  handleKeyDown(e) {
+    if (e.which === 27) {
+      this.handleCancelSearch();
+    }
+  }
+
   checkForMatch(student) {
     const regex = new RegExp(this.state.search, 'gi');
-    if (student.first_name.match(regex)) { // check the first name
-      return true;
-    }
-    if (student.last_name.match(regex)) { // check the last name
-      return true;
-    }
-    if ((student.first_name + ' ' + student.last_name).match(regex)) { // check concat of first and last name
+    if ((student.nickname + ' ' + student.first_name + ' ' + student.last_name).match(regex)) { // check concat of nickname, first and last name
       return true;
     }
     if (student.email.match(regex)) { // check student's email
@@ -49,8 +53,8 @@ export default class AbFindStudent extends Component {
     const unseatedStudents = this.props.currentStudents.filter(student => student.seats['offering_' + this.props.currentOffering.id] == null).filter(student => this.checkForMatch(student));
 
     return (
-      <div className='action-bar action-bar-find-student'>
-        <i className="far fa-arrow-left" onClick={() => this.props.setTask('offering-overview')}></i>
+      <div className='action-bar action-bar-find-student' onKeyDown={e => this.handleKeyDown(e)}>
+        <i className="far fa-arrow-left" onClick={() => this.handleCancelSearch()}></i>
         <div className="input-container">
           <i className="far fa-search"></i>
           <input type='text' ref={this.filterRef} placeholder="Type to find student..." onChange={(e) => this.handleSearchInput(e)} value={this.state.search}/>
@@ -60,7 +64,7 @@ export default class AbFindStudent extends Component {
             { unseatedStudents.map(student =>
               <li key={student.id} data-studentid={student.id} onClick={(e) => this.handleStudentClick(e)}>
                 <div className="picture" style={{'backgroundImage':`url('${rootUrl}images/faces/${student.picture}.jpg')`}}></div>
-                <p data-email={student.email}>{student.first_name}<br/>{student.last_name}</p>
+            <p data-email={student.email}>{student.first_name}<br /> { student.nickname ? <span className='short-name'>{student.nickname}</span> : ''}{student.last_name}</p>
               </li>
             )}
             { unseatedStudents.length == 0 ? <li className='no-results'>No unseated students found with "{this.state.search}"</li> : false }

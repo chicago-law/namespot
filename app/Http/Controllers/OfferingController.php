@@ -12,10 +12,15 @@ class OfferingController extends Controller
         // find the offering
         $offering = Offering::findOrFail($offering_id);
 
-        // currently only updates the room_id. Make it smarter as necessary
+        // update room_id
         if ($request->input('room_id')):
             $offering->room_id = $request->input('room_id');
             $offering->save();
+        endif;
+
+        // update students
+        if ($request->input('students')):
+            $offering->students()->syncWithoutDetaching($request->input('students'));
         endif;
 
         return response()->json($offering,200);
@@ -30,7 +35,8 @@ class OfferingController extends Controller
         $old_room = $offering->room;
         $new_room = $old_room->replicate();
         $new_room->type = 'custom';
-        $new_room->name = $new_room->name . ' (customized for LAWS ' . $offering->course_num . ')';
+        $new_room->name = $new_room->name . ' (customized for LAWS ' . $offering->catalog_nbr . ')';
+        $new_room->db_match_name = null;
         $new_room->save();
         $new_room->id;
 
@@ -58,22 +64,4 @@ class OfferingController extends Controller
 
         return response()->json(['newRoomID' => $new_room->id],200);
     }
-
-    // public function test($offering_id)
-    // {
-    //     $offering = Offering::findOrFail($offering_id);
-
-    //     $students = [];
-
-    //     foreach($offering->students as $student):
-    //         $students[] = [
-    //             "id" => $student->id,
-    //             "name" => $student->first_name,
-    //             "seats" => $student->pivot->assigned_seat
-    //         ];
-    //     endforeach;
-
-    //     return response()->json($students, 200);
-
-    // }
 }

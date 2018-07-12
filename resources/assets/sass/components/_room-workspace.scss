@@ -27,23 +27,16 @@
     flex-direction:column;
     justify-content:flex-start;
     margin-top:1.5em;
-    // padding-left:2em;
     .enrollment {
       margin-bottom:2em;
     }
     .seated, .unseated {
-      // display:flex;
-      // align-items:center;
       text-align:right;
       margin-bottom: 2em;
-    }
-    .seated {
-      // margin-right: 2.5em;
     }
     p {
       position:relative;
       margin-bottom: 0;
-      // margin-right:.5em;
       right:-.45em;
       font-weight:bold;
       color:$middle-gray;

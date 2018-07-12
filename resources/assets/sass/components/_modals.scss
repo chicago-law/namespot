@@ -1,5 +1,5 @@
 .modal-container {
-  display:none;
+  display:block;
   position:fixed;
   top:0;
   bottom:0;
@@ -7,75 +7,166 @@
   left:0;
   z-index: 99999;
   overflow:hidden;
-  .modal-window {
+  .loading {
+    display:none;
     position:absolute;
-    width:30em;
-    left:50%;
     top:50%;
-    transform:translate(-50%,-60%);
-    padding:2em;
-    background: #fff;
-    box-shadow:0 5px 15px $middle-gray;
-    z-index: 99999;
-    transition:transform .3s ease-out;
-    .fa-times {
-      position:absolute;
-      top:.75em;
-      right:.75em;
-      @include ms1;
-      color:$middle-gray;
-      cursor:pointer;
-      &:hover {
-        color:$primary-accent;
+    left:50%;
+    transform:translate(-50%,-50%);
+  }
+  .is-loading {
+    .loading {
+      display:block;
+    }
+  }
+}
+.modal-container__window {
+  position:absolute;
+  max-width:30em;
+  left:50%;
+  top:4em;
+  padding:0 2em;
+  background: #fff;
+  box-shadow:0 5px 15px $middle-gray;
+  z-index: 99999;
+  .fa-times {
+    position:absolute;
+    top:.75em;
+    right:.75em;
+    @include ms1;
+    color:$middle-gray;
+    cursor:pointer;
+    &:hover {
+      color:$primary-accent;
+    }
+  }
+  .content {
+    header {
+      text-align:center;
+      padding:2em 0 1em 0;
+      h2 i {
+        margin-right:.5em;
       }
     }
-    .content {
-      header {
-        text-align:center;
-        margin-bottom: 1em;
-        h2 i {
-          margin-right:.5em;
+    main {
+      padding-bottom:2em
+    }
+    .controls {
+      display:flex;
+      justify-content: space-between;
+      align-items:center;
+      margin: 0 -2em 0 -2em;
+      padding:2em;
+      border-top: 1px solid $off-white;
+    }
+  }
+  &.change-room {
+    .warning {
+      display:flex;
+      align-items:center;
+      margin:2em 0;
+      i {
+        @include ms3;
+        color:$primary-accent-light;
+        padding-right:.75em;
+      }
+      p {
+        font-style:italic;
+        margin-bottom: 0;
+      }
+    }
+    select {
+      margin:.5em 0;
+    }
+  }
+  &.edit-enrollment {
+    max-width:45em;
+    main {
+      padding-bottom:0;
+    }
+    .input-container {
+      padding-right: 0;
+    }
+    input {
+      width:100%;
+    }
+    .results-status {
+      margin-top: 1em;
+      border-bottom: 1px solid $off-white;
+      p {
+        @include ms-1;
+        span {
+          font-weight:bold;
+          color:$primary-accent;
+          cursor:pointer;
         }
       }
-      .controls {
-        display:flex;
-        justify-content: space-between;
+    }
+    .results-list-container {
+      height:14.1em;
+    }
+    .results-list {
+      display:block;
+      margin:0;
+      height:100%;
+      overflow:auto;
+      li {
+        position: relative;
+        padding:.5em .75em;
+        cursor:pointer;
+        .fa-user-plus {
+          display:none;
+          @include ms-1;
+          position:absolute;
+          top:50%;
+          right:1em;
+          transform:translateY(-50%);
+        }
+        &:hover {
+          background: $off-white;
+          border-radius:3px;
+          color:$primary-accent;
+          .fa-user-plus {
+            display:block;
+          }
+        }
       }
     }
   }
-  .shader {
-    position:absolute;
-    top:0;
-    right:0;
-    bottom:0;
-    left:0;
-    background:rgba(0,0,0,.15);
-    z-index: 9999;
-  }
-  &.is-active {
-    display:block;
-    .modal-window {
-      transform:translate(-50%,-50%);
-    }
+  &.print-room {
+    width:30em;
   }
 }
 
-.modal-change-room {
-  .warning {
-    display:flex;
-    align-items:center;
-    margin:3em 0;
-    i {
-      @include ms3;
-      color:$primary-accent-light;
-      padding-right:.75em;
-    }
-    p {
-      font-style:italic;
-      margin-bottom: 0;
-    }
-  }
-  select {
-    margin:.5em 0;
+.modal-container__shader {
+  position:absolute;
+  top:0;
+  right:0;
+  bottom:0;
+  left:0;
+  background:rgba(0,0,0,.1);
+  z-index: 9999;
+}
+
+.modal-container-enter {
+  opacity:.1;
+  .modal-container__window {
+    transform:translate(-50%,1%);
   }
 }
+.modal-container-enter-active, .modal-container-enter-done {
+  opacity:1;
+  transition:all 200ms ease-out;
+  .modal-container__window {
+    transition:all 200ms ease-out;
+    transform:translate(-50%,0);
+  }
+}
+.modal-container-exit {
+  opacity:1;
+}
+.modal-container-exit-active, .modal-container-exit-done {
+  opacity:.1;
+  transition:all 150ms ease-out;
+}
+

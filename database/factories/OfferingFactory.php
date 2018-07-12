@@ -16,8 +16,10 @@ use Faker\Generator as Faker;
 $factory->define(App\Offering::class, function (Faker $faker) {
     $term_codes = ['2188','2192','2194'];
     return [
-        'name' => $faker->catchPhrase,
-        'course_num' => $faker->numberBetween($min = 12001, $max = 92000),
+        'long_title' => $faker->catchPhrase,
+        'catalog_nbr' => $faker->numberBetween($min = 12001, $max = 92000),
+        'crse_id' => $faker->numberBetween($min = 12001, $max = 92000),
+        'class_nbr' => $faker->numberBetween($min = 12001, $max = 92000),
         'term_code' => $term_codes[rand(0,2)],
     ];
 });

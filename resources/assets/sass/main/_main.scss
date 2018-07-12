@@ -32,6 +32,9 @@ ul {
 li {
   list-style-type:none;
 }
+svg {
+  pointer-events:all
+}
 
 .card {
   box-shadow:0 1px 3px rgba(0,0,0,.15);
@@ -45,7 +48,7 @@ li {
 
 .main {
   position:relative;
-  padding:0 2em;
+  padding:0 2em 10em 2em;
   flex-grow:1;
   background: $off-white;
   z-index: 100;

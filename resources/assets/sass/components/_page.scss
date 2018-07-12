@@ -12,15 +12,10 @@
     transform:translateX(5px);
   }
   .inner-page-container {
-    // width:800px;
+    display: block;
     position:relative;
-    // left:5px;
     padding-bottom:64.7%; // maintain aspect ratio of 11 x 17 tabloid paper
     transition:opacity 150ms ease-out;
-    // background: #fff;
-    // border:1px solid $off-white;
-    // border-radius:3px;
-    // box-shadow:0 0 5px $light-gray;
     >svg {
       position:absolute;
       top:13px;
@@ -30,6 +25,7 @@
       height:100%;
       width:100%;
       overflow:visible;
+      transform:scale(.95);
     }
   }
   .tables-container {
@@ -168,7 +164,8 @@
     .tables-container {
       .table {
         .table-path {
-          stroke:$lighter-gray;
+          // stroke:$lighter-gray;
+          stroke:none;
         }
       }
       .seat {
@@ -202,6 +199,12 @@
     }
   }
 
+}
+
+.no-tables {
+  font:italic 16px Lato;
+  fill:$middle-gray;
+  text-anchor:middle;
 }
 
 

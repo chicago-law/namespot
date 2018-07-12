@@ -1,0 +1,22 @@
+.seating-chart {
+  // height:8in;
+  // width:  40em;
+  background: #fff;
+  border:1px solid $light-gray;
+  .outer-page-container {
+    // background: #fff;
+    // width:800px;
+    .inner-page-container {
+      >svg {
+        top:0;
+        left:0;
+        .table {
+          .table-path {
+            stroke:none;
+          }
+        }
+      }
+    }
+  }
+
+}

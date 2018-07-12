@@ -1,12 +1,19 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import AbRoomOverview from '../AbRoomOverview'
-import { newTable, setTask, setPointSelection, setSeatSizeRequest, setView, setModal } from '../../../actions'
+import AbRoomOverview from '../AbRoomOverview';
+import { newTable, setTask, setPointSelection, requestRoomUpdate, setView, setModal, requestError, removeError } from '../../../actions';
 
 const mapStateToProps = (state) => {
+
+  const tablesIdArray = Object.keys(state.entities.tables).filter(id => state.entities.tables[id].room_id === state.app.currentRoom.id);
+  let seatCount = 0;
+  tablesIdArray.forEach(id => seatCount += state.entities.tables[id].seat_count);
+
   return {
     currentRoom:state.app.currentRoom,
-    currentOffering:state.app.currentOffering
+    currentOffering:state.app.currentOffering,
+    rooms:state.entities.rooms,
+    seatCount
   }
 }
 
@@ -24,11 +31,17 @@ const mapDispatchToProps = (dispatch) => {
     setPointSelection: status => {
       dispatch(setPointSelection(status))
     },
-    setSeatSizeRequest: (roomID, seatSize) => {
-      dispatch(setSeatSizeRequest(roomID, seatSize))
+    requestRoomUpdate: (roomID, key, value) => {
+      dispatch(requestRoomUpdate(roomID, key, value))
     },
     setModal: (modal, status) => {
       dispatch(setModal(modal, status));
+    },
+    requestError: (name, message, shouldLeave) => {
+      dispatch(requestError(name, message, shouldLeave));
+    },
+    removeError: (name) => {
+      dispatch(removeError(name))
     }
   }
 }

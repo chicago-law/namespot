@@ -8,7 +8,7 @@ const Menu = ({toggleMenu}) => (
       <button onClick={toggleMenu}>
         <i className="far fa-arrow-left fa-fw"></i>
       </button>
-      <h3>Daniel<br/>Ramus</h3>
+      <h3>First name<br/>Last name</h3>
     </header>
     <ul>
       <li><Link className="reverse-colors" to="/select/offerings" onClick={toggleMenu}><i className="far fa-map fa-fw"></i>Seating Charts</Link></li>

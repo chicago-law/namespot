@@ -15,10 +15,12 @@ class CreateInstructorsTable extends Migration
     {
         Schema::create('instructors', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('chicago_id');
+            $table->string('chicago_id')->nullable();
+            $table->string('emplid');
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('email');
+            $table->string('email')->nullable();
+            $table->string('cnet_id')->nullable();
             $table->timestamps();
         });
     }

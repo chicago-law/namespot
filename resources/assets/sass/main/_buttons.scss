@@ -4,9 +4,8 @@ button {
   padding:0;
   border:0;
   cursor:pointer;
-  border-radius:5px;
-  transition:color 200ms ease-out;
-  padding:1em 1.5em;
+  border-radius:3px;
+  padding:.8em 1.5em;
   color:$dark-gray;
   font-weight:bold;
   @include ms0;
@@ -20,8 +19,15 @@ button {
   background: $primary-accent;
   color:#fff;
   @include ms-1;
+  font-size:12.8px;
   &:hover {
     color:#fff;
     background:$primary-accent-hover;
+  }
+}
+
+.btn-clear {
+  &:hover {
+    background: $off-white;
   }
 }

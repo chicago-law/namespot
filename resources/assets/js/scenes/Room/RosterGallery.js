@@ -26,7 +26,10 @@ export default class RosterGallery extends Component {
           onClick={(e) => this.handleStudentClick(e)}
         />
       </li>
-    )
+    );
+
+    const seatedStudents = currentStudents.filter(student => student.props.children.props.seated === 'true' ? true : false);
+    const unseatedStudents = currentStudents.filter(student => student.props.children.props.seated === 'false' ? true : false);
 
     return (
       <div className="roster-gallery">
@@ -34,14 +37,14 @@ export default class RosterGallery extends Component {
         <div className="seated">
           <p>Seated</p>
           <ul>
-            {currentStudents.filter(student => student.props.children.props.seated === 'true' ? true : false)}
+            { seatedStudents.length ? seatedStudents : <li><p style={{'position':'relative','left':'-.15em'}}>(none)</p></li>}
           </ul>
         </div>
 
         <div className="unseated">
           <p>Not Seated</p>
           <ul>
-            {currentStudents.filter(student => student.props.children.props.seated === 'false' ? true : false)}
+            { unseatedStudents.length ? unseatedStudents : <li><p style={{'position':'relative','left':'-.15em'}}>(none)</p></li>}
           </ul>
         </div>
 

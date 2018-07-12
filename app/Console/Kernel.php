@@ -4,6 +4,8 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Jobs\TestJob;
+use App\Jobs\FetchOfferingsByTerm;
 
 class Kernel extends ConsoleKernel
 {
@@ -24,8 +26,15 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->job(new TestJob)
+                 ->everyMinute();
+
+        // figure out what term it is right now
+        // fire off for current plus next
+
+        // $schedule->job(new FetchOfferingsByTerm(current))->dailyAt('1:00');
+        // $schedule->job(new FetchOfferingsByTerm(next))->dailyAt('1:05');
+
     }
 
     /**

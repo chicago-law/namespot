@@ -1,36 +1,23 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { rootUrl } from '../../actions';
+import EditableText from '../../global/containers/EditableText';
 
 export default class AbStudentDetails extends Component {
   constructor(props) {
     super(props);
-    this.nicknameRef = React.createRef();
-    this.state = {
-      newNickname: '',
-      isEditing:false
+  }
+
+  saveStudentDetails(nickname) {
+    this.props.updateAndSaveStudent(this.props.currentStudentId, 'nickname', nickname);
+  }
+
+  validateNickname(nickname) {
+    if (nickname.length > 0) {
+      return true;
+    } else {
+      return false;
     }
-  }
-
-  handleNicknameClick() {
-    this.setState({ isEditing:true })
-    this.nicknameRef.current.setAttribute('contentEditable',true);
-    this.nicknameRef.current.focus();
-    window.getSelection().selectAllChildren(this.nicknameRef.current);
-  }
-
-  handleSaveClick() {
-    this.nicknameRef.current.setAttribute('contentEditable', false);
-    this.props.updateAndSaveStudent(this.props.currentStudentId, 'nickname', this.nicknameRef.current.textContent);
-    this.setState({ isEditing:false });
-    window.getSelection().removeAllRanges();
-  }
-
-  handleCancelClick() {
-    this.nicknameRef.current.setAttribute('contentEditable', false);
-    const original = this.props.students[this.props.currentStudentId].nickname ? this.props.students[this.props.currentStudentId].nickname : '(none set)';
-    this.nicknameRef.current.textContent = original;
-    this.setState({ isEditing:false })
-    window.getSelection().removeAllRanges();
   }
 
   handleUnseatClick() {
@@ -38,17 +25,7 @@ export default class AbStudentDetails extends Component {
   }
 
   render() {
-    const rootUrl = document.querySelector('body').dataset.root;
     const student = this.props.students[this.props.currentStudentId];
-    const saveOrCancel = (
-      <div className='save-or-cancel'>
-        <button className='btn-accent' onClick={() => this.handleSaveClick()}>Save</button>
-        <button onClick={() => this.handleCancelClick()}>Cancel</button>
-      </div>
-    );
-    const startEditing = (
-      <i className="far fa-pencil" onClick={() => this.handleNicknameClick()} title="Edit student's display name"></i>
-    );
 
     return (
       <div className='action-bar action-bar-student-details'>
@@ -60,16 +37,20 @@ export default class AbStudentDetails extends Component {
             <p>{student.first_name} {student.last_name}</p>
           </div>
           <div>
-            <h6>Display Name</h6>
-            <div className='nickname-container'>
-              <p ref={this.nicknameRef}>{student.nickname ? student.nickname : '(none set)' }</p>
-              <div className='nickname-controls'>
-                { this.state.isEditing ? saveOrCancel : startEditing }
-              </div>
-            </div>
+            <h6>Preferred Name</h6>
+            <p>(pref. name here)</p>
           </div>
         </div>
         <div className="flex-column">
+        <h6>Seating Chart Nickname</h6>
+          <div className='nickname-container'>
+            <EditableText
+              text={student.nickname ? student.nickname : '(none set)'}
+              save={(nickname) => this.saveStudentDetails(nickname)}
+              // try to do the save! No validator!
+              // validate={(nickname) => this.validateNickname(nickname)}
+            />
+          </div>
           <h6>Email</h6>
           <p>{student.email}</p>
         </div>

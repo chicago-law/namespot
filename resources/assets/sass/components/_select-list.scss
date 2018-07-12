@@ -46,16 +46,18 @@
         border-top: 1px solid $off-white;
         h4 {
           display:block;
-          text-transform:capitalize;
           color:$dark-gray;
           margin-bottom:0;
+          .fa-plus-circle {
+            margin-right: .5em;
+          }
         }
         p {
           margin-bottom: 0;
           color:$dark-gray;
         }
       }
-      i {
+      .fa-chevron-right {
         position:absolute;
         right:1.5em;
         top:50%;
@@ -84,8 +86,4 @@
       opacity:.25;
     }
   }
-}
-
-.offering-list {
-
 }

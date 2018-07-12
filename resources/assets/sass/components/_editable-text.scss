@@ -1,0 +1,55 @@
+ .editable-text-container {
+    display:inline-block;
+    // justify-content:space-between;
+    position:relative;
+    .controls {
+      position:absolute;
+      display:block;
+      left:100%;
+      top:50%;
+      transform:translateY(-50%);
+      padding-left:1em;
+      .save-or-cancel {
+        display:flex;
+      }
+      .fa-pencil {
+        cursor:pointer;
+        &:hover {
+          color:$primary-accent;
+        }
+      }
+      .saved {
+        position:absolute;
+        top:0;
+        left:100%;
+        padding:4px 0 0 10px;
+        @include ms-2;
+        text-transform:uppercase;
+        color:$middle-gray;
+        font-weight:bold;
+      }
+      .saved-enter {
+        opacity:.01;
+        transform:translateY(1em);
+      }
+      .saved-enter-active, .saved-enter-done {
+        opacity:1;
+        transform:translateY(0);
+        transition:all 300ms ease-out;
+      }
+      .saved-exit {
+        opacity:1;
+        transform:translateY(0);
+      }
+      .saved-exit-active {
+        opacity:.01;
+        transform:translateY(1em);
+        transition:all 300ms ease-out;
+      }
+      button {
+        padding:.45em 1em;
+        margin:0;
+        @include ms-1;
+      }
+    }
+  }
