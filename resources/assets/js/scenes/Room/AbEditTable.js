@@ -1,41 +1,46 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
+import helpers from '../../bootstrap'
 
 export default class AbEditTable extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   findAncestor(el, cls) {
     while ((el = el.parentElement) && !el.classList.contains(cls));
-    return el;
+    return el
   }
 
   handlePointSelectorButtonClick(e) {
-    const mode = e.target.dataset.select ? e.target.dataset.select : this.findAncestor(e.target, 'point-selector').dataset.select;
+    const mode = e.target.dataset.select ? e.target.dataset.select : this.findAncestor(e.target, 'point-selector').dataset.select
     if (mode !== this.props.pointSelection) {
       // activating the button
-      this.props.setPointSelection(mode);
+      this.props.setPointSelection(mode)
     } else {
       // deactivating the button
-      this.props.setPointSelection(null);
+      this.props.setPointSelection(null)
     }
   }
 
+  onLabelPosButtonClick() {
+    this.props.setModal('label-position',true)
+  }
+
   handleSeatCountChange(e) {
-    const count = e.target.value;
-    this.props.setSeatCount(count);
+    const count = e.target.value
+    this.props.setSeatCount(count)
   }
 
   handleCancelClick() {
-    this.props.clearTempTable();
-    this.props.setTask('edit-room');
-    this.props.setPointSelection(null);
+    this.props.clearTempTable()
+    this.props.setTask('edit-room')
+    this.props.setPointSelection(null)
   }
 
   handleKeyDown(e) {
     if (e.which === 27) {
-      this.handleCancelClick();
+      this.handleCancelClick()
     }
   }
 
@@ -43,12 +48,12 @@ export default class AbEditTable extends React.Component {
     // first check if we have both a start point and an end point, because those are
     // required for each table.
     if (this.props.tempTable.coords['start'] != null && this.props.tempTable.coords['end'] != null) {
-      this.props.saveTable(this.props.tempTable.id, this.props.match.params.roomID, this.props.tempTable.coords, this.props.tempTable.seatCount);
-      this.props.clearTempTable();
-      this.props.setTask('edit-room');
-      this.props.setPointSelection(null);
+      this.props.saveNewTable(this.props.tempTable.id, this.props.match.params.roomID, this.props.tempTable.coords, this.props.tempTable.seatCount, this.props.tempTable.labelPosition)
+      this.props.clearTempTable()
+      this.props.setTask('edit-room')
+      this.props.setPointSelection(null)
     } else {
-      this.props.requestError('start-end-required', 'Both a starting point and an ending point are required for all tables', true);
+      this.props.requestError('start-end-required', 'Both a starting point and an ending point are required for all tables', true)
     }
   }
 
@@ -89,8 +94,17 @@ export default class AbEditTable extends React.Component {
         {/* set number of seats */}
         <div className='flex-container seats-number'>
           <input type='number' value={this.props.tempTable.seatCount} onChange={(e) => this.handleSeatCountChange(e)}/>
-          <p>Seats Along<br/>Section</p>
+          <p>Number of<br/>Seats</p>
         </div>
+
+        {/* set label position */}
+        <div className={'flex-container label-position'} onClick={(e) => this.onLabelPosButtonClick(e)}>
+          <button className='big-button'>
+            <img src={`${helpers.rootUrl}images/label-position.png`} alt='label position button'/>
+            <p>Show Labels:<br/>{this.props.tempTable.labelPosition}</p>
+          </button>
+        </div>
+
 
         {/* Save / Cancel controls */}
         <div className="save-controls">
@@ -110,7 +124,7 @@ AbEditTable.propTypes = {
     clearTempTable: PropTypes.func.isRequired,
     currentRoom: PropTypes.object.isRequired,
     pointSelection: PropTypes.string,
-    saveTable:PropTypes.func.isRequired,
+    saveNewTable:PropTypes.func.isRequired,
     setPointSelection: PropTypes.func.isRequired,
     setSeatCount: PropTypes.func.isRequired,
     setTask: PropTypes.func.isRequired,

@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { CSSTransition } from 'react-transition-group';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { CSSTransition } from 'react-transition-group'
 
 export default class Errors extends Component {
   constructor(props) {
@@ -8,8 +8,8 @@ export default class Errors extends Component {
   }
 
   handleCloseClick(e) {
-    const name = e.target.closest('.error').getAttribute('data-errorname');
-    this.props.removeError(name);
+    const name = e.target.closest('.error').getAttribute('data-errorname')
+    this.props.removeError(name)
   }
 
   render() {
@@ -27,8 +27,8 @@ export default class Errors extends Component {
               <i className="far fa-times" onClick={(e) => this.handleCloseClick(e)}></i>
             </div>
           </li>
-      );
-    });
+      )
+    })
 
     return (
       <CSSTransition
@@ -40,7 +40,7 @@ export default class Errors extends Component {
           {errorList}
         </ul>
       </CSSTransition>
-    );
+    )
   }
 }
 

@@ -1,17 +1,17 @@
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import AbFindStudent from '../AbFindStudent';
-import { assignSeat, setTask, setCurrentStudentId } from '../../../actions'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import AbFindStudent from '../AbFindStudent'
+import { assignSeat, setTask, setCurrentSeatId } from '../../../actions'
 
 const mapStateToProps = (state) => {
 
   // get the students enrolled in this class
-  let currentStudents = [];
-  Object.keys(state.entities.students).forEach(studentID => {
-    if (state.app.currentOffering.students.includes(parseInt(studentID))) {
-      currentStudents.push(state.entities.students[studentID]);
+  let currentStudents = []
+  Object.keys(state.entities.students).forEach(studentId => {
+    if (state.app.currentOffering.students.includes(parseInt(studentId))) {
+      currentStudents.push(state.entities.students[studentId])
     }
-  });
+  })
 
   return {
     currentStudents,
@@ -26,11 +26,11 @@ const mapDispatchToProps = (dispatch) => {
     assignSeat: (offering_id, student_id, seat_id) => {
       dispatch(assignSeat(offering_id, student_id, seat_id))
     },
-    setTask: (task) => {
+    setTask: task => {
       dispatch(setTask(task))
     },
-    setCurrentStudentId: (studentID) => {
-      dispatch(setCurrentStudentId(studentID))
+    setCurrentSeatId: seatId => {
+      dispatch(setCurrentSeatId(seatId))
     }
   }
 }
@@ -40,4 +40,4 @@ const AbFindStudentContainer = withRouter(connect(
   mapDispatchToProps
 )(AbFindStudent))
 
-export default AbFindStudentContainer;
+export default AbFindStudentContainer

@@ -6,6 +6,10 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Jobs\TestJob;
 use App\Jobs\FetchOfferingsByTerm;
+use App\Jobs\FetchEnrolledStudentsByTerm;
+use App\Jobs\FetchPhotoRosterByTerm;
+use App\Jobs\FetchAppData;
+use App\Setting;
 
 class Kernel extends ConsoleKernel
 {
@@ -26,15 +30,16 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->job(new TestJob)
-                 ->everyMinute();
+        // Grab the current academic year from the Settings table in DB.
+        // Fall back to 2018 if there is no academic year set.
+        $academic_year_setting = Setting::where('setting_name','academic_year')->first();
+        $year = $academic_year_setting ? $academic_year_setting->setting_value : '2018';
 
-        // figure out what term it is right now
-        // fire off for current plus next
+        // record the start time
+        $started = date('h:i:s');
 
-        // $schedule->job(new FetchOfferingsByTerm(current))->dailyAt('1:00');
-        // $schedule->job(new FetchOfferingsByTerm(next))->dailyAt('1:05');
-
+        // Fire off the job to grab all the data for that year.
+        $schedule->job(new FetchAppData($year, $started))->dailyAt('10:32');
     }
 
     /**

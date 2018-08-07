@@ -18,19 +18,4 @@ mix.react('resources/assets/js/main.js', 'public/js')
    .copyDirectory('resources/assets/images', 'public/images')
    .browserSync({
      proxy:'localhost:8888/namespot/public'
-   })
-// mix.webpackConfig({
-//   plugins: [
-//     new BrowserSyncPlugin({
-//       host: 'localhost',
-//       'port': 8888,
-//       proxy: 'http://localhost/namespot/public',
-//       files: [
-//         '**/*/*.scss',
-//         '**/*/*.php',
-//         '**/*/*.blade.php',
-//         '**/*/*.js'
-//       ]
-//     }, { reload: false }),
-//   ]
-// });
+   });

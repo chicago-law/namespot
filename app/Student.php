@@ -7,7 +7,23 @@ use Laravel\Scout\Searchable;
 
 class Student extends Model
 {
-    use Searchable;
+    // Commenting out because Laravel Scout's indexing can't handle the mass
+    // import of data from AIS and Canvas.
+    // use Searchable;
+
+    public $fillable = [
+        'canvas_id',
+        'chicago_id',
+        'cnet_id',
+        'full_name',
+        'first_name',
+        'last_name',
+        'short_name_first',
+        'short_name_last',
+        'nickname',
+        'sortable_name',
+        'picture'
+    ];
 
 
     /**
@@ -26,6 +42,6 @@ class Student extends Model
 
     public function offerings()
     {
-        return $this->belongsToMany('App\Offering')->withPivot('assigned_seat');
+        return $this->belongsToMany('App\Offering')->withPivot('assigned_seat', 'manually_attached');
     }
 }

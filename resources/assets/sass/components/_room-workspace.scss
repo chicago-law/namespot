@@ -2,14 +2,23 @@
   display:flex;
   // justify-content:center;
   // flex-wrap:wrap;
+  @media(max-width:$desktop) {
+    flex-direction: column;
+  }
   .room-workspace-left, .room-workspace-right {
     flex:1 1 25%;
   }
   .room-workspace-left {
     padding-right:2em;
+    @media (max-width:$desktop) {
+      padding-right: 0;
+    }
   }
   .room-workspace-right {
     padding-left:2em;
+    @media (max-width:$desktop) {
+      padding-left: 0;
+    }
   }
   .room-header {
     margin-bottom:.5em;
@@ -19,6 +28,10 @@
       font-weight:bold;
       // margin-bottom: 0;
       color:$middle-gray;
+    }
+    @media (max-width:$desktop) {
+      display: flex;
+      justify-content: space-between;
     }
   }
 
@@ -33,6 +46,18 @@
     .seated, .unseated {
       text-align:right;
       margin-bottom: 2em;
+      @media(max-width:$desktop) {
+        text-align:center;
+        max-width:$x-large-page;
+        margin-left:auto;
+        margin-right:auto;
+      }
+      @media (max-width:$laptop) {
+        max-width:$large-page;
+      }
+      @media (max-width:$tablet) {
+        max-width:$medium-page;
+      }
     }
     p {
       position:relative;

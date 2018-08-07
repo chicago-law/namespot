@@ -1,4 +1,4 @@
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
 import RoomList from '../RoomList'
 import { requestRooms, receiveRooms, setLoadingStatus, setView, requestError } from '../../../actions'
 
@@ -24,7 +24,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(setLoadingStatus(type,status))
     },
     requestError: (type, message, shouldLeave) => {
-      dispatch(requestError(type, message, shouldLeave));
+      dispatch(requestError(type, message, shouldLeave))
     }
   }
 }
@@ -34,4 +34,4 @@ const RoomListContainer = connect(
   mapDispatchToProps
 )(RoomList)
 
-export default RoomListContainer;
+export default RoomListContainer

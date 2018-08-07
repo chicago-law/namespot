@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import helpers from '../../bootstrap';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import helpers from '../../bootstrap'
 
 export default class RosterGallery extends Component {
   constructor(props) {
@@ -8,28 +8,31 @@ export default class RosterGallery extends Component {
   }
 
   handleStudentClick(e) {
-    this.props.setCurrentStudentId(parseInt(e.target.getAttribute('studentid')));
-    this.props.setTask('student-details');
-    e.stopPropagation();
+    this.props.setCurrentStudentId(parseInt(e.target.getAttribute('studentid')))
+    this.props.setTask('student-details')
+    e.stopPropagation()
   }
 
   render() {
 
-    const currentStudents = this.props.currentStudents.map(student =>
-      <li key={student.id}>
-        <div
-          studentid={student.id}
-          className='picture'
-          style={{ 'backgroundImage': `url('${helpers.rootUrl}images/faces/${student.picture}.jpg')` }}
-          title={student.first_name + ' ' + student.last_name}
-          seated={student.seats['offering_' + this.props.currentOffering.id] != null ? "true" : "false"}
-          onClick={(e) => this.handleStudentClick(e)}
-        />
-      </li>
-    );
 
-    const seatedStudents = currentStudents.filter(student => student.props.children.props.seated === 'true' ? true : false);
-    const unseatedStudents = currentStudents.filter(student => student.props.children.props.seated === 'false' ? true : false);
+    const currentStudents = this.props.currentStudents.map(student => {
+      const pictureUrl = student.picture && student.picture.length ? `url('${helpers.rootUrl}images/students/${student.picture}')` : `url('${helpers.rootUrl}images/students/no-face.png')`
+      return (
+        <li key={student.id}>
+          <div
+            studentid={student.id}
+            className='picture'
+            style={{ 'backgroundImage': pictureUrl }}
+            title={`${student.first_name} ${student.last_name}`}
+            seated={student.seats['offering_' + this.props.currentOffering.id] != null ? 'true' : 'false'}
+            onClick={(e) => this.handleStudentClick(e)}
+          />
+        </li>
+    )})
+
+    const seatedStudents = currentStudents.filter(student => student.props.children.props.seated === 'true' ? true : false)
+    const unseatedStudents = currentStudents.filter(student => student.props.children.props.seated === 'false' ? true : false)
 
     return (
       <div className="roster-gallery">
@@ -49,7 +52,7 @@ export default class RosterGallery extends Component {
         </div>
 
       </div>
-    );
+    )
   }
 }
 
@@ -57,5 +60,6 @@ RosterGallery.propTypes = {
   assignSeat: PropTypes.func.isRequired,
   currentOffering: PropTypes.object.isRequired,
   currentStudents: PropTypes.array.isRequired,
-  id: PropTypes.string
+  setCurrentStudentId: PropTypes.func.isRequired,
+  setTask: PropTypes.func.isRequired,
 }

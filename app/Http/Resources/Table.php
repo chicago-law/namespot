@@ -18,6 +18,7 @@ class Table extends JsonResource
             'id' => $this->id,
             'room_id' => $this->room_id,
             'seat_count' => $this->seat_count,
+            'label_position' => $this->label_position,
             'sX' => $this->sX,
             'sY' => $this->sY,
             'eX' => $this->eX,

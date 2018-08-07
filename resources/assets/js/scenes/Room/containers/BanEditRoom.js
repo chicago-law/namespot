@@ -1,4 +1,4 @@
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
 import BanEditRoom from '../BanEditRoom'
 
 const mapStateToProps = (state) => {
@@ -11,4 +11,4 @@ const BanEditRoomContainer = connect(
   mapStateToProps
 )(BanEditRoom)
 
-export default BanEditRoomContainer;
+export default BanEditRoomContainer

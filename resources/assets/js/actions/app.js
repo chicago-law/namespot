@@ -1,4 +1,7 @@
-import C from '../constants';
+import C from '../constants'
+import helpers from '../bootstrap'
+
+
 
 /**
  * view
@@ -29,10 +32,11 @@ export function setTask(task) {
 export function findAndSetCurrentRoom(roomID) {
   return (dispatch, getState) => {
     if (getState().entities.rooms[roomID]) {
-      dispatch(setCurrentRoom(getState().entities.rooms[roomID]));
+      dispatch(setCurrentRoom(getState().entities.rooms[roomID]))
     }
   }
 }
+// loads a room into store's app's currentRoom
 export function setCurrentRoom(room) {
   return {
     type:C.SET_CURRENT_ROOM,
@@ -51,7 +55,7 @@ export function resetCurrentRoom() {
 export function findAndSetCurrentOffering(offeringID) {
   return (dispatch, getState) => {
     if (getState().entities.offerings[offeringID]) {
-      dispatch(setCurrentOffering(getState().entities.offerings[offeringID]));
+      dispatch(setCurrentOffering(getState().entities.offerings[offeringID]))
     }
   }
 }
@@ -87,6 +91,7 @@ export function setCurrentStudentId(studentID) {
   }
 }
 
+
 /**
  * TEMP TABLE
  */
@@ -96,13 +101,14 @@ export function newTable() {
     type: C.NEW_TABLE
   }
 }
-// load a table into tempTable into the store
-export function selectTable(tableID, roomID, seatCount, coords) {
+// load an existing table into tempTable in the store
+export function selectTable(tableID, roomID, seatCount, labelPosition, coords) {
   return {
     type: C.SELECT_TABLE,
     tableID,
     roomID,
     seatCount,
+    labelPosition,
     coords
   }
 }
@@ -111,6 +117,13 @@ export function setSeatCount(seatCount) {
   return {
     type: C.SET_SEAT_COUNT,
     seatCount
+  }
+}
+// set the label position of tempTable
+export function setLabelPosition(labelPosition) {
+  return {
+    type: C.SET_LABEL_POSITION,
+    labelPosition
   }
 }
 // save a point to the tempTable coords object
@@ -137,6 +150,39 @@ export function setPointSelection(pointType) {
     type: C.SET_POINT_SELECTION,
     pointType
   }
+}
+
+/**
+ * ACADEMIC YEAR (always the FIRST of the two years. So academic year 2018-2019
+ * would be stored as 2018)
+ */
+export function setAcademicYear(year) {
+  return {
+    type: C.SET_ACADEMIC_YEAR,
+    year
+  }
+}
+export function requestAcademicYearChange(year) {
+  return(dispatch => {
+    // update in DB
+    axios.post(`${helpers.rootUrl}api/settings/update`, {
+      'setting_name': 'academic_year',
+      'setting_value': year
+    })
+    .then(() => {
+      // if successful, update in the store
+      dispatch(setAcademicYear(year))
+    })
+    .catch(response => {
+      dispatch(requestError('settings-update',response.message))
+    })
+  })
+}
+export function fetchAcademicYear() {
+  return(dispatch => {
+    const year = helpers.academicYear
+    dispatch(setAcademicYear(parseInt(year)))
+  })
 }
 
 /**
@@ -182,19 +228,19 @@ export function removeError(name) {
 // only add the error message if it isn't already in the errors array
 export function requestError(name, message, shouldLeave) {
   return (dispatch, getState) => {
-    let duplicate = false;
+    let duplicate = false
     getState().app.errors.forEach(error => {
       if (error.name === name) {
-        duplicate = true;
+        duplicate = true
       }
-    });
+    })
     if (!duplicate) {
-      dispatch(addError(name, message));
+      dispatch(addError(name, message))
       // remove the error message after 4 seconds if true is passed as third parameter
       if (shouldLeave) {
         window.setTimeout(function() {
           dispatch(removeError(name))
-        }, 4000);
+        }, 4000)
       }
     }
   }

@@ -20,6 +20,11 @@ class Offering extends Model
 
     public function students()
     {
-        return $this->belongsToMany('App\Student')->withPivot('assigned_seat');
+        return $this->belongsToMany('App\Student')->withPivot('assigned_seat', 'manually_attached');
+    }
+
+    public function manuallyAttachedStudents()
+    {
+        return $this->students()->where('manually_attached',1);
     }
 }

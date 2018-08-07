@@ -23,6 +23,8 @@
 .modal-container__window {
   position:absolute;
   max-width:30em;
+  min-width:30em;
+  // can we just give this a width of 30?
   left:50%;
   top:4em;
   padding:0 2em;
@@ -50,6 +52,9 @@
     }
     main {
       padding-bottom:2em
+    }
+    .form-question {
+      padding:0;
     }
     .controls {
       display:flex;

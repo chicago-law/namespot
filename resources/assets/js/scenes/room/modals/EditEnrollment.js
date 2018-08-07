@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import classNames from 'classnames/bind';
-import Loading from '../../../global/Loading';
-import { rootUrl } from '../../../actions';
+import React, { Component } from 'react'
+import classNames from 'classnames/bind'
+import Loading from '../../../global/Loading'
+import helpers from '../../../bootstrap'
 
 export default class EditEnrollment extends Component {
   constructor(props) {
-    super(props);
-    this.searchRef = React.createRef();
+    super(props)
+    this.searchRef = React.createRef()
     this.state = {
       query: '',
       studentResults: [],
@@ -19,19 +19,19 @@ export default class EditEnrollment extends Component {
     this.setState({
       query: e.target.value,
       showingAllResults:false
-    });
-    this.searchStudents(e.target.value);
+    })
+    this.searchStudents(e.target.value)
   }
 
   handleShowAllResults() {
-    this.searchStudents(this.state.query, false);
-    this.setState({ showingAllResults: true });
+    this.searchStudents(this.state.query, false)
+    this.setState({ showingAllResults: true })
   }
 
   searchStudents(query, limited = true) {
-    this.props.setLoadingStatus('student-search', true);
-    const params = limited ? { 'limit': 10 } : {};
-    axios.get(`${rootUrl}api/students/search`, {
+    this.props.setLoadingStatus('student-search', true)
+    const params = limited ? { 'limit': 10 } : {}
+    axios.get(`${helpers.rootUrl}api/students/search`, {
       params: {
         ...params,
         's': query,
@@ -41,52 +41,58 @@ export default class EditEnrollment extends Component {
       this.setState({
         studentResults: response.data.students,
         resultCount: response.data.count
-      });
-      this.props.setLoadingStatus('student-search', false);
+      })
+      this.props.setLoadingStatus('student-search', false)
     })
     .catch(response => {
-      this.props.setLoadingStatus('student-search', false);
-      this.props.requestError('student-search', response.message, true);
-    });
+      this.props.setLoadingStatus('student-search', false)
+      this.props.requestError('student-search', response.message, true)
+    })
   }
 
   addStudent(e) {
-    const id = e.target.closest('.student').getAttribute('data-studentid');
-    const student = this.state.studentResults.filter(student => String(student.id) === String(id))[0];
+    const id = e.target.closest('.student').getAttribute('data-studentid')
+    const student = this.state.studentResults.filter(student => String(student.id) === String(id))[0]
     // close the modal
-    this.props.setModal('edit-enrollment',false);
+    this.props.setModal('edit-enrollment',false)
     // is the student already in the class?
     if (!this.props.currentOffering.students.includes(parseInt(id))) {
+
       // add the student to the store
       const formattedStudent = {
         [id]: {
           ...student,
         }
-      };
-      this.props.receiveStudents(formattedStudent);
+      }
+      this.props.receiveStudents(formattedStudent)
+
       // update student with seat slot for this offering
       const seats = {
         ...student['seats'],
         [`offering_${this.props.currentOffering.id}`]: null
       }
       this.props.updateAndSaveStudent(id, 'seats', seats)
+
+      // update student with flag saying it was manually attached
+      this.props.updateAndSaveStudent(id, 'manually_attached', 1)
+
       // update the offering
-      const students = [...this.props.currentOffering.students, parseInt(id)];
-      this.props.requestUpdateOffering(this.props.currentOffering.id, 'students', students);
+      const students = [...this.props.currentOffering.students, parseInt(id)]
+      this.props.requestUpdateOffering(this.props.currentOffering.id, 'students', students)
     }
   }
 
   componentDidMount() {
-    this.searchRef.current.focus();
+    this.searchRef.current.focus()
   }
 
   render() {
 
     const modalClasses = classNames({
       'is-loading': this.props.loading['student-search']
-    });
+    })
 
-    let resultsList = '';
+    let resultsList = ''
     if (this.state.studentResults.length > 0) {
       resultsList = this.state.studentResults.map(student => {
         return (
@@ -96,9 +102,9 @@ export default class EditEnrollment extends Component {
             data-studentid={student.id}
             onClick={(e) => this.addStudent(e)}
           >
-            {student.first_name} "short_name" {student.last_name} <i className="far fa-user-plus"></i>
+            {student.first_name} {student.nickname} {student.last_name} <i className="far fa-user-plus"></i>
           </li>
-       )});
+       )})
     }
 
     return (
@@ -109,11 +115,11 @@ export default class EditEnrollment extends Component {
         </header>
 
         <main>
-          <p>If for some reason a student is not enrolled in a class through Canvas, then they will not show up automatically in its seating chart roster.</p>
-          <p>When necessary, you can manually add them to this class by searching all Law students below.</p>
+          <p>If for some reason a student is not enrolled in a class through Canvas, then they will not show up automatically here in the class's seating chart roster.</p>
+          <p>You can manually add a student to this class when necessary by searching all Law students below.</p>
           <div className="input-container">
             <i className="far fa-search"></i>
-            <input type='text' ref={this.searchRef} placeholder="Type to find student..." onChange={(e) => this.handleSearchInput(e)} value={this.state.query} />
+            <input type='text' ref={this.searchRef} placeholder="Search all Law students..." onChange={(e) => this.handleSearchInput(e)} value={this.state.query} />
           </div>
           <div className="results-status">
             {this.state.query.length ?

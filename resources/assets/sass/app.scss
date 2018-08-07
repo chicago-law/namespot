@@ -10,12 +10,18 @@
 
 // Components
 @import 'components/actionbar';
+@import 'components/flash-cards';
+@import 'components/grid';
+@import 'components/guides';
 @import 'components/editable-text';
 @import 'components/errors';
 @import 'components/header';
 @import 'components/loading';
 @import 'components/modals';
 @import 'components/page';
+@import 'components/printables';
 @import 'components/room-workspace';
+@import 'components/seats';
 @import 'components/seating-chart';
-@import 'components/select-list';
+@import 'components/select';
+@import 'components/tables';

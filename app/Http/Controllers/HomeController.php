@@ -3,16 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Setting;
 
 class HomeController extends Controller
 {
     public function react()
     {
-        return view('react');
+        $data = [];
+        $academic_year = Setting::where('setting_name','academic_year')->first();
+        $data['academic_year'] = $academic_year ? $academic_year->setting_value : '2018';
+
+        return view('react', $data);
     }
 
-    public function blankChart()
+    public function print()
     {
-        return view('blank-chart');
+        return view('print-react');
     }
 }

@@ -1,7 +1,7 @@
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import AbStudentDetails from '../AbStudentDetails';
-import { updateAndSaveStudent, setTask, assignSeat } from '../../../actions'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import AbStudentDetails from '../AbStudentDetails'
+import { updateAndSaveStudent, setTask, assignSeat, setCurrentStudentId, unenrollStudent } from '../../../actions'
 
 const mapStateToProps = (state) => {
   return {
@@ -20,7 +20,13 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(setTask(task))
     },
     assignSeat: (offering_id, student_id, seat_id) => {
-      dispatch(assignSeat(offering_id, student_id, seat_id));
+      dispatch(assignSeat(offering_id, student_id, seat_id))
+    },
+    setCurrentStudentId: id => {
+      dispatch(setCurrentStudentId(id))
+    },
+    unenrollStudent: (studentId, offeringId) => {
+      dispatch(unenrollStudent(studentId, offeringId))
     }
   }
 }
@@ -30,4 +36,4 @@ const AbStudentDetailsContainer = connect(
   mapDispatchToProps
 )(AbStudentDetails)
 
-export default AbStudentDetailsContainer;
+export default AbStudentDetailsContainer

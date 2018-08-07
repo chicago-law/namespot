@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
-import classNames from 'classnames/bind';
-import { CSSTransition } from 'react-transition-group';
-import ChangeRoom from '../scenes/room/modals/containers/ChangeRoom';
-import AssignRoom from '../scenes/room/modals/containers/AssignRoom';
-import EditEnrollment from '../scenes/room/modals/containers/EditEnrollment';
-import PrintRoom from '../scenes/room/modals/containers/PrintRoom';
+import React, { Component } from 'react'
+import classNames from 'classnames/bind'
+import { CSSTransition } from 'react-transition-group'
+import ChangeRoom from '../scenes/room/modals/containers/ChangeRoom'
+import AssignRoom from '../scenes/room/modals/containers/AssignRoom'
+import EditEnrollment from '../scenes/room/modals/containers/EditEnrollment'
+import PrintOffering from '../scenes/room/modals/containers/PrintOffering'
+import LabelPosition from '../scenes/room/modals/containers/LabelPosition'
 
 export default class Modals extends Component {
   constructor(props) {
@@ -16,27 +17,31 @@ export default class Modals extends Component {
 
   handleCloseClick() {
     // loop through all modals, do a switch on them and we can write what to do for each here
+    // most will just be to clear the modal out, but this allows customized behavior too
     Object.keys(this.props.modals).forEach(type => {
       if (this.props.modals[type]) {
         switch (type) {
           case 'change-room':
-            this.props.setModal(type, false);
-            break;
+            this.props.setModal(type, false)
+            break
           case 'assign-room':
-            this.props.setModal(type, false);
-            this.props.history.push('/select/offerings');
-            break;
+            this.props.setModal(type, false)
+            this.props.history.push('/select/offerings')
+            break
           case 'edit-enrollment':
-            this.props.setModal(type, false);
-            break;
+            this.props.setModal(type, false)
+            break
           case 'print-room':
-            this.props.setModal(type, false);
-            break;
+            this.props.setModal(type, false)
+            break
+          case 'label-position':
+            this.props.setModal(type, false)
+            break
           default:
-            return false;
+            return false
         }
       }
-    });
+    })
   }
 
   componentDidUpdate(prevProps) {
@@ -54,8 +59,9 @@ export default class Modals extends Component {
       'change-room': this.props.modals['change-room'],
       'assign-room': this.props.modals['assign-room'],
       'edit-enrollment': this.props.modals['edit-enrollment'],
-      'print-room': this.props.modals['print-room']
-    });
+      'print-room': this.props.modals['print-room'],
+      'label-position': this.props.modals['label-position']
+    })
 
     return (
       <CSSTransition
@@ -74,7 +80,8 @@ export default class Modals extends Component {
               {this.props.modals['change-room'] ? <ChangeRoom close={() => this.handleCloseClick()}/> : false}
               {this.props.modals['assign-room'] ? <AssignRoom close={() => this.handleCloseClick()} /> : false}
               {this.props.modals['edit-enrollment'] ? <EditEnrollment close={() => this.handleCloseClick()} /> : false}
-              {this.props.modals['print-room'] ? <PrintRoom close={() => this.handleCloseClick()} /> : false}
+              {this.props.modals['print-room'] ? <PrintOffering close={() => this.handleCloseClick()} /> : false}
+              {this.props.modals['label-position'] ? <LabelPosition close={() => this.handleCloseClick()} /> : false}
             </div>
           </div>
 

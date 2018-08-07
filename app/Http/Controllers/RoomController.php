@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Room;
+use App\Table;
 
 class RoomController extends Controller
 {
@@ -53,5 +54,19 @@ class RoomController extends Controller
         $hits->count() ? $is_in_use = false : false;
 
         return response()->json($is_in_use, 200);
+    }
+
+    public function nudgedown(Request $request)
+    {
+        $tables = Table::where('room_id', $request->input('room_id'))->get();
+
+        foreach ($tables as $table):
+            $table->sY = $table->sY + 1;
+            $table->eY = $table->eY + 1;
+            !is_null($table->qY) ? $table->qY = $table->qY + 1 : false;
+            $table->save();
+        endforeach;
+
+        return response()->json('success', 200);
     }
 }

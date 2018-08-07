@@ -1,11 +1,12 @@
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import AbEditTable from '../AbEditTable';
-import { saveTable, clearTempTable, setTask, setPointSelection, setSeatCount, requestError } from '../../../actions'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import AbEditTable from '../AbEditTable'
+import { saveNewTable, clearTempTable, setTask, setPointSelection, setSeatCount, requestError, setModal } from '../../../actions'
 
 const mapStateToProps = (state, ownProps) => {
   return {
     currentRoom:state.app.currentRoom,
+    modals: state.app.modals,
     view:state.app.view,
     task:state.app.task,
     tempTable:state.app.tempTable,
@@ -15,8 +16,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    saveTable: (tableID, roomID, coords, seatCount) => {
-      dispatch(saveTable(tableID, roomID, coords, seatCount))
+    saveNewTable: (tableID, roomID, coords, seatCount, labelPosition) => {
+      dispatch(saveNewTable(tableID, roomID, coords, seatCount, labelPosition))
     },
     clearTempTable: () => {
       dispatch(clearTempTable())
@@ -31,7 +32,10 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(setSeatCount(count))
     },
     requestError: (type, message, shouldLeave) => {
-      dispatch(requestError(type, message, shouldLeave));
+      dispatch(requestError(type, message, shouldLeave))
+    },
+    setModal: (type, status) => {
+      dispatch(setModal(type, status))
     }
   }
 }
@@ -41,4 +45,4 @@ const AbEditTableContainer = withRouter(connect(
   mapDispatchToProps
 )(AbEditTable))
 
-export default AbEditTableContainer;
+export default AbEditTableContainer

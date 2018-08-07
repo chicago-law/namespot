@@ -1,101 +1,136 @@
-import React, { Component } from 'react';
-import classNames from 'classnames/bind';
-import Table from '../room/containers/Table';
-// import jsPDF from 'jspdf';
-
-// import { Page, Text, View, Document, Stylesheet } from 'react-pdf/core';
-// import ReactPDF from 'react-pdf/node';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import Page from '../room/containers/Page'
+import classNames from 'classnames/bind'
+import Loading from '../../global/Loading'
+import html2canvas from 'html2canvas'
+import * as jsPDF from 'jspdf'
 
 export default class SeatingChart extends Component {
   constructor(props) {
     super(props)
-    this.pageContainerRef = React.createRef();
     this.state = {
-      // set blip dimensions here. must be the same as blip dimensions in Room!!
-      gridRows:19,
-      gridColumns: 39,
+      showLoading: true
     }
   }
 
-  measureGrid() {
-    const pageContainerCss = window.getComputedStyle(this.pageContainerRef.current);
+  createPdf() {
+    const seatingChartCanvas = document.querySelector('canvas')
 
-    // note: we use bottom padding here for row height instead of actual height
-    // cause of the CSS trick to keep aspect ratio of tabloid paper (bc of IE)
-    const PCHeight = parseInt(pageContainerCss.paddingBottom);
-    const PCWidth = parseInt(pageContainerCss.width);
-    const gridRowHeight =  parseFloat((PCHeight / this.state.gridRows).toFixed(2));
-    const gridColumnWidth = parseFloat((PCWidth / this.state.gridColumns).toFixed(2));
+    // We start by manually add the SVGs to a blank canvas with canvg
+    // because html2canvas will skip them for some reason!
+    const canvgOptions = {
+      // log: true,
+      offsetX: 0,
+      offsetY: 5
+    }
+    canvg(seatingChartCanvas, document.querySelector('.tables-container').outerHTML, canvgOptions)
 
-    this.setState({
-      PCHeight, PCWidth, gridRowHeight, gridColumnWidth
-    });
+    // Now use html2canvas to paint the rest of the page into the canvas
+    const input = document.querySelector('.outer-page-container')
+    const canvasOptions = {
+      logging: false,
+      scale:'1', // specifying 1 makes this work the same on Retina displays
+      canvas: seatingChartCanvas,
+      // width:'1550',
+      // height:'1000',
+      // windowWidth: '1550',
+      // windowHeight: '1000'
+    }
+    html2canvas(input, canvasOptions).then((canvas) => {
+      // now convert the canvas into a PDF and download
+      const imgData = canvas.toDataURL('image/jpg')
+      const pdf = new jsPDF({
+        orientation: 'landscape',
+        format: 'tabloid'
+      })
+      pdf.addImage(imgData, 'JPG', 0, 0)
+      const title = this.props.currentOffering.long_title ? `${this.props.currentOffering.long_title}-${this.props.currentOffering.section}` : this.props.rooms[this.props.roomId].name
+      pdf.save(`${title}.pdf`)
+
+      this.setState({
+        showLoading:false
+      })
+
+    })
   }
 
+
   componentDidMount() {
-    // fetch data
-    this.props.fetchRoom(this.props.roomId);
-    this.props.fetchTables(this.props.roomId);
-    this.props.requestOffering(this.props.offeringId);
-    this.props.requestStudents(this.props.offeringId);
+    // set view to 'seating-chart'
+    this.props.setView('seating-chart')
 
-    // create the grid and load the measurements into local state
-    this.measureGrid();
+    // fetch room data
+    if (this.props.roomId) {
+      this.props.fetchRoom(this.props.roomId)
+      this.props.fetchTables(this.props.roomId)
+    }
 
-    // set currentOffering and currentRoom in store, because Table relies on them
-    // this.props.findAndSetCurrentOffering(this.props.offeringId);
-    // this.props.findAndSetCurrentRoom(this.props.roomId);
+    // fetch offering data, if we need it
+    if (this.props.offeringId) {
+      this.props.requestOffering(this.props.offeringId)
+      this.props.requestStudents(this.props.offeringId)
+    }
+
+    // set store's currentRoom and currentOffering (if there is one)
+    this.props.findAndSetCurrentRoom(this.props.roomId)
+    this.props.offeringId ? this.props.findAndSetCurrentOffering(this.props.offeringId) : false
   }
 
   componentDidUpdate() {
-      // set currentOffering and currentRoom in store, because Table relies on them
-      this.props.findAndSetCurrentOffering(this.props.offeringId);
-      this.props.findAndSetCurrentRoom(this.props.roomId);
+    // again, set currentRoom and currentOffering in app store in case we were
+    // waiting on room data from fetching.
+    this.props.findAndSetCurrentRoom(this.props.roomId)
+    this.props.offeringId ? this.props.findAndSetCurrentOffering(this.props.offeringId) : false
+
+    // check if we're waiting on anything to finish loading. If not, go ahead
+    // and make the PDF.
+    if (Object.keys(this.props.loading).every(loadingType => this.props.loading[loadingType] === false) && this.state.showLoading === true) {
+      this.createPdf()
+    }
   }
 
   render() {
-
-    const currentTablesIdArray = Object.keys(this.props.tables).filter(tableId => Object.keys(this.props.rooms).length && this.props.tables[tableId].room_id === this.props.rooms[this.props.roomId].id);
+    const { showLoading } = this.state
+    const { withStudents } = this.props
 
     const seatingChartClasses = classNames({
-      'seating-chart':true,
-      'with-students': this.props.match.params.offeringid ? true : false
+      'printable': true,
+      'seating-chart': true,
+      'show-loading': showLoading
     })
 
     return (
       <div className={seatingChartClasses}>
 
-        <div className="outer-page-container">
-          <div className="inner-page-container" ref={this.pageContainerRef}>
-            <svg className='tables-container' xmlns='http://www.w3.org/2000/svg' viewBox={`0 0 ${this.state.PCWidth} ${this.state.PCHeight}`}>
-              <g className="tables">
-                {currentTablesIdArray.map(tableId => {
-                  const table = this.props.tables[tableId];
-                  return (
-                    <Table
-                      key={table.id}
-                      id={table.id}
-                      sX={table.sX} sY={table.sY} eX={table.eX} eY={table.eY} qX={table.qX} qY={table.qY}
-                      coords={table.coords}
-                      seatCount={table.seat_count}
-                      gridrowheight={this.state.gridRowHeight}
-                      gridcolumnwidth={this.state.gridColumnWidth}
-                      seat_size={this.props.rooms[this.props.roomId].seat_size}
-                    />
-                  )
-                })}
-              </g>
-            </svg>
-            <div className="front-label">
-              <h3>FRONT</h3>
-            </div>
-          </div>
+        <div className='full-page-loading'>
+          <Loading />
         </div>
 
-
-
+        <Page withStudents={withStudents} />
 
       </div>
     )
   }
 }
+
+SeatingChart.propTypes = {
+  currentOffering: PropTypes.object.isRequired,
+  fetchRoom: PropTypes.func.isRequired,
+  fetchTables: PropTypes.func.isRequired,
+  findAndSetCurrentOffering: PropTypes.func.isRequired,
+  findAndSetCurrentRoom: PropTypes.func.isRequired,
+  loading: PropTypes.object.isRequired,
+  offeringId: PropTypes.string,
+  offerings: PropTypes.object,
+  requestOffering: PropTypes.func.isRequired,
+  requestStudents: PropTypes.func.isRequired,
+  roomId: PropTypes.string.isRequired,
+  rooms: PropTypes.object.isRequired,
+  seats: PropTypes.object.isRequired,
+  setView: PropTypes.func.isRequired,
+  students: PropTypes.object,
+  tables: PropTypes.object.isRequired,
+  withStudents: PropTypes.bool.isRequired
+}
+

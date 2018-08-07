@@ -1,8 +1,8 @@
 import { normalize } from 'normalizr'
-import * as schema from './schema';
-import C from '../constants';
-import { rootUrl } from './index';
-import { setLoadingStatus, requestError } from './app';
+import * as schema from './schema'
+import C from '../constants'
+import helpers from '../bootstrap'
+import { setLoadingStatus, requestError, findAndSetCurrentRoom } from './app'
 
 /**
  * ROOMS
@@ -19,36 +19,36 @@ export function receiveRooms(rooms) {
 export function fetchRooms() {
   return function (dispatch) {
     // set loading state
-    dispatch(setLoadingStatus('rooms',true));
+    dispatch(setLoadingStatus('rooms',true))
     // make API call
-    axios.get(`${rootUrl}api/rooms`)
+    axios.get(`${helpers.rootUrl}api/rooms`)
     .then(function (response) {
-      const normalizedData = normalize(response.data, schema.roomListSchema);
+      const normalizedData = normalize(response.data, schema.roomListSchema)
       dispatch(receiveRooms(normalizedData.entities.rooms))
       dispatch(setLoadingStatus('rooms',false))
     })
     .catch(response => {
-      dispatch(setLoadingStatus('rooms',false));
-      dispatch(requestError('room-fetch',response.message));
-    });
+      dispatch(setLoadingStatus('rooms',false))
+      dispatch(requestError('room-fetch',response.message))
+    })
   }
 }
 // Gently ask to hydrate with rooms, if we need them. Gets a room count from
 // the DB and compares that to # of rooms in our store.
 export function requestRooms() {
   return (dispatch, getState) => {
-    dispatch(setLoadingStatus('rooms',true));
-    axios.get(`${rootUrl}api/rooms/count`)
+    dispatch(setLoadingStatus('rooms',true))
+    axios.get(`${helpers.rootUrl}api/rooms/count`)
     .then(response => {
       if (response.data > Object.keys(getState().entities.rooms).filter(id => getState().entities.rooms[id].type === 'template').length) {
-        dispatch(fetchRooms());
+        dispatch(fetchRooms())
       } else  {
-        dispatch(setLoadingStatus('rooms',false));
+        dispatch(setLoadingStatus('rooms',false))
       }
     })
     .catch(response => {
-      dispatch(requestError('rooms-fetch','Error getting room count from database', true));
-      dispatch(fetchRooms());
+      dispatch(requestError('rooms-fetch','Error getting room count from database', true))
+      dispatch(fetchRooms())
     })
   }
 }
@@ -57,19 +57,19 @@ export function requestRooms() {
 export function fetchRoom(room_id) {
   return function (dispatch) {
     dispatch(setLoadingStatus('rooms',true))
-    axios.get(`${rootUrl}api/room/${room_id}`)
+    axios.get(`${helpers.rootUrl}api/room/${room_id}`)
     .then(response => {
       const room = {
         [response.data.id]: {
           ...response.data
         }
       }
-      dispatch(receiveRooms(room));
+      dispatch(receiveRooms(room))
       dispatch(setLoadingStatus('rooms',false))
     })
     .catch(response => {
-      dispatch(requestError('room-not-found',`Room not found! ${response.message}`));
-      dispatch(setLoadingStatus('rooms',false));
+      dispatch(requestError('room-not-found',`Room not found! ${response.message}`))
+      dispatch(setLoadingStatus('rooms',false))
     })
   }
 }
@@ -96,12 +96,15 @@ export function requestRoomUpdate(roomID, key, value) {
     // change the seat size in the room entity in store
     dispatch(updateRoom(roomID, key, value))
 
+    // update the app's currentRoom in the store
+    dispatch(findAndSetCurrentRoom(roomID))
+
     // finally, make a background call to change it in the DB
-    axios.post(`${rootUrl}api/room/update/${roomID}`, {
+    axios.post(`${helpers.rootUrl}api/room/update/${roomID}`, {
       [key]: value
     })
     .catch(response => {
-      dispatch(requestError('room-update', response.message));
-    });
+      dispatch(requestError('room-update', response.message))
+    })
   }
 }

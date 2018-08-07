@@ -1,23 +1,23 @@
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import App from '../App'
+import {  } from '../../actions'
 
-// NOT BEING USED!
-
-const mapStateToProps = (state) => {
+const mapStateToProps = () => {
   return {
-    errors: state.app.errors
+    //
   }
 }
 
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     //
-//   }
-// }
+const mapDispatchToProps = (dispatch) => {
+  return {
+  //
+  }
+}
 
-const AppContainer = connect(
+const AppContainer = withRouter(connect(
   mapStateToProps,
   // mapDispatchToProps
-)(App);
+)(App))
 
-export default AppContainer;
+export default AppContainer

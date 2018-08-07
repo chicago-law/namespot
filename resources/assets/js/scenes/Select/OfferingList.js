@@ -1,71 +1,75 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import classNames from 'classnames/bind';
-import Loading from '../../global/Loading';
-import helpers from '../../bootstrap';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
+import classNames from 'classnames/bind'
+import Loading from '../../global/Loading'
+import helpers from '../../bootstrap'
 
 export default class OfferingList extends Component {
   constructor(props) {
     super(props)
-    this.searchRef = React.createRef();
+    this.searchRef = React.createRef()
     this.state = {
-      search: '',
-      selectedTerm:'2182'
+      query: '',
+      selectedTermCode: this.props.defaultTerm
     }
   }
 
   componentDidMount() {
-    this.props.requestOfferings(this.state.selectedTerm);
-    this.props.setView('offering-list');
-    this.searchRef.current.focus();
+    this.props.requestOfferings(this.state.selectedTermCode)
+    this.props.setView('offering-list')
+    this.searchRef.current.focus()
   }
 
   handleSearchInput(e) {
     this.setState({
-      search: e.target.value
-    });
+      query: e.target.value
+    })
   }
 
   handleTermChange(e) {
-    this.props.requestOfferings(e.target.value);
+    // get classes for the selected term
+    this.props.requestOfferings(e.target.value)
+    // save the selected term so it's there in the future
+    this.props.saveSessionTerm(e.target.value)
     this.setState({
-      selectedTerm: e.target.value,
-      search:''
-    });
-    this.searchRef.current.value = '';
+      selectedTermCode: e.target.value,
+      query:''
+    })
   }
 
   render() {
+    const { query, selectedTermCode } = this.state
+    const { loading, offerings, years } = this.props
 
-    const terms = ['2182','2184','2188','2192','2194'];
+    const terms = helpers.getAllTermCodes(years)
 
     const offeringListClasses = classNames({
       'offering-list':true,
-      'is-loading':this.props.loading.offerings
-    });
+      'is-loading':loading.offerings
+    })
 
     // sort the offerings
-    const sortedOfferings = Object.keys(this.props.offerings).sort((idA, idB) => this.props.offerings[idA].long_title < this.props.offerings[idB].long_title ? -1 : 1);
+    const sortedOfferings = Object.keys(offerings).sort((idA, idB) => offerings[idA].long_title < offerings[idB].long_title ? -1 : 1)
 
     // only show offerings filtered by selected term and by the search query
-    const filteredOfferingList = [];
+    const filteredOfferingList = []
     sortedOfferings.forEach(id => {
-      const offering = this.props.offerings[id];
+      const offering = offerings[id]
       // first check if they're in the selected term
-      if (offering.term_code === this.state.selectedTerm) {
+      if (offering.term_code === selectedTermCode) {
         // prepare a few things to make them better searchable by regex...
-        const courseNumString = `LAWS ${offering.catalog_nbr}`;
-        let instructorsString = '';
+        const courseNumString = `LAWS ${offering.catalog_nbr}`
+        let instructorsString = ''
         for (let i = 0; i < offering.instructors.length; i++) {
-          instructorsString += offering.instructors[i].first_name + ' ' + offering.instructors[i].last_name + ' ';
+          instructorsString += offering.instructors[i].first_name + ' ' + offering.instructors[i].last_name + ' '
         }
-        const regex = new RegExp(this.state.search, 'gi');
+        const regex = new RegExp(query, 'gi')
         if (offering.long_title.match(regex) || courseNumString.match(regex) || instructorsString.match(regex)) {
-          filteredOfferingList.push(offering);
+          filteredOfferingList.push(offering)
         }
       }
-    });
+    })
 
     return (
       <div className={offeringListClasses}>
@@ -77,11 +81,11 @@ export default class OfferingList extends Component {
           <div className='filter-controls'>
             <div className="input-container">
               <i className="far fa-search"></i>
-              <input ref={this.searchRef} type='text' value={this.state.filter} onChange={(e) => this.handleSearchInput(e)} placeholder="Type to find class..." />
+              <input ref={this.searchRef} type='text' value={query} onChange={(e) => this.handleSearchInput(e)} placeholder="Type to find class..." />
             </div>
             <div className="semester-dropdown-container">
               <p>Semester:</p>
-              <select value={this.state.selectedTerm} onChange={(e) => this.handleTermChange(e)}>
+              <select value={selectedTermCode} onChange={(e) => this.handleTermChange(e)}>
                 {terms.map(term =>
                   <option key={term} value={term}>{ helpers.termCodeToString(term) }</option>
                 )}
@@ -90,7 +94,7 @@ export default class OfferingList extends Component {
           </div>
         </header>
 
-        <ul>
+        <ul className='content'>
           {filteredOfferingList.map(offering =>
             <li key={offering.id}>
               <Link to={`/offering/${offering.id}`}>
@@ -116,8 +120,11 @@ export default class OfferingList extends Component {
 }
 
 OfferingList.propTypes = {
+  defaultTerm: PropTypes.string.isRequired,
   loading: PropTypes.object.isRequired,
   offerings: PropTypes.object.isRequired,
   requestOfferings: PropTypes.func.isRequired,
-  setView: PropTypes.func.isRequired
+  setView: PropTypes.func.isRequired,
+  saveSessionTerm: PropTypes.func.isRequired,
+  years: PropTypes.object.isRequired
 }

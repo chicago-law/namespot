@@ -1,4 +1,4 @@
-.select-list {
+.select {
   position: relative;
   margin-top: 5em;
   .loading {
@@ -73,7 +73,8 @@
   }
 }
 
-.room-list, .offering-list {
+.select>div {
+  // padding: 2em;
   &.is-loading {
     .loading {
       display:block;
@@ -82,8 +83,8 @@
     header {
       opacity:.15
     }
-    ul {
-      opacity:.25;
+    .content {
+      opacity:.2
     }
   }
 }

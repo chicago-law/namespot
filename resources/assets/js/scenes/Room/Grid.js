@@ -1,90 +1,110 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames/bind';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import classNames from 'classnames/bind'
 
-const Grid = ({ gridRows, gridColumns, gridRowHeight, gridColumnWidth, pointSelection, currentTables, tempTable, savePointToTempTable }) => {
+export default class Grid extends Component {
+  constructor(props) {
+    super(props)
+  }
 
-  function handleBlipClick(e) {
-    if (pointSelection) { // only proceed if we're choosing a blip
-      const pointType = pointSelection;
-      const pointKey = e.target.getAttribute('id');
-      if (isBlipActive(pointKey, tempTable)) {
-        savePointToTempTable(null, pointType)
+
+  handleBlipClick(e) {
+    if (this.props.pointSelection) { // only proceed if we're choosing a blip
+      const pointType = this.props.pointSelection
+      const pointKey = e.target.getAttribute('id')
+      if (this.isBlipActive(pointKey, this.props.tempTable)) {
+        this.props.savePointToTempTable(null, pointType)
       } else {
-        savePointToTempTable(pointKey, pointType)
+        this.props.savePointToTempTable(pointKey, pointType)
       }
     }
   }
 
-  function isBlipActive(pointKey, tempTable) {
-    // is this point's key the same as either the start, end, or curve property of tempTable?
+  isBlipActive(pointKey, tempTable) {
+    // is this point's key the same as either the start, end, or curve property of this.props.tempTable?
     if (tempTable.coords) {
       for (let coordType in tempTable.coords) {
         if (tempTable.coords.hasOwnProperty(coordType)) {
           if (tempTable.coords[coordType] === pointKey) {
-            return coordType;
+            return coordType
           }
         }
       }
     }
   }
 
-  function doesBlipBelongToAnyTable(blipKey, tables) {
+  doesBlipBelongToAnyTable(blipKey, tables) {
     // check if this blip is a part of any of the room's tables
-    let included = false;
+    let included = false
     for (let tableKey in tables) {
-      for (let coordKey in tables[tableKey].coords) {
-        if (tables[tableKey].coords[coordKey] === blipKey) {
-          included = true;
+      for (let coordKey in tables[tableKey].gridCoords) {
+        if (tables[tableKey].gridCoords[coordKey] === blipKey) {
+          included = true
         }
       }
     }
-    return included;
+    return included
   }
 
-  function drawBlip(x, y) {
-    const key = x + '_' + y;
+  drawBlip(x, y) {
+    const key = x + '_' + y
     const blipClasses = classNames({
       'blip': true,
-      'belongs-to-any-table': doesBlipBelongToAnyTable(key, currentTables),
-      'belongs-to-active-table': isBlipActive(key, tempTable),
-      'is-being-replaced': isBlipActive(key, tempTable) === pointSelection ? true : false
-    });
-    const cx = (x * gridColumnWidth).toFixed(2) + 'px';
-    const cy = (y * gridRowHeight).toFixed(2) + 'px';
+      'belongs-to-any-table': this.doesBlipBelongToAnyTable(key, this.props.currentTables),
+      'belongs-to-active-table': this.isBlipActive(key, this.props.tempTable),
+      'is-being-replaced': this.isBlipActive(key, this.props.tempTable) === this.props.pointSelection ? true : false
+    })
+    const cx = (x * this.props.gridColumnWidth).toFixed(2) + 'px'
+    const cy = (y * this.props.gridRowHeight).toFixed(2) + 'px'
     const blip = <circle
       key={key}
       id={key}
       className={blipClasses}
-      onClick={(e) => handleBlipClick(e)}
+      onClick={(e) => this.handleBlipClick(e)}
       r='5'
       cx={cx} cy={cy}
       x={x} y={y}
       style={{ transformOrigin: `${cx} ${cy}` }}
     />
-    return blip;
+    return blip
   }
 
-  function makeBlipGrid() {
-    let blips = [];
-    for (let i = 0; i < gridColumns; i++) {
-      for (let j = 0; j < gridRows; j++) {
-        blips.push(drawBlip(i, j));
+  makeBlipGrid() {
+    let blips = []
+    for (let i = 0; i < this.props.gridColumns; i++) {
+      for (let j = 0; j < this.props.gridRows; j++) {
+        blips.push(this.drawBlip(i, j))
       }
     }
-    return blips;
+    return blips
   }
 
-  const grid = makeBlipGrid();
+  shouldComponentUpdate(prevProps) {
+    if (
+        this.props.pointSelection != prevProps.pointSelection // point is selected
+        || this.props.tempTable.coords != prevProps.tempTable.coords // tempTable coord changes
+        || this.props.view !== prevProps.view // view changes
+    ) {
+      return true
+    } else {
+      return false
+    }
+  }
 
-  return (
-    <g className='grid'>
-      { grid }
-    </g>
-  );
+  componentDidMount() {
+    this.forceUpdate()
+  }
+
+  render() {
+    const grid = this.makeBlipGrid()
+
+    return (
+      <g className='grid'>
+        { grid }
+      </g>
+    )
+  }
 }
-
-export default Grid;
 
 Grid.propTypes = {
   currentTables: PropTypes.array.isRequired,
@@ -94,5 +114,7 @@ Grid.propTypes = {
   gridRows: PropTypes.number,
   pointSelection: PropTypes.string,
   savePointToTempTable: PropTypes.func.isRequired,
-  tempTable: PropTypes.object
+  task: PropTypes.string.isRequired,
+  tempTable: PropTypes.object,
+  view: PropTypes.string
 }

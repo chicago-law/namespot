@@ -7,17 +7,22 @@ const BanSeatingCharts = () => (
   <div className="banner-text">
     <h3><i className="far fa-map"></i>Seating Charts</h3>
   </div>
-);
+)
 const BanStudents = () => (
   <div className="banner-text">
     <h3><i className="far fa-users"></i>Students</h3>
   </div>
-);
+)
 const BanRoomTemplates = () => (
   <div className="banner-text">
     <h3><i className="far fa-map-marker-alt"></i>Rooms</h3>
   </div>
-);
+)
+const BanSettings = () => (
+  <div className="banner-text">
+    <h3><i className="far fa-cog"></i>Settings</h3>
+  </div>
+)
 
 const Banner = () => (
   <div className="banner-container">
@@ -25,6 +30,7 @@ const Banner = () => (
       <Route exact path="/" component={BanSeatingCharts} />
       <Route path="/select/offerings" component={BanSeatingCharts} />
       <Route path="/select/students" component={BanStudents} />
+      <Route path="/select/settings" component={BanSettings} />
       <Route exact path="/select/rooms" component={BanRoomTemplates} />
       <Route exact path="/room/:id" component={BanEditRoom} />
       <Route path="/room/:id/:offeringID" component={BanOffering} />
@@ -33,4 +39,4 @@ const Banner = () => (
   </div>
 )
 
-export default Banner;
+export default Banner

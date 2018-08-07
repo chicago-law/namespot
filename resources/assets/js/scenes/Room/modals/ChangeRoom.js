@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import classNames from 'classnames/bind';
+import React, { Component } from 'react'
+import classNames from 'classnames/bind'
 
 export default class ChangeRoom extends Component {
   constructor(props) {
@@ -17,18 +17,18 @@ export default class ChangeRoom extends Component {
 
   handleRoomChangeButton() {
     if (this.state.selectedRoomId != 0) {
-      this.props.requestUpdateOffering(this.props.currentOffering.id, 'room_id', this.state.selectedRoomId);
-      this.props.setTask('offering-overview');
-      this.props.setView('assign-seats');
-      this.props.history.push(`/offering/${this.props.currentOffering.id}`);
-      this.props.setModal('change-room',false);
+      this.props.requestUpdateOffering(this.props.currentOffering.id, 'room_id', this.state.selectedRoomId)
+      this.props.setTask('offering-overview')
+      this.props.setView('assign-seats')
+      this.props.history.push(`/offering/${this.props.currentOffering.id}`)
+      this.props.setModal('change-room',false)
     } else {
-      this.props.setModal('change-room',false);
+      this.props.setModal('change-room',false)
     }
   }
 
   componentDidMount() {
-    this.props.requestRooms();
+    this.props.requestRooms()
   }
 
   render() {

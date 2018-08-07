@@ -7,8 +7,8 @@ import Nav from './Nav'
 
 export default class Header extends Component {
   constructor(props) {
-    super(props);
-    this.headerRef = React.createRef();
+    super(props)
+    this.headerRef = React.createRef()
   }
 
   render() {

@@ -1,17 +1,17 @@
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
 import Grid from '../Grid'
 import { savePointToTempTable } from '../../../actions'
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
 
   // find all tables that belong to this room
-  let currentTables = [];
+  let currentTables = []
   if (state.entities.tables) {
-    const allTables = state.entities.tables;
+    const allTables = state.entities.tables
     for (let table in allTables) {
       if (allTables.hasOwnProperty(table)) {
         if (allTables[table].room_id == state.app.currentRoom.id) {
-          currentTables = [...currentTables, allTables[table]];
+          currentTables = [...currentTables, allTables[table]]
         }
       }
     }
@@ -20,8 +20,9 @@ const mapStateToProps = (state, ownProps) => {
   return {
     currentTables,
     pointSelection:state.app.pointSelection,
+    task: state.app.task,
     tempTable: state.app.tempTable,
-    pointSelection:state.app.pointSelection
+    view: state.app.view
   }
 }
 
@@ -38,4 +39,4 @@ const GridContainer = connect(
   mapDispatchToProps
 )(Grid)
 
-export default GridContainer;
+export default GridContainer

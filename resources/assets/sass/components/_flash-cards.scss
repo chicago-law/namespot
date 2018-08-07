@@ -1,0 +1,36 @@
+.flash-cards-all-students {
+  p {
+    font-weight:bold;
+  }
+  .question {
+    margin-bottom: 2em;
+  }
+}
+
+.flash-cards-deck {
+  display:block;
+}
+
+.flash-card {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:3in;
+  width:5in;
+  border:1px dotted $light-gray;
+  img {
+    max-width:100%;
+    width:2.5in;
+  }
+}
+
+.flash-card-same-side {
+  display:flex;
+  .left, .right {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex:0 0 50%;
+    text-align:center;
+  }
+}

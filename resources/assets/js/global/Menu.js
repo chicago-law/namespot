@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
 const Menu = ({toggleMenu}) => (
@@ -16,15 +16,16 @@ const Menu = ({toggleMenu}) => (
       <li><Link className="reverse-colors" to="/select/rooms" onClick={toggleMenu}><i className="far fa-map-marker-alt fa-fw"></i>Rooms</Link></li>
     </ul>
     <ul>
+      <li><Link className="reverse-colors" to="/select/settings" onClick={toggleMenu}><i className="far fa-cog fa-fw"></i>Settings</Link></li>
       <li><Link className="reverse-colors" to="/" onClick={toggleMenu}><i className="far fa-sign-out-alt fa-fw"></i>Logout</Link></li>
     </ul>
     <div className="school-logo-container">
-      <img src={"/namespot/public" + require('../../images/uchicago-logo.svg')} />
+      <img src={'/namespot/public' + require('../../images/uchicago-logo.svg')} />
     </div>
   </div>
 )
 
-export default Menu;
+export default Menu
 
 Menu.propTypes = {
   toggleMenu: PropTypes.func.isRequired

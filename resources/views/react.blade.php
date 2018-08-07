@@ -2,10 +2,12 @@
 
 @section('content')
 
-  <div id='root'></div>
+  <div
+    id='root'
+    data-root-url='{{asset("")}}'
+    data-academic-year=@if(isset($academic_year))"{{$academic_year}}" @else "2018" @endif
+  ></div>
 
-  <footer>
-    <script src="{{asset('js/main.js')}}"></script>
-  </footer>
+  <script src="{{asset('js/main.js')}}"></script>
 
 @endsection

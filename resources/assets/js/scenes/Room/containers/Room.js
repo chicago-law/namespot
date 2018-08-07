@@ -1,4 +1,4 @@
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
 import Room from '../Room'
 import { withRouter } from 'react-router-dom'
 import { fetchTables, setView, setTask, findAndSetCurrentRoom, findAndSetCurrentOffering, requestRooms, requestRoom, requestStudents, assignSeat, requestOffering, resetCurrentOffering, resetCurrentRoom, setCurrentStudentId, setCurrentSeatId, setModal, clearModals } from '../../../actions'
@@ -12,45 +12,41 @@ const mapStateToProps = (state, ownProps) => {
    */
 
   // find current room ID either from URL or from currentOffering
-  const params = ownProps.match.params;
-  const currentOfferingID = params.offeringID ? params.offeringID : null;
-  const currentRoomID = params.roomID ? params.roomID : currentOfferingID ? state.entities.offerings[currentOfferingID] ? state.entities.offerings[currentOfferingID].room_id != null ? String(state.entities.offerings[currentOfferingID].room_id) : null : null : null;
+  const params = ownProps.match.params
+  const currentOfferingID = params.offeringID ? params.offeringID : null
+  const currentRoomID = params.roomID ? params.roomID : currentOfferingID ? state.entities.offerings[currentOfferingID] ? state.entities.offerings[currentOfferingID].room_id != null ? String(state.entities.offerings[currentOfferingID].room_id) : null : null : null
 
   // find all tables that belong to this room
-  let currentTables = [];
+  let currentTables = []
   if (state.entities.tables) {
-    const allTables = state.entities.tables;
+    const allTables = state.entities.tables
     for (let table in allTables) {
       if (allTables.hasOwnProperty(table)) {
         if (allTables[table].room_id === state.app.currentRoom.id) {
-          currentTables = [ ...currentTables, allTables[table] ];
+          currentTables = [ ...currentTables, allTables[table] ]
         }
       }
     }
   }
 
-  // make an array of all the seat IDs at the tables
-  let currentSeats = [];
-  currentTables.forEach(table => {
-    for (let i=0; i<table.seat_count; i++) {
-      currentSeats.push(`${table.id}_${i}`);
-    }
-  });
+  // make an array of all the seats in the current room
+  let currentSeats = []
+  Object.keys(state.entities.seats).forEach(seatId => {
+    state.entities.seats[seatId].room_id === state.app.currentRoom.id ? currentSeats.push(state.entities.seats[seatId]) : false
+  })
 
-  // get the students enrolled in this class
-  let currentStudents = [];
+  // make an array of all the students in the current offering
+  let currentStudents = []
   Object.keys(state.entities.students).forEach(studentID => {
-    if (state.app.currentOffering.students.includes(parseInt(studentID))) {
-      currentStudents.push(state.entities.students[studentID]);
-    }
-  });
+    state.app.currentOffering.students.includes(parseInt(studentID)) ? currentStudents.push(state.entities.students[studentID]) : false
+  })
 
   return {
     currentRoomID,
     currentOfferingID,
-    currentTables,
     currentSeats,
     currentStudents,
+    currentTables,
     currentRoom:state.app.currentRoom,
     currentOffering:state.app.currentOffering,
     modals: state.app.modals,
@@ -92,25 +88,25 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(assignSeat(offering_id, student_id, seat_id))
     },
     resetCurrentRoom: () => {
-      dispatch(resetCurrentRoom());
+      dispatch(resetCurrentRoom())
     },
     resetCurrentOffering: () => {
-      dispatch(resetCurrentOffering());
+      dispatch(resetCurrentOffering())
     },
     setCurrentStudentId: (id) => {
-      dispatch(setCurrentStudentId(id));
+      dispatch(setCurrentStudentId(id))
     },
     setCurrentSeatId: (id) => {
-      dispatch(setCurrentSeatId(id));
+      dispatch(setCurrentSeatId(id))
     },
     requestRoom: (room_id) => {
-      dispatch(requestRoom(room_id));
+      dispatch(requestRoom(room_id))
     },
     setModal: (modal, status) => {
-      dispatch(setModal(modal, status));
+      dispatch(setModal(modal, status))
     },
     clearModals: () => {
-      dispatch(clearModals());
+      dispatch(clearModals())
     }
   }
 }
@@ -120,4 +116,4 @@ const RoomContainer = withRouter(connect(
   mapDispatchToProps
 )(Room))
 
-export default RoomContainer;
+export default RoomContainer

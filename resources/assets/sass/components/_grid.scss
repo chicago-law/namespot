@@ -1,0 +1,37 @@
+.grid-container {
+  z-index:90;
+  .blip {
+    position:absolute;
+    fill:$lighter-gray;
+    transform-origin:center;
+    transition:transform 150ms ease-out;
+  }
+}
+
+.outer-page-container.edit-table {
+  .grid-container {
+    z-index:1000;
+    .blip {
+      &.belongs-to-any-table {
+        fill:darken($middle-gray,20%);
+      }
+      &.belongs-to-active-table {
+        fill:$light-blue;
+        transform:scale(2);
+      }
+      &.is-being-replaced {
+        fill:$primary-accent !important;
+        transform:scale(3);
+      }
+    }
+  }
+
+  &.choosing-a-point {
+    .blip {
+      cursor:pointer;
+      &:hover {
+        fill:$dark-gray;
+      }
+    }
+  }
+}

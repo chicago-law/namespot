@@ -19,6 +19,6 @@ $factory->define(App\Student::class, function (Faker $faker) {
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
         'email' => $faker->unique()->safeEmail,
-        'picture' => $faker->numberBetween(1,15)
+        'picture' => $faker->numberBetween(1,15) . '.jpg'
     ];
 });

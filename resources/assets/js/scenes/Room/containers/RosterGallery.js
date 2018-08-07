@@ -1,33 +1,33 @@
-import { connect } from 'react-redux';
-import RosterGallery from '../RosterGallery';
-import { assignSeat, setTask, setCurrentStudentId } from '../../../actions';
+import { connect } from 'react-redux'
+import RosterGallery from '../RosterGallery'
+import { assignSeat, setTask, setCurrentStudentId } from '../../../actions'
 
 const mapStateToProps = (state) => {
 
   // get the students enrolled in this class
-  let currentStudents = [];
+  let currentStudents = []
   Object.keys(state.entities.students).forEach(studentID => {
     if (state.app.currentOffering.students.includes(parseInt(studentID))) {
-      currentStudents.push(state.entities.students[studentID]);
+      currentStudents.push(state.entities.students[studentID])
     }
-  });
+  })
 
   return {
     currentStudents,
-    currentOffering:state.app.currentOffering
+    currentOffering: state.app.currentOffering
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     assignSeat: (offering_id, student_id, seat_i) => {
-      dispatch(assignSeat(offering_id, student_id, seat_i));
+      dispatch(assignSeat(offering_id, student_id, seat_i))
     },
     setTask: task => {
-      dispatch(setTask(task));
+      dispatch(setTask(task))
     },
     setCurrentStudentId: id => {
-      dispatch(setCurrentStudentId(id));
+      dispatch(setCurrentStudentId(id))
     }
   }
 }
@@ -35,6 +35,6 @@ const mapDispatchToProps = (dispatch) => {
 const RosterGalleryContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(RosterGallery);
+)(RosterGallery)
 
-export default RosterGalleryContainer;
+export default RosterGalleryContainer

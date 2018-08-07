@@ -1,8 +1,23 @@
 .outer-page-container {
-  flex:0 0 800px;
+  flex:0 0 $x-large-page;
   margin-left: auto;
   margin-right: auto;
   margin-top:1.5em;
+  @media(max-width:$desktop) {
+    flex:auto;
+    width:$x-large-page;
+  }
+  @media(max-width: $laptop) {
+    width:$large-page;
+  }
+  @media(max-width: $tablet) {
+    width:$medium-page;
+  }
+  &.offering-overview {
+    @media (max-width:$desktop) {
+      margin-top:0;
+    }
+  }
   .loading {
     display:none;
     position:absolute;
@@ -15,167 +30,45 @@
     display: block;
     position:relative;
     padding-bottom:64.7%; // maintain aspect ratio of 11 x 17 tabloid paper
+    // padding-bottom:77.3%; // maintain aspect ratio of 8.5 x 11 letter paper
     transition:opacity 150ms ease-out;
-    >svg {
+    .tables-container, .seats-container, .grid-container, .guides-container {
       position:absolute;
-      top:13px;
       right:0;
-      left:13px;
       bottom:0;
+      top:0;
+      left:0;
+      // top and left values need to be tweaked a little depending on the grid
+      // top:13px;
+      // top:5px;
+      // left:23px; // for 19 x 39
+      // left:27px; // for 38 x 78
       height:100%;
       width:100%;
       overflow:visible;
-      transform:scale(.95);
     }
-  }
-  .tables-container {
-    z-index:100;
-    .table {
-      .table-path {
-        stroke-width:8;
-        stroke-linecap:round;
-        fill:none;
-        transition:stroke 75ms ease-out;
-      }
-      .seat {
-        overflow:hidden;
-        border-radius:5px;
-        rect {
-          fill:$light-gray;
-        }
-        .plus-person {
-          fill:$dark-gray;
-        }
-        &.is-selected {
-          rect {
-            fill:$primary-accent;
-          }
-          .plus-person {
-            fill:#fff !important;
-          }
-        }
-      }
-      &:hover {
-        .table-path {
-          stroke:$light-blue;
-        }
-      }
+    .tables-container>g {
+      transform:translateX(11px,13px);
     }
-  }
-  .grid-container {
-    z-index:90;
-    .blip {
-      position:absolute;
-      fill:$lighter-gray;
-      transform-origin:center;
-      transition:transform 150ms ease-out;
+    .guides-container>g {
+      transform:translateX(11px,13px);
     }
-  }
-  .guides-container {
-    .guide {
-      position: relative;
-      stroke:#ccc;
-      stroke-width:1px;
-      &.vert {
-        transform:translateY(-13px);
-      }
-      &.horiz {
-        transform:translateX(-13px);
-      }
+    .grid-container>g {
+      transform:translateX(11px,13px);
     }
   }
 
-  // common rules in Edit Room view
+  .page {
+    position:absolute;
+    height:100%;
+    width:100%;
+    transform:scale(.95);
+  }
+
   &.edit-room-view {
-    // margin-top:3em;
-    .tables-container {
-      .table {
-        cursor:pointer;
-        .seat {
-          opacity:.5;
-        }
-      }
-    }
-  }
-
-  &.edit-room { // .outer-page-container.edit-room
-    .tables-container {
-      .table {
-        .table-path {
-          stroke:$light-gray;
-        }
-        &:hover .table-path {
-          stroke:$light-blue;
-        }
-      }
-    }
-  }
-
-  &.edit-table { // .outer-page-container.edit-table
-    .grid-container {
-      z-index:1000;
-      .blip {
-        &.belongs-to-any-table {
-          fill:darken($middle-gray,20%);
-        }
-        &.belongs-to-active-table {
-          fill:$light-blue;
-          transform:scale(2);
-        }
-        &.is-being-replaced {
-          fill:$primary-accent !important;
-          transform:scale(3);
-        }
-      }
-    }
-    .tables-container {
-      .table {
-        .table-path {
-          opacity:.35;
-          stroke:$middle-gray;
-        }
-      }
-      .seat rect {
-        fill:$light-gray;
-      }
-      .is-active {
-        .table-path {
-          opacity:1;
-          stroke:$second-accent;
-        }
-        .seat rect {
-          fill:$middle-gray;
-        }
-      }
-    }
-
-    &.choosing-a-point {
-      .blip {
-        cursor:pointer;
-        &:hover {
-          fill:$dark-gray;
-        }
-      }
-    }
-  } // end .outer-page-container.edit-table
-
-  // common rules across seating students view
-  &.assign-seats-view {
-    .tables-container {
-      .table {
-        .table-path {
-          // stroke:$lighter-gray;
-          stroke:none;
-        }
-      }
-      .seat {
-        cursor:pointer;
-        &:hover {
-          .plus-person {
-            fill:$rose;
-          }
-        }
-      }
+    .seats-container {
+      z-index:100;
+      pointer-events:none;
     }
   }
 
@@ -190,12 +83,31 @@
 
   .front-label {
     position:absolute;
-    bottom:1em;
+    bottom:.35em;
     left:0;
     right:0;
     text-align:center;
     h3 {
       margin-bottom: 0;
+    }
+  }
+
+  .chart-details-container {
+    position:absolute;
+    top:.8em;
+    left:0;
+    right:0;
+    text-align:center;
+    @include ms-1;
+    p {
+      margin-bottom:.15em;
+    }
+    .chart-details {
+      display:flex;
+      justify-content:space-between;
+    }
+    .right {
+      text-align:right;
     }
   }
 

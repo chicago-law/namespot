@@ -1,0 +1,117 @@
+.seats-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  overflow:hidden;
+  border-radius:5px;
+  .seat-container {
+    display:inline-block;
+    position:absolute;
+    text-align:center;
+    &.is-active {
+      .seat {
+        transform:scale(1.25);
+      }
+      rect {
+        fill:$primary-accent;
+      }
+      .plus-person {
+        fill:#fff !important;
+      }
+    }
+  }
+  .seat {
+    position:relative;
+    display:inline-block;
+    width:100%;
+    height:100%;
+    transition:transform 200ms ease-out;
+    &.empty-seat .picture {
+      background:#fff;
+      border:4px solid $light-gray;
+    }
+    &.is-current-student {
+      transform:scale(1.25);
+    }
+  }
+  .picture {
+    display:inline-block;
+    border-radius:5px;
+    background-size:cover;
+    background-position:center;
+    >svg {
+      overflow:visible;
+    }
+    rect {
+      fill:$light-gray;
+    }
+    .plus-person {
+      fill:$dark-gray;
+    }
+  }
+  .name {
+    display:flex;
+    position:absolute;
+    left:0;
+    right:0;
+    justify-content:center;
+    align-items: center;
+    flex-direction:column;
+    line-height:1;
+    padding:.15em;
+    font-size:13.5px;
+    background: #fff;
+  }
+  .seat-container {
+    &.label-below .name {
+      top:100%;
+      transform:translateY(.1em);
+    }
+    &.label-above .name {
+      bottom:100%;
+      transform:translateY(.75em);
+    }
+    &.label-right .name {
+      align-items:flex-start;
+      top:50%;
+      left:100%;
+      transform:translate(.5em, -50%);
+      text-align:left;
+    }
+    &.label-left .name {
+      align-items:flex-end;
+      top:50%;
+      right:100%;
+      transform:translate(-.5em, -50%);
+      text-align:right;
+    }
+  }
+}
+
+.outer-page-container.edit-room-view .seats-container {
+  .seat {
+    opacity:.5;
+  }
+}
+
+.outer-page-container.edit-table .seats-container {
+  .seat rect {
+    fill:$light-gray;
+  }
+}
+
+.outer-page-container.assign-seats-view .seats-container {
+  .seat {
+    cursor:pointer;
+    &:hover {
+      .plus-person {
+        fill:$rose;
+      }
+    }
+  }
+}

@@ -1,0 +1,67 @@
+.tables-container {
+  z-index:100;
+  .table {
+    .table-path {
+      stroke:$off-white;
+      stroke-width:8;
+      stroke-linecap:round;
+      fill:none;
+      transition:stroke 75ms ease-out;
+    }
+    &:hover {
+      .table-path {
+        stroke:$light-blue;
+      }
+    }
+  }
+}
+
+.outer-page-container.edit-room-view {
+  .tables-container {
+    .table {
+      cursor:pointer;
+    }
+  }
+}
+
+.outer-page-container.edit-room { // .outer-page-container.edit-room
+  .tables-container {
+    .table {
+      .table-path {
+        stroke:$light-gray;
+      }
+      &:hover .table-path {
+        stroke:$light-blue;
+      }
+    }
+  }
+}
+
+.outer-page-container.edit-table {
+  .tables-container {
+    .table {
+      .table-path {
+        opacity:.35;
+        stroke:$middle-gray;
+      }
+    }
+    .is-active {
+      .table-path {
+        opacity:1;
+        stroke:$second-accent;
+      }
+    }
+  }
+}
+
+// common rules across seating students view
+.outer-page-container.assign-seats-view {
+  .tables-container {
+    .table {
+      .table-path {
+        // stroke:none;
+        stroke:$off-white;
+      }
+    }
+  }
+}

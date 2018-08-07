@@ -1,4 +1,4 @@
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
 import BanOffering from '../BanOffering'
 
 const mapStateToProps = (state) => {
@@ -11,4 +11,4 @@ const BanOfferingContainer = connect(
   mapStateToProps
 )(BanOffering)
 
-export default BanOfferingContainer;
+export default BanOfferingContainer

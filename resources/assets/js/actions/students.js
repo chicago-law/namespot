@@ -1,8 +1,9 @@
 import { normalize } from 'normalizr'
-import * as schema from './schema';
-import C from '../constants';
-import { rootUrl } from './index';
-import { setLoadingStatus, setCurrentSeatId, requestError } from './app';
+import * as schema from './schema'
+import C from '../constants'
+import helpers from '../bootstrap'
+import { setLoadingStatus, setCurrentSeatId, requestError } from './app'
+import { requestUpdateOffering } from './offerings'
 
 /**
  * STUDENTS
@@ -18,31 +19,55 @@ export function receiveStudents(students) {
 export function fetchStudents(offering_id) {
   return function (dispatch) {
     // set loading status
-    dispatch(setLoadingStatus('students',true));
+    dispatch(setLoadingStatus('students',true))
 
     // make the call
-    return axios.get(`${rootUrl}api/enrollment/${offering_id}`)
+    axios.get(`${helpers.rootUrl}api/enrollment/offering/${offering_id}`)
+      .then(function (response) {
+        // normalize data and load into state
+        const normalizedData = normalize(response.data, schema.studentListSchema)
+        dispatch(receiveStudents(normalizedData.entities.students))
 
-    .then(function (response) {
-      // normalize data and load into state
-      const normalizedData = normalize(response.data, schema.studentListSchema);
-      dispatch(receiveStudents(normalizedData.entities.students))
-
-      // reset the loading status
-      dispatch(setLoadingStatus('students',false));
-    })
-    .catch(response => {
-      dispatch(requestError('fetch-students', response.message));
-      dispatch(setLoadingStatus('students',false));
-    });
+        // reset the loading status
+        dispatch(setLoadingStatus('students',false))
+      })
+      .catch(response => {
+        dispatch(requestError('fetch-students', response.message))
+        dispatch(setLoadingStatus('students',false))
+      })
   }
 }
-// Get students, if need be.
+// Get students by offering, if not already in store
 export function requestStudents(offering_id) {
-  // for now, we won't have any check on whether or not we already have
+  // ok, for now, we won't have any check on whether or not we already have
   // the students loaded. Just get the students for the given offeringID every
   // time. May add one here in the future...
-  return (dispatch) => dispatch(fetchStudents(offering_id));
+  return (dispatch) => dispatch(fetchStudents(offering_id))
+}
+
+// Get ALL students for a given term code. Also returns a count of the offerings
+// from that term as well.
+export function fetchAllStudentsFromTerm(termCode) {
+  return dispatch => {
+
+    // turn on loading for students
+    dispatch(setLoadingStatus('students',true))
+
+    // make the call
+    axios.get(`${helpers.rootUrl}api/enrollment/term/${termCode}`)
+      .then(response => {
+        // normalize data and load into state
+        const normalizedData = normalize(response.data, schema.studentListSchema)
+        dispatch(receiveStudents(normalizedData.entities.students))
+
+        // reset the loading status
+        dispatch(setLoadingStatus('students',false))
+      })
+      .catch(response => {
+        dispatch(requestError('fetch-students', response.message))
+        dispatch(setLoadingStatus('students',false))
+      })
+  }
 }
 
 // seat a student in the store's student entity
@@ -59,19 +84,19 @@ export function assignSeat(offering_id, student_id, seat_id) {
   return (dispatch) => {
 
     // update in the store
-    dispatch(seatStudent(offering_id, student_id, seat_id));
+    dispatch(seatStudent(offering_id, student_id, seat_id))
 
     // clear out current seat
-    dispatch(setCurrentSeatId(null));
+    dispatch(setCurrentSeatId(null))
 
     // also send update to DB
-    axios.post(`${rootUrl}api/student/update/${student_id}`, {
+    axios.post(`${helpers.rootUrl}api/student/update/${student_id}`, {
       offering_id:offering_id,
       assigned_seat:seat_id
     })
     .catch(function(response) {
-      dispatch(requestError('assign-seat',response.message));
-    });
+      dispatch(requestError('assign-seat',response.message))
+    })
   }
 }
 
@@ -84,15 +109,42 @@ export function updateStudent(student_id, attribute, value) {
 }
 // update a student and save it in the DB
 export function updateAndSaveStudent(student_id, attribute, value) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
 
     // update in the store
-    dispatch(updateStudent(student_id, attribute, value));
+    dispatch(updateStudent(student_id, attribute, value))
 
-    // send update to DB
-    axios.post(`${rootUrl}api/student/update/${student_id}`, {
-      [attribute]:value
+    // save to DB. include offering ID in case it's needed,
+    // for example for manually_attached.
+    axios.post(`${helpers.rootUrl}api/student/update/${student_id}`, {
+      [attribute]:value,
+      offering_id: getState().app.currentOffering.id
     })
-    .catch(response => dispatch(requestError('student-update',response.message)));
+    .catch(response => dispatch(requestError('student-update',response.message)))
+  }
+}
+
+export function unenrollStudent(studentId, offeringId) {
+  return (dispatch, getState) => {
+
+    // remove the offering in question from student's list of seats
+    // (affects both store and in DB)
+    const student = getState().entities.students[studentId]
+    const seats = { ...student.seats}
+    delete seats[`offering_${offeringId}`]
+    dispatch(updateAndSaveStudent(studentId, 'seats', seats))
+
+    // remove student from offering's student list
+    // (affects both store and in DB)
+    const offering = getState().entities.offerings[offeringId]
+    const filteredStudents = offering.students.filter(id => id != studentId)
+    dispatch(requestUpdateOffering(offeringId, 'students', filteredStudents))
+
+    // finally, send a request to detach in the DB
+    axios.post(`${helpers.rootUrl}api/student/unenroll`, {
+      student_id: studentId,
+      offering_id: offeringId
+    })
+    .catch(response => dispatch(requestError('unenroll-student',response.message)))
   }
 }

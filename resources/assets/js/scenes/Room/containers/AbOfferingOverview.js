@@ -1,10 +1,19 @@
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import AbOfferingOverview from '../AbOfferingOverview';
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import AbOfferingOverview from '../AbOfferingOverview'
 import { setTask, customizeOfferingRoom, setView, setModal } from '../../../actions'
 
 const mapStateToProps = (state) => {
+
+  const currentStudents = []
+  Object.keys(state.entities.students).forEach(studentId => {
+    if (state.app.currentOffering.students.includes(parseInt(studentId))) {
+      currentStudents.push(state.entities.students[studentId])
+    }
+  })
+
   return {
+    currentStudents,
     currentRoom:state.app.currentRoom,
     currentOffering:state.app.currentOffering,
     task:state.app.task,
@@ -22,10 +31,10 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(customizeOfferingRoom(offering_id))
     },
     setView: (view) => {
-      dispatch(setView(view));
+      dispatch(setView(view))
     },
     setModal: (modal, status) => {
-      dispatch(setModal(modal, status));
+      dispatch(setModal(modal, status))
     }
   }
 }
@@ -35,4 +44,4 @@ const AbOfferingOverviewContainer = withRouter(connect(
   mapDispatchToProps
 )(AbOfferingOverview))
 
-export default AbOfferingOverviewContainer;
+export default AbOfferingOverviewContainer

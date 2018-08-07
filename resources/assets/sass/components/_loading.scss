@@ -4,9 +4,9 @@
   justify-content:center;
   color:$middle-gray;
   i {
-        position:absolute;
-        @include ms4;
-      }
+    position:absolute;
+    @include ms4;
+  }
 }
 
 .spin-fast {

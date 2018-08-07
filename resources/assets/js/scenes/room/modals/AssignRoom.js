@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import classNames from 'classnames/bind';
+import React, { Component } from 'react'
+import classNames from 'classnames/bind'
 
 export default class AssignRoom extends Component {
   constructor(props) {
@@ -17,16 +17,16 @@ export default class AssignRoom extends Component {
 
   handleSaveRoomButton() {
     if (this.state.selectedRoomId != 0) {
-      this.props.requestUpdateOffering(this.props.currentOffering.id, 'room_id', this.state.selectedRoomId);
-      this.props.setTask('offering-overview');
-      this.props.setView('assign-seats');
-      this.props.history.push(`/offering/${this.props.currentOffering.id}`);
-      this.props.setModal('assign-room', false);
+      this.props.requestUpdateOffering(this.props.currentOffering.id, 'room_id', this.state.selectedRoomId)
+      this.props.setTask('offering-overview')
+      this.props.setView('assign-seats')
+      this.props.history.push(`/offering/${this.props.currentOffering.id}`)
+      this.props.setModal('assign-room', false)
     }
   }
 
   componentDidMount() {
-    this.props.requestRooms();
+    this.props.requestRooms()
   }
 
   render() {
@@ -34,17 +34,17 @@ export default class AssignRoom extends Component {
     const modalClasses = classNames({
       'modal-assign-room': true,
       'is-loading': this.props.loading.rooms
-    });
+    })
 
-    let aisRoomSuggestion = '';
+    let aisRoomSuggestion = ''
     if (this.props.db_match_name != null) {
-      aisRoomSuggestion = <p>The AIS database lists <strong>"{this.props.db_match_name}"</strong>, but you can choose something else if you know otherwise.</p>;
+      aisRoomSuggestion = <p>The AIS database lists <strong>"{this.props.db_match_name}"</strong>, but you can choose something else if you know otherwise.</p>
     } else {
-      aisRoomSuggestion = <p>Because the university database has no room assignment listed for this class, you'll need to choose one now in order to proceed.</p>;
+      aisRoomSuggestion = <p>Because the university database has no room assignment listed for this class, you'll need to choose one now in order to proceed.</p>
     }
 
     // filter and sort the list of rooms in the dropdown
-    const filteredRooms = Object.keys(this.props.rooms).filter(roomId => this.props.rooms[roomId].type === 'template').sort((idA, idB) => this.props.rooms[idA].name < this.props.rooms[idB].name ? -1 : 1);
+    const filteredRooms = Object.keys(this.props.rooms).filter(roomId => this.props.rooms[roomId].type === 'template').sort((idA, idB) => this.props.rooms[idA].name < this.props.rooms[idB].name ? -1 : 1)
 
     return (
       <div className={modalClasses}>

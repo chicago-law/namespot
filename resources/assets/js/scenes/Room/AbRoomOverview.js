@@ -1,43 +1,41 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Route } from 'react-router-dom';
-import EditableText from '../../global/containers/EditableText';
-// import { rootUrl } from '../../actions';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { Route } from 'react-router-dom'
+import EditableText from '../../global/containers/EditableText'
+import helpers from '../../bootstrap'
 
 export default class AbRoomOverview extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   handleSeatSizeChange(e) {
-    this.props.requestRoomUpdate(this.props.currentRoom.id, 'seat_size', e.target.value);
+    this.props.requestRoomUpdate(this.props.currentRoom.id, 'seat_size', e.target.value)
   }
 
   handleAddNewClick() {
-    this.props.newTable();
-    this.props.setTask('edit-table');
-    this.props.setPointSelection('start');
+    this.props.newTable()
+    this.props.setTask('edit-table')
+    this.props.setPointSelection('start')
   }
 
   handleDeleteClick() {
-    this.props.setTask('delete-table');
+    this.props.setTask('delete-table')
   }
 
   handleRoomChangeClick() {
-    this.props.setModal('change-room',true);
+    this.props.setModal('change-room',true)
   }
 
   handleContinueSeatingClick() {
-    this.props.history.push(`/offering/${this.props.currentOffering.id}`);
-    this.props.setTask('offering-overview');
-    this.props.setView('assign-seats');
+    this.props.history.push(`/offering/${this.props.currentOffering.id}`)
+    this.props.setTask('offering-overview')
+    this.props.setView('assign-seats')
   }
 
   handleSaveRoomName(name, type) {
-    this.props.requestRoomUpdate(this.props.currentRoom.id, type, name);
+    this.props.requestRoomUpdate(this.props.currentRoom.id, type, name)
   }
 
   render() {
+    const { currentRoom, seatCount } = this.props
+
     return (
       <div className='action-bar action-bar-room-overview'>
 
@@ -45,23 +43,27 @@ export default class AbRoomOverview extends Component {
           <div className="flex-container pull-top">
             <h6>Name</h6>
             <EditableText
-              text={this.props.currentRoom.name ? this.props.currentRoom.name : 'Click to add'}
+              text={currentRoom.name ? currentRoom.name : 'Click to add'}
               save={(name) => this.handleSaveRoomName(name, 'name')}
               validator='unique-room-name'
             />
-            { this.props.currentRoom.type === 'template' ? (
+            { currentRoom.type === 'template' ? (
               <div>
                 <h6>AIS Name</h6>
                 <EditableText
-                  text={this.props.currentRoom.db_match_name ? this.props.currentRoom.db_match_name : 'Click to add'}
+                  text={currentRoom.db_match_name ? currentRoom.db_match_name : 'Click to add'}
                   save={(name) => this.handleSaveRoomName(name, 'db_match_name')}
                   validator='unique-room-db-name'
                 />
               </div>
             ) : false }
-            {/* <h6>Total Seats in Room</h6>
-            <h4>{this.props.seatCount}</h4> */}
           </div>
+
+          <div className="flex-container pull-top">
+            <h6>Total Seats in Room</h6>
+            <p>{seatCount}</p>
+          </div>
+
         </div>
 
         <div className="controls">
@@ -69,17 +71,17 @@ export default class AbRoomOverview extends Component {
           <div className="flex-container seat-size">
             <div className='seat-size-slider'>
               <div className='smaller'></div>
-              <input type="range" min="15" max="45" step="3" value={this.props.currentRoom.seat_size || 30} onChange={(e) => this.handleSeatSizeChange(e)} />
+              <input type="range" min="30" max="115" step="3" value={currentRoom.seat_size || 75} onChange={(e) => this.handleSeatSizeChange(e)} />
               <div className="larger"></div>
             </div>
-            <p><small>Seat Size</small></p>
+            <p><small>Adjust Seat Size</small></p>
           </div>
 
           <div className="flex-container">
             <a href="javascript:void(0)" onClick={() => this.handleAddNewClick()}>
               <button className='big-button'>
                 <i className="far fa-plus-circle"></i>
-                <p>Add New<br />Section</p>
+                <p>Add<br />Section</p>
               </button>
             </a>
           </div>
@@ -87,8 +89,17 @@ export default class AbRoomOverview extends Component {
           <div className="flex-container">
             <a href="javascript:void(0)" onClick={ () => this.handleDeleteClick() }>
               <button className='big-button'>
-                <i className="far fa-trash-alt"></i>
-                <p>Delete<br />Section</p>
+                <i className="far fa-minus-circle"></i>
+                <p>Remove<br />Section</p>
+              </button>
+            </a>
+          </div>
+
+          <div className="flex-container">
+            <a href={`${helpers.rootUrl}print/seating-chart/room/${currentRoom.id}`} target='_blank' rel="noopener noreferrer" >
+              <button className='big-button'>
+                <i className="far fa-print"></i>
+                <p>Print<br />Blank Chart</p>
               </button>
             </a>
           </div>
@@ -118,9 +129,16 @@ export default class AbRoomOverview extends Component {
 }
 
 AbRoomOverview.propTypes = {
+  currentOffering: PropTypes.object.isRequired,
   currentRoom:PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
   newTable:PropTypes.func.isRequired,
-  setTask:PropTypes.func.isRequired,
+  removeError: PropTypes.func.isRequired,
+  requestRoomUpdate: PropTypes.func.isRequired,
+  rooms: PropTypes.object.isRequired,
+  seatCount: PropTypes.number.isRequired,
+  setModal: PropTypes.func.isRequired,
   setPointSelection:PropTypes.func.isRequired,
-  requestRoomUpdate:PropTypes.func.isRequired
+  setTask:PropTypes.func.isRequired,
+  setView:PropTypes.func.isRequired,
 }

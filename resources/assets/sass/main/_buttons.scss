@@ -1,4 +1,5 @@
 button {
+  position:relative;
   background:none;
   width:auto;
   padding:0;
@@ -9,9 +10,16 @@ button {
   color:$dark-gray;
   font-weight:bold;
   @include ms0;
+  @media (max-width:$laptop) {
+    padding:.65em 1em;
+  }
   &:hover {
     background: none;
     color:$primary-accent;
+  }
+  i {
+    // is this necessary??
+    // margin-right: .5em;
   }
 }
 
@@ -29,5 +37,76 @@ button {
 .btn-clear {
   &:hover {
     background: $off-white;
+  }
+}
+
+.big-button {
+  padding:1em;
+  i {
+    @include ms2;
+    color:lighten($dark-gray, 20%);
+    margin:0;
+  }
+  p {
+    @include ms-1;
+    margin:.75em 0 0 0;
+    color:$dark-gray;
+    font-weight:normal;
+  }
+  &:hover {
+    background: $off-white;
+  }
+  @media (max-width:$laptop) {
+    padding:.5em;
+    p {
+      // @include ms-2;
+    }
+  }
+}
+.save-changes-button {
+  display:inline-block;
+  position:relative;
+  .saved-message {
+    position:absolute;
+    right:100%;
+    top:50%;
+    transform:translate(-1em, -50%);
+    text-transform:uppercase;
+    font-weight:bold;
+    color:$middle-gray;
+    @include ms-1;
+    transition:opacity 300ms ease-out, transform 300ms ease-out;
+    &.saved-enter {
+      opacity:.01;
+      transform:translate(-1em, 0);
+    }
+    &.saved-enter-active, &.saved-enter-done {
+      opacity:1;
+      transform:translate(-1em, -50%);
+    }
+    &.saved-exit {
+      opacity:1;
+    }
+    &.saved-exit-active {
+      opacity:.01
+    }
+  }
+  .btn-accent {
+    width:117px;
+    height:36px;
+  }
+}
+
+.select .save-changes-button {
+  .loading {
+    display:flex;
+    position:relative;
+    top:0;
+    justify-content:center;
+    align-items:center;
+    color:#fff;
+    i {
+      font-size:15px;
+    }
   }
 }

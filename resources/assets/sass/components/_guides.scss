@@ -1,0 +1,13 @@
+  .guides-container {
+    .guide {
+      position: relative;
+      stroke:#ccc;
+      stroke-width:1px;
+      &.vert {
+        transform:translateY(-13px);
+      }
+      &.horiz {
+        transform:translateX(-13px);
+      }
+    }
+  }

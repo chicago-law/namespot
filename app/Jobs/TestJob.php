@@ -7,13 +7,15 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Student;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\JobResults;
 
 class TestJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    // protected $randomId;
+    // protected $foo;
+    // protected $bar;
 
     /**
      * Create a new job instance.
@@ -22,7 +24,8 @@ class TestJob implements ShouldQueue
      */
     public function __construct()
     {
-        //
+        // $this->foo = $foo;
+        // $this->bar = $bar;
     }
 
     /**
@@ -32,9 +35,8 @@ class TestJob implements ShouldQueue
      */
     public function handle()
     {
-        $guy = Student::find(rand(0, 30));
-        $guy->first_name = "Bob";
-        $guy->last_name = "Bob";
-        $guy->save();
+        $results = "The test job went down.";
+        Mail::to(config('app.admin_email'))->send(new JobResults($results));
     }
+
 }

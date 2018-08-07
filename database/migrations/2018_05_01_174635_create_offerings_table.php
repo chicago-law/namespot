@@ -47,6 +47,13 @@ class CreateOfferingsTable extends Migration
             $table->string('enrl_cap')->nullable();
             $table->string('enrl_tot')->nullable();
 
+            // seating chart preferences
+            $table->string('paper_size')->nullable();
+            $table->int('flipped')->nullable();
+            $table->string('names_to_show')->nullable();
+            $table->int('use_nicknames')->nullable();
+            $table->int('font_size')->nullable();
+
             // timestamps
             $table->timestamps();
         });

@@ -19,21 +19,8 @@
   }
   p {
     margin-bottom:0;
-  }
-  .big-button {
-    padding:1em;
-    i {
-      @include ms2;
-      color:lighten($dark-gray, 20%);
-    }
-    p {
-      @include ms-1;
-      margin:.75em 0 0 0;
-      color:$dark-gray;
-      font-weight:normal;
-    }
-    &:hover {
-      background: $off-white;
+    @media (max-width:$tablet) {
+      @include ms-2;
     }
   }
   .flex-container {
@@ -63,6 +50,10 @@
 
 .action-bar-room-overview {
   .descriptions {
+    display:flex;
+    .flex-container {
+      margin-right: 1em;
+    }
     .editable-text-container {
       margin-bottom: 1em;
     }
@@ -149,6 +140,16 @@
     p {
       margin-bottom: 0;
       @include ms-1;
+      line-height:1.15;
+    }
+  }
+  .label-position {
+    img {
+      width:5.75em;
+    }
+    p {
+      margin-top: 0;
+      text-transform:capitalize;
     }
   }
   .save-controls {
@@ -156,6 +157,7 @@
     align-items:center;
     margin-left:auto;
     .cancel-changes {
+      margin-right: 2em;
       @include ms-1;
       i {
         @include ms0;
@@ -168,8 +170,9 @@
 }
 
 .action-bar-delete-table {
-  h3 {
+  p {
     margin-bottom: 0;
+    font-style:italic;
   }
   a {
     button {
@@ -186,9 +189,20 @@
   justify-content: space-between;
   .center {
     flex:1 0 auto;
+    @media(max-width:$tablet) {
+      flex:auto;
+    }
   }
   .left, .right {
     flex:1 1 25%;
+    @media(max-width:$tablet) {
+      flex:auto;
+    }
+  }
+  .left {
+    @media(max-width:$tablet) {
+      display:none;
+    }
   }
   .right {
     text-align:right;
@@ -197,6 +211,9 @@
     display: flex;
     align-items:center;
     justify-content:center;
+    @media(max-width:$tablet) {
+      justify-content:flex-start;
+    }
     i {
       @include ms2;
       margin-right:.5em;
@@ -266,6 +283,7 @@
     ul {
       display:flex;
       margin:0;
+      height: 100%;
       li {
         display:inline-flex;
         flex-direction:column;
@@ -306,16 +324,13 @@
 
 .action-bar-student-details {
   justify-content:flex-start;
-  p {
-    position:relative;
-    font-weight:bold;
-  }
   .portrait {
     height:100%;
     width:8em;
     margin-right:3em;
-    background-size:cover;
-    background-position:center center;
+    background-size:contain;
+    background-position:left;
+    background-repeat:no-repeat;
     border-radius:4px;
   }
   .flex-column {
@@ -328,9 +343,9 @@
     >div {
       margin-bottom: 1em;
     }
-  }
-
-  .remove-from-seat {
-    margin-left:auto;
+    p {
+      position:relative;
+      font-weight:bold;
+    }
   }
 }

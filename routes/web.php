@@ -11,9 +11,18 @@
 |
 */
 
-// specific routes to the printable deliveries
-// Route::get('/blank-chart', 'HomeController@blankChart');
+// route to test an email template
+Route::get('/email/jobexception', function() {
+  $job_name = 'yeah';
+  $api_request = 'this is the api request';
+  $api_response = 'this is the response';
 
-// all others go to react
+  return new App\Mail\JobResults('yeaaah');
+});
+
+// route for all printable deliveries
+Route::get('/print/{path?}', 'HomeController@print')->where('path', '.*');
+
+// all others go to regular react page
 Route::get('/{path?}', 'HomeController@react')->where('path', '.*');
 

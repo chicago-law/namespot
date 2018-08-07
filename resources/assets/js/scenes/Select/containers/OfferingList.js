@@ -1,11 +1,14 @@
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
 import OfferingList from '../OfferingList'
-import { setView, requestOfferings } from '../../../actions';
+import helpers from '../../../bootstrap'
+import { setView, requestOfferings, saveSessionTerm } from '../../../actions'
 
 const mapStateToProps = (state) => {
   return {
     offerings:state.entities.offerings,
     loading:state.app.loading,
+    defaultTerm: localStorage.getItem('selectedTerm') || helpers.termCodesFromYear(helpers.academicYear)[0],
+    years: state.app.years
   }
 }
 
@@ -16,6 +19,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     requestOfferings: termCode => {
       dispatch(requestOfferings(termCode))
+    },
+    saveSessionTerm: termCode => {
+      dispatch(saveSessionTerm(termCode))
     }
   }
 }
@@ -25,4 +31,4 @@ const OfferingListContainer = connect(
   mapDispatchToProps
 )(OfferingList)
 
-export default OfferingListContainer;
+export default OfferingListContainer

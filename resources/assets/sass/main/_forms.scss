@@ -8,6 +8,13 @@
     transform:translateY(-50%);
     color:$middle-gray;
   }
+  &.input-container-enter {
+    transform:translateX(1em);
+  }
+  &.input-container-enter-active, .input-container-enter-done {
+    transform:translateX(0);
+    transition:transform 300ms ease-out;
+  }
 }
 
 input[type='text'], input[type='number'] {
@@ -28,4 +35,30 @@ input[type='text'], input[type='number'] {
 
 input[type='radio'] {
   margin:0 .5em 1em .35em;
+}
+
+input[type='checkbox'] {
+  margin-right: 0.5em;
+}
+
+form {
+  .form-question {
+    padding:0 2em;
+    margin-bottom: 2em;
+    .question-name {
+      margin:0 0.5em .5em 0;
+      font-weight:bold;
+      i {
+        margin-right: 0.5em;
+      }
+    }
+  }
+  .controls {
+    margin-top: 2em;
+    border-top: 1px solid $off-white;
+    text-align:right;
+    &.with-padding {
+      padding:2em;
+    }
+  }
 }

@@ -1,22 +1,18 @@
 .seating-chart {
-  // height:8in;
-  // width:  40em;
-  background: #fff;
-  border:1px solid $light-gray;
+  display:flex;
   .outer-page-container {
-    // background: #fff;
-    // width:800px;
-    .inner-page-container {
-      >svg {
-        top:0;
-        left:0;
-        .table {
-          .table-path {
-            stroke:none;
-          }
-        }
-      }
-    }
+    // once we remove .show-loading from .seating-chart, hide this so user
+    // just sees a blank screen (and will close the tab)
+    display:none;
+    flex:0 0 17in !important;
+    margin-top:0;
   }
-
+  canvas {
+    display:none;
+    position:absolute;
+    top:0;
+    right:0;
+    left:0;
+    bottom:0;
+  }
 }

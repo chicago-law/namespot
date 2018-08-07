@@ -55,10 +55,23 @@ $primary-font: "Lato", "Helvetica", sans-serif;
   font-size:3.052em;
 }
 
+
 /* ----------- */
 /* BREAKPOINTS */
 /* ----------- */
+
 $tiny:400px;
 $mobile:767px;
-$tablet:900px;
-$laptop:1400px;
+$tablet:1000px;
+$laptop:1200px;
+$desktop:1448px;
+
+
+/* -------------------------- */
+/* WIDTHS FOR THE "PAGE" AREA */
+/* -------------------------- */
+
+$small-page:400px;
+$medium-page:800px;
+$large-page: 900px;
+$x-large-page:1100px;

@@ -1,5 +1,6 @@
-import { combineReducers } from 'redux';
-import C from '../constants';
+import { combineReducers } from 'redux'
+import C from '../constants'
+import helpers from '../bootstrap'
 
 /**
  * App / view
@@ -24,11 +25,11 @@ const currentRoomDefault = {
 const currentRoom = (state = currentRoomDefault, action) => {
   switch (action.type) {
     case C.SET_CURRENT_ROOM:
-      return action.room;
+      return action.room
     case C.RESET_CURRENT_ROOM:
-      return currentRoomDefault;
+      return currentRoomDefault
     default:
-      return state;
+      return state
   }
 }
 
@@ -56,7 +57,6 @@ const currentStudentId = (state = null, action) => {
   }
 }
 
-
 /**
  * app / currentOffering
  */
@@ -72,11 +72,11 @@ const currentOfferingDefault = {
 const currentOffering = (state = currentOfferingDefault, action) => {
   switch (action.type) {
     case C.SET_CURRENT_OFFERING:
-      return action.offering;
+      return action.offering
     case C.RESET_CURRENT_OFFERING:
-      return currentOfferingDefault;
+      return currentOfferingDefault
     default:
-      return state;
+      return state
   }
 }
 
@@ -89,27 +89,29 @@ const task = (state = '', action) => {
     case C.SET_TASK:
       return action.task
     default:
-      return state;
+      return state
   }
 }
 
 /**
  * App / tempTable
  */
-const tempTable = (state = {}, action) => {
+const tempTable = (state = { }, action) => {
   switch (action.type) {
     case C.NEW_TABLE:
       return {
         id:'new',
         room_id:null,
         seatCount:0,
-        coords:{}
+        coords:{},
+        labelPosition:'below'
       }
     case C.SELECT_TABLE:
       return {
         id:action.tableID,
         room_id:action.roomID,
         seatCount:action.seatCount,
+        labelPosition:action.labelPosition,
         coords:{
           'start':action.coords.start,
           'end':action.coords.end,
@@ -121,6 +123,11 @@ const tempTable = (state = {}, action) => {
         ...state,
         seatCount: action.seatCount
       }
+    case C.SET_LABEL_POSITION:
+      return {
+        ...state,
+        labelPosition: action.labelPosition
+      }
     case C.SAVE_POINT_TO_TEMP_TABLE:
       return {
         ...state,
@@ -130,7 +137,7 @@ const tempTable = (state = {}, action) => {
         }
       }
     case C.CLEAR_TEMP_TABLE:
-      return {};
+      return {}
     default:
       return state
   }
@@ -144,7 +151,47 @@ const pointSelection = (state = null, action) => {
     case C.SET_POINT_SELECTION:
       return action.pointType
     default:
-      return state;
+      return state
+  }
+}
+
+/**
+ * App / Years
+ * The general idea that is that we hard code in the first year that the system
+ * is being used. Then we get the current academic year from a DB setting, updatable
+ * by site admins. We'll also have a "future" value that decides how far ahead
+ * to show from the current academic year.
+ *
+ * So whenever you need to list out all the years we (might) have data for, you start
+ * from startYear, go through academicYear, plus whatever yearSpread is.
+ *
+ * App was launched in 2018 for UChicago Law, so it's set to 2018 here.
+ * Change as needed.
+ */
+
+// App / years / initial
+const initialYear = (state = 2017, action) => {
+  switch(action.type) {
+    default:
+      return state
+  }
+}
+// App / years / currentAcademic
+// Always the FIRST of the two years. So 2018-2019 would be stored as 2018.
+// Gets its default from helpers, which gets it from #root div
+const academicYear = (state = helpers.academicYear, action) => {
+  switch(action.type) {
+    case C.SET_ACADEMIC_YEAR:
+      return action.year
+    default:
+      return state
+  }
+}
+// App / years / future
+const futureYears = (state = 1, action) => {
+  switch(action.type) {
+    default:
+      return state
   }
 }
 
@@ -159,7 +206,7 @@ const modals = (state = { }, action) => {
         [action.modal]:action.status
       }
     case C.CLEAR_MODALS:
-      return { };
+      return { }
     default:
       return state
   }
@@ -181,7 +228,7 @@ const loading = (state = {
         [action.loadingType]: action.status
       }
     default:
-      return state;
+      return state
   }
 }
 
@@ -199,30 +246,22 @@ const errors = ( state = [], action) => {
         }
       ]
     case C.REMOVE_ERROR:
-      return state.filter(error => error.name != action.name);
+      return state.filter(error => error.name != action.name)
     default:
-      return state;
+      return state
   }
 }
 
 /**
  * entities / offerings
  */
-const offerings = (state = {}, action) => {
+const offerings = (state = { }, action) => {
   switch (action.type) {
     case C.RECEIVE_OFFERINGS:
       return {
         ...state,
         ...action.offerings
       }
-    // case C.UPDATE_OFFERING_ROOM:
-    //   return {
-    //     ...state,
-    //     [action.offering_id]: {
-    //       ...state[action.offering_id],
-    //       'room_id':action.room_id
-    //     }
-    //   }
     case C.UPDATE_OFFERING:
       return {
         ...state,
@@ -232,14 +271,14 @@ const offerings = (state = {}, action) => {
         }
       }
     default:
-      return state;
+      return state
   }
 }
 
 /**
  * entities / students
  */
-const students = (state = {}, action) => {
+const students = (state = { }, action) => {
   switch (action.type) {
     case C.RECEIVE_STUDENTS:
       return {
@@ -266,14 +305,14 @@ const students = (state = {}, action) => {
         }
       }
     default:
-      return state;
+      return state
   }
 }
 
 /**
  * entities / rooms
  */
-const rooms = (state = {}, action) => {
+const rooms = (state = { }, action) => {
   switch (action.type) {
     case C.RECEIVE_ROOMS:
       return {
@@ -289,22 +328,61 @@ const rooms = (state = {}, action) => {
         }
       }
     default:
-      return state;
+      return state
   }
 }
 
 /**
  * entities / tables
  */
-const tables = (state = {}, action) => {
+const tables = (state = { }, action) => {
   switch (action.type) {
     case C.RECEIVE_TABLES:
-      return action.tables;
+      return action.tables
     case C.REMOVE_TABLE:
-      delete state[action.tableID];
-      return state;
+      delete state[action.tableID]
+      return state
     default:
-      return state;
+      return state
+  }
+}
+
+/**
+ * entities / seats
+ */
+const seats = (state = { }, action) => {
+  switch (action.type) {
+    case C.RECEIVE_SEATS:
+      // loop through the seats in the store for the incoming table
+      // if the action's seat batch does not include this seat from the store, delete it
+      // once we've cleared out the old seats, then set receive seats into store
+      Object.keys(state).filter(seatId => state[seatId].table_id === action.tableId).forEach(seatId => {
+        !Object.keys(action.seats).includes(seatId) ? delete state[seatId] : false
+      })
+      return {
+        ...state,
+        ...action.seats
+      }
+    case C.DELETE_SEATS:
+      // we want to remove all the seats in state that have the provided table id
+      Object.keys(state).forEach(seatId => {
+        state[seatId].table_id === action.tableId ? delete state[seatId] : false
+      })
+      return state
+    default:
+      return state
+  }
+}
+
+/**
+ * storage
+ */
+const selectedTerm = (state = '', action) => {
+  switch (action.type) {
+    case C.SET_SESSION_TERM:
+      return action.termCode
+    default:
+      return state
   }
 }
 
@@ -318,16 +396,24 @@ const rootReducer = combineReducers({
     currentStudentId,
     tempTable,
     pointSelection,
+    years: combineReducers({
+      initialYear,
+      academicYear,
+      futureYears
+    }),
     modals,
     loading,
     errors
-    // flipPerspective,
   }),
   entities: combineReducers({
     students,
     offerings,
     rooms,
-    tables
+    tables,
+    seats,
+  }),
+  storage: combineReducers({
+    selectedTerm
   })
 })
 

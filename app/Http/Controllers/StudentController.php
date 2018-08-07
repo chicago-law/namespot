@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Student;
+use App\Offering;
 use App\Http\Resources\Student as StudentResource;
 
 class StudentController extends Controller
@@ -26,6 +27,9 @@ class StudentController extends Controller
                 case 'assigned_seat':
                     $student->offerings()->updateExistingPivot($request->input('offering_id'),['assigned_seat' => $request->input('assigned_seat')]);
                     break;
+                case 'manually_attached':
+                    $student->offerings()->sync([ $request->input('offering_id') => ['manually_attached' => true] ]);
+                    break;
             }
         endforeach;
 
@@ -38,7 +42,12 @@ class StudentController extends Controller
     {
         $s = $request->input('s');
 
-        $results = Student::search($s)->get();
+        // $results = Student::search($s)->get();
+        $results = Student::where('full_name', "LIKE", "%$s%")
+            ->orWhere('short_full_name', "LIKE", "%$s%")
+            ->orWhere('nickname', "LIKE", "%$s%")
+            ->orWhere('cnet_id', "LIKE", "%$s%")
+            ->get();
 
         // if a limit is supplied in parameters, take that many, otherwise just
         // take them all
@@ -50,5 +59,27 @@ class StudentController extends Controller
         ];
 
         return response()->json($response, 200);
+    }
+
+    public function unenroll(Request $request)
+    {
+        $student = Student::findOrFail($request->input('student_id'));
+        $student->offerings()->detach($request->input('offering_id'));
+        return response()->json('success',200);
+    }
+
+    public function term($term_code, Request $request)
+    {
+        $students_array = [];
+        $offerings = Offering::where('term_code', $term_code)->get();
+        foreach ($offerings as $offering):
+            foreach ($offering->students as $student):
+                if (!array_key_exists($student->id, $students_array)):
+                    $students_array[] = new StudentResource($student);
+                endif;
+            endforeach;
+        endforeach;
+
+        return response()->json($students_array);
     }
 }

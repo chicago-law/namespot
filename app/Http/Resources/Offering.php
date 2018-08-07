@@ -40,7 +40,6 @@ class Offering extends JsonResource
         return [
             'id' => $this->id,
             'room_id' => $this->room_id,
-            'ais_room' => $this->ais_room,
             'long_title' => $this->long_title,
             'catalog_nbr' => $this->catalog_nbr,
             'section' => $this->section,

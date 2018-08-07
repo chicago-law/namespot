@@ -1,34 +1,33 @@
-import React, { Component } from 'react'
-import { Switch, Route } from 'react-router-dom';
+import React from 'react'
+import { Switch, Route } from 'react-router-dom'
 import Header from './Header'
 import Main from './containers/Main'
-import Modals from './containers/Modals';
-import Errors from './containers/Errors';
-import SeatingChart from '../scenes/printables/containers/SeatingChart';
+import Modals from './containers/Modals'
+import Errors from './containers/Errors'
+import SeatingChart from '../scenes/printables/containers/SeatingChart'
+import FlashCardsDeck from '../scenes/printables/containers/FlashCardsDeck'
 
-const App = () => {
+const App = () => (
+  <Switch>
 
-  return (
-    <Switch>
+    {/* Print these printables */}
+    <Route path='/print/seating-chart/room/:roomid/offering/:offeringid' component={SeatingChart}/>
+    <Route path='/print/seating-chart/room/:roomid/' component={SeatingChart}/>
+    <Route path='/print/flash-cards/term/:termCode/' component={FlashCardsDeck}/>
+    <Route path='/print/flash-cards/offering/:offeringid' component={FlashCardsDeck}/>
+    {/* <Route path='/print/name-tents/offering/:offeringid' component={NameTents}/> */}
 
-      {/* Print these printables */}
-      <Route path='/print/seating-chart/:roomid/:offeringid?' component={SeatingChart}/>
-      {/* <Route path='/print/name-tents/offering/:offeringid' component={NameTents}/> */}
-      {/* <Route path='/print/flash-cards/offering/:offeringid' component={FlashCards}/> */}
-      {/* <Route path='/print/flash-cards/all-students' component={FlashCards}/> */}
+    {/* Or render the actual app */}
+    <Route component={() =>
+      <div className='app-container'>
+        <Header />
+        <Main />
+        <Modals />
+        <Errors />
+      </div>
+    }/>
 
-      {/* Or render the actual app */}
-      <Route component={() =>
-        <div className='app-container'>
-          <Header />
-          <Main />
-          <Modals />
-          <Errors />
-        </div>
-      }/>
-
-    </Switch>
-  )
-}
+  </Switch>
+)
 
 export default App
