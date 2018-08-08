@@ -115,7 +115,8 @@ export default class Page extends Component {
       'find-student':this.props.task === 'find-student',
       'student-details':this.props.task === 'student-details',
       'choosing-a-point':this.props.pointSelection,
-      'is-loading':this.props.loading.rooms || this.props.loading.tables || this.props.loading.offerings || this.props.loading.students
+      'is-loading':this.props.loading.rooms || this.props.loading.tables || this.props.loading.offerings || this.props.loading.students,
+      'flip-perspective': this.props.currentOffering.flipped
     })
 
     const innerPageContainerClasses = classNames({

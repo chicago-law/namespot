@@ -115,3 +115,10 @@
     }
   }
 }
+
+.outer-page-container.flip-perspective .seat-container .seat {
+  transform:rotateX(180deg);
+}
+.outer-page-container.flip-perspective .seat-container.is-active .seat {
+  transform:scale(1.25) rotateX(180deg);
+}
