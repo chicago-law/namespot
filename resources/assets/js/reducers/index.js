@@ -67,7 +67,11 @@ const currentOfferingDefault = {
   name: null,
   room_id: null,
   term_code:null,
-  students: []
+  students: [],
+  pageSize: 'tabloid',
+  flipped: false,
+  namesToShow: 'first_and_last',
+  useNicknames: true
 }
 const currentOffering = (state = currentOfferingDefault, action) => {
   switch (action.type) {

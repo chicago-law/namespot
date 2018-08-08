@@ -29,9 +29,13 @@
   .inner-page-container {
     display: block;
     position:relative;
-    padding-bottom:64.7%; // maintain aspect ratio of 11 x 17 tabloid paper
-    // padding-bottom:77.3%; // maintain aspect ratio of 8.5 x 11 letter paper
     transition:opacity 150ms ease-out;
+    &.tabloid {
+      padding-bottom:64.7%; // maintain aspect ratio of 11 x 17 tabloid paper
+    }
+    &.letter {
+      padding-bottom:77.3%; // maintain aspect ratio of 8.5 x 11 letter paper
+    }
     .tables-container, .seats-container, .grid-container, .guides-container {
       position:absolute;
       right:0;

@@ -14,7 +14,7 @@ import { setLoadingStatus, requestError, findAndSetCurrentOffering } from './app
 export function receiveOfferings(offerings) {
   return {
     type: C.RECEIVE_OFFERINGS,
-    offerings: offerings
+    offerings
   }
 }
 // Fetch all offerings for a given term code
@@ -26,7 +26,28 @@ export function fetchOfferings(termCode) {
     axios.get(`${helpers.rootUrl}api/offerings/${termCode}`)
     .then(response => {
       const normalizedData = response.data.length ? normalize(response.data, schema.offeringListSchema) : null
-      normalizedData != null ? dispatch(receiveOfferings(normalizedData.entities.offerings)) : false
+      // convert case from snake_case (DB, PHP) to camelCase for JS
+      if (normalizedData != null) {
+        const offerings = normalizedData.entities.offerings
+        Object.keys(offerings).forEach(offeringId => {
+          offerings[offeringId] = {
+            id: offerings[offeringId].id,
+            room_id: offerings[offeringId].room_id,
+            long_title: offerings[offeringId].long_title,
+            catalog_nbr: offerings[offeringId].catalog_nbr,
+            section: offerings[offeringId].section,
+            term_code: offerings[offeringId].term_code,
+            instructors: offerings[offeringId].instructors,
+            students: offerings[offeringId].students,
+            paperSize: offerings[offeringId].paper_size,
+            fontSize: offerings[offeringId].font_size,
+            flipped: offerings[offeringId].flipped,
+            namesToShow: offerings[offeringId].names_to_show,
+            useNicknames: offerings[offeringId].use_nicknames,
+          }
+        })
+        dispatch(receiveOfferings(offerings))
+      }
       dispatch(setLoadingStatus('offerings',false))
     })
     .catch(response => {
@@ -64,7 +85,19 @@ export function requestOffering(offering_id) {
       .then(response => {
         const offeringObj = {
           [response.data.id]: {
-            ...response.data
+            id: response.data.id,
+            room_id: response.data.room_id,
+            long_title: response.data.long_title,
+            catalog_nbr: response.data.catalog_nbr,
+            section: response.data.section,
+            term_code: response.data.term_code,
+            instructors: response.data.instructors,
+            students: response.data.students,
+            paperSize: response.data.paper_size,
+            fontSize: response.data.font_size,
+            flipped: response.data.flipped,
+            namesToShow: response.data.names_to_show,
+            useNicknames: response.data.use_nicknames,
           }
         }
         dispatch(receiveOfferings(offeringObj))
@@ -86,21 +119,19 @@ export function updateOffering(offering_id, attribute, value) {
 // request update to an offering in the store as well as the DB
 export function requestUpdateOffering(offering_id, attribute, value) {
   return dispatch => {
-
     // update it in the store
     dispatch(updateOffering(offering_id, attribute, value))
 
     // since we updated an offering entity, we want to also update currentOffering
+    // TODO: test if this is necessary. Shouldn't a change to an entity propagate automatically
+    // through system?
     dispatch(findAndSetCurrentOffering(offering_id))
 
     // send update to db
     axios.post(`${helpers.rootUrl}api/offering/update/${offering_id}`, {
-      [attribute]: value
+      [_.snakeCase(attribute)]: value
     })
-    // .then(response => console.log(response))
-    .catch(response => {
-      dispatch(requestError('update-offering',response.message))
-    })
+    .catch(response => dispatch(requestError('update-offering',response.message)))
   }
 }
 
@@ -161,3 +192,22 @@ export function customizeOfferingRoom(offeringID) {
     .catch(response => console.log(response))
   }
 }
+
+// export function setPaperSize(paperSize) {
+//   return {
+//     type: C.SET_PAPER_SIZE,
+//     paperSize
+//   }
+// }
+// export function requestSetPaperSize(paperSize, offeringId) {
+//   return dispatch => {
+//     // set in store
+//     dispatch(setPaperSize(paperSize))
+
+//     // set in DB
+//     axios.post(`${helpers.rootUrl}api/offering/update/${offeringId}`, {
+//       'paper_size': paperSize
+//     })
+//     .catch(response => dispatch(requestError('update-paper-size',response.message)))
+//   }
+// }

@@ -41,6 +41,7 @@ module.exports = {
     },
     "globals": {
         "axios": true,
-        "canvg": true
+        "canvg": true,
+        "_": true
     }
 };

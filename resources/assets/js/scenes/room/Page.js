@@ -14,14 +14,10 @@ export default class Page extends Component {
     super(props)
     this.pageContRef = React.createRef()
     this.state = {
-      // gridRows:19, // set blip dimensions here
-      // gridColumns: 39,
       gridRows: 38,
       gridColumns: 78,
       realPageWidth: 1550, // this is the width of a tabloid piece of paper, in px
       realPageHeight: 1000, // this is the height of a tabloid piece of paper, in px
-      // realPageWidth: 1056, // this is the width of a letter piece of paper, in px
-      // realPageHeight: 816, // this is the height of a letter piece of paper, in px
       browserPageWidth: '' // this is .page-inner-container's css width
     }
   }
@@ -56,8 +52,7 @@ export default class Page extends Component {
     // we want to store in state the width of the page element in the browser
     this.measurePageInBrowser()
 
-    // const gridRowHeight = parseFloat((parseInt(grid.paddingBottom) / this.state.gridRows).toFixed(2));
-    // const gridColumnWidth = parseFloat((parseInt(grid.width) / this.state.gridColumns).toFixed(2));
+    // set the dimensions of the grid rows and columns
     const gridRowHeight = parseFloat(parseFloat(this.state.realPageHeight / this.state.gridRows).toFixed(3))
     const gridColumnWidth = parseFloat(parseFloat(this.state.realPageWidth / this.state.gridColumns).toFixed(3))
     this.setState({
@@ -65,10 +60,33 @@ export default class Page extends Component {
     })
   }
 
-  componentDidUpdate() {
-
+  componentDidUpdate(prevProps) {
     // are any students seated at non-existing seats?
     this.checkForBadSeats()
+
+    // If the paper size changed, we need to do a few things manually here.
+    // Changing to letter...
+    if (prevProps.currentOffering.paperSize !== 'letter' && this.props.currentOffering.paperSize === 'letter') {
+      const gridRowHeight = parseFloat(parseFloat(816 / this.state.gridRows).toFixed(3))
+      const gridColumnWidth = parseFloat(parseFloat(1056 / this.state.gridColumns).toFixed(3))
+      this.setState({
+        realPageWidth: 1056, // this is the width of a letter piece of paper, in px
+        realPageHeight: 816, // this is the height of a letter piece of paper, in px
+        gridRowHeight,
+        gridColumnWidth
+      })
+    }
+    // Changing to tabloid...
+    if (prevProps.currentOffering.paperSize !== 'tabloid' && this.props.currentOffering.paperSize === 'tabloid') {
+      const gridRowHeight = parseFloat(parseFloat(1000 / this.state.gridRows).toFixed(3))
+      const gridColumnWidth = parseFloat(parseFloat(1550 / this.state.gridColumns).toFixed(3))
+      this.setState({
+        realPageWidth: 1550, // this is the width of a tabloid piece of paper, in px
+        realPageHeight: 1000, // this is the height of a tabloid piece of paper, in px
+        gridRowHeight,
+        gridColumnWidth
+      })
+    }
   }
 
   render() {
@@ -102,7 +120,9 @@ export default class Page extends Component {
 
     const innerPageContainerClasses = classNames({
       'inner-page-container':true,
-      'card':true
+      'card':true,
+      'tabloid': this.props.currentOffering.paperSize === 'tabloid' || this.props.currentOffering.paperSize === null,
+      'letter': this.props.currentOffering.paperSize === 'letter',
     })
 
     const seatsContainerClasses = classNames({

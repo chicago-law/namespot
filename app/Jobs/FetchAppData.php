@@ -44,7 +44,9 @@ class FetchAppData implements ShouldQueue
         // ie, 2018 becomes 2188, 2192, 2194
         $term_codes = getTermCodesFromYear($this->year);
 
-        foreach ($term_codes as $term) {
+        // foreach ($term_codes as $term) {
+
+            $term = '2178';
 
             // Get the offerings from AIS
             FetchOfferingsByTerm::dispatch($term);
@@ -58,7 +60,7 @@ class FetchAppData implements ShouldQueue
             FetchPhotoRosterByTerm::dispatch($term);
             sleep(120);
 
-        } // end term loop
+        // } // end term loop
 
         $results = "Got through dispatching all jobs for {$this->year}, started at {$this->started}.";
         Mail::to(config('app.admin_email'))->send(new JobResults($results));

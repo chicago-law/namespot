@@ -49,10 +49,10 @@ class CreateOfferingsTable extends Migration
 
             // seating chart preferences
             $table->string('paper_size')->nullable();
-            $table->int('flipped')->nullable();
+            $table->integer('flipped')->nullable();
             $table->string('names_to_show')->nullable();
-            $table->int('use_nicknames')->nullable();
-            $table->int('font_size')->nullable();
+            $table->integer('use_nicknames')->nullable();
+            $table->integer('font_size')->nullable();
 
             // timestamps
             $table->timestamps();

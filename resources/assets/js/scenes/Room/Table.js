@@ -3,11 +3,8 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames/bind'
 
 class Table extends Component {
-  constructor(props) {
-    super(props)
-    this.pathRef = React.createRef()
-    this.tableGroupRef = React.createRef()
-  }
+  tableGroupRef = React.createRef()
+  pathRef = React.createRef()
 
   getPathString() {
     // make the path string
@@ -34,7 +31,7 @@ class Table extends Component {
       const length = path.getTotalLength()
       let seatCount = this.props.seatCount
       for (let i = 0; i < seatCount; i++) {
-        const pxCoords = i === 0 ? path.getPointAtLength(0) : path.getPointAtLength(length / (seatCount - 1) * i) 
+        const pxCoords = i === 0 ? path.getPointAtLength(0) : path.getPointAtLength(length / (seatCount - 1) * i)
         const seatID = `${this.props.id}_${i}`
         seatCoords[seatID] = {
           'id': seatID,
@@ -43,8 +40,6 @@ class Table extends Component {
           'x': pxCoords.x.toFixed(2),
           'y': pxCoords.y.toFixed(2),
           'labelPosition': this.props.labelPosition
-          // 'x': this.props.shrinkRatio * pxCoords.x.toFixed(2),
-          // 'y': this.props.shrinkRatio * pxCoords.y.toFixed(2)
         }
       }
 
@@ -74,12 +69,12 @@ class Table extends Component {
   componentDidUpdate(prevProps) {
     // these updates ensure that the lines and seats show correctly if props change
     if (prevProps.currentRoom != this.props.currentRoom || prevProps.gridCoords !== this.props.gridCoords || prevProps.seatCount != this.props.seatCount) {
-      // this.forceUpdate();
       this.makeSeatCoords()
     }
-    // if (prevProps.currentStudents.length !== this.props.currentStudents.length) {
-    //   this.forceUpdate();
-    // }
+    // ensures update when changing paper size
+    if (prevProps.gridrowheight !== this.props.gridrowheight) {
+      this.makeSeatCoords()
+    }
   }
 
   render() {

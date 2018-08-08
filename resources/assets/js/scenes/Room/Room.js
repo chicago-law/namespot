@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Page from './containers/Page'
-import RoomDetails from './containers/RoomDetails'
-import RosterGallery from './containers/RosterGallery'
+import ChartPref from './containers/ChartPref'
+import OfferingDetails from './containers/OfferingDetails'
 
 export default class Room extends Component {
   constructor(props) {
@@ -116,13 +116,13 @@ export default class Room extends Component {
       <div className="room-workspace">
 
         <div className='room-workspace-left'>
-          <Route path="/offering" component={RoomDetails} />
+          <Route path="/offering" component={ChartPref} />
         </div>
 
         <Page />
 
         <div className='room-workspace-right'>
-          <Route path="/offering" component={RosterGallery} />
+          <Route path="/offering" component={OfferingDetails} />
         </div>
 
       </div>

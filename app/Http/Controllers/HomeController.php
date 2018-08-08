@@ -11,7 +11,7 @@ class HomeController extends Controller
     {
         $data = [];
         $academic_year = Setting::where('setting_name','academic_year')->first();
-        $data['academic_year'] = $academic_year ? $academic_year->setting_value : '2018';
+        $data['academic_year'] = isset($academic_year) ? $academic_year->setting_value : '2018';
 
         return view('react', $data);
     }

@@ -4,7 +4,7 @@ import classNames from 'classnames/bind'
 import helpers from '../../bootstrap'
 
 export default class Seat extends Component {
-  handleSeatClick(e) {
+    handleSeatClick(e) {
     // first check if we're in the only view where we care about seat clicks
     if (this.props.view === 'assign-seats') {
       // then check to see if there are actually students in the class
@@ -47,11 +47,18 @@ export default class Seat extends Component {
     e.stopPropagation() // so that click doesn't bubble up to being a "background" click
   }
 
+  adjustedSeatSize() {
+    // because rooms are always originally built on tabloid sized paper, we'll
+    // shrink them a little bit to compensate if page size is set to letter.
+    // If you add more pages sizes in the future, adjust this as necessary.
+    return this.props.currentOffering.paperSize === 'letter' ? this.props.currentRoom.seat_size - 20 : this.props.currentRoom.seat_size
+  }
+
   createSeat() {
 
     const seatPictureStyles = {
-      'height': `${this.props.currentRoom.seat_size}px`,
-      'width': `${this.props.currentRoom.seat_size}px`,
+      'height': `${this.adjustedSeatSize()}px`,
+      'width': `${this.adjustedSeatSize()}px`,
     }
 
     let theSeat
@@ -73,8 +80,8 @@ export default class Seat extends Component {
           <div className={occupiedSeatClasses} data-studentid={occupantId}>
             <div className='picture' style={{
               'backgroundImage':`url('${helpers.rootUrl}images/students/${occupant.picture}')`,
-              'height': `${this.props.currentRoom.seat_size}px`,
-              'width': `${this.props.currentRoom.seat_size}px`,
+              'height': `${this.adjustedSeatSize()}px`,
+              'width': `${this.adjustedSeatSize()}px`,
             }}>
             </div>
             <p className='name'>
@@ -86,7 +93,6 @@ export default class Seat extends Component {
               </span>
             </p>
           </div>
-
         )
       } else {
         if (this.props.view === 'assign-seats') { // Seat that's empty and fillable, shows user "+" version
@@ -141,9 +147,9 @@ export default class Seat extends Component {
         style={{
           'left': `${left}px`,
           'top': `${top}px`,
-          'height': `${currentRoom.seat_size}px`,
-          'width': `${currentRoom.seat_size}px`,
-          'transform': `translate(-${currentRoom.seat_size / 2}px, -${currentRoom.seat_size / 2}px)`
+          'height': `${this.adjustedSeatSize()}px`,
+          'width': `${this.adjustedSeatSize()}px`,
+          'transform': `translate(-${this.adjustedSeatSize() / 2}px, -${this.adjustedSeatSize() / 2}px)`
         }}
       >
         {this.createSeat()}

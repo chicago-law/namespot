@@ -15,6 +15,7 @@ const mapStateToProps = (state) => {
       }
     }
   }
+  console.log('from room details: ', currentTables)
 
   // make an array of all the seat IDs at the tables
   let currentSeats = []

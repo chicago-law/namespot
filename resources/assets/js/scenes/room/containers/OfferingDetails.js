@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import RosterGallery from '../RosterGallery'
+import OfferingDetails from '../OfferingDetails'
 import { assignSeat, setTask, setCurrentStudentId } from '../../../actions'
 
 const mapStateToProps = (state) => {
@@ -12,9 +12,25 @@ const mapStateToProps = (state) => {
     }
   })
 
+  // get the tables for the current room
+  const currentTables = []
+  Object.keys(state.entities.tables).forEach(tableId => {
+    state.entities.tables[tableId].room_id == state.app.currentOffering.room_id && currentTables.push(state.entities.tables[tableId])
+  })
+
+  // make an array of all the seat IDs at the tables
+  let currentSeats = []
+  currentTables.forEach(table => {
+    for (let i = 0; i < table.seat_count; i++) {
+      currentSeats.push(`${table.id}_${i}`)
+    }
+  })
+
   return {
-    currentStudents,
-    currentOffering: state.app.currentOffering
+    currentOffering: state.app.currentOffering,
+    currentRoom: state.app.currentRoom,
+    currentSeats,
+    currentStudents
   }
 }
 
@@ -32,9 +48,9 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const RosterGalleryContainer = connect(
+const OfferingDetailsContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(RosterGallery)
+)(OfferingDetails)
 
-export default RosterGalleryContainer
+export default OfferingDetailsContainer

@@ -45,7 +45,12 @@ class Offering extends JsonResource
             'section' => $this->section,
             'term_code' => $this->term_code,
             'instructors' => $instructors,
-            'students' => $student_ids
+            'students' => $student_ids,
+            'paper_size' => $this->paper_size,
+            'font_size' => $this->font_size,
+            'flipped' => $this->flipped,
+            'names_to_show' => $this->names_to_show,
+            'use_nicknames' => $this->use_nicknames,
         ];
     }
 }
