@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Switch, Route } from 'react-router-dom'
 import Select from '../scenes/select/Select'
-import Room from '../scenes/room/containers/Room'
+import Workspace from '../scenes/room/containers/Workspace'
 
 export default class Main extends Component {
   constructor(props) {
@@ -21,9 +21,9 @@ export default class Main extends Component {
         <Switch>
           <Route exact path="/" component={Select} />
           <Route path="/select" component={Select} />
-          <Route path='/offering/:offeringID' component={Room} />
-          <Route path='/room/:roomID/:offeringID' component={Room} />
-          <Route path='/room/:roomID' component={Room} />
+          <Route path='/offering/:offeringID' component={Workspace} />
+          <Route path='/room/:roomID/:offeringID' component={Workspace} />
+          <Route path='/room/:roomID' component={Workspace} />
         </Switch>
       </div>
     )

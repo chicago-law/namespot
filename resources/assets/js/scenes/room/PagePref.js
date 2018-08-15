@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-export default class ChartPref extends Component {
+export default class PagePref extends Component {
   state = {
-    flipped: this.props.currentOffering.flipped || false,
+    flipped: this.props.currentOffering.flipped !== null ? Boolean(this.props.currentOffering.flipped) : false,
     selectedFontSize: this.props.currentOffering.fontSize || 'default',
     selectedNamesToShow: this.props.currentOffering.namesToShow || 'first_and_last',
     selectedPaperSize: this.props.currentOffering.paperSize || 'tabloid',
-    useNicknames: this.props.currentOffering.useNicknames || true
+    useNicknames: this.props.currentOffering.useNicknames !== null ? Boolean(this.props.currentOffering.useNicknames) : true
   }
 
   changeFlipPerspective = (e) => {
@@ -16,7 +16,7 @@ export default class ChartPref extends Component {
   }
   selectFontSize = (e) => {
     this.setState({ selectedFontSize: e.target.value })
-    this.props.requestUpdateOffering(this.props.currentOffering.id, 'fontSze', e.target.value)
+    this.props.requestUpdateOffering(this.props.currentOffering.id, 'fontSize', e.target.value)
   }
   selectNamesToShow = (e) => {
     this.setState({ selectedNamesToShow: e.target.value })
@@ -36,11 +36,11 @@ export default class ChartPref extends Component {
     // to be hydrated with data.
     if (prevProps.currentOffering.id === null && this.props.currentOffering.id !== null) {
       this.setState({
-        flipped: this.props.currentOffering.flipped || false,
+        flipped: this.props.currentOffering.flipped !== null ? Boolean(this.props.currentOffering.flipped) : false,
         selectedFontSize: this.props.currentOffering.fontSize || 'default',
         selectedNamesToShow: this.props.currentOffering.namesToShow || 'first_and_last',
         selectedPaperSize: this.props.currentOffering.paperSize || 'tabloid',
-        useNicknames: this.props.currentOffering.useNicknames || true
+        useNicknames: this.props.currentOffering.useNicknames !== null ? Boolean(this.props.currentOffering.useNicknames) : true
       })
     }
   }
@@ -75,6 +75,7 @@ export default class ChartPref extends Component {
             <p>Names to Show
               <select value={selectedNamesToShow} onChange={this.selectNamesToShow}>
                 <option value='first_and_last'>First and Last</option>
+                <option value='first_and_last_initial'>First and Last Initial</option>
                 <option value='first_only'>First Only</option>
                 <option value='last_only'>Last Only</option>
               </select>
@@ -100,7 +101,7 @@ export default class ChartPref extends Component {
   }
 }
 
-ChartPref.propTypes = {
+PagePref.propTypes = {
   currentOffering: PropTypes.object.isRequired,
   requestUpdateOffering: PropTypes.func.isRequired
 }

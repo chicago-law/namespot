@@ -1,19 +1,17 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames/bind'
 import Loading from '../../../global/Loading'
 import helpers from '../../../bootstrap'
 
 export default class EditEnrollment extends Component {
-  constructor(props) {
-    super(props)
-    this.searchRef = React.createRef()
-    this.state = {
-      query: '',
-      studentResults: [],
-      resultCount: 0,
-      showingAllResults: false
-    }
+  state = {
+    query: '',
+    studentResults: [],
+    resultCount: 0,
+    showingAllResults: false
   }
+  searchRef = React.createRef()
 
   handleSearchInput(e) {
     this.setState({
@@ -50,36 +48,45 @@ export default class EditEnrollment extends Component {
     })
   }
 
-  addStudent(e) {
-    const id = e.target.closest('.student').getAttribute('data-studentid')
-    const student = this.state.studentResults.filter(student => String(student.id) === String(id))[0]
-    // close the modal
-    this.props.setModal('edit-enrollment',false)
-    // is the student already in the class?
-    if (!this.props.currentOffering.students.includes(parseInt(id))) {
-
-      // add the student to the store
-      const formattedStudent = {
-        [id]: {
-          ...student,
-        }
-      }
-      this.props.receiveStudents(formattedStudent)
-
-      // update student with seat slot for this offering
-      const seats = {
-        ...student['seats'],
-        [`offering_${this.props.currentOffering.id}`]: null
-      }
-      this.props.updateAndSaveStudent(id, 'seats', seats)
-
-      // update student with flag saying it was manually attached
-      this.props.updateAndSaveStudent(id, 'manually_attached', 1)
-
-      // update the offering
-      const students = [...this.props.currentOffering.students, parseInt(id)]
-      this.props.requestUpdateOffering(this.props.currentOffering.id, 'students', students)
+  onStudentClick = (e) => {
+    const studentId = e.target.closest('.student').getAttribute('data-studentid')
+    // Proceed only if the student is not already in the class roster
+    if (!this.props.currentOffering.students.includes(parseInt(studentId))) {
+      this.addStudent(studentId)
     }
+  }
+
+  addStudent(studentId) {
+    const student = this.state.studentResults.find(student => String(student.id) === String(studentId))
+    this.props.setModal('edit-enrollment',false)
+
+    // add the student to the store
+    const formattedStudent = {
+      [studentId]: {
+        ...student,
+      }
+    }
+    this.props.receiveStudents(formattedStudent)
+
+    // update student with seat slot for this offering
+    const seats = {
+      ...student['seats'],
+      [`offering_${this.props.currentOffering.id}`]: null
+    }
+    this.props.updateAndSaveStudent(studentId, 'seats', seats)
+
+    // update student with flag saying it was manually attached
+    this.props.updateAndSaveStudent(studentId, 'manually_attached', 1)
+
+    // update the offering's enrollment list
+    // UPDATE: I don't think we need to update the offering in the DB, just in state
+    const students = [...this.props.currentOffering.students, parseInt(studentId)]
+    // this.props.requestUpdateOffering(this.props.currentOffering.id, 'students', students)
+
+    // updates store's entities
+    this.props.updateOffering(this.props.currentOffering.id, 'students', students)
+    // update the store's currentOffering
+    this.props.findAndSetCurrentOffering(this.props.currentOffering.id)
   }
 
   componentDidMount() {
@@ -87,25 +94,28 @@ export default class EditEnrollment extends Component {
   }
 
   render() {
+    const { studentResults, query, resultCount, showingAllResults } = this.state
+    const { loading, close } = this.props
 
     const modalClasses = classNames({
-      'is-loading': this.props.loading['student-search']
+      'is-loading': loading['student-search']
     })
 
-    let resultsList = ''
-    if (this.state.studentResults.length > 0) {
-      resultsList = this.state.studentResults.map(student => {
-        return (
-          <li
-            key={student.id}
-            className='student'
-            data-studentid={student.id}
-            onClick={(e) => this.addStudent(e)}
-          >
-            {student.first_name} {student.nickname} {student.last_name} <i className="far fa-user-plus"></i>
-          </li>
-       )})
-    }
+
+    const resultsList = studentResults.map(student => {
+      const alreadyEnrolled = this.props.currentOffering.students.includes(parseInt(student.id))
+      return (
+        <li
+          key={student.id}
+          className='student'
+          data-studentid={student.id}
+          onClick={this.onStudentClick}
+        >
+          {student.first_name} {student.nickname} {student.last_name} <span>{ alreadyEnrolled ? 'Already enrolled' : <i className="far fa-user-plus"></i> }</span>
+        </li>
+      )
+    })
+
 
     return (
       <div className={modalClasses}>
@@ -119,39 +129,51 @@ export default class EditEnrollment extends Component {
           <p>You can manually add a student to this class when necessary by searching all Law students below.</p>
           <div className="input-container">
             <i className="far fa-search"></i>
-            <input type='text' ref={this.searchRef} placeholder="Search all Law students..." onChange={(e) => this.handleSearchInput(e)} value={this.state.query} />
+            <input type='text' ref={this.searchRef} placeholder="Search all Law students..." onChange={(e) => this.handleSearchInput(e)} value={query} />
           </div>
           <div className="results-status">
-            {this.state.query.length ?
-              this.state.showingAllResults ?
-                <p>Found {this.state.resultCount} results.</p>
-              : this.props.loading['student-search'] ?
-                <p>Searching...</p>
-              : this.state.resultCount > 10 ?
-                <p>Showing first 10 of {this.state.resultCount} results. <span onClick={() => this.handleShowAllResults()}>Show all</span></p>
-              : this.state.resultCount === 0 ?
-                <p>No results with "{this.state.query}"</p>
-              : this.state.resultCount === 1 ?
-                <p>Found {this.state.resultCount} result</p>
-              : <p>Found {this.state.resultCount} results</p>
+            {query.length ?
+              showingAllResults ?
+                <p>Found {resultCount} results.</p>
+                : loading['student-search'] ?
+                  <p>Searching...</p>
+                  : resultCount > 10 ?
+                    <p>Showing first 10 of {resultCount} results. <span onClick={() => this.handleShowAllResults()}>Show all</span></p>
+                    : resultCount === 0 ?
+                      <p>No results with "{query}"</p>
+                      : resultCount === 1 ?
+                        <p>Found {resultCount} result</p>
+                        : <p>Found {resultCount} results</p>
               : <p>&nbsp;</p>
             }
           </div>
           <div className="results-list-container">
-            {this.state.query.length ?
+            {query.length > 0 && (
               <ul className='results-list'>
                 {resultsList}
               </ul>
-              : ''
-            }
+            )}
           </div>
         </main>
 
         <footer className="controls">
-          <button className='btn-clear' onClick={() => this.props.close()}><small>Cancel</small></button>
+          <button className='btn-clear' onClick={() => close()}><small>Cancel</small></button>
         </footer>
 
       </div>
     )
   }
+}
+
+EditEnrollment.propTypes = {
+  close: PropTypes.func.isRequired,
+  currentOffering: PropTypes.object.isRequired,
+  findAndSetCurrentOffering: PropTypes.func.isRequired,
+  loading: PropTypes.object.isRequired,
+  receiveStudents: PropTypes.func.isRequired,
+  requestError: PropTypes.func.isRequired,
+  setLoadingStatus: PropTypes.func.isRequired,
+  setModal: PropTypes.func.isRequired,
+  updateAndSaveStudent: PropTypes.func.isRequired,
+  updateOffering: PropTypes.func.isRequired
 }

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
-import Room from '../Room'
+import Workspace from '../Workspace'
 import { withRouter } from 'react-router-dom'
-import { fetchTables, setView, setTask, findAndSetCurrentRoom, findAndSetCurrentOffering, requestRooms, requestRoom, requestStudents, assignSeat, requestOffering, resetCurrentOffering, resetCurrentRoom, setCurrentStudentId, setCurrentSeatId, setModal, clearModals } from '../../../actions'
+import { fetchTables, setView, setTask, findAndSetCurrentRoom, findAndSetCurrentOffering, requestRooms, requestRoom, requestStudents, requestOffering, resetCurrentOffering, resetCurrentRoom, setCurrentStudentId, setCurrentSeatId, setModal, clearModals } from '../../../actions'
 
 const mapStateToProps = (state, ownProps) => {
 
@@ -52,19 +52,14 @@ const mapStateToProps = (state, ownProps) => {
     modals: state.app.modals,
     task:state.app.task,
     view:state.app.view,
-    tempTable:state.app.tempTable,
-    pointSelection:state.app.pointSelection,
     loading:state.app.loading
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setView: (view) => {
-      dispatch(setView(view))
-    },
-    setTask: (task) => {
-      dispatch(setTask(task))
+    clearModals: () => {
+      dispatch(clearModals())
     },
     fetchTables: (roomID) => {
       dispatch(fetchTables(roomID))
@@ -75,23 +70,29 @@ const mapDispatchToProps = (dispatch) => {
     findAndSetCurrentOffering: (offeringID) => {
       dispatch(findAndSetCurrentOffering(offeringID))
     },
-    requestRooms: () => {
-      dispatch(requestRooms())
+    setView: (view) => {
+      dispatch(setView(view))
     },
-    requestOffering: (offeringID) => {
-      dispatch(requestOffering(offeringID))
+    setTask: (task) => {
+      dispatch(setTask(task))
     },
-    requestStudents: (offeringID) => {
-      dispatch(requestStudents(offeringID))
-    },
-    assignSeat: (offering_id, student_id, seat_id) => {
-      dispatch(assignSeat(offering_id, student_id, seat_id))
+    resetCurrentOffering: () => {
+      dispatch(resetCurrentOffering())
     },
     resetCurrentRoom: () => {
       dispatch(resetCurrentRoom())
     },
-    resetCurrentOffering: () => {
-      dispatch(resetCurrentOffering())
+    requestOffering: (offeringID) => {
+      dispatch(requestOffering(offeringID))
+    },
+    requestRoom: (room_id) => {
+      dispatch(requestRoom(room_id))
+    },
+    requestRooms: () => {
+      dispatch(requestRooms())
+    },
+    requestStudents: (offeringID) => {
+      dispatch(requestStudents(offeringID))
     },
     setCurrentStudentId: (id) => {
       dispatch(setCurrentStudentId(id))
@@ -99,21 +100,15 @@ const mapDispatchToProps = (dispatch) => {
     setCurrentSeatId: (id) => {
       dispatch(setCurrentSeatId(id))
     },
-    requestRoom: (room_id) => {
-      dispatch(requestRoom(room_id))
-    },
     setModal: (modal, status) => {
       dispatch(setModal(modal, status))
-    },
-    clearModals: () => {
-      dispatch(clearModals())
     }
   }
 }
 
-const RoomContainer = withRouter(connect(
+const WorkspaceContainer = withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(Room))
+)(Workspace))
 
-export default RoomContainer
+export default WorkspaceContainer

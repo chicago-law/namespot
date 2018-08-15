@@ -39,7 +39,7 @@ class Kernel extends ConsoleKernel
         $started = date('h:i:s');
 
         // Fire off the job to grab all the data for that year.
-        $schedule->job(new FetchAppData($year, $started))->dailyAt('09:13');
+        // $schedule->job(new FetchAppData($year, $started))->dailyAt('10:15');
     }
 
     /**

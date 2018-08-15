@@ -7,18 +7,17 @@ import html2canvas from 'html2canvas'
 import * as jsPDF from 'jspdf'
 
 export default class SeatingChart extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      showLoading: true
-    }
+  state = {
+    showLoading: true
   }
 
   createPdf() {
-    const seatingChartCanvas = document.querySelector('canvas')
-
     // We start by manually add the SVGs to a blank canvas with canvg
     // because html2canvas will skip them for some reason!
+
+    // grab the existing canvas we put in the dom
+    const seatingChartCanvas = document.querySelector('canvas')
+
     const canvgOptions = {
       // log: true,
       offsetX: 0,
@@ -28,24 +27,42 @@ export default class SeatingChart extends Component {
 
     // Now use html2canvas to paint the rest of the page into the canvas
     const input = document.querySelector('.outer-page-container')
-    const canvasOptions = {
+    const h2cOptions = {
       logging: false,
-      scale:'1', // specifying 1 makes this work the same on Retina displays
+      scale: '1', // specifying 1 makes this work the same on Retina displays
       canvas: seatingChartCanvas,
-      // width:'1550',
-      // height:'1000',
-      // windowWidth: '1550',
-      // windowHeight: '1000'
+      // width:'800',
+      // height:'600',
+      // windowWidth: '800',
+      // windowHeight: '600'
     }
-    html2canvas(input, canvasOptions).then((canvas) => {
+    html2canvas(input, h2cOptions).then((canvas) => {
+
+      // these are the dimensions for the PDF that will be generated, in inches.
+      // They should be doubled from normal, because we're cranking out higher res
+      let dimensions
+      switch (this.props.currentOffering.paperSize) {
+        case 'tabloid':
+          dimensions = [22.5, 35.5]
+          break
+        case 'letter':
+          dimensions = [17, 22]
+          break
+        default:
+          dimensions = [22.5, 35.5]
+      }
+
       // now convert the canvas into a PDF and download
-      const imgData = canvas.toDataURL('image/jpg')
+      const imgData = canvas.toDataURL('image/jpeg', 1.0)
       const pdf = new jsPDF({
         orientation: 'landscape',
-        format: 'tabloid'
+        unit: 'in',
+        format: dimensions
       })
-      pdf.addImage(imgData, 'JPG', 0, 0)
-      const title = this.props.currentOffering.long_title ? `${this.props.currentOffering.long_title}-${this.props.currentOffering.section}` : this.props.rooms[this.props.roomId].name
+      pdf.addImage(imgData, 'jpeg', 0, 0)
+      const title = this.props.currentOffering.long_title ?
+        `${this.props.currentOffering.long_title}-${this.props.currentOffering.section}`
+        : this.props.rooms[this.props.roomId].name
       pdf.save(`${title}.pdf`)
 
       this.setState({
@@ -75,6 +92,8 @@ export default class SeatingChart extends Component {
     // set store's currentRoom and currentOffering (if there is one)
     this.props.findAndSetCurrentRoom(this.props.roomId)
     this.props.offeringId ? this.props.findAndSetCurrentOffering(this.props.offeringId) : false
+
+    // check the URL for any formatting specifications
   }
 
   componentDidUpdate() {

@@ -22,8 +22,8 @@ class CreateOfferingsTable extends Migration
             $table->string('section')->nullable();
 
             // names
-            $table->string('title')->nullable();
-            $table->string('long_title')->nullable();
+            $table->string('title');
+            $table->string('long_title');
             $table->string('component')->nullable();
             $table->string('component_descr')->nullable();
 
@@ -36,7 +36,7 @@ class CreateOfferingsTable extends Migration
             $table->string('building_desc')->nullable();
 
             // when
-            $table->string('term_code')->nullable();
+            $table->string('term_code');
             $table->string('days')->nullable();
             $table->string('start_time')->nullable();
             $table->string('end_time')->nullable();
@@ -49,10 +49,10 @@ class CreateOfferingsTable extends Migration
 
             // seating chart preferences
             $table->string('paper_size')->nullable();
-            $table->integer('flipped')->nullable();
+            $table->string('font_size')->nullable();
             $table->string('names_to_show')->nullable();
-            $table->integer('use_nicknames')->nullable();
-            $table->integer('font_size')->nullable();
+            $table->boolean('use_nicknames')->nullable()->default(1);
+            $table->boolean('flipped')->nullable();
 
             // timestamps
             $table->timestamps();

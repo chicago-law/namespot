@@ -1,7 +1,7 @@
 .printable {
   background: #fff;
   .full-page-loading {
-    display:none;
+    display:none !important;
     position:absolute;
     top:0;
     right:0;

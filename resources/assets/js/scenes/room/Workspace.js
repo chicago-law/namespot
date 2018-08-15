@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Page from './containers/Page'
-import ChartPref from './containers/ChartPref'
+import PagePref from './containers/PagePref'
 import OfferingDetails from './containers/OfferingDetails'
+import WorkspaceMessage from './containers/WorkspaceMessage'
 
-export default class Room extends Component {
+export default class Workspace extends Component {
   constructor(props) {
     super(props)
     this.pageContRef = React.createRef()
@@ -115,8 +116,10 @@ export default class Room extends Component {
     return (
       <div className="room-workspace">
 
+        <Route path='/room' component={WorkspaceMessage} />
+
         <div className='room-workspace-left'>
-          <Route path="/offering" component={ChartPref} />
+          <Route path="/offering" component={PagePref} />
         </div>
 
         <Page />
@@ -131,8 +134,8 @@ export default class Room extends Component {
 
 }
 
-Room.propTypes = {
-  assignSeat: PropTypes.func.isRequired,
+Workspace.propTypes = {
+  clearModals: PropTypes.func.isRequired,
   currentOffering: PropTypes.object.isRequired,
   currentOfferingID: PropTypes.string,
   currentRoom: PropTypes.object.isRequired,
@@ -142,17 +145,21 @@ Room.propTypes = {
   fetchTables: PropTypes.func.isRequired,
   findAndSetCurrentOffering: PropTypes.func.isRequired,
   findAndSetCurrentRoom: PropTypes.func.isRequired,
-  pointSelection: PropTypes.string,
+  history: PropTypes.any.isRequired,
+  loading: PropTypes.object.isRequired,
+  match: PropTypes.any.isRequired,
+  modals: PropTypes.object.isRequired,
   resetCurrentOffering: PropTypes.func.isRequired,
   resetCurrentRoom: PropTypes.func.isRequired,
+  requestRoom: PropTypes.func.isRequired,
   requestRooms: PropTypes.func.isRequired,
   requestOffering: PropTypes.func.isRequired,
   requestStudents: PropTypes.func.isRequired,
   setCurrentStudentId: PropTypes.func.isRequired,
   setCurrentSeatId: PropTypes.func.isRequired,
+  setModal: PropTypes.func.isRequired,
   setTask: PropTypes.func.isRequired,
   setView: PropTypes.func.isRequired,
   task: PropTypes.string,
-  tempTable: PropTypes.object,
   view: PropTypes.string
 }

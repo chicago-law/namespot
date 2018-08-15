@@ -115,14 +115,14 @@
       }
       p {
         color:$primary-accent;
-        font-weight:bold;
+        // font-weight:bold;
       }
       svg {
         circle {
           fill:$primary-accent;
         }
         path {
-          stroke:$primary-accent;
+          stroke:$dark-blue;
         }
       }
     }
@@ -312,6 +312,7 @@
           background: $off-white;
         }
         &.no-results {
+          justify-content: center;
           color:$middle-gray;
           background:none;
           cursor:default;

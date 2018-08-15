@@ -20,17 +20,28 @@ export default class PrintOffering extends Component {
 
   generateUrl = () => {
     let url = `${helpers.rootUrl}print/`
+    const params = {}
+    // Generate the base URL according to chosen format
     switch (this.state.chosenFormat) {
       case 'seating-chart':
         url += `seating-chart/room/${this.props.currentRoom.id}/offering/${this.props.currentOffering.id}`
         break
       case 'blank-seating-chart':
-        url += `seating-chart/room/${this.props.currentRoom.id}/offering/${this.props.currentOffering.id}?withstudents=false`
+        url += `seating-chart/room/${this.props.currentRoom.id}/offering/${this.props.currentOffering.id}`
+        params.withstudents = false
         break
       case 'flash-cards':
         url += `flash-cards/offering/${this.props.currentOffering.id}`
-        this.state.namesOnReverse ? url += '?namesonreverse=true' : false
         break
+    }
+    // Now look at the chart preferences to generate more params
+    // this.props.currentOffering.
+    // Build final URL with params
+    if (Object.keys(params).length > 0) {
+      url += '?'
+      for (let param in params) {
+        url += `${param}=${params[param]}`
+      }
     }
     return url
   }

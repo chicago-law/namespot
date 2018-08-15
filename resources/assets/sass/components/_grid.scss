@@ -2,7 +2,7 @@
   z-index:90;
   .blip {
     position:absolute;
-    fill:$lighter-gray;
+    fill:$off-white;
     transform-origin:center;
     transition:transform 150ms ease-out;
   }
@@ -12,6 +12,7 @@
   .grid-container {
     z-index:1000;
     .blip {
+      fill:$lighter-gray;
       &.belongs-to-any-table {
         fill:darken($middle-gray,20%);
       }

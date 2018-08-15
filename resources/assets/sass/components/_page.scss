@@ -20,7 +20,7 @@
     }
   }
   &.flip-perspective {
-    transform:rotateX(180deg)
+    transform:rotateX(180deg);
   }
   .loading {
     display:none;
@@ -33,37 +33,35 @@
   .inner-page-container {
     display: block;
     position:relative;
+    padding-bottom:64.7%; // default to tabloid aspect ratio
     transition:opacity 150ms ease-out;
-    &.tabloid {
-      padding-bottom:64.7%; // maintain aspect ratio of 11 x 17 tabloid paper
-    }
-    &.letter {
-      padding-bottom:77.3%; // maintain aspect ratio of 8.5 x 11 letter paper
-    }
+    box-shadow: 0 5px 5px rgba(0,0,0,.1), 0 18px 10px -12px rgba(0, 0, 0, 0.15);
     .tables-container, .seats-container, .grid-container, .guides-container {
       position:absolute;
       right:0;
       bottom:0;
       top:0;
       left:0;
-      // top and left values need to be tweaked a little depending on the grid
-      // top:13px;
-      // top:5px;
-      // left:23px; // for 19 x 39
-      // left:27px; // for 38 x 78
       height:100%;
       width:100%;
       overflow:visible;
     }
     .tables-container>g {
-      transform:translateX(11px,13px);
+      transform:translateX(11px);
     }
     .guides-container>g {
-      transform:translateX(11px,13px);
+      transform:translateX(11px);
     }
     .grid-container>g {
-      transform:translateX(11px,13px);
+      transform:translateX(11px);
     }
+  }
+
+  &.paper-tabloid .inner-page-container {
+    padding-bottom:64.7%; // aspect ratio of 11 x 17 tabloid paper
+  }
+  &.paper-letter .inner-page-container {
+    padding-bottom:77.3%; // aspect ratio of 8.5 x 11 letter paper
   }
 
   .page {
@@ -97,40 +95,53 @@
     text-align:center;
     h3 {
       margin-bottom: 0;
+      @include ms1-x2;
     }
   }
 
-  .chart-details-container {
+  .page-header-container {
     position:absolute;
     top:.8em;
     left:0;
     right:0;
     text-align:center;
-    @include ms-1;
     p {
       margin-bottom:.15em;
     }
-    .chart-details {
+    .page-header {
       display:flex;
       justify-content:space-between;
+      @include ms-1-x2;
+    }
+    .left, .right {
+      position: absolute;
+      top:0;
+    }
+    .left {
+      left:0;
+      text-align:left;
     }
     .right {
+      right:0;
       text-align:right;
     }
   }
 
   &.flip-perspective {
+    .inner-page-container {
+      box-shadow: 0 -5px 5px rgba(0,0,0,.1), 0 -18px 10px -12px rgba(0, 0, 0, 0.15);
+    }
     .front-label h3 {
       transform:rotateX(180deg);
     }
-    .chart-details-container {
+    .page-header-container {
       bottom:0.8em;
       top:auto;
-      transform:rotateX(180deg);
+      transform:rotateX(180deg) translateY(-8px);
     }
   }
 
-}
+} // end .outer-page-container
 
 .no-tables {
   font:italic 16px Lato;

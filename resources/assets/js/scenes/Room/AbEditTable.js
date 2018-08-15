@@ -65,7 +65,7 @@ export default class AbEditTable extends React.Component {
         <div className={`flex-container point-selector start-point ${ this.props.pointSelection === 'start' ? 'active' : ''}`} data-select="start" onClick={(e) => this.handlePointSelectorButtonClick(e)}>
           <button className='big-button'>
             <div className="diagram">
-              <svg width="47" height="10" xmlns="http://www.w3.org/2000/svg"><g fill="none" fillRule="evenodd"><circle fill="#2F7AD0" cx="5" cy="5" r="5" /><path d="M10.576 5.5h36.92" stroke="#2F7AD0" strokeLinecap="square" strokeDasharray="4" /></g></svg>
+              <svg width="47" height="33" xmlns="http://www.w3.org/2000/svg"><g fill="none" fillRule="evenodd"><circle fill="#2F7AD0" cx="5" cy="15" r="5" /><path d="M10.576 14.5h36.92" stroke="#ccc" strokeLinecap="round" strokeWidth="2"/></g></svg>
             </div>
             <p>Select<br/>Start Point</p>
           </button>
@@ -75,7 +75,8 @@ export default class AbEditTable extends React.Component {
         <div className={`flex-container point-selector curve-point ${this.props.pointSelection === 'curve' ? 'active' : ''}`} data-select="curve" onClick={(e) => this.handlePointSelectorButtonClick(e)}>
           <button className='big-button'>
             <div className="diagram">
-              <svg width="57" height="15" xmlns="http://www.w3.org/2000/svg"><g fill="none" fillRule="evenodd"><path d="M0 14.287C4.258 8.096 13.507 5 27.747 5s23.49 3.096 27.747 9.287" stroke="#2F7AD0" strokeLinecap="square" strokeDasharray="4" /><circle fill="#2F7AD0" cx="29" cy="5" r="5" /></g></svg>
+              {/* <svg width="57" height="15" xmlns="http://www.w3.org/2000/svg"><g fill="none" fillRule="evenodd"><path d="M0 14.287C4.258 8.096 13.507 5 27.747 5s23.49 3.096 27.747 9.287" stroke="#2F7AD0" strokeLinecap="round" strokeDasharray="4" /><circle fill="#2F7AD0" cx="29" cy="5" r="5" /></g></svg> */}
+              <svg width="61" height="33" xmlns="http://www.w3.org/2000/svg"><g fill="none" fillRule="evenodd"><path d="M30.5 5.5l-30 27M33.5 5.5l28 26" stroke="#979797" strokeLinecap="round" strokeDasharray="5"/><path d="M4 30.287C8.258 24.096 17.507 21 31.747 21s23.49 3.096 27.747 9.287" stroke="#ccc" strokeWidth="2" strokeLinecap="round"/><circle fill="#2F7AD0" cx="32" cy="5" r="5"/></g></svg>
             </div>
             <p>Select<br />Curve Point</p>
           </button>
@@ -85,7 +86,7 @@ export default class AbEditTable extends React.Component {
         <div className={`flex-container point-selector end-point ${this.props.pointSelection === 'end' ? 'active' : ''}`} data-select="end" onClick={(e) => this.handlePointSelectorButtonClick(e)}>
           <button className='big-button'>
             <div className="diagram">
-              <svg width="38" height="10" xmlns="http://www.w3.org/2000/svg"><g fill="none" fillRule="evenodd"><path d="M.5 5.5h32.062" stroke="#2F7AD0" strokeLinecap="square" strokeDasharray="4" /><circle fill="#2F7AD0" cx="33" cy="5" r="5" /></g></svg>
+              <svg width="38" height="33" xmlns="http://www.w3.org/2000/svg"><g fill="none" fillRule="evenodd"><path d="M.5 14.5h32.062" stroke="#ccc" strokeLinecap="round" strokeWidth="2"/><circle fill="#2F7AD0" cx="33" cy="15" r="5" /></g></svg>
             </div>
             <p>Select<br/>End Point</p>
           </button>

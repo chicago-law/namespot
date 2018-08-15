@@ -37,7 +37,7 @@ export default class AbFindStudent extends Component {
   checkForMatch(student) {
     const regex = new RegExp(this.state.query, 'gi')
     // concat together everything should be searchable
-    if ((`${student.nickname} ${student.full_name} ${student.short_full_name} ${student.nickname} ${student.cnet_id}`).match(regex)) {
+    if ((`${student.nickname} ${student.first_name} ${student.last_name} ${student.short_full_name} ${student.nickname} ${student.cnet_id}`).match(regex)) {
       return true
     }
   }
@@ -74,7 +74,7 @@ export default class AbFindStudent extends Component {
           <ul>{ filteredStudents.map(student =>
               <li key={student.id} data-studentid={student.id} onClick={(e) => this.handleStudentClick(e)}>
                 <div className="picture" style={{'backgroundImage':`url('${helpers.rootUrl}images/students/${student.picture}')`}}></div>
-                <p data-email={student.email}>{student.first_name} {student.last_name}</p>
+                <p data-email={student.email}>{student.first_name} {student.first_name !== student.short_first_name && student.short_first_name} {student.last_name}</p>
               </li>
             )}
             { filteredStudents.length == 0

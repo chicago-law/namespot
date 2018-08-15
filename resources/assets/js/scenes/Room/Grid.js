@@ -61,7 +61,7 @@ export default class Grid extends Component {
       id={key}
       className={blipClasses}
       onClick={(e) => this.handleBlipClick(e)}
-      r='5'
+      r='13'
       cx={cx} cy={cy}
       x={x} y={y}
       style={{ transformOrigin: `${cx} ${cy}` }}

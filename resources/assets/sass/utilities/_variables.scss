@@ -30,30 +30,24 @@ $second-accent-light:$light-blue;
 $primary-font: "Lato", "Helvetica", sans-serif;
 
 // Modular Scale, ratio of 1.25
-@mixin ms-2 {
-  font-size:.64em;
-}
-@mixin ms-1 {
-  font-size:.8em;
-}
-@mixin ms0 {
-  font-size:1em;
-}
-@mixin ms1 {
-  font-size:1.25em;
-}
-@mixin ms2 {
-  font-size:1.563em;
-}
-@mixin ms3 {
-  font-size:1.953em;
-}
-@mixin ms4 {
-  font-size:2.441em;
-}
-@mixin ms5 {
-  font-size:3.052em;
-}
+@mixin ms-2 { font-size:.64em; }
+@mixin ms-1 { font-size:.8em; }
+@mixin ms0 { font-size:1em; }
+@mixin ms1 { font-size:1.25em; }
+@mixin ms2 { font-size:1.563em; }
+@mixin ms3 { font-size:1.953em; }
+@mixin ms4 { font-size:2.441em; }
+@mixin ms5 { font-size:3.052em; }
+
+// Same font scale, but doubled
+@mixin ms-2-x2 { font-size:1.28em; }
+@mixin ms-1-x2 { font-size:1.6em; }
+@mixin ms0-x2 { font-size:2em; }
+@mixin ms1-x2 { font-size:2.5em; }
+@mixin ms2-x2 { font-size:3.126em; }
+@mixin ms3-x2 { font-size:3.906em; }
+@mixin ms4-x2 { font-size:4.882em; }
+@mixin ms5-x2 { font-size:6.104em; }
 
 
 /* ----------- */
@@ -67,9 +61,9 @@ $laptop:1200px;
 $desktop:1448px;
 
 
-/* -------------------------- */
-/* WIDTHS FOR THE "PAGE" AREA */
-/* -------------------------- */
+/* ------------------------------------ */
+/* WIDTHS FOR THE "PAGE" AREA IN BROWSER*/
+/* ------------------------------------ */
 
 $small-page:400px;
 $medium-page:800px;

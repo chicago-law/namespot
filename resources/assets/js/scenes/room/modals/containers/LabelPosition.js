@@ -1,6 +1,6 @@
-import { connect } from 'react-redux';
-import LabelPosition from '../LabelPosition';
-import { setModal, setLabelPosition } from '../../../../actions';
+import { connect } from 'react-redux'
+import LabelPosition from '../LabelPosition'
+import { setModal, setLabelPosition } from '../../../../actions'
 
 const mapStateToProps = (state) => {
 
@@ -24,6 +24,6 @@ const mapDispatchToProps = (dispatch) => {
 const LabelPositionContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(LabelPosition);
+)(LabelPosition)
 
-export default LabelPositionContainer;
+export default LabelPositionContainer

@@ -46,6 +46,12 @@
         margin-bottom: 0;
       }
     }
+    @media (max-width:$desktop) {
+      ul {
+        display:flex;
+        justify-content:space-around;
+      }
+    }
   }
 
   .offering-details__room-details {

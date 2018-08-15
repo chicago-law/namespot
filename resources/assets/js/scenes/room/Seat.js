@@ -41,20 +41,31 @@ export default class Seat extends Component {
         }
       } else {
         // empty class!
-        this.props.requestError('no-students','There are no students in the class to seat!', true)
+        this.props.requestError('no-students', 'There are no students in the class to seat!', true)
       }
     }
     e.stopPropagation() // so that click doesn't bubble up to being a "background" click
   }
 
   adjustedSeatSize() {
-    // because rooms are always originally built on tabloid sized paper, we'll
+    // First, double the seat size since we're doubling the paper size
+    // to crank up the resolution.
+    // Then, because rooms are always originally built on tabloid sized paper, we'll
     // shrink them a little bit to compensate if page size is set to letter.
-    // If you add more pages sizes in the future, adjust this as necessary.
-    return this.props.currentOffering.paperSize === 'letter' ? this.props.currentRoom.seat_size - 20 : this.props.currentRoom.seat_size
+    // If you add more pages sizes in the future, you can make more here as necessary
+    const size = this.props.currentRoom.seat_size
+    switch (this.props.currentOffering.paperSize) {
+      case 'tabloid':
+        return size * 2
+      case 'letter':
+        return (size * 2) - 43
+      default:
+        return size * 2
+    }
   }
 
   createSeat() {
+    const { currentOffering, currentStudentId, id, students, view, withStudents } = this.props
 
     const seatPictureStyles = {
       'height': `${this.adjustedSeatSize()}px`,
@@ -62,19 +73,25 @@ export default class Seat extends Component {
     }
 
     let theSeat
-    const occupantId = Object.keys(this.props.students).find(studentId => this.props.students[studentId].seats[`offering_${this.props.currentOffering.id}`] && this.props.students[studentId].seats[`offering_${this.props.currentOffering.id}`] == this.props.id)
+    const occupantId = Object.keys(students).find(studentId =>
+      students[studentId].hasOwnProperty('seats')
+      && students[studentId].seats[`offering_${currentOffering.id}`]
+      && students[studentId].seats[`offering_${currentOffering.id}`] == id
+    )
 
     // check if we are in a view where you want to see occupants if they're there
     if (
-      (this.props.view === 'assign-seats' || this.props.view === 'seating-chart')
-      && this.props.withStudents === true
+      (view === 'assign-seats' || view === 'seating-chart')
+      && withStudents === true
     ) {
       if (occupantId) { // seat is occupied, show the student
-        const occupant = this.props.students[occupantId]
+        const occupant = students[occupantId]
         const occupiedSeatClasses = classNames({
           'seat': true,
           'is-occupied': true,
-          'is-current-student': this.props.currentStudentId == occupantId
+          'is-current-student': currentStudentId == occupantId,
+          'font-smaller': currentOffering.fontSize === 'smaller',
+          'font-larger': currentOffering.fontSize === 'larger',
         })
         theSeat = (
           <div className={occupiedSeatClasses} data-studentid={occupantId}>
@@ -85,22 +102,51 @@ export default class Seat extends Component {
             }}>
             </div>
             <p className='name'>
-              <span className='first'>
-                {occupant.nickname ? occupant.nickname : occupant.first_name}
-              </span>
-              <span className='last'>
-                {occupant.last_name}
-              </span>
+
+              {(
+                currentOffering.namesToShow === 'first_and_last'
+                || currentOffering.namesToShow === 'first_and_last_initial'
+                || currentOffering.namesToShow === 'first_only'
+                || currentOffering.namesToShow === null
+              ) && (
+                <span className='first'>
+                  {occupant.nickname && (currentOffering.useNicknames == true || currentOffering.useNicknames === null) ?
+                    occupant.nickname
+                    : occupant.short_first_name ?
+                      occupant.short_first_name
+                      : occupant.first_name
+                  }
+                </span>
+              )}
+
+              {(
+                currentOffering.namesToShow === 'first_and_last'
+                || currentOffering.namesToShow === 'last_only'
+                || currentOffering.namesToShow === null
+              ) && (
+                <span className='last'>
+                  {occupant.last_name}
+                </span>
+              )}
+
+              {(
+                currentOffering.namesToShow === 'first_and_last_initial'
+              ) && (
+                <span className='last'>
+                  {`${occupant.last_name.charAt(0)}.`}
+                </span>
+              )}
+
             </p>
           </div>
         )
       } else {
-        if (this.props.view === 'assign-seats') { // Seat that's empty and fillable, shows user "+" version
+        if (view === 'assign-seats') { // Seat that's empty and fillable, shows user "+" version
           theSeat = (
             <div className='seat fillable-seat'>
               <div className='picture' style={seatPictureStyles}>
                 <svg xmlns="http://www.w3.org/2000/svg" xlinkHref="http://www.w3.org/1999/xlink" viewBox={'0 0 40 40'} height='100%' width='100%'>
-                  <rect width="40" height="40" rx="3" fill="#CCCCCC"></rect>
+                  <rect width="40" height="40" fill="#CCCCCC"></rect>
                   <g className="plus-person" transform="translate(9, 9)">
                     <path d="M15,12 C17.21,12 19,10.21 19,8 C19,5.79 17.21,4 15,4 C12.79,4 11,5.79 11,8 C11,10.21 12.79,12 15,12 Z M6,10 L6,7 L4,7 L4,10 L1,10 L1,12 L4,12 L4,15 L6,15 L6,12 L9,12 L9,10 L6,10 Z M15,14 C12.33,14 7,15.34 7,18 L7,20 L23,20 L23,18 C23,15.34 17.67,14 15,14 Z"></path>
                   </g>
@@ -116,7 +162,7 @@ export default class Seat extends Component {
           )
         }
       }
-    } else if (this.props.view === 'edit-room' || this.props.view === 'seating-chart') { // seat that is just plain ol' empty, and we're not showing the fillable "+" version
+    } else if (view === 'edit-room' || view === 'seating-chart') { // seat that is just plain ol' empty, and we're not showing the fillable "+" version
       theSeat = (
         <div className='seat empty-seat'>
           <div className='picture' style={seatPictureStyles}></div>
@@ -128,7 +174,7 @@ export default class Seat extends Component {
   }
 
   render() {
-    const { currentRoom, currentSeatId, id, labelPosition, left, top } = this.props
+    const { currentSeatId, id, labelPosition, left, top } = this.props
 
     const seatContClasses = classNames({
       'seat-container':true,

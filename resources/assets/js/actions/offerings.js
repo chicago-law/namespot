@@ -118,13 +118,11 @@ export function updateOffering(offering_id, attribute, value) {
 
 // request update to an offering in the store as well as the DB
 export function requestUpdateOffering(offering_id, attribute, value) {
-  return dispatch => {
+  return (dispatch) => {
     // update it in the store
     dispatch(updateOffering(offering_id, attribute, value))
 
     // since we updated an offering entity, we want to also update currentOffering
-    // TODO: test if this is necessary. Shouldn't a change to an entity propagate automatically
-    // through system?
     dispatch(findAndSetCurrentOffering(offering_id))
 
     // send update to db

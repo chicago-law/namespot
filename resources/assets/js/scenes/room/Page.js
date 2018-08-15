@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import classNames from 'classnames/bind'
+import helpers from '../../bootstrap'
 import Table from './containers/Table'
 import Seat from './containers/Seat'
 import Grid from './containers/Grid'
 import Guides from './Guides'
-import ChartDetails from './containers/ChartDetails'
+import PageHeader from './containers/PageHeader'
 import Loading from '../../global/Loading'
 
 export default class Page extends Component {
@@ -16,16 +17,15 @@ export default class Page extends Component {
     this.state = {
       gridRows: 38,
       gridColumns: 78,
-      realPageWidth: 1550, // this is the width of a tabloid piece of paper, in px
-      realPageHeight: 1000, // this is the height of a tabloid piece of paper, in px
+      realPageWidth: helpers.tabloidPxWidth,
+      realPageHeight: helpers.tabloidPxHeight,
       browserPageWidth: '' // this is .page-inner-container's css width
     }
   }
 
   measurePageInBrowser() {
     // update state with the CSS values of the page as displayed by the browser
-    const pageCont = this.pageContRef.current
-    const pageCSS = window.getComputedStyle(pageCont)
+    const pageCSS = window.getComputedStyle(this.pageContRef.current)
     this.setState({
       browserPageWidth: parseInt(pageCSS.width)
     })
@@ -36,7 +36,7 @@ export default class Page extends Component {
       this.props.currentOffering.id !== null
       && this.props.currentRoom !== null
       && this.props.currentSeats.length > 0
-      && Object.keys(this.props.loading).every(type => this.props.loading[type] === false) // only do the check if app is not waiting on any data
+      && Object.keys(this.props.loading).every(type => this.props.loading[type] === false)
     ) {
       this.props.currentStudents.forEach(student => {
         const assignedSeatId = student.seats[`offering_${this.props.currentOffering.id}`]
@@ -60,29 +60,35 @@ export default class Page extends Component {
     })
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     // are any students seated at non-existing seats?
     this.checkForBadSeats()
 
-    // If the paper size changed, we need to do a few things manually here.
+    // keep state updated with inner-page-container's width
+    const browserPageWidth = parseInt(window.getComputedStyle(this.pageContRef.current).width)
+    if (prevState.browserPageWidth !== browserPageWidth) {
+      this.setState({ browserPageWidth })
+    }
+
+    // If the paper size changed, we need to do a few things manually here:
     // Changing to letter...
     if (prevProps.currentOffering.paperSize !== 'letter' && this.props.currentOffering.paperSize === 'letter') {
-      const gridRowHeight = parseFloat(parseFloat(816 / this.state.gridRows).toFixed(3))
-      const gridColumnWidth = parseFloat(parseFloat(1056 / this.state.gridColumns).toFixed(3))
+      const gridColumnWidth = parseFloat(parseFloat(helpers.letterPxWidth / this.state.gridColumns).toFixed(3))
+      const gridRowHeight = parseFloat(parseFloat(helpers.letterPxHeight / this.state.gridRows).toFixed(3))
       this.setState({
-        realPageWidth: 1056, // this is the width of a letter piece of paper, in px
-        realPageHeight: 816, // this is the height of a letter piece of paper, in px
+        realPageWidth: helpers.letterPxWidth,
+        realPageHeight: helpers.letterPxHeight,
         gridRowHeight,
         gridColumnWidth
       })
     }
     // Changing to tabloid...
     if (prevProps.currentOffering.paperSize !== 'tabloid' && this.props.currentOffering.paperSize === 'tabloid') {
-      const gridRowHeight = parseFloat(parseFloat(1000 / this.state.gridRows).toFixed(3))
-      const gridColumnWidth = parseFloat(parseFloat(1550 / this.state.gridColumns).toFixed(3))
+      const gridColumnWidth = parseFloat(parseFloat(helpers.tabloidPxWidth / this.state.gridColumns).toFixed(3))
+      const gridRowHeight = parseFloat(parseFloat(helpers.tabloidPxHeight / this.state.gridRows).toFixed(3))
       this.setState({
-        realPageWidth: 1550, // this is the width of a tabloid piece of paper, in px
-        realPageHeight: 1000, // this is the height of a tabloid piece of paper, in px
+        realPageWidth: helpers.tabloidPxWidth,
+        realPageHeight: helpers.tabloidPxHeight,
         gridRowHeight,
         gridColumnWidth
       })
@@ -116,14 +122,14 @@ export default class Page extends Component {
       'student-details':this.props.task === 'student-details',
       'choosing-a-point':this.props.pointSelection,
       'is-loading':this.props.loading.rooms || this.props.loading.tables || this.props.loading.offerings || this.props.loading.students,
-      'flip-perspective': this.props.currentOffering.flipped
+      'flip-perspective': this.props.currentOffering.flipped,
+      'paper-tabloid': this.props.currentOffering.paperSize === 'tabloid' || this.props.currentOffering.paperSize === null,
+      'paper-letter': this.props.currentOffering.paperSize === 'letter',
     })
 
     const innerPageContainerClasses = classNames({
       'inner-page-container':true,
       'card':true,
-      'tabloid': this.props.currentOffering.paperSize === 'tabloid' || this.props.currentOffering.paperSize === null,
-      'letter': this.props.currentOffering.paperSize === 'letter',
     })
 
     const seatsContainerClasses = classNames({
@@ -140,13 +146,13 @@ export default class Page extends Component {
 
             <Route path='/print' render={() => (
               <canvas height="100%" width="100%"></canvas>
-            )} />
+            )}/>
 
-            <ChartDetails shrinkRatio={this.state.browserPageWidth / this.state.realPageWidth}/>
+            <PageHeader shrinkRatio={this.state.browserPageWidth / this.state.realPageWidth}/>
 
             <div className={seatsContainerClasses} style={{
               'transformOrigin':'top left',
-              'transform':`scale(${this.state.browserPageWidth / this.state.realPageWidth})`
+              'transform':`translateX(4.5px) scale(${this.state.browserPageWidth / this.state.realPageWidth})`
             }}>
               { this.props.currentSeats.map(seat =>
                 <Seat

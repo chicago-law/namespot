@@ -33,17 +33,24 @@
     transition:transform 200ms ease-out;
     &.empty-seat .picture {
       background:#fff;
-      border:4px solid $light-gray;
+      border:8px solid $light-gray;
     }
     &.is-current-student {
       transform:scale(1.25);
     }
+    &.font-smaller .name {
+      @include ms-1;
+    }
+    &.font-larger .name {
+      @include ms1;
+    }
   }
   .picture {
     display:inline-block;
-    border-radius:5px;
+    border-radius:8px;
     background-size:cover;
     background-position:center;
+    overflow:hidden;
     >svg {
       overflow:visible;
     }
@@ -59,13 +66,12 @@
     position:absolute;
     left:0;
     right:0;
+    margin:0 -1em;
     justify-content:center;
     align-items: center;
     flex-direction:column;
     line-height:1;
     padding:.15em;
-    font-size:13.5px;
-    background: #fff;
   }
   .seat-container {
     &.label-below .name {
@@ -80,14 +86,14 @@
       align-items:flex-start;
       top:50%;
       left:100%;
-      transform:translate(.5em, -50%);
+      transform:translate(1.25em, -50%);
       text-align:left;
     }
     &.label-left .name {
       align-items:flex-end;
       top:50%;
       right:100%;
-      transform:translate(-.5em, -50%);
+      transform:translate(-1.25em, -50%);
       text-align:right;
     }
   }
@@ -116,9 +122,34 @@
   }
 }
 
+// flip the seats back to normal if the page is flipped
 .outer-page-container.flip-perspective .seat-container .seat {
   transform:rotateX(180deg);
 }
 .outer-page-container.flip-perspective .seat-container.is-active .seat {
   transform:scale(1.25) rotateX(180deg);
+}
+
+// set font size according to paper size
+.paper-tabloid .inner-page-container .seat-container .seat {
+  .name {
+    @include ms0-x2;
+  }
+  &.font-smaller .name {
+    @include ms-1-x2;
+  }
+  &.font-larger .name {
+    @include ms1-x2;
+  }
+}
+.paper-letter .inner-page-container .seat-container .seat {
+  .name {
+    @include ms-1-x2;
+  }
+  &.font-smaller .name {
+    @include ms-2-x2;
+  }
+  &.font-larger .name {
+    @include ms0-x2;
+  }
 }

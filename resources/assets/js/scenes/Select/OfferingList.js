@@ -95,7 +95,7 @@ export default class OfferingList extends Component {
         </header>
 
         <ul className='content'>
-          {filteredOfferingList.map(offering =>
+          {filteredOfferingList.length > 0 && (filteredOfferingList.map(offering =>
             <li key={offering.id}>
               <Link to={`/offering/${offering.id}`}>
                 <h4>{offering.long_title}</h4>
@@ -110,6 +110,11 @@ export default class OfferingList extends Component {
                 </small></p>
               </Link>
               <i className="far fa-chevron-right"></i>
+            </li>
+          ))}
+          {filteredOfferingList.length === 0 && Object.keys(loading).every(l => loading[l] === false) && (
+            <li className='select__no-classes-found'>
+              <h4>No classes found</h4>
             </li>
           )}
         </ul>

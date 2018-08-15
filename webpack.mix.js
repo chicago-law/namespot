@@ -1,4 +1,4 @@
-let mix = require('laravel-mix');
+let mix = require('laravel-mix')
 // let BrowserSyncPlugin = require('browser-sync-webpack-plugin');i
 
 
@@ -18,4 +18,4 @@ mix.react('resources/assets/js/main.js', 'public/js')
    .copyDirectory('resources/assets/images', 'public/images')
    .browserSync({
      proxy:'localhost:8888/namespot/public'
-   });
+   })

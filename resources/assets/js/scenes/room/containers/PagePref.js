@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import ChartPref from '../ChartPref'
+import PagePref from '../PagePref'
 import { requestUpdateOffering } from '../../../actions'
 
 const mapStateToProps = (state) => {
@@ -16,9 +16,9 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const ChartPrefContainer = connect(
+const PagePrefContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(ChartPref)
+)(PagePref)
 
-export default ChartPrefContainer
+export default PagePrefContainer

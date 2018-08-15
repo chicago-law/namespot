@@ -3,20 +3,20 @@ import PropTypes from 'prop-types'
 import { Route } from 'react-router-dom'
 import helpers from '../../bootstrap'
 
-const ChartDetails = (props) =>  {
+const PageHeader = (props) =>  {
   const { shrinkRatio, currentRoom, currentOffering } = props
 
   const roomChartDetails = () => (
-    <div className='chart-details'>
+    <div className='page-header'>
       <div className='left' style={{
         'transformOrigin':'top left',
-        'transform':`scale(${shrinkRatio})`
+        'transform':`scale(${shrinkRatio})`,
       }}>
         <p>University of Chicago Law School</p>
       </div>
       <div className='right' style={{
         'transformOrigin':'top right',
-        'transform':`scale(${shrinkRatio})`
+        'transform':`scale(${shrinkRatio})`,
       }}>
         <p>{currentRoom.name}</p>
       </div>
@@ -24,7 +24,7 @@ const ChartDetails = (props) =>  {
   )
 
   const offeringChartDetails = () => (
-    <div className='chart-details'>
+    <div className='page-header'>
       <div className='left' style={{
         'transformOrigin':'top left',
         'transform':`scale(${shrinkRatio})`
@@ -41,7 +41,7 @@ const ChartDetails = (props) =>  {
   )
 
   return (
-    <div className='chart-details-container'>
+    <div className='page-header-container'>
       <Route path='/room' component={roomChartDetails} />
       <Route path='/offering' component={offeringChartDetails} />
       <Route exact path='/print/seating-chart/room/:roomid' component={roomChartDetails} />
@@ -50,9 +50,9 @@ const ChartDetails = (props) =>  {
   )
 }
 
-export default ChartDetails
+export default PageHeader
 
-ChartDetails.propTypes = {
+PageHeader.propTypes = {
   currentRoom: PropTypes.object,
   currentOffering: PropTypes.object,
   shrinkRatio: PropTypes.number.isRequired

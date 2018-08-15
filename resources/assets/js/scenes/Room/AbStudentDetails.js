@@ -36,7 +36,7 @@ export default class AbStudentDetails extends Component {
 
         <div className='flex-column'>
           <div>
-            <h6>Name</h6>
+            <h6>Full Name</h6>
             <p>{`${student.first_name} ${student.last_name}`}</p>
           </div>
           <div>
@@ -58,17 +58,17 @@ export default class AbStudentDetails extends Component {
         </div>
 
         <div style={{'marginLeft':'auto'}}>
-          { student.seats['offering_' + this.props.currentOffering.id] ?
-            <button className='big-button pull-right' onClick={()=> this.handleUnseatClick()}>
-              <i className="far fa-unlink"></i>
-              <p>Remove Student<br/>from Seat</p>
-            </button>
-          : false}
-
           { student.manual_attachments[`offering_${this.props.currentOffering.id}`] ?
             <button className='big-button pull-right' onClick={()=> this.onRemoveFromClass()}>
               <i className="far fa-sign-out"></i>
               <p>Remove Student<br/>from Class</p>
+            </button>
+          : false}
+
+          { student.seats['offering_' + this.props.currentOffering.id] ?
+            <button className='big-button pull-right' onClick={()=> this.handleUnseatClick()}>
+              <i className="far fa-unlink"></i>
+              <p>Remove Student<br/>from Seat</p>
             </button>
           : false}
         </div>
@@ -82,7 +82,9 @@ AbStudentDetails.propTypes = {
   assignSeat: PropTypes.func.isRequired,
   currentOffering: PropTypes.object.isRequired,
   currentStudentId: PropTypes.number.isRequired,
+  setCurrentStudentId: PropTypes.func.isRequired,
   setTask: PropTypes.func.isRequired,
   students: PropTypes.object.isRequired,
+  unenrollStudent: PropTypes.func.isRequired,
   updateAndSaveStudent: PropTypes.func.isRequired
 }

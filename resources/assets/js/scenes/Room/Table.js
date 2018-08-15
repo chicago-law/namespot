@@ -78,22 +78,22 @@ class Table extends Component {
   }
 
   render() {
-
+    const { id, tempTable } = this.props
     const d = this.getPathString()
 
     const tableClasses = classNames({
       'table':true,
-      'is-active': this.props.id === this.props.tempTable.id ? true : false,
+      'is-active': id === tempTable.id ? true : false,
     })
 
     return (
       <g
-        id={'table_' + this.props.id}
+        id={'table_' + id}
         className={tableClasses}
         ref={this.tableGroupRef}
         onClick={(e) => this.handleTableClick(e)}
       >
-        <path className='table-path' ref={this.pathRef} d={ d } stroke="#f4f4f4" strokeWidth="8" fill="none" />
+        <path className='table-path' ref={this.pathRef} d={d} stroke="#f4f4f4" strokeWidth="15" fill="none" strokeLinecap="round"/>
       </g>
     )
   }
@@ -105,16 +105,23 @@ Table.propTypes = {
   currentOffering: PropTypes.object.isRequired,
   currentRoom: PropTypes.object.isRequired,
   eX: PropTypes.number.isRequired,
-  gridCoords: PropTypes.any.isRequired,
+  eY: PropTypes.number.isRequired,
+  gridCoords: PropTypes.object.isRequired,
   gridcolumnwidth: PropTypes.number,
   gridrowheight: PropTypes.number,
   id: PropTypes.number.isRequired,
   labelPosition: PropTypes.string.isRequired,
-  seatCount: PropTypes.number,
+  qX: PropTypes.number,
+  qY: PropTypes.number,
+  receiveSeats: PropTypes.func.isRequired,
   removeTableRequest: PropTypes.func.isRequired,
   requestError: PropTypes.func.isRequired,
+  seatCount: PropTypes.number,
   selectTable: PropTypes.func.isRequired,
   setPointSelection: PropTypes.func.isRequired,
   setTask: PropTypes.func.isRequired,
+  sX: PropTypes.number.isRequired,
+  sY: PropTypes.number.isRequired,
   task: PropTypes.string.isRequired,
+  tempTable: PropTypes.object.isRequired
 }

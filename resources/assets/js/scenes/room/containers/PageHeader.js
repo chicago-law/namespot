@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import ChartDetails from '../ChartDetails'
+import PageHeader from '../PageHeader'
 
 const mapStateToProps = (state) => {
   return {
@@ -8,8 +8,8 @@ const mapStateToProps = (state) => {
   }
 }
 
-const ChartDetailsContainer = connect(
+const PageHeaderContainer = connect(
   mapStateToProps
-)(ChartDetails)
+)(PageHeader)
 
-export default ChartDetailsContainer
+export default PageHeaderContainer

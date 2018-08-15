@@ -2,10 +2,6 @@
   z-index:100;
   .table {
     .table-path {
-      stroke:$off-white;
-      stroke-width:8;
-      stroke-linecap:round;
-      fill:none;
       transition:stroke 75ms ease-out;
     }
     &:hover {

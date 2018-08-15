@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 export default class LabelPosition extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      selection: 'below',
-    }
+  state = {
+    selection: this.props.tempTable.labelPosition || 'below'
   }
 
   onSelectPosition(e) {
@@ -41,4 +39,11 @@ export default class LabelPosition extends Component {
       </div>
     )
   }
+}
+
+LabelPosition.propTypes = {
+  close: PropTypes.func.isRequired,
+  setLabelPosition: PropTypes.func.isRequired,
+  setModal: PropTypes.func.isRequired,
+  tempTable: PropTypes.object.isRequired
 }
