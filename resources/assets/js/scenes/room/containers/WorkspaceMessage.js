@@ -2,9 +2,9 @@ import { connect } from 'react-redux'
 import WorkspaceMessage from '../WorkspaceMessage'
 // import {  } from '../../../actions'
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
-    //
+    pointSelection: state.app.pointSelection
   }
 }
 

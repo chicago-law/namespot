@@ -6,20 +6,11 @@ import Loading from '../../global/Loading'
 import helpers from '../../bootstrap'
 
 export default class OfferingList extends Component {
-  constructor(props) {
-    super(props)
-    this.searchRef = React.createRef()
-    this.state = {
-      query: '',
-      selectedTermCode: this.props.defaultTerm
-    }
+  state = {
+    query: '',
+    selectedTermCode: this.props.defaultTerm
   }
-
-  componentDidMount() {
-    this.props.requestOfferings(this.state.selectedTermCode)
-    this.props.setView('offering-list')
-    this.searchRef.current.focus()
-  }
+  searchRef = React.createRef()
 
   handleSearchInput(e) {
     this.setState({
@@ -38,9 +29,27 @@ export default class OfferingList extends Component {
     })
   }
 
+  onOfferingClick = (e) => {
+    e.preventDefault()
+
+    // add clicked offering's ID to local storage
+    const id = e.target.closest('.offering').dataset.id
+    // if recentOfferings includes the id, then create new array with that filtered out, and then add to beginning
+    const newRecent = JSON.stringify([ id, ...this.props.recentOfferings.filter(offeringId => offeringId !== id).slice(0, 4) ])
+    localStorage.setItem('recentOfferings', newRecent)
+
+    this.props.history.push(`/offering/${id}`)
+  }
+
+  componentDidMount() {
+    this.props.requestOfferings(this.state.selectedTermCode)
+    this.props.setView('offering-list')
+    this.searchRef.current.focus()
+  }
+
   render() {
     const { query, selectedTermCode } = this.state
-    const { loading, offerings, years } = this.props
+    const { loading, offerings, recentOfferings, years } = this.props
 
     const terms = helpers.getAllTermCodes(years)
 
@@ -95,9 +104,28 @@ export default class OfferingList extends Component {
         </header>
 
         <ul className='content'>
+
+          {recentOfferings.length > 0 && query.length === 0 && (
+            <li className='select__recent-offerings'>
+              <h6>Recent</h6>
+              <ul>
+                {recentOfferings.map(offeringId => {
+                  const offering = offerings[offeringId]
+                  return offering ? (
+                    <li key={offering.id}>
+                      <Link to={`/offering/${offering.id}`} onClick={this.onOfferingClick} className='offering' data-id={offering.id}>
+                        {offering.long_title}
+                      </Link>
+                    </li>
+                  ) : ''
+                })}
+              </ul>
+            </li>
+          )}
+
           {filteredOfferingList.length > 0 && (filteredOfferingList.map(offering =>
             <li key={offering.id}>
-              <Link to={`/offering/${offering.id}`}>
+              <Link to={`/offering/${offering.id}`} onClick={this.onOfferingClick} className='offering' data-id={offering.id}>
                 <h4>{offering.long_title}</h4>
                 <p><small>
                   LAWS {offering.catalog_nbr}-{offering.section} &bull;&nbsp;
@@ -128,6 +156,7 @@ OfferingList.propTypes = {
   defaultTerm: PropTypes.string.isRequired,
   loading: PropTypes.object.isRequired,
   offerings: PropTypes.object.isRequired,
+  recentOfferings: PropTypes.array.isRequired,
   requestOfferings: PropTypes.func.isRequired,
   setView: PropTypes.func.isRequired,
   saveSessionTerm: PropTypes.func.isRequired,

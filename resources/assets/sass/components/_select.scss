@@ -63,6 +63,7 @@
         top:50%;
         transform:translateY(-50%);
         color:$middle-gray;
+        pointer-events:none;
       }
       &:hover {
         h4, p, i {
@@ -91,4 +92,28 @@
 
 .select__no-classes-found {
   padding:1.5em 3.5em 1.5em 2em; // weird to make space for caret
+}
+
+.select__recent-offerings {
+  padding-left: 2em;
+  h6 {
+    text-transform:uppercase;
+    margin-bottom: .5em;
+  }
+  ul {
+    margin-left: 1.7em;
+    margin-bottom: 1em;
+    li {
+      a {
+        padding:.25em;
+        border:0;
+        color:$dark-gray;
+        font-weight:bold;
+        @include ms-1;
+        &:hover {
+          color:$primary-accent;
+        }
+      }
+    }
+  }
 }

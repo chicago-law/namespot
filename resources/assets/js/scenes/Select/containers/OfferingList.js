@@ -1,13 +1,17 @@
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import OfferingList from '../OfferingList'
 import helpers from '../../../bootstrap'
 import { setView, requestOfferings, saveSessionTerm } from '../../../actions'
 
 const mapStateToProps = (state) => {
+  const recentOfferingsArray = localStorage.getItem('recentOfferings') ? JSON.parse(localStorage.getItem('recentOfferings')) : []
+
   return {
-    offerings:state.entities.offerings,
-    loading:state.app.loading,
     defaultTerm: localStorage.getItem('selectedTerm') || helpers.termCodesFromYear(helpers.academicYear)[0],
+    loading:state.app.loading,
+    offerings:state.entities.offerings,
+    recentOfferings: recentOfferingsArray,
     years: state.app.years
   }
 }
@@ -26,9 +30,9 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const OfferingListContainer = connect(
+const OfferingListContainer = withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(OfferingList)
+)(OfferingList))
 
 export default OfferingListContainer

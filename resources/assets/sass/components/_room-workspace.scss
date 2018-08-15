@@ -101,4 +101,50 @@
       }
     }
   }
+
+  .workspace-message-container {
+    position:relative;
+    height:100%;
+    h6 {
+      text-align:center;
+      text-transform:uppercase;
+      color:$dark-gray;
+      @include ms-1;
+    }
+    p {
+      right:auto;
+      font-weight:normal;
+      font-style:italic;
+      color:$dark-gray;
+    }
+    .message-icon {
+      text-align:center;
+      p {
+        display:inline-flex;
+        justify-content:center;
+        align-items:center;
+        @include ms0;
+      }
+    }
+    .message-content {
+      position:absolute;
+      top:50%;
+      padding:1em;
+      background:$lighter-gray;
+      border-radius:5px;
+      transition: transform 300ms ease-out, opacity 300ms ease-out;
+    }
+    .message-enter {
+      opacity:01;
+      transform: translateY(-45%);
+    }
+    .message-enter-active, .message-enter-done {
+      opacity:1;
+      transform: translateY(-50%);
+    }
+    .message-exit-active {
+      opacity:.01;
+      transform: translateY(-45%);
+    }
+  }
 }

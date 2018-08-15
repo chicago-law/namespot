@@ -58,25 +58,25 @@ export default class Workspace extends Component {
     // in app / currentRoom. You must call findAndSetCurrentRoom at that point.
     // Same with findAndSetCurrentOffering.
     if (
-      this.props.currentRoomID != null &&
-      (
-        this.props.currentRoomID != prevProps.currentRoomID ||
-        this.props.currentRoom.id != prevProps.currentRoom.id ||
-        this.props.currentRoomID != this.props.currentRoom.id
+      this.props.currentRoomID != null
+      && (
+        this.props.currentRoomID != prevProps.currentRoomID
+        || this.props.currentRoom.id != prevProps.currentRoom.id
+        || this.props.currentRoomID != this.props.currentRoom.id
       )
-    ){
+    ) {
       this.props.findAndSetCurrentRoom(this.props.currentRoomID)
     }
 
     // set current offering if any IDs change
     if (
-      this.props.currentOfferingID != null &&
-      (
-        this.props.currentOfferingID != prevProps.currentOfferingID ||
-        this.props.currentOffering.id != prevProps.currentOffering.id ||
-        this.props.currentOfferingID != this.props.currentOffering.id
+      this.props.currentOfferingID != null
+      && (
+        this.props.currentOfferingID != prevProps.currentOfferingID
+        || this.props.currentOffering.id != prevProps.currentOffering.id
+        || this.props.currentOfferingID != this.props.currentOffering.id
       )
-    ){
+    ) {
       this.props.findAndSetCurrentOffering(this.props.currentOfferingID)
     }
 
@@ -116,9 +116,8 @@ export default class Workspace extends Component {
     return (
       <div className="room-workspace">
 
-        <Route path='/room' component={WorkspaceMessage} />
-
         <div className='room-workspace-left'>
+          <Route path='/room' component={WorkspaceMessage} />
           <Route path="/offering" component={PagePref} />
         </div>
 
