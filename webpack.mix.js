@@ -17,5 +17,5 @@ mix.react('resources/assets/js/main.js', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css')
    .copyDirectory('resources/assets/images', 'public/images')
    .browserSync({
-     proxy:'localhost:8888/namespot/public'
+     proxy:'localhost/namespot/public'
    })
