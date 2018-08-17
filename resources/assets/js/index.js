@@ -18,8 +18,6 @@ const store = createStore(
 
 let basename=window.location.pathname
 
-console.log(window.location.pathname)
-
 render(
   <BrowserRouter basename={basename}>
     <Root store={store} />

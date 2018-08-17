@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import helpers from '../bootstrap'
 
 const Menu = ({toggleMenu}) => (
   <div className="site-menu">
@@ -20,7 +21,7 @@ const Menu = ({toggleMenu}) => (
       <li><Link className="reverse-colors" to="/" onClick={toggleMenu}><i className="far fa-sign-out-alt fa-fw"></i>Logout</Link></li>
     </ul>
     <div className="school-logo-container">
-      <img src={'/namespot/public' + require('../../images/uchicago-logo.svg')} />
+      <img src={`${helpers.rootUrl}images/uchicago-logo.svg`} />
     </div>
   </div>
 )
