@@ -25,7 +25,8 @@ export default class EditableText extends Component {
   }
 
   handleSaveClick() {
-    const text = this.textRef.current.textContent
+    const text = this.textRef.current.textContent.trim()
+    console.log(text, text.length)
     if (this.props.validator) {
       switch (this.props.validator) {
         case 'unique-room-name':

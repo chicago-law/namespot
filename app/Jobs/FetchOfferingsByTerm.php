@@ -164,8 +164,6 @@ class FetchOfferingsByTerm implements ShouldQueue
       } else {
         $api_response = 'no response';
       }
-      unlink('/var/www/html/namespot/storage/logs/api.txt');
-      file_put_contents('/var/www/html/namespot/storage/logs/api.txt', $e);
 
       $errors_array[] = [
         'api_request' => $api_request,
@@ -176,13 +174,12 @@ class FetchOfferingsByTerm implements ShouldQueue
 
     if (count($errors_array)):
       // send an email with exceptions summary
-      // $message = "FetchOfferingsByTerm for {$this->term} finished with " . count($errors_array) . " errors. " . print_r($errors_array);
-      // Mail::to(config('app.admin_email'))->send(new JobException($message, $errors_array));
-      // file_put_contents('/var/www/html/namespot/storage/logs/api.txt', $message);
+      $message = "FetchOfferingsByTerm for {$this->term} finished with " . count($errors_array) . " errors.";
+      Mail::to(config('app.admin_email'))->send(new JobException($message, $errors_array));
     else:
       // send summary email
-      // $results = "FetchOfferingsByTerm for {$this->term} found " . count($body->UC_CLASS_TBL) . " offerings, with no errors.";
-      // Mail::to(config('app.admin_email'))->send(new JobResults($results));
+      $results = "FetchOfferingsByTerm for {$this->term} found " . count($body->UC_CLASS_TBL) . " offerings, with no errors.";
+      Mail::to(config('app.admin_email'))->send(new JobResults($results));
     endif;
 
   }

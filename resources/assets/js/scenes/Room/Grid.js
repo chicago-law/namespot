@@ -54,8 +54,14 @@ export default class Grid extends Component {
       'belongs-to-active-table': this.isBlipActive(key, this.props.tempTable),
       'is-being-replaced': this.isBlipActive(key, this.props.tempTable) === this.props.pointSelection ? true : false
     })
-    const cx = (x * this.props.gridColumnWidth).toFixed(2) + 'px'
-    const cy = (y * this.props.gridRowHeight).toFixed(2) + 'px'
+    const cx = (x * this.props.gridColumnWidth).toFixed(2)
+    const cy = (y * this.props.gridRowHeight).toFixed(2)
+
+    // don't try and return a blip until we have proper coordinate values
+    if (isNaN(cx)) {
+      return false
+    }
+
     const blip = <circle
       key={key}
       id={key}
@@ -64,7 +70,7 @@ export default class Grid extends Component {
       r='13'
       cx={cx} cy={cy}
       x={x} y={y}
-      style={{ transformOrigin: `${cx} ${cy}` }}
+      style={{ transformOrigin: `${cx}px ${cy}px` }}
     />
     return blip
   }

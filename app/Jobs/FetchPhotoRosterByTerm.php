@@ -112,8 +112,14 @@ class FetchPhotoRosterByTerm implements ShouldQueue
               $decoded = base64_decode($photo_data);
               // file_put_contents("images/students/{$file_name}", $decoded);
 
-              // this is working when no images were there already
-              file_put_contents("Sites/namespot/public/images/students/{$file_name}", $decoded);
+              // this is working locally when no images were there already
+              // file_put_contents("Sites/namespot/images/students/{$file_name}", $decoded);
+
+              file_put_contents("images/students/{$file_name}", $decoded);
+              // $path = getcwd();
+              // dd($path);
+              // file_put_contents("images/students/benz.txt", 'benz');
+              // chmod("images/students/benz.txt", 0664);
 
             endif;
 

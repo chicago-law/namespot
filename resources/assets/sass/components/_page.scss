@@ -3,7 +3,7 @@
   margin-left: auto;
   margin-right: auto;
   margin-top:1.5em;
-  transition:transform 300ms ease-out;
+  transition:transform 500ms ease-out;
   @media(max-width:$desktop) {
     flex:auto;
     width:$x-large-page;
@@ -101,7 +101,7 @@
 
   .page-header-container {
     position:absolute;
-    top:.8em;
+    top:.3em;
     left:0;
     right:0;
     text-align:center;
@@ -135,7 +135,7 @@
       transform:rotateX(180deg);
     }
     .page-header-container {
-      bottom:0.8em;
+      bottom:0.3em;
       top:auto;
       transform:rotateX(180deg) translateY(-8px);
     }

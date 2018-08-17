@@ -6,10 +6,6 @@ import Loading from '../../global/Loading'
 import helpers from '../../bootstrap'
 
 export default class RoomList extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   handleNewRoom() {
     this.props.setLoadingStatus('rooms',true)
     axios.put(`${helpers.rootUrl}api/room`)
@@ -42,7 +38,7 @@ export default class RoomList extends Component {
     const sortedRooms = Object.keys(this.props.rooms).sort((idA, idB) => this.props.rooms[idA].name < this.props.rooms[idB].name ? -1 : 1)
 
     // remove any custom rooms, leaving only the templates
-    const filteredClasses = sortedRooms.filter(id => this.props.rooms[id].type === 'template')
+    const filteredRooms = sortedRooms.filter(id => this.props.rooms[id].type === 'template')
 
     const roomListClasses = classNames({
       'room-list':true,
@@ -65,7 +61,7 @@ export default class RoomList extends Component {
               <i className="far fa-chevron-right"></i>
             </a>
           </li>
-          {filteredClasses.map((id) => (
+          {filteredRooms.map((id) => (
             <li key={id}>
               <Link to={`/room/${id}`}>
                 <h4>{this.props.rooms[id].name}</h4>

@@ -31,8 +31,8 @@ use App\Jobs\TestJob;
  */
 Route::get('/test', function() {
     // FetchOfferingsByTerm::dispatch('2178');
-    FetchEnrolledStudentsByTerm::dispatch('2178');
-    // FetchPhotoRosterByTerm::dispatch('2182');
+    // FetchEnrolledStudentsByTerm::dispatch('2178');
+    FetchPhotoRosterByTerm::dispatch('2178');
     // TestJob::dispatch();
     return response()->json('job dispatched', 200);
 });

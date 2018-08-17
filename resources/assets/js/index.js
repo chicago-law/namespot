@@ -16,9 +16,11 @@ const store = createStore(
   )
 )
 
-let basename=window.location.pathname
+let basename = '/'
 
-console.log(window.location.pathname)
+if (window.location.hostname === 'localhost') {
+  basename = '/namespot/public/'
+}
 
 render(
   <BrowserRouter basename={basename}>
