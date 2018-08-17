@@ -26,16 +26,15 @@ use App\Jobs\TestJob;
 |
 */
 
-
 /**
  * TEST: RUN A TEST JOB
  */
 Route::get('/test', function() {
-    // FetchOfferingsByTerm::dispatch('2182');
-    // FetchEnrolledStudentsByTerm::dispatch('2182');
+    // FetchOfferingsByTerm::dispatch('2178');
+    FetchEnrolledStudentsByTerm::dispatch('2178');
     // FetchPhotoRosterByTerm::dispatch('2182');
     // TestJob::dispatch();
-    return response()->json('nada', 200);
+    return response()->json('job dispatched', 200);
 });
 
 

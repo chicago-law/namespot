@@ -63,6 +63,7 @@ class FetchEnrolledStudentsByTerm implements ShouldQueue
         // Make the call
         $response = $client->get($endpoint, [
           'headers' => [ 'Authorization' => $token ],
+          'verify' => false
         ]);
 
         $body = json_decode($response->getBody()->getContents());

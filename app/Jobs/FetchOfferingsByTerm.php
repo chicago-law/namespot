@@ -54,7 +54,8 @@ class FetchOfferingsByTerm implements ShouldQueue
 
       // Make the call
       $response = $client->get($endpoint, [
-        'auth' => [$username, $password]
+        'auth' => [$username, $password],
+        'verify' => false
       ]);
 
       $body = json_decode($response->getBody()->getContents());
@@ -157,12 +158,14 @@ class FetchOfferingsByTerm implements ShouldQueue
       endforeach;
 
     } catch (RequestException $e) {
-      $api_request = 'no request';
-      $api_response = 'no response';
       $api_request = Psr7\str($e->getRequest());
       if ($e->hasResponse()) {
         $api_response = Psr7\str($e->getResponse());
+      } else {
+        $api_response = 'no response';
       }
+      unlink('/var/www/html/namespot/storage/logs/api.txt');
+      file_put_contents('/var/www/html/namespot/storage/logs/api.txt', $e);
 
       $errors_array[] = [
         'api_request' => $api_request,
@@ -173,12 +176,13 @@ class FetchOfferingsByTerm implements ShouldQueue
 
     if (count($errors_array)):
       // send an email with exceptions summary
-      $message = "FetchOfferingsByTerm for {$this->term} finished with " . count($errors_array) . " errors.";
-      Mail::to(config('app.admin_email'))->send(new JobException($message, $errors_array));
+      // $message = "FetchOfferingsByTerm for {$this->term} finished with " . count($errors_array) . " errors. " . print_r($errors_array);
+      // Mail::to(config('app.admin_email'))->send(new JobException($message, $errors_array));
+      // file_put_contents('/var/www/html/namespot/storage/logs/api.txt', $message);
     else:
       // send summary email
-      $results = "FetchOfferingsByTerm for {$this->term} found " . count($body->UC_CLASS_TBL) . " offerings, with no errors.";
-      Mail::to(config('app.admin_email'))->send(new JobResults($results));
+      // $results = "FetchOfferingsByTerm for {$this->term} found " . count($body->UC_CLASS_TBL) . " offerings, with no errors.";
+      // Mail::to(config('app.admin_email'))->send(new JobResults($results));
     endif;
 
   }

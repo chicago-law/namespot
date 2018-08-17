@@ -20,4 +20,6 @@ Set up the .env file with any DB connection credentials you need.
 
 Sometimes when starting a new Laravel project you might have some issues with permissions writing to the log file. I found this thread to be helpful: https://laracasts.com/discuss/channels/general-discussion/laravel-framework-file-permission-security/replies/163407
 
+For issues with dispatching emails, check https://github.com/swiftmailer/swiftmailer/issues/544
+
 Voila!

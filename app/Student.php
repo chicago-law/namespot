@@ -24,6 +24,7 @@ class Student extends Model
         'picture'
     ];
 
+    public $timestamps = false;
 
     /**
      * Get the indexable data array for the model.

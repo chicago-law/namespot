@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Offering extends Model
 {
     protected $fillable = ['room_id','catalog_nbr'];
+    public $timestamps = false;
 
     public function instructors()
     {

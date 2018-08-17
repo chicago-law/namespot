@@ -59,7 +59,8 @@ class FetchPhotoRosterByTerm implements ShouldQueue
 
         // Make the call
         $response = $client->get($endpoint, [
-          'auth' => [$username, $password]
+          'auth' => [$username, $password],
+          'verify' => false
         ]);
 
         $body = json_decode($response->getBody()->getContents());
