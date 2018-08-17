@@ -17,17 +17,16 @@ const mapStateToProps = (state, ownProps) => {
   const currentRoomID = params.roomID ? params.roomID : currentOfferingID ? state.entities.offerings[currentOfferingID] ? state.entities.offerings[currentOfferingID].room_id != null ? String(state.entities.offerings[currentOfferingID].room_id) : null : null : null
 
   // find all tables that belong to this room
+  const { tables } = state.entities
+  const { currentRoom } = state.app
+
   let currentTables = []
-  if (state.entities.tables) {
-    const allTables = state.entities.tables
-    for (let table in allTables) {
-      if (allTables.hasOwnProperty(table)) {
-        if (allTables[table].room_id === state.app.currentRoom.id) {
-          currentTables = [ ...currentTables, allTables[table] ]
-        }
-      }
+  Object.keys(tables).forEach(tableId => {
+    if ( parseInt(tables[tableId].room_id) === parseInt(currentRoom.id) ) {
+      currentTables.push(tables[tableId])
     }
-  }
+  })
+
 
   // make an array of all the seats in the current room
   let currentSeats = []
