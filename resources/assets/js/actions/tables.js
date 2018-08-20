@@ -29,16 +29,17 @@ export function receiveTables(tables) {
     tables:formattedTables
   }
 }
-// request and fetch the tables from DB
+// request and fetch the tables from DB for a room
 export function fetchTables(roomID) {
   return (dispatch, getState) => {
-    // do we actually need to get the tables?
+    // Do we actually need to get the tables?
+    // Test by checking if there are already tables belonging
+    // to the room passed in.
     let alreadyHave = false
     const tablesObj = getState().entities.tables
     Object.keys(tablesObj).forEach(tableID => {
       if (tablesObj[tableID].room_id === roomID) {
         alreadyHave = true
-        return false
       }
     })
     if (!alreadyHave) {
@@ -105,13 +106,13 @@ export function saveNewTable(tableID, roomID, coords, seatCount, labelPosition) 
       label_position: labelPosition,
       ...formattedCoords
     })
-      .then(function (response) { // table successfully saved, so let's refresh our list with a new Fetch
+      .then(response => { // table successfully saved, so let's refresh our list with a new Fetch
         dispatch(fetchTables(roomID))
-        dispatch(setLoadingStatus('tables',false))
+        dispatch(setLoadingStatus('tables', false))
       })
       .catch(response => {
-        dispatch(requestError('save-table',response.message))
-        dispatch(setLoadingStatus('tables',false))
+        dispatch(requestError('save-table', response.message))
+        dispatch(setLoadingStatus('tables', false))
       })
   }
 }

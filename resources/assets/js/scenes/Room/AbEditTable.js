@@ -3,10 +3,6 @@ import PropTypes from 'prop-types'
 import helpers from '../../bootstrap'
 
 export default class AbEditTable extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
   findAncestor(el, cls) {
     while ((el = el.parentElement) && !el.classList.contains(cls));
     return el
@@ -47,7 +43,13 @@ export default class AbEditTable extends React.Component {
   handleApplyChangesClick() {
     // first check if we have both a start point and an end point, because those are
     // required for each table.
-    if (this.props.tempTable.coords['start'] != null && this.props.tempTable.coords['end'] != null) {
+    if (
+      this.props.tempTable.coords.hasOwnProperty('start')
+      && this.props.tempTable.coords.start !== null
+      && this.props.tempTable.coords.hasOwnProperty('end')
+      && this.props.tempTable.coords.end !== null
+    ) {
+      console.log('passed test')
       this.props.saveNewTable(this.props.tempTable.id, this.props.match.params.roomID, this.props.tempTable.coords, this.props.tempTable.seatCount, this.props.tempTable.labelPosition)
       this.props.clearTempTable()
       this.props.setTask('edit-room')
@@ -112,7 +114,7 @@ export default class AbEditTable extends React.Component {
           <a href='javascript:void(0);'>
             <button onClick={() => this.handleCancelClick()} className='cancel-changes'><i className="far fa-times"></i>Cancel</button>
           </a>
-          <a href="javascript:void(0)" >
+          <a href="javascript:void(0)">
             <button onClick={() => this.handleApplyChangesClick()} className='btn-accent save-changes'>Save Table</button>
           </a>
         </div>
