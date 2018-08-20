@@ -10,7 +10,13 @@ class TableController extends Controller
     function update(Request $request)
     {
         $id = $request->input('id');
-        $table = Table::firstOrNew(['id' => $id]);
+        $table;
+
+        if ($id !== 'new') {
+            $table = Table::findOrFail($id);
+        } else {
+            $table = new Table;
+        }
 
         $table->room_id = (int) $request->input('room_id');
         $table->sX = $request->input('sX');
