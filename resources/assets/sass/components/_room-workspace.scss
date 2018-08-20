@@ -1,8 +1,8 @@
 .room-workspace {
   display:flex;
-  // justify-content:center;
-  // flex-wrap:wrap;
+  align-items:flex-start;
   @media(max-width:$desktop) {
+    align-items:stretch;
     flex-direction: column;
   }
   .room-workspace-left, .room-workspace-right {
