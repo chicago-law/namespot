@@ -49,7 +49,6 @@ export default class AbEditTable extends React.Component {
       && this.props.tempTable.coords.hasOwnProperty('end')
       && this.props.tempTable.coords.end !== null
     ) {
-      console.log('passed test')
       this.props.saveNewTable(this.props.tempTable.id, this.props.match.params.roomID, this.props.tempTable.coords, this.props.tempTable.seatCount, this.props.tempTable.labelPosition)
       this.props.clearTempTable()
       this.props.setTask('edit-room')

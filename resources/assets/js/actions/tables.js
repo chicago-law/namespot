@@ -35,13 +35,10 @@ export function fetchTables(roomID) {
     // Do we actually need to get the tables?
     // Test by checking if there are already tables belonging
     // to the room passed in.
-    let alreadyHave = false
     const tablesObj = getState().entities.tables
-    Object.keys(tablesObj).forEach(tableID => {
-      if (tablesObj[tableID].room_id === roomID) {
-        alreadyHave = true
-      }
-    })
+    const alreadyHave = Object.keys(tablesObj).some(tableID => (
+      parseInt(tablesObj[tableID].room_id) === parseInt(roomID)
+    ))
     if (!alreadyHave) {
       // set loading status
       dispatch(setLoadingStatus('tables',true))
@@ -66,7 +63,7 @@ export function fetchTables(roomID) {
 
 // save a table to the DB, and then fetch new tables
 export function saveNewTable(tableID, roomID, coords, seatCount, labelPosition) {
-  return function (dispatch) {
+  return function (dispatch, getState) {
 
     // first change to loading status
     dispatch(setLoadingStatus('tables',true))
@@ -106,8 +103,13 @@ export function saveNewTable(tableID, roomID, coords, seatCount, labelPosition) 
       label_position: labelPosition,
       ...formattedCoords
     })
-      .then(response => { // table successfully saved, so let's refresh our list with a new Fetch
-        dispatch(fetchTables(roomID))
+      .then(response => {
+        // load the updated or new table into the store
+        const updatedTables = {
+          ...getState().entities.tables,
+          [response.data.id]:response.data
+        }
+        dispatch(receiveTables(updatedTables))
         dispatch(setLoadingStatus('tables', false))
       })
       .catch(response => {

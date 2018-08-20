@@ -9,7 +9,12 @@ class Table extends Component {
   getPathString() {
     // make the path string
     let d = ''
-    if (this.props.qX !== null && this.props.qY !== null) { // test if there is a curve point set or not
+    if (
+      this.props.qX !== null
+      && !isNaN(this.props.qX)
+      && this.props.qY !== null
+      && !isNaN(this.props.qY)
+    ) { // test if there is a curve point set or not
       d = `M ${(this.props.sX * this.props.gridcolumnwidth).toFixed(2)} ${(this.props.sY * this.props.gridrowheight).toFixed(2)}
            Q ${(this.props.qX * this.props.gridcolumnwidth).toFixed(2)} ${(this.props.qY * this.props.gridrowheight).toFixed(2)}
            ${(this.props.eX * this.props.gridcolumnwidth).toFixed(2)} ${(this.props.eY * this.props.gridrowheight).toFixed(2)}`
@@ -116,7 +121,7 @@ Table.propTypes = {
   receiveSeats: PropTypes.func.isRequired,
   removeTableRequest: PropTypes.func.isRequired,
   requestError: PropTypes.func.isRequired,
-  seatCount: PropTypes.number,
+  seatCount: PropTypes.number.isRequired,
   selectTable: PropTypes.func.isRequired,
   setPointSelection: PropTypes.func.isRequired,
   setTask: PropTypes.func.isRequired,

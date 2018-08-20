@@ -101,9 +101,9 @@ export default class Page extends Component {
       <Table
         key={table.id}
         id={table.id}
-        sX={table.sX} sY={table.sY} eX={table.eX} eY={table.eY} qX={table.qX} qY={table.qY}
+        sX={parseInt(table.sX)} sY={parseInt(table.sY)} eX={parseInt(table.eX)} eY={parseInt(table.eY)} qX={parseInt(table.qX)} qY={parseInt(table.qY)}
         gridCoords={table.gridCoords}
-        seatCount={table.seat_count}
+        seatCount={parseInt(table.seat_count)}
         labelPosition={table.label_position}
         gridrowheight={this.state.gridRowHeight}
         gridcolumnwidth={this.state.gridColumnWidth}

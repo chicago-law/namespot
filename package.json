@@ -19,7 +19,7 @@
         "bootstrap": "^4.1.1",
         "browser-sync": "^2.24.4",
         "browser-sync-webpack-plugin": "^2.2.2",
-        "cross-env": "^5.1.5",
+        "cross-env": "^5.2.0",
         "eslint": "^4.19.1",
         "eslint-plugin-babel": "^5.1.0",
         "eslint-plugin-react": "^7.10.0",

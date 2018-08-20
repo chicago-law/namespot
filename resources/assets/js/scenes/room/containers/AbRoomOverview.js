@@ -5,9 +5,9 @@ import { newTable, setTask, setPointSelection, requestRoomUpdate, setView, setMo
 
 const mapStateToProps = (state) => {
 
-  const tablesIdArray = Object.keys(state.entities.tables).filter(id => state.entities.tables[id].room_id === state.app.currentRoom.id)
+  const tablesIdArray = Object.keys(state.entities.tables).filter(id => parseInt(state.entities.tables[id].room_id) === parseInt(state.app.currentRoom.id))
   let seatCount = 0
-  tablesIdArray.forEach(id => seatCount += state.entities.tables[id].seat_count)
+  tablesIdArray.forEach(id => seatCount += parseInt(state.entities.tables[id].seat_count))
 
   return {
     currentRoom:state.app.currentRoom,
