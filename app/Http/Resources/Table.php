@@ -19,12 +19,12 @@ class Table extends JsonResource
             'room_id' => $this->room_id,
             'seat_count' => $this->seat_count,
             'label_position' => is_null($this->label_position) ? null : trim($this->label_position),
-            'sX' => (int) $this->sX,
-            'sY' => (int) $this->sY,
-            'eX' => (int) $this->eX,
-            'eY' => (int) $this->eY,
-            'qX' => (int) $this->qX,
-            'qY' => (int) $this->qY,
+            'sX' => is_null($this->sX) ? null : (int) $this->sX,
+            'sY' => is_null($this->sY) ? null : (int) $this->sY,
+            'eX' => is_null($this->eX) ? null : (int) $this->eX,
+            'eY' => is_null($this->eY) ? null : (int) $this->eY,
+            'qX' => is_null($this->qX) ? null : (int) $this->qX,
+            'qY' => is_null($this->qY) ? null : (int) $this->qY,
         ];
     }
 }
