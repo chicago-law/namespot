@@ -33,14 +33,15 @@ export default class Page extends Component {
 
   checkForBadSeats() {
     if (
-      this.props.currentOffering.id !== null
+      this.props.view !== 'seating-chart'
+      && this.props.currentOffering.id !== null
       && this.props.currentRoom !== null
       && this.props.currentSeats.length > 0
       && Object.keys(this.props.loading).every(type => this.props.loading[type] === false)
     ) {
       this.props.currentStudents.forEach(student => {
         const assignedSeatId = student.seats[`offering_${this.props.currentOffering.id}`]
-        if (assignedSeatId && this.props.currentSeats.every(seat => seat.id != assignedSeatId)) {
+        if (assignedSeatId && this.props.currentSeats.every(seat => parseInt(seat.id) !== parseInt(assignedSeatId))) {
           console.log(`assigned seat: ${assignedSeatId} doesn't actually exist`)
           this.props.assignSeat(this.props.currentOffering.id, student.id, null)
         }
@@ -145,7 +146,7 @@ export default class Page extends Component {
           <div className="page">
 
             <Route path='/print' render={() => (
-              <canvas height="100%" width="100%"></canvas>
+              <canvas className='original-canvas' height={`${this.state.realPageHeight}`} width={`${this.state.realPageWidth}`}></canvas>
             )}/>
 
             <PageHeader shrinkRatio={this.state.browserPageWidth / this.state.realPageWidth}/>
@@ -186,7 +187,7 @@ export default class Page extends Component {
             <div className="front-label" style={{
               'transformOrigin':'bottom center',
               'transform':`scale(${this.state.browserPageWidth / this.state.realPageWidth})`
-            }}>
+            }} >
               <h3>FRONT</h3>
             </div>
 

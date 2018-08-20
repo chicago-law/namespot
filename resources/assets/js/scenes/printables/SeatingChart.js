@@ -19,7 +19,7 @@ export default class SeatingChart extends Component {
     const seatingChartCanvas = document.querySelector('canvas')
 
     const canvgOptions = {
-      // log: true,
+      log: true,
       offsetX: 0,
       offsetY: 5
     }
@@ -28,15 +28,19 @@ export default class SeatingChart extends Component {
     // Now use html2canvas to paint the rest of the page into the canvas
     const input = document.querySelector('.outer-page-container')
     const h2cOptions = {
-      logging: false,
+      logging: true,
       scale: '1', // specifying 1 makes this work the same on Retina displays
       canvas: seatingChartCanvas,
-      // width:'800',
-      // height:'600',
+      width:'800',
+      height:'600',
       // windowWidth: '800',
       // windowHeight: '600'
     }
     html2canvas(input, h2cOptions).then((canvas) => {
+
+      document.getElementById('root').style.display = 'none'
+
+      document.querySelector('body').appendChild(canvas)
 
       // these are the dimensions for the PDF that will be generated, in inches.
       // They should be doubled from normal, because we're cranking out higher res
@@ -72,6 +76,10 @@ export default class SeatingChart extends Component {
     })
   }
 
+  onGoButton = () =>{
+    this.createPdf()
+  }
+
 
   componentDidMount() {
     // set view to 'seating-chart'
@@ -105,7 +113,7 @@ export default class SeatingChart extends Component {
     // check if we're waiting on anything to finish loading. If not, go ahead
     // and make the PDF.
     if (Object.keys(this.props.loading).every(loadingType => this.props.loading[loadingType] === false) && this.state.showLoading === true) {
-      this.createPdf()
+      // this.createPdf()
     }
   }
 
@@ -121,6 +129,8 @@ export default class SeatingChart extends Component {
 
     return (
       <div className={seatingChartClasses}>
+
+        <button onClick={this.onGoButton}>Go</button><br/>
 
         <div className='full-page-loading'>
           <Loading />

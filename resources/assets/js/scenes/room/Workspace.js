@@ -7,10 +7,7 @@ import OfferingDetails from './containers/OfferingDetails'
 import WorkspaceMessage from './containers/WorkspaceMessage'
 
 export default class Workspace extends Component {
-  constructor(props) {
-    super(props)
-    this.pageContRef = React.createRef()
-  }
+  pageContRef = React.createRef()
 
   setDefaultTask() {
     const url = this.props.match.path.split('/')

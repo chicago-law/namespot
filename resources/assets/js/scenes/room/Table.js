@@ -7,20 +7,21 @@ class Table extends Component {
   pathRef = React.createRef()
 
   getPathString() {
+    const { eX, eY, qX, qY, sX, sY, gridrowheight, gridcolumnwidth } = this.props
+
     // make the path string
     let d = ''
     if (
-      this.props.qX !== null
-      && !isNaN(this.props.qX)
-      && this.props.qY !== null
-      && !isNaN(this.props.qY)
+      qX !== null
+      && !isNaN(qX)
+      && qY !== null
+      && !isNaN(qY)
     ) { // test if there is a curve point set or not
-      d = `M ${(this.props.sX * this.props.gridcolumnwidth).toFixed(2)} ${(this.props.sY * this.props.gridrowheight).toFixed(2)}
-           Q ${(this.props.qX * this.props.gridcolumnwidth).toFixed(2)} ${(this.props.qY * this.props.gridrowheight).toFixed(2)}
-           ${(this.props.eX * this.props.gridcolumnwidth).toFixed(2)} ${(this.props.eY * this.props.gridrowheight).toFixed(2)}`
+      d = `M ${(sX * gridcolumnwidth).toFixed(2)} ${(sY * gridrowheight).toFixed(2)}
+           Q ${(qX * gridcolumnwidth).toFixed(2)} ${(qY * gridrowheight).toFixed(2)} ${(eX * gridcolumnwidth).toFixed(2)} ${(eY * gridrowheight).toFixed(2)}`
     } else {
-      d = `M ${(this.props.sX * this.props.gridcolumnwidth).toFixed(2)} ${(this.props.sY * this.props.gridrowheight).toFixed(2)}
-           L ${(this.props.eX * this.props.gridcolumnwidth).toFixed(2)} ${(this.props.eY * this.props.gridrowheight).toFixed(2)}`
+      d = `M ${(sX * gridcolumnwidth).toFixed(2)} ${(sY * gridrowheight).toFixed(2)}
+           L ${(eX * gridcolumnwidth).toFixed(2)} ${(eY * gridrowheight).toFixed(2)}`
     }
 
     return d

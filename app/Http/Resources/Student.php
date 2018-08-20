@@ -20,7 +20,7 @@ class Student extends JsonResource
         $seats = [];
         $manual_attachments = [];
         foreach($this->offerings as $offering):
-            $seats['offering_' . $offering->id] = $offering->pivot->assigned_seat;
+            $seats['offering_' . $offering->id] = is_null($offering->pivot->assigned_seat) ? null : trim($offering->pivot->assigned_seat);
             if ($offering->pivot->manually_attached):
                 $manual_attachments["offering_{$offering->id}"] = 1;
             endif;

@@ -35,7 +35,10 @@ class StudentController extends Controller
 
         // save and return
         $student->save();
-        return response()->json('success',200);
+
+        $response = new StudentResource($student);
+
+        return response()->json($response,200);
     }
 
     public function search(Request $request)
