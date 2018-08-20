@@ -39,13 +39,16 @@ export default class Page extends Component {
       && this.props.currentSeats.length > 0
       && Object.keys(this.props.loading).every(type => this.props.loading[type] === false)
     ) {
-      this.props.currentStudents.forEach(student => {
-        const assignedSeatId = student.seats[`offering_${this.props.currentOffering.id}`]
-        if (assignedSeatId && this.props.currentSeats.every(seat => parseInt(seat.id) !== parseInt(assignedSeatId))) {
-          console.log(`assigned seat: ${assignedSeatId} doesn't actually exist`)
-          this.props.assignSeat(this.props.currentOffering.id, student.id, null)
-        }
-      })
+      // Giving things a couple seconds to settle...
+      setTimeout(() => {
+        this.props.currentStudents.forEach(student => {
+          const assignedSeatId = student.seats[`offering_${this.props.currentOffering.id}`]
+          if (assignedSeatId && this.props.currentSeats.every(seat => parseInt(seat.id) !== parseInt(assignedSeatId))) {
+            console.log(`assigned seat: ${assignedSeatId} doesn't actually exist`)
+            this.props.assignSeat(this.props.currentOffering.id, student.id, null)
+          }
+        })
+      }, 2000)
     }
   }
 
