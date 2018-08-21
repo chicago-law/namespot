@@ -3,7 +3,7 @@
   .outer-page-container {
     // once we remove .show-loading from .seating-chart, hide this so user
     // just sees a blank screen (and will close the tab)
-    // display:none;
+    display:none;
 
     margin-top:0;
     // all widths are doubled to increase resolution!
@@ -16,12 +16,12 @@
   }
   .original-canvas {
     display:none;
-    width:3360px;
-    height:2173px;
-    // position:absolute;
-    // top:0;
-    // right:0;
-    // left:0;
-    // bottom:0;
+  //   // width:3360px;
+  //   // height:2173px;
+  //   // position:absolute;
+  //   // top:0;
+  //   // right:0;
+  //   // left:0;
+  //   // bottom:0;
   }
 }

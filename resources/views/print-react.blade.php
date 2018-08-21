@@ -13,6 +13,8 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/stackblur-canvas/1.4.1/stackblur.min.js"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/canvg/dist/browser/canvg.min.js"></script>
 
+  {{-- <script src="{{asset('js/html2canvas.min.js')}}"></script> --}}
+
   <script src="{{asset('js/main.js')}}"></script>
 
 @endsection

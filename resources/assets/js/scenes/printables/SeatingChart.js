@@ -26,13 +26,14 @@ export default class SeatingChart extends Component {
     canvg(seatingChartCanvas, document.querySelector('.tables-container').outerHTML, canvgOptions)
 
     // Now use html2canvas to paint the rest of the page into the canvas
+    // const input = document.querySelector('.test')
     const input = document.querySelector('.outer-page-container')
     const h2cOptions = {
       logging: true,
       scale: '1', // specifying 1 makes this work the same on Retina displays
       canvas: seatingChartCanvas,
-      width:'800',
-      height:'600',
+      // width:'800',
+      // height:'600',
       // windowWidth: '800',
       // windowHeight: '600'
     }
@@ -113,7 +114,9 @@ export default class SeatingChart extends Component {
     // check if we're waiting on anything to finish loading. If not, go ahead
     // and make the PDF.
     if (Object.keys(this.props.loading).every(loadingType => this.props.loading[loadingType] === false) && this.state.showLoading === true) {
-      // this.createPdf()
+      setTimeout(()=> {
+        this.createPdf()
+      }, 3000)
     }
   }
 
@@ -129,8 +132,6 @@ export default class SeatingChart extends Component {
 
     return (
       <div className={seatingChartClasses}>
-
-        <button onClick={this.onGoButton}>Go</button><br/>
 
         <div className='full-page-loading'>
           <Loading />
