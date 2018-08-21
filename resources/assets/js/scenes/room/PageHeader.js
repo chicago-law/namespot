@@ -29,13 +29,13 @@ const PageHeader = (props) =>  {
         'transformOrigin':'top left',
         'transform':`scale(${shrinkRatio})`
       }}>
-        <p>{helpers.termCodeToString(currentOffering.term_code)} &bull; University of Chicago Law School</p>
+        <h3>{helpers.termCodeToString(currentOffering.term_code)} &bull; University of Chicago Law School</h3>
       </div>
       <div className='right' style={{
         'transformOrigin':'top right',
         'transform':`scale(${shrinkRatio})`
       }}>
-        <p>LAWS {currentOffering.catalog_nbr}-{currentOffering.section} &bull; {currentOffering.long_title} &bull; {currentRoom.name}</p>
+        <h3>{currentOffering.long_title} &bull; LAWS {currentOffering.catalog_nbr}-{currentOffering.section} &bull; {currentRoom.name}</h3>
       </div>
     </div>
   )
