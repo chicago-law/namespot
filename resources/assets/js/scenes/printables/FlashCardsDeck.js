@@ -13,28 +13,40 @@ export default class FlashCardsDeck extends Component {
   }
 
   createPdf() {
+    const { namesOnReverse } = this.props
+
     const pdf = new jsPDF({
       format: 'letter',
       unit: 'in',
     })
 
     const cards = document.querySelectorAll('.flash-card')
+
+    // Number of flash cards per page
     const perPage = 3
 
-    // variables for the loop
+    // Counter for all the flash cards. Keep in mind that if we're doing
+    // names on reverse, then both the front and the back count as a flash card.
     let c = 0
+
+    // The page of the PDF we're going to print on.
     let currentPage = 1
+
+    // The position on the page of the of the current flash card. If it's
+    // three cards to page, then the top card is 0, the next will be 1,
+    // and then 2.
     let pagePos = 0
 
-    // the first page will be for the pics, and the second will be for names
-    pdf.addPage()
-    pdf.setPage(1)
+    if (namesOnReverse) {
+      // add another page for the names, since pics are first page
+      pdf.addPage()
+      // switch back to first page
+      pdf.setPage(1)
+    }
 
     const addToPdf = function(cardsArray) {
       const canvasOptions = {
         logging: false,
-        // specifying scale 1 makes this work the same on Retina displays and
-        // regardless of user's browser zoom level
         scale:'1',
       }
 
@@ -46,38 +58,68 @@ export default class FlashCardsDeck extends Component {
       html2canvas(cardsArray[c], canvasOptions).then((canvas) => {
         const imgData = canvas.toDataURL('image/jpeg', 1.0)
 
-        // if the counter is even, then add face pic to current
-        // if it's odd, then we have a name, so add it to current + 1
+        if (namesOnReverse) { // Add to PDF with names on reverse.
 
-        // if it's the first on the page, give it an inch margin in top
-        // const marginTop = c % 3 === 0 ? 1 : 0
+          // If the counter is even, then add face pic to current
+          // If it's odd, then we have a name, so add it to current + 1
+          if (even) {
+            pdf.setPage(currentPage)
+            // left margin of 1.75 in, top margin of 1 inch plus position in page x 3 in.
+            // Formatted for Avery Template #5388
+            pdf.addImage(imgData, 'JPG', 1.75, ((pagePos * 3) + 1))
+          } else {
+            pdf.setPage(currentPage + 1)
+            pdf.addImage(imgData, 'JPG', 1.75, ((pagePos * 3) + 1))
 
-        if (even) {
+            // increment pagePos every other one (aka only on the odds),
+            // because we're effectively doing sets of six instead of three
+            pagePos === perPage - 1 ? pagePos = 0 : pagePos++
+          }
+
+        } else { // Add to PDF for names on same side
+
           pdf.setPage(currentPage)
           pdf.addImage(imgData, 'JPG', 1.75, ((pagePos * 3) + 1))
-        } else {
-          pdf.setPage(currentPage + 1)
-          pdf.addImage(imgData, 'JPG', 1.75, ((pagePos * 3) + 1))
-          // increment pagePos every other one (aka only on the odds)
-          // reset when at perPage
+
+          // increment or reset the page position tracker
           pagePos === perPage - 1 ? pagePos = 0 : pagePos++
+
         }
 
         // we do a recursive, manual loop so we only go as fast as the canvases are created
         // increment the count and then check if we need to run the function again
-        console.log(`Just created number ${c}`)
+
+        // increment c
+        console.log(`Just created number ${c} of ${cards.length}`)
+
+        // Increment c and check if we need to go again.
         c++
         if (c < cards.length) {
-          // do we need to make more pages?
-          if (c % (perPage * 2) === 0) {
-            currentPage = currentPage + 2
-            pdf.addPage()
-            pdf.addPage()
-            pdf.setPage(currentPage)
+
+          // Yes, we need to go again, but first we need to check if more pages
+          // are needed. How we do this depends on namesOnReverse.
+
+          if (namesOnReverse) {
+            if (c % (perPage * 2) === 0) {
+              currentPage = currentPage + 2
+              pdf.addPage()
+              pdf.addPage()
+              pdf.setPage(currentPage)
+            }
+          } else {
+            if (c % perPage === 0) {
+              currentPage = currentPage + 1
+              pdf.addPage()
+              pdf.setPage(currentPage)
+            }
           }
+
           // Fire function again
           addToPdf(cards)
+
         } else {
+
+          // We're done! Save the file and mop up.
           const title = `Flash Cards: ${this.props.currentOffering.long_title || helpers.termCodeToString(this.props.termCode)}`
           pdf.save(`${title}.pdf`)
 
@@ -125,6 +167,7 @@ export default class FlashCardsDeck extends Component {
   }
 
   render() {
+    const { showLoading } = this.state
     const { students, currentOffering, namesOnReverse, offeringId } = this.props
 
     // put the students into an array. If there is an offering ID, then filter
@@ -135,24 +178,25 @@ export default class FlashCardsDeck extends Component {
     } else {
       Object.keys(students).forEach(id => studentArray.push(students[id]))
     }
-    const limitedStudentArray = studentArray.slice(0, 100)
+
+    const studentsSorted = studentArray.sort((a, b) => a.last_name.toUpperCase() < b.last_name.toUpperCase() ? -1 : 1)
 
     const flashCardClasses = classNames({
       'printable': true,
       'flash-cards-deck': true,
-      'show-loading': this.state.showLoading
+      'show-loading': showLoading
     })
 
     return (
       <div className={flashCardClasses}>
 
         <div className='full-page-loading'>
-          <p>Hang on, we&apos;re creating the flash cards PDF now...</p>
-          <p>Depending on the number of students, this may take a few minutes.</p>
+          <p>Hang on, we&apos;re preparing the flash cards PDF now...</p>
+          <p>If you're making them for one class, this shouldn't take more than a minute or so. If you're making them for all the students, you may want to go grab a cup of coffee ;)</p>
           <Loading />
         </div>
 
-        {limitedStudentArray.sort((a, b) => b.last_name - a.last_name).map(student => (
+        {studentsSorted.map(student => (
           <FlashCard
             key={student.cnet_id}
             student={student}

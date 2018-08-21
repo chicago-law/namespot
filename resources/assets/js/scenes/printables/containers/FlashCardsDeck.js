@@ -12,7 +12,7 @@ const mapStateToProps = (state, ownProps) => {
     currentOffering = state.entities.offerings[ownProps.match.params.offeringid]
   }
 
-  // parse any URL parameters
+  // parse URL parameters
   const urlParams = queryString.parse(ownProps.location.search)
   const namesOnReverse = urlParams.namesonreverse && urlParams.namesonreverse === 'true' ? true : false
 
