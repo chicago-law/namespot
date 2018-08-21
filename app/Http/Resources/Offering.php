@@ -48,8 +48,8 @@ class Offering extends JsonResource
             'students' => $student_ids,
             'paper_size' => $this->paper_size,
             'font_size' => $this->font_size,
-            'flipped' => $this->flipped,
-            'names_to_show' => is_null($this->names_to_show) ? null : (int) $this->names_to_show,
+            'names_to_show' => $this->names_to_show,
+            'flipped' => is_null($this->flipped) ? null : (int) $this->flipped,
             'use_nicknames' => is_null($this->use_nicknames) ? null : (int) $this->use_nicknames,
         ];
     }
