@@ -32,15 +32,15 @@ export default class PrintOffering extends Component {
         break
       case 'flash-cards':
         url += `flash-cards/offering/${this.props.currentOffering.id}`
+        params.namesonreverse = this.state.namesOnReverse
         break
     }
-    // Now look at the chart preferences to generate more params
-    // this.props.currentOffering.
-    // Build final URL with params
+
+    // Add the params to the URL
     if (Object.keys(params).length > 0) {
       url += '?'
       for (let param in params) {
-        url += `${param}=${params[param]}`
+        url += `${param}=${params[param]}&`
       }
     }
     return url

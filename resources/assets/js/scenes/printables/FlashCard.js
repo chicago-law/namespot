@@ -4,7 +4,7 @@ import helpers from '../../bootstrap'
 
 export default class FlashCard extends Component {
   render() {
-    const { student, namesOnReverse } = this.props
+    const { student, namesOnReverse, offering } = this.props
 
     return (
       <div className='flash-card-container'>
@@ -16,6 +16,7 @@ export default class FlashCard extends Component {
             </div>
             <div className='right'>
               <h1>{student.first_name} {student.last_name}</h1>
+              <p>{offering.long_title}<br/>{helpers.termCodeToString(offering.term_code)}</p>
             </div>
           </div>
         )}
@@ -27,6 +28,7 @@ export default class FlashCard extends Component {
             </div>
             <div className="flash-card back">
               <h1>{student.first_name} {student.last_name}</h1>
+              <p>{offering.long_title}<br/>{helpers.termCodeToString(offering.term_code)}</p>
             </div>
           </div>
         )}
@@ -36,7 +38,8 @@ export default class FlashCard extends Component {
 }
 
 FlashCard.propTypes = {
+  namesOnReverse: PropTypes.bool.isRequired,
+  offering: PropTypes.object.isRequired,
   student: PropTypes.object.isRequired,
-  namesOnReverse: PropTypes.bool.isRequired
 }
 

@@ -1,7 +1,7 @@
 .printable {
   background: #fff;
   .full-page-loading {
-    display:none !important;
+    display:none;
     position:absolute;
     top:0;
     right:0;
@@ -19,8 +19,8 @@
     }
   }
   &.show-loading {
-    // height:100%;
-    // overflow:hidden;
+    height:100%;
+    overflow:hidden;
     .full-page-loading {
       display:flex;
     }

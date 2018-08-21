@@ -20,7 +20,6 @@ export default class FlashCardsDeck extends Component {
 
     const cards = document.querySelectorAll('.flash-card')
     const perPage = 3
-    const heightPerCard = 11 / perPage
 
     // variables for the loop
     let c = 0
@@ -31,7 +30,6 @@ export default class FlashCardsDeck extends Component {
     pdf.addPage()
     pdf.setPage(1)
 
-    // we do a recursive, manual loop so we only go as fast as the canvases are created
     const addToPdf = function(cardsArray) {
       const canvasOptions = {
         logging: false,
@@ -46,21 +44,26 @@ export default class FlashCardsDeck extends Component {
       }
 
       html2canvas(cardsArray[c], canvasOptions).then((canvas) => {
-        const imgData = canvas.toDataURL('image/jpg')
+        const imgData = canvas.toDataURL('image/jpeg', 1.0)
 
         // if the counter is even, then add face pic to current
         // if it's odd, then we have a name, so add it to current + 1
+
+        // if it's the first on the page, give it an inch margin in top
+        // const marginTop = c % 3 === 0 ? 1 : 0
+
         if (even) {
           pdf.setPage(currentPage)
-          pdf.addImage(imgData, 'JPG', 1.75, (pagePos * heightPerCard))
+          pdf.addImage(imgData, 'JPG', 1.75, ((pagePos * 3) + 1))
         } else {
           pdf.setPage(currentPage + 1)
-          pdf.addImage(imgData, 'JPG', 1.75, (pagePos * heightPerCard))
+          pdf.addImage(imgData, 'JPG', 1.75, ((pagePos * 3) + 1))
           // increment pagePos every other one (aka only on the odds)
           // reset when at perPage
           pagePos === perPage - 1 ? pagePos = 0 : pagePos++
         }
 
+        // we do a recursive, manual loop so we only go as fast as the canvases are created
         // increment the count and then check if we need to run the function again
         console.log(`Just created number ${c}`)
         c++
@@ -72,23 +75,27 @@ export default class FlashCardsDeck extends Component {
             pdf.addPage()
             pdf.setPage(currentPage)
           }
+          // Fire function again
           addToPdf(cards)
         } else {
-          const title = `Flash Cards for ${this.props.currentOffering.long_title || helpers.termCodeToString(this.props.termCode)}`
+          const title = `Flash Cards: ${this.props.currentOffering.long_title || helpers.termCodeToString(this.props.termCode)}`
           pdf.save(`${title}.pdf`)
+
+          // Hide everything
+          document.getElementById('root').style.display = 'none'
           this.setState({
             showLoading:false
           })
         }
       })
-    }.bind(this)
+
+    }.bind(this) // end addToPdf
 
     // start the loop
     addToPdf(cards)
   }
 
   componentDidMount() {
-    // set view to 'seating-chart'
     this.props.setView('flash-cards')
 
     // fetch offering data, if we need it
@@ -112,7 +119,7 @@ export default class FlashCardsDeck extends Component {
 
     // check if we're waiting on anything to finish loading. If not, go ahead
     // and make the PDF.
-    if ( Object.keys(this.props.loading).every(loadingType => this.props.loading[loadingType] === false) && this.state.showLoading === true ) {
+    if (Object.keys(this.props.loading).every(loadingType => this.props.loading[loadingType] === false) && this.state.showLoading === true) {
       this.createPdf()
     }
   }
@@ -129,7 +136,6 @@ export default class FlashCardsDeck extends Component {
       Object.keys(students).forEach(id => studentArray.push(students[id]))
     }
     const limitedStudentArray = studentArray.slice(0, 100)
-    console.log(limitedStudentArray)
 
     const flashCardClasses = classNames({
       'printable': true,
@@ -146,8 +152,13 @@ export default class FlashCardsDeck extends Component {
           <Loading />
         </div>
 
-        {limitedStudentArray.map(student => (
-          <FlashCard key={student.cnet_id} student={student} namesOnReverse={namesOnReverse} />
+        {limitedStudentArray.sort((a, b) => b.last_name - a.last_name).map(student => (
+          <FlashCard
+            key={student.cnet_id}
+            student={student}
+            offering={currentOffering}
+            namesOnReverse={namesOnReverse}
+          />
         ))}
 
       </div>
