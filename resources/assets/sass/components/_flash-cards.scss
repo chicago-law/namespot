@@ -5,6 +5,14 @@
   .question {
     margin-bottom: 2em;
   }
+  .controls {
+    margin-top: 2em;
+    border-top: 1px solid $off-white;
+    text-align:right;
+    &.with-padding {
+      padding:2em;
+    }
+  }
 }
 
 .flash-cards-deck {
@@ -30,6 +38,9 @@
 
 .flash-card-same-side {
   display:flex;
+  .left {
+    padding-right:1em;
+  }
   .left, .right {
     display:flex;
     flex-direction:column;
