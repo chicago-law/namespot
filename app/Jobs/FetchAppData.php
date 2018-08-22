@@ -40,8 +40,8 @@ class FetchAppData implements ShouldQueue
      */
     public function handle()
     {
-        // convert the single year into an array of AIS term codes
-        // ie, 2018 becomes 2188, 2192, 2194
+        // Convert the single year into an array of AIS term codes.
+        // Ie, 2018 becomes 2188, 2192, 2194.
         $term_codes = getTermCodesFromYear($this->year);
 
         foreach ($term_codes as $term) {

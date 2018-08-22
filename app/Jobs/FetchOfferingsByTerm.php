@@ -87,15 +87,18 @@ class FetchOfferingsByTerm implements ShouldQueue
         $offering->enrl_tot = $class->ENRL_TOT;
 
         // meeting info
-        // UC_MEETING_TIME can sometimes be an array... We're
-        // just going to ignore meeting times past the first
         if (isset($class->UC_MEETING_TBL) && !is_null($class->UC_MEETING_TBL)):
+
+          // UC_MEETING_TBL can sometimes be an array...
+          // For now, we're just going to ignore meeting times past the first.
           if (is_array($class->UC_MEETING_TBL)):
             $meeting_time = $class->UC_MEETING_TBL[0];
           else:
             $meeting_time = $class->UC_MEETING_TBL;
           endif;
 
+          // When there is no data, it's returned from API as an empty object.
+          // If that's the case, we're just going to assign it null.
           $offering->ais_room = is_string($meeting_time->ROOM) ? $meeting_time->ROOM : null;
           $offering->ais_room_capacity = is_string($meeting_time->ROOM_CAPACITY) ? $meeting_time->ROOM_CAPACITY : null;
           $offering->building = is_string($meeting_time->BUILDING) ? $meeting_time->BUILDING : null;
@@ -105,13 +108,14 @@ class FetchOfferingsByTerm implements ShouldQueue
           $offering->end_time = is_string($meeting_time->END_TIME) ? $meeting_time->END_TIME : null;
           $offering->start_dt = is_string($meeting_time->START_DT) ? $meeting_time->START_DT : null;
           $offering->end_dt = is_string($meeting_time->END_DT) ? $meeting_time->END_DT : null;
+
         endif;
 
         // now save it
         $offering->save();
 
-        // if the offering is assigned a room in AIS, look to see if it
-        // matches any of ours
+        // If the offering is assigned a room in AIS, look to see if it
+        // matches any of ours.
         if (!is_null($offering->ais_room)):
           $room = Room::where('db_match_name', $offering->ais_room)->first();
           if ($room):

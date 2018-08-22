@@ -15,7 +15,8 @@ function UniqueRandomNumbersWithinRange($min, $max, $quantity) {
  * to get specific quarter: [0] is autumn, [1] winter, [2] spring
  */
 function getTermCodesFromYear($year) {
-  $year1 = $year; $year2 = (int) $year + 1;
+  $year1 = $year;
+  $year2 = (int) $year + 1;
   $termCodes[] = '2' . substr($year1, -2) . '8'; // Autumn
   $termCodes[] = '2' . substr($year2, -2) . '2'; // Winter
   $termCodes[] = '2' . substr($year2, -2) . '4'; // Spring

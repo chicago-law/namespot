@@ -36,8 +36,8 @@ class TestJob implements ShouldQueue
     public function handle()
     {
         $results = "The test job went down.";
-        dd($results);
-        // Mail::to(config('app.admin_email'))->send(new JobResults($results));
+
+        Mail::to(config('app.admin_email'))->send(new JobResults($results));
     }
 
 }

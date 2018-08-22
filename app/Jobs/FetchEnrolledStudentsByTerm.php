@@ -87,7 +87,7 @@ class FetchEnrolledStudentsByTerm implements ShouldQueue
             $student->short_last_name = substr($canvas_student->short_name, strpos($canvas_student->short_name, ' ') + 1);
             $student->sortable_name = $canvas_student->sortable_name;
 
-            // if student has no picture property or it is null,
+            // If student has no picture property or it is null,
             // set it to the default picture.
             !isset($student->picture) || is_null($student->picture) ? $student->picture = 'no-face.png' : false;
 

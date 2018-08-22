@@ -38,8 +38,11 @@ class Kernel extends ConsoleKernel
         // record the start time
         $started = date('h:i:s');
 
-        // Fire off the job to grab all the data for that year.
-        $schedule->job(new FetchAppData($year, $started))->dailyAt('10:30');
+        // At 6am, fire off the job to grab all the data for that year.
+        $schedule->job(new FetchAppData($year, $started))->dailyAt('06:00');
+
+        // And once again at 6pm for redundancy, just in case.
+        $schedule->job(new FetchAppData($year, $started))->dailyAt('18:00');
     }
 
     /**
