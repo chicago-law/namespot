@@ -37,6 +37,7 @@ export default class Page extends Component {
       && this.props.currentOffering.id !== null
       && this.props.currentRoom !== null
       && this.props.currentSeats.length > 0
+      && this.props.currentTables.length > 0
       && Object.keys(this.props.loading).every(type => this.props.loading[type] === false)
     ) {
       // Giving things a couple seconds to settle...
