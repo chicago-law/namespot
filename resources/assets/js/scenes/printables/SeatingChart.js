@@ -32,16 +32,8 @@ export default class SeatingChart extends Component {
       logging: true,
       scale: '1', // specifying 1 makes this work the same on Retina displays
       canvas: seatingChartCanvas,
-      // width:'800',
-      // height:'600',
-      // windowWidth: '800',
-      // windowHeight: '600'
     }
     html2canvas(input, h2cOptions).then((canvas) => {
-
-      document.getElementById('root').style.display = 'none'
-
-      document.querySelector('body').appendChild(canvas)
 
       // these are the dimensions for the PDF that will be generated, in inches.
       // They should be doubled from normal, because we're cranking out higher res
@@ -70,17 +62,14 @@ export default class SeatingChart extends Component {
         : this.props.rooms[this.props.roomId].name
       pdf.save(`${title}.pdf`)
 
+      // Hide everything
+      document.getElementById('root').style.display = 'none'
       this.setState({
         showLoading:false
       })
 
     })
   }
-
-  onGoButton = () =>{
-    this.createPdf()
-  }
-
 
   componentDidMount() {
     // set view to 'seating-chart'
@@ -101,8 +90,6 @@ export default class SeatingChart extends Component {
     // set store's currentRoom and currentOffering (if there is one)
     this.props.findAndSetCurrentRoom(this.props.roomId)
     this.props.offeringId ? this.props.findAndSetCurrentOffering(this.props.offeringId) : false
-
-    // check the URL for any formatting specifications
   }
 
   componentDidUpdate() {
@@ -116,7 +103,7 @@ export default class SeatingChart extends Component {
     if (Object.keys(this.props.loading).every(loadingType => this.props.loading[loadingType] === false) && this.state.showLoading === true) {
       setTimeout(()=> {
         this.createPdf()
-      }, 3000)
+      }, 2000)
     }
   }
 
@@ -134,6 +121,7 @@ export default class SeatingChart extends Component {
       <div className={seatingChartClasses}>
 
         <div className='full-page-loading'>
+          <p>Hang on, we&apos;re preparing your seating chart now...</p>
           <Loading />
         </div>
 

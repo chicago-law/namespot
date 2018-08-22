@@ -33,8 +33,7 @@
   .inner-page-container {
     display: block;
     position:relative;
-    padding-bottom:64.7%; // default to tabloid aspect ratio
-    // transition:opacity 150ms ease-out, padding 500ms ease-out;
+    padding-bottom:64.7%; // (default to tabloid aspect ratio)
     box-shadow: 0 5px 5px rgba(0,0,0,.1), 0 18px 10px -12px rgba(0, 0, 0, 0.15);
     .tables-container, .seats-container, .grid-container, .guides-container {
       position:absolute;

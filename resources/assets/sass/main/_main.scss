@@ -5,18 +5,13 @@ html {
   box-sizing:inherit;
 }
 html, body {
-  height:100%;
   background: $lighter-gray;
-}
-#root {
-  height:100%;
 }
 
 .app-container {
   display:flex;
   flex-direction:column;
   min-height:100%;
-  // max-width:85em;
   margin-left: auto;
   margin-right: auto;
   box-shadow:0 0 5px rgba(0,0,0,.15);

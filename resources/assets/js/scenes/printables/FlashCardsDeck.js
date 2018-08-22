@@ -191,7 +191,7 @@ export default class FlashCardsDeck extends Component {
       <div className={flashCardClasses}>
 
         <div className='full-page-loading'>
-          <p>Hang on, we&apos;re preparing the flash cards PDF now...</p>
+          <p>Hang on, we&apos;re preparing your flash cards now...</p>
           <p>If you're making them for one class, this shouldn't take more than a minute or so. If you're making them for all the students, you may want to go grab a cup of coffee ;)</p>
           <Loading />
         </div>

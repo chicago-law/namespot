@@ -1,5 +1,9 @@
 .seating-chart {
   display:flex;
+  * {
+    // html2canvas seems to hate transitions...
+    transition:unset !important;
+  }
   .outer-page-container {
     // once we remove .show-loading from .seating-chart, hide this so user
     // just sees a blank screen (and will close the tab)
@@ -13,15 +17,5 @@
     &.paper-letter {
       flex: 0 0 22in;
     }
-  }
-  .original-canvas {
-    display:none;
-  //   // width:3360px;
-  //   // height:2173px;
-  //   // position:absolute;
-  //   // top:0;
-  //   // right:0;
-  //   // left:0;
-  //   // bottom:0;
   }
 }
