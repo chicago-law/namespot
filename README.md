@@ -2,7 +2,7 @@
 Generate classroom seating charts, flash cards, and name tents. Originally built for the University of Chicago Law School.
 
 # Description
-Web app tool for creating seating charts, flash cards, and name tents as downloadable PDFs. The app is built with the [Laravel] (https://github.com/laravel/laravel PHP framework and with [React] (https://github.com/facebook/react) + [Redux] (https://github.com/reduxjs/redux) on the front-end. It uses [html2canvas] (https://github.com/niklasvh/html2canvas) and [jsPDF] (https://github.com/MrRio/jsPDF) to generate the PDF deliverables.
+Web app tool for creating seating charts, flash cards, and name tents as downloadable PDFs. The app is built with the [Laravel](https://github.com/laravel/laravel PHP framework and with [React](https://github.com/facebook/react) + [Redux](https://github.com/reduxjs/redux) on the front-end. It uses [html2canvas](https://github.com/niklasvh/html2canvas) and [jsPDF](https://github.com/MrRio/jsPDF) to generate the PDF deliverables.
 
 Flash cards are built for the Avery template #5388, and name tents are built for the Avery template #5309.
 
