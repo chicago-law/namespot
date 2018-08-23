@@ -1,5 +1,16 @@
 .action-bar-container {
   height:9em;
+  &.is-floating {
+    .action-bar {
+      position:fixed;
+      top:0;
+      left:0;
+      right:0;
+      height:9em;
+      background:#fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,.1);
+    }
+  }
 }
 
 .action-bar {

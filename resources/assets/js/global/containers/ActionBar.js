@@ -1,9 +1,8 @@
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux'
 import ActionBar from '../ActionBar'
 // import {  } from '../../../actions'
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
     task:state.app.task
   }
@@ -15,9 +14,9 @@ const mapStateToProps = (state, ownProps) => {
 //   }
 // }
 
-const ActionBarContainer = withRouter(connect(
+const ActionBarContainer = connect(
   mapStateToProps,
   // mapDispatchToProps
-)(ActionBar))
+)(ActionBar)
 
-export default ActionBarContainer;
+export default ActionBarContainer

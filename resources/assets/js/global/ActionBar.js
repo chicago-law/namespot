@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Route } from 'react-router-dom'
+import classNames from 'classnames/bind'
 import AbRoomOverview from '../scenes/room/containers/AbRoomOverview'
 import AbEditTable from '../scenes/room/containers/AbEditTable'
 import AbDeleteTable from '../scenes/room/containers/AbDeleteTable'
@@ -9,13 +10,39 @@ import AbFindStudent from '../scenes/room/containers/AbFindStudent'
 import AbStudentDetails from '../scenes/room/containers/AbStudentDetails'
 
 export default class ActionBar extends Component {
-  constructor(props) {
-    super(props)
+  state = {
+    isFloating: false,
+    bannerHeight: ''
+  }
+
+  measureHeader() {
+    const banner = document.querySelector('.banner-container')
+    const bannerHeight = parseFloat(window.getComputedStyle(banner).getPropertyValue('height'))
+    this.setState({ bannerHeight })
+  }
+
+  onScroll = (e) => {
+    const currentScroll = e.pageY
+    if (currentScroll >= this.state.bannerHeight) {
+      this.setState({ isFloating: true})
+    } else {
+      this.setState({ isFloating: false})
+    }
+  }
+
+  componentDidMount() {
+    window.addEventListener('scroll', this.onScroll)
+    this.measureHeader()
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.onScroll)
   }
 
   render() {
+    const { task } = this.props
+
     let actionBarContents
-    const task = this.props.task
     switch (task) {
       case 'edit-room':
         actionBarContents = <AbRoomOverview />
@@ -38,8 +65,14 @@ export default class ActionBar extends Component {
       default:
         actionBarContents = null
     }
+
+    const actionBarContainerClasses = classNames({
+      'action-bar-container': true,
+      'is-floating': this.state.isFloating
+    })
+
     return (
-      <div className='action-bar-container'>
+      <div className={actionBarContainerClasses}>
         <Route path={'/room/:roomID/'} render={() => actionBarContents} />
         <Route path={'/offering/:offeringID/'} render={() => actionBarContents} />
       </div>
