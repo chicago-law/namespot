@@ -10,6 +10,6 @@ class Setting extends Model
     public $timestamps = false;
 
     // No primary key on the setting's table
-    protected $primaryKey = null;
+    protected $primaryKey = 'setting_name';
     public $incrementing = false;
 }
