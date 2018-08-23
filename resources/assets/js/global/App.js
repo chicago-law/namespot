@@ -6,6 +6,7 @@ import Modals from './containers/Modals'
 import Errors from './containers/Errors'
 import SeatingChart from '../scenes/printables/containers/SeatingChart'
 import FlashCardsDeck from '../scenes/printables/containers/FlashCardsDeck'
+import NameTents from '../scenes/printables/containers/NameTents'
 
 const App = () => (
   <Switch>
@@ -15,7 +16,7 @@ const App = () => (
     <Route path='/print/seating-chart/room/:roomid/' component={SeatingChart}/>
     <Route path='/print/flash-cards/term/:termCode/' component={FlashCardsDeck}/>
     <Route path='/print/flash-cards/offering/:offeringid' component={FlashCardsDeck}/>
-    {/* <Route path='/print/name-tents/offering/:offeringid' component={NameTents}/> */}
+    <Route path='/print/name-tents/offering/:offeringid' component={NameTents}/>
 
     {/* Or render the actual app */}
     <Route component={() =>

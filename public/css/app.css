@@ -2042,6 +2042,27 @@ svg {
   transition: all 150ms ease-out;
 }
 
+.nt-list__name-tent {
+  position: relative;
+  width: 11in;
+  height: 8.5in;
+  background: #fff;
+  border: 1px solid black;
+}
+
+.nt-list__name-tent .name {
+  position: absolute;
+  left: 1in;
+  right: 1in;
+  bottom: 1in;
+  text-align: center;
+  border: 1px dotted gray;
+}
+
+.nt-list__name-tent .name span {
+  font-size: 120px;
+}
+
 .outer-page-container {
   -webkit-box-flex: 0;
       -ms-flex: 0 0 1100px;

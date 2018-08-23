@@ -34,6 +34,9 @@ export default class PrintOffering extends Component {
         url += `flash-cards/offering/${this.props.currentOffering.id}`
         params.namesonreverse = this.state.namesOnReverse
         break
+      case 'name-tents':
+        url += `name-tents/offering/${this.props.currentOffering.id}`
+        break
     }
 
     // Add the params to the URL
