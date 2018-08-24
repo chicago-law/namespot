@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import helpers from '../../bootstrap'
+import { FaCamera } from 'react-icons/fa'
 import EditableText from '../../global/containers/EditableText'
 
 export default class AbStudentDetails extends Component {
@@ -22,6 +23,10 @@ export default class AbStudentDetails extends Component {
     this.props.setCurrentStudentId(null)
   }
 
+  onPortraitClick = () => {
+    this.props.setModal('change-picture', true)
+  }
+
   componentWillUnmount() {
     this.props.setCurrentStudentId(null)
   }
@@ -32,7 +37,16 @@ export default class AbStudentDetails extends Component {
     return (
       <div className='action-bar action-bar-student-details'>
         <i className="far fa-arrow-left" onClick={() => this.props.setTask('offering-overview')}></i>
-        <div className='portrait' style={{ 'backgroundImage': `url('${helpers.rootUrl}images/students/${student.picture}')` }}></div>
+
+        <div
+          className='portrait'
+          style={{ 'backgroundImage': `url('${helpers.rootUrl}images/students/${student.picture}')` }}
+          onClick={this.onPortraitClick}
+        >
+          <div className='change-portrait' title='Change picture'>
+            <FaCamera className='icon' />
+          </div>
+        </div>
 
         <div className='flex-column'>
           <div>
@@ -83,6 +97,7 @@ AbStudentDetails.propTypes = {
   currentOffering: PropTypes.object.isRequired,
   currentStudentId: PropTypes.number.isRequired,
   setCurrentStudentId: PropTypes.func.isRequired,
+  setModal: PropTypes.func.isRequired,
   setTask: PropTypes.func.isRequired,
   students: PropTypes.object.isRequired,
   unenrollStudent: PropTypes.func.isRequired,

@@ -71,6 +71,8 @@ Route::post('/student/update/{student_id}', 'StudentController@update');
 Route::post('/student/unenroll', 'StudentController@unenroll');
 // search for a student by name
 Route::get('/students/search', 'StudentController@search');
+// upload a new picture file for a student
+Route::post('/student/upload-picture', 'StudentController@upload_picture');
 
 /**
  * ROOMS

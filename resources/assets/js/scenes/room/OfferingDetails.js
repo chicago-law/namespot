@@ -23,7 +23,7 @@ export default class OfferingDetails extends Component {
             style={{ 'backgroundImage': pictureUrl }}
             title={`${student.first_name} ${student.last_name}`}
             seated={student.seats['offering_' + currentOffering.id] != null ? 'true' : 'false'}
-            // onClick={(e) => this.handleStudentClick(e)}
+            onClick={(e) => this.handleStudentClick(e)}
           />
         </li>
     )})

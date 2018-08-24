@@ -1,7 +1,7 @@
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import ChangeRoom from '../ChangeRoom';
-import { setModal, requestUpdateOffering, requestRooms, setView, setTask } from '../../../../actions';
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import ChangeRoom from '../ChangeRoom'
+import { setModal, requestUpdateOffering, requestRooms, setView, setTask } from '../../../../actions'
 
 const mapStateToProps = (state) => {
 
@@ -22,10 +22,10 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(requestUpdateOffering(offering_id, attribute, value))
     },
     requestRooms: () => {
-      dispatch(requestRooms());
+      dispatch(requestRooms())
     },
     setView: (view) => {
-      dispatch(setView(view));
+      dispatch(setView(view))
     },
     setTask: (task) =>{
       dispatch(setTask(task))
@@ -36,6 +36,6 @@ const mapDispatchToProps = (dispatch) => {
 const ChangeRoomContainer = withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(ChangeRoom));
+)(ChangeRoom))
 
-export default ChangeRoomContainer;
+export default ChangeRoomContainer

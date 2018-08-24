@@ -125,9 +125,12 @@ export default class AbEditTable extends React.Component {
 AbEditTable.propTypes = {
     clearTempTable: PropTypes.func.isRequired,
     currentRoom: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     pointSelection: PropTypes.string,
+    requestError:PropTypes.func.isRequired,
     saveNewTable:PropTypes.func.isRequired,
     setPointSelection: PropTypes.func.isRequired,
+    setModal: PropTypes.func.isRequired,
     setSeatCount: PropTypes.func.isRequired,
     setTask: PropTypes.func.isRequired,
     task: PropTypes.string,

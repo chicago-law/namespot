@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames/bind'
 import { CSSTransition } from 'react-transition-group'
 import ChangeRoom from '../scenes/room/modals/containers/ChangeRoom'
@@ -6,6 +7,7 @@ import AssignRoom from '../scenes/room/modals/containers/AssignRoom'
 import EditEnrollment from '../scenes/room/modals/containers/EditEnrollment'
 import PrintOffering from '../scenes/room/modals/containers/PrintOffering'
 import LabelPosition from '../scenes/room/modals/containers/LabelPosition'
+import ChangePicture from '../scenes/room/modals/containers/ChangePicture'
 
 export default class Modals extends Component {
   constructor(props) {
@@ -37,6 +39,9 @@ export default class Modals extends Component {
           case 'label-position':
             this.props.setModal(type, false)
             break
+          case 'change-picture':
+            this.props.setModal(type, false)
+            break
           default:
             return false
         }
@@ -60,7 +65,8 @@ export default class Modals extends Component {
       'assign-room': this.props.modals['assign-room'],
       'edit-enrollment': this.props.modals['edit-enrollment'],
       'print-room': this.props.modals['print-room'],
-      'label-position': this.props.modals['label-position']
+      'label-position': this.props.modals['label-position'],
+      'change-picture': this.props.modals['change-picture']
     })
 
     return (
@@ -82,6 +88,7 @@ export default class Modals extends Component {
               {this.props.modals['edit-enrollment'] ? <EditEnrollment close={() => this.handleCloseClick()} /> : false}
               {this.props.modals['print-room'] ? <PrintOffering close={() => this.handleCloseClick()} /> : false}
               {this.props.modals['label-position'] ? <LabelPosition close={() => this.handleCloseClick()} /> : false}
+              {this.props.modals['change-picture'] ? <ChangePicture close={() => this.handleCloseClick()} /> : false}
             </div>
           </div>
 
@@ -91,4 +98,11 @@ export default class Modals extends Component {
       </CSSTransition>
     )
   }
+}
+
+Modals.propTypes = {
+  history: PropTypes.object.isRequired,
+  modals: PropTypes.object.isRequired,
+  setModal: PropTypes.func.isRequired
+
 }

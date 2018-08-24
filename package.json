@@ -31,6 +31,7 @@
         "react": "^16.3.2",
         "react-dom": "^16.3.2",
         "redux-devtools-extension": "^2.13.2",
+        "redux": "^4.0.0",
         "redux-logger": "^3.0.6"
     },
     "dependencies": {
@@ -42,6 +43,7 @@
         "jspdf": "^1.4.1",
         "prop-types": "^15.6.1",
         "query-string": "5.1.0",
+        "react-icons": "^3.0.5",
         "react-redux": "^5.0.7",
         "react-router-dom": "^4.2.2",
         "react-transition-group": "^2.3.1",

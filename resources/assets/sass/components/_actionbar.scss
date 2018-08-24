@@ -337,13 +337,42 @@
 .action-bar-student-details {
   justify-content:flex-start;
   .portrait {
+    position: relative;
     height:100%;
     width:8em;
     margin-right:3em;
-    background-size:contain;
+    background-size:cover;
     background-position:left;
     background-repeat:no-repeat;
     border-radius:4px;
+    .change-portrait {
+      position:absolute;
+      top:0;
+      right:0;
+      left:0;
+      bottom:0;
+      display:flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,.5);
+      opacity:0;
+      transition: opacity 200ms ease-out;
+      cursor: pointer;
+      .icon {
+        transform: translateY(.3em);
+        font-size:35px;
+        fill:$dark-gray;
+        transition: opacity 200ms ease-out, transform 200ms ease-out;
+      }
+    }
+    &:hover {
+      .change-portrait {
+        opacity: 1;
+        .icon {
+          transform: translateY(0)
+        }
+      }
+    }
   }
   .flex-column {
     display:flex;

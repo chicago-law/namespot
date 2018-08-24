@@ -65,6 +65,8 @@
       border-top: 1px solid $off-white;
     }
   }
+
+  // Change Room modal
   &.change-room {
     .warning {
       display:flex;
@@ -84,6 +86,8 @@
       margin:.5em 0;
     }
   }
+
+  // Edit Enrollment modal
   &.edit-enrollment {
     max-width:45em;
     main {
@@ -138,9 +142,27 @@
       }
     }
   }
+
+  // Print Room modal
   &.print-room {
     width:30em;
   }
+
+  // Change Picture modal
+  &.change-picture {
+    .picture {
+      width:10em;
+      height:10em;
+      background-size:cover;
+      background-position: center center;
+      border-radius: 5px;
+    }
+    input {
+      margin-top: 1em;
+      font-family:$primary-font;
+    }
+  }
+
 }
 
 .modal-container__shader {

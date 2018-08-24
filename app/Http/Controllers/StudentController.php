@@ -20,8 +20,9 @@ class StudentController extends Controller
         // handle each one as needed through the switch
         foreach ($request->input() as $key => $value):
             switch ($key) {
-                case 'nickname':
                 case 'email':
+                case 'nickname':
+                case 'picture':
                     $student->$key = $value;
                     break;
                 case 'assigned_seat':
@@ -84,5 +85,24 @@ class StudentController extends Controller
         endforeach;
 
         return response()->json($students_array);
+    }
+
+    public function upload_picture(Request $request)
+    {
+        $new_picture = $request->newPicture;
+
+        if ($new_picture->isValid()):
+            $name = $new_picture->getBasename() . "." . $new_picture->guessExtension();
+            $path = "images/students/{$name}";
+            $result = move_uploaded_file($new_picture, $path);
+        else:
+            $result = false;
+            $name = null;
+        endif;
+
+        return response()->json([
+            'result' => $result,
+            'name' => $name
+        ]);
     }
 }

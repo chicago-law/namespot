@@ -23,9 +23,11 @@ module.exports = {
         "babel",
     ],
     "rules": {
+        "no-unused-vars": 1,
         "no-console": 0,
         "indent": 0,
         "react/no-unescaped-entities": 0,
+        "react/prop-types": 1,
         "linebreak-style": [
             "error",
             "unix"

@@ -1,7 +1,6 @@
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 import AbStudentDetails from '../AbStudentDetails'
-import { updateAndSaveStudent, setTask, assignSeat, setCurrentStudentId, unenrollStudent } from '../../../actions'
+import { updateAndSaveStudent, setTask, assignSeat, setCurrentStudentId, unenrollStudent, setModal } from '../../../actions'
 
 const mapStateToProps = (state) => {
   return {
@@ -16,14 +15,17 @@ const mapDispatchToProps = (dispatch) => {
     updateAndSaveStudent: (student_id, attribute, value) => {
       dispatch(updateAndSaveStudent(student_id, attribute, value))
     },
-    setTask: (task) => {
-      dispatch(setTask(task))
-    },
     assignSeat: (offering_id, student_id, seat_id) => {
       dispatch(assignSeat(offering_id, student_id, seat_id))
     },
     setCurrentStudentId: id => {
       dispatch(setCurrentStudentId(id))
+    },
+    setModal: (modal, status) => {
+      dispatch(setModal(modal, status))
+    },
+    setTask: (task) => {
+      dispatch(setTask(task))
     },
     unenrollStudent: (studentId, offeringId) => {
       dispatch(unenrollStudent(studentId, offeringId))
