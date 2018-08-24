@@ -47,7 +47,7 @@ class FetchOfferingsByTerm implements ShouldQueue
 
     try {
       $client = new Client();
-      $base_url = config('api.ais_dev_url');
+      $base_url = config('api.ais_stage_url');
       $username = config('api.ais_username');
       $password = config('api.ais_password');
       $endpoint = "{$base_url}/courses/{$this->term}/LAWS";
@@ -99,7 +99,9 @@ class FetchOfferingsByTerm implements ShouldQueue
 
           // When there is no data, it's returned from API as an empty object.
           // If that's the case, we're just going to assign it null.
-          $offering->ais_room = is_string($meeting_time->ROOM) ? $meeting_time->ROOM : null;
+          $offering->ais_room
+            ? false // if the offering already has an ais_room value, then we should leave it alone
+            : is_string($meeting_time->ROOM) ? $meeting_time->ROOM : null;
           $offering->ais_room_capacity = is_string($meeting_time->ROOM_CAPACITY) ? $meeting_time->ROOM_CAPACITY : null;
           $offering->building = is_string($meeting_time->BUILDING) ? $meeting_time->BUILDING : null;
           $offering->building_desc = is_string($meeting_time->BUILDING_DESCR) ? $meeting_time->BUILDING_DESCR : null;
