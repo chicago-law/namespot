@@ -12,13 +12,13 @@ const PageHeader = (props) =>  {
         'transformOrigin':'top left',
         'transform':`scale(${shrinkRatio})`,
       }}>
-        <p>University of Chicago Law School</p>
+        <h3>University of Chicago Law School</h3>
       </div>
       <div className='right' style={{
         'transformOrigin':'top right',
         'transform':`scale(${shrinkRatio})`,
       }}>
-        <p>{currentRoom.name}</p>
+        <h3>{currentRoom.name}</h3>
       </div>
     </div>
   )

@@ -68,7 +68,7 @@ const currentOfferingDefault = {
   room_id: null,
   term_code:null,
   students: [],
-  pageSize: 'tabloid',
+  paperSize: 'tabloid',
   flipped: false,
   namesToShow: 'first_and_last',
   useNicknames: true

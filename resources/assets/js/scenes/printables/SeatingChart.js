@@ -58,7 +58,7 @@ export default class SeatingChart extends Component {
       })
       pdf.addImage(imgData, 'jpeg', 0, 0)
       const title = this.props.currentOffering.long_title ?
-        `${this.props.currentOffering.long_title}-${this.props.currentOffering.section}`
+        `Seating Chart - ${this.props.currentOffering.long_title}-${this.props.currentOffering.section}`
         : this.props.rooms[this.props.roomId].name
       pdf.save(`${title}.pdf`)
 
