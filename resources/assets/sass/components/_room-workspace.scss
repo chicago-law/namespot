@@ -23,6 +23,9 @@
       padding-right: 0;
       padding-top: 0;
     }
+    &.align-self-center {
+      align-self: center;
+    }
   }
   .room-workspace-right {
     padding-left:2em;
@@ -91,8 +94,6 @@
       display:block;
       text-align:center;
       margin-top: 0;
-      // justify-content: flex-end;
-      // align-items: bottom;
     }
     .enrollment {
       margin-bottom:2em;
@@ -134,7 +135,6 @@
 
   .workspace-message-container {
     position:relative;
-    height:100%;
     h6 {
       text-align:center;
       text-transform:uppercase;

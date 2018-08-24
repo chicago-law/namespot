@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import classNames from 'classnames/bind'
 import Page from './containers/Page'
 import PagePref from './containers/PagePref'
 import OfferingDetails from './containers/OfferingDetails'
@@ -109,11 +110,15 @@ export default class Workspace extends Component {
   }
 
   render() {
+    const workspaceLeftClasses = classNames({
+      'room-workspace-left': true,
+      'align-self-center': this.props.view === 'edit-room'
+    })
 
     return (
       <div className="room-workspace">
 
-        <div className='room-workspace-left'>
+        <div className={workspaceLeftClasses}>
           <Route path='/room' component={WorkspaceMessage} />
           <Route path="/offering" component={PagePref} />
         </div>
