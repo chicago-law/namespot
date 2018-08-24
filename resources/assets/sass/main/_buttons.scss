@@ -17,10 +17,6 @@ button {
     background: none;
     color:$primary-accent;
   }
-  i {
-    // is this necessary??
-    // margin-right: .5em;
-  }
 }
 
 .btn-accent {
@@ -35,6 +31,7 @@ button {
 }
 
 .btn-clear {
+  font-size:12.8px;
   &:hover {
     background: $off-white;
   }
@@ -58,9 +55,6 @@ button {
   }
   @media (max-width:$laptop) {
     padding:.5em;
-    p {
-      // @include ms-2;
-    }
   }
 }
 .save-changes-button {

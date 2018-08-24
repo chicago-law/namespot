@@ -32,7 +32,7 @@ export default class LabelPosition extends Component {
         </main>
 
         <footer className="controls">
-          <button className='btn-clear' onClick={() => this.props.close()}><small>Cancel</small></button>
+          <button className='btn-clear' onClick={() => this.props.close()}>Cancel</button>
           <button className='btn-accent' onClick={() => this.onChoosePositionButton()}>Choose Position</button>
         </footer>
 

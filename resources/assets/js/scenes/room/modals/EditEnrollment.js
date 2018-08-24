@@ -157,7 +157,7 @@ export default class EditEnrollment extends Component {
         </main>
 
         <footer className="controls">
-          <button className='btn-clear' onClick={() => close()}><small>Cancel</small></button>
+          <button className='btn-clear' onClick={() => close()}>Cancel</button>
         </footer>
 
       </div>

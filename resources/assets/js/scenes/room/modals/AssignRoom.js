@@ -67,7 +67,7 @@ export default class AssignRoom extends Component {
         </main>
 
         <footer className="controls">
-          <button className='btn-clear' onClick={() => close()}><small>Cancel</small></button>
+          <button className='btn-clear' onClick={() => close()}>Cancel</button>
           <button className="btn-accent" onClick={() => this.handleSaveRoomButton()}>Use Selected Room</button>
         </footer>
 

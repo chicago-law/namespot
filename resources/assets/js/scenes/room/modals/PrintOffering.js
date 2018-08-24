@@ -99,7 +99,7 @@ export default class PrintOffering extends Component {
         </main>
 
         <footer className="controls">
-          <button className='btn-clear' onClick={() => this.props.close()}><small>Cancel</small></button>
+          <button className='btn-clear' onClick={() => this.props.close()}>Cancel</button>
           <a href={this.generateUrl()} target='_blank' rel='noopener noreferrer'>
             <button className='btn-accent' onClick={() => this.printButtonClick()}>Print</button>
           </a>

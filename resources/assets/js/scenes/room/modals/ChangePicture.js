@@ -54,7 +54,7 @@ export default class ChangePicture extends Component {
         </main>
 
         <footer className="controls">
-          <button className='btn-clear' onClick={() => this.props.close()}><small>Cancel</small></button>
+          <button className='btn-clear' onClick={() => this.props.close()}>Cancel</button>
           <button className="btn-accent" onClick={() => this.onPictureChangeSave()}>Use This Picture</button>
         </footer>
 
@@ -67,5 +67,6 @@ ChangePicture.propTypes = {
   close: PropTypes.func.isRequired,
   requestError: PropTypes.func.isRequired,
   setModal: PropTypes.func.isRequired,
-  student: PropTypes.object.isRequired
+  student: PropTypes.object.isRequired,
+  updateAndSaveStudent: PropTypes.func.isRequired
 }

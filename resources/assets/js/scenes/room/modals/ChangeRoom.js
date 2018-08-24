@@ -59,7 +59,7 @@ export default class ChangeRoom extends Component {
         </main>
 
         <footer className="controls">
-          <button className='btn-clear' onClick={() => this.props.close()}><small>Cancel</small></button>
+          <button className='btn-clear' onClick={() => this.props.close()}>Cancel</button>
           <button className="btn-accent" onClick={() => this.handleRoomChangeButton()}>Change to this room</button>
         </footer>
 
