@@ -1,7 +1,24 @@
 import { connect } from 'react-redux'
 import Workspace from '../Workspace'
 import { withRouter } from 'react-router-dom'
-import { fetchTables, setView, setTask, findAndSetCurrentRoom, findAndSetCurrentOffering, requestRooms, requestRoom, requestStudents, requestOffering, resetCurrentOffering, resetCurrentRoom, setCurrentStudentId, setCurrentSeatId, setModal, clearModals } from '../../../actions'
+import {
+  clearModals ,
+  fetchTables,
+  findAndSetCurrentOffering,
+  findAndSetCurrentRoom,
+  resetCurrentOffering,
+  resetCurrentRoom,
+  requestRoom,
+  requestRooms,
+  requestOffering,
+  requestStudents,
+  setCurrentSeatId,
+  setCurrentStudentId,
+  setPointSelection,
+  setModal,
+  setTask,
+  setView,
+} from '../../../actions'
 
 const mapStateToProps = (state, ownProps) => {
 
@@ -99,6 +116,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     setCurrentSeatId: (id) => {
       dispatch(setCurrentSeatId(id))
+    },
+    setPointSelection: (type) => {
+      dispatch(setPointSelection(type))
     },
     setModal: (modal, status) => {
       dispatch(setModal(modal, status))

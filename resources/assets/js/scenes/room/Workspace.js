@@ -107,6 +107,7 @@ export default class Workspace extends Component {
     this.props.setView('')
     this.props.setTask('')
     this.props.clearModals()
+    this.props.setPointSelection(null)
   }
 
   render() {
@@ -158,6 +159,7 @@ Workspace.propTypes = {
   requestStudents: PropTypes.func.isRequired,
   setCurrentStudentId: PropTypes.func.isRequired,
   setCurrentSeatId: PropTypes.func.isRequired,
+  setPointSelection: PropTypes.func.isRequired,
   setModal: PropTypes.func.isRequired,
   setTask: PropTypes.func.isRequired,
   setView: PropTypes.func.isRequired,
