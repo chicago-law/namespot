@@ -3,14 +3,12 @@
   width: 11in;
   height: 8.5in;
   background: #fff;
-  border:1px solid black;
   .name {
     position:absolute;
-    left:1in;
-    right:1in;
-    bottom:1in;
+    left: 0.5in;
+    right: 0.5in;
+    bottom: 1.25in;
     text-align:center;
-    border:1px dotted gray;
     span {
       font-size:120px;
     }

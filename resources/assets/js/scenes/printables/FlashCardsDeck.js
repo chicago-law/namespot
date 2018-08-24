@@ -120,7 +120,7 @@ export default class FlashCardsDeck extends Component {
         } else {
 
           // We're done! Save the file and mop up.
-          const title = `Flash Cards: ${this.props.currentOffering.long_title || helpers.termCodeToString(this.props.termCode)}`
+          const title = `Flash Cards - ${this.props.currentOffering.long_title || helpers.termCodeToString(this.props.termCode)}`
           pdf.save(`${title}.pdf`)
 
           // Hide everything

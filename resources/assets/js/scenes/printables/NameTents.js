@@ -59,7 +59,7 @@ export default class NameTents extends Component {
         } else {
 
           // We're done! Save the file and mop up.
-          const title = `Name Tents: ${this.props.currentOffering.long_title}`
+          const title = `Name Tents - ${this.props.currentOffering.long_title}`
           pdf.save(`${title}.pdf`)
 
           // Hide everything
@@ -82,7 +82,7 @@ export default class NameTents extends Component {
     // The max distance a name element can be from top of page is the page's halfway point,
     // plus a little more since the text doesn't start right at the point that offsetTop
     // measures from.
-    const maxTop = (parseFloat(window.getComputedStyle(tent).getPropertyValue('height')) / 2) + 50
+    const maxTop = (parseFloat(window.getComputedStyle(tent).getPropertyValue('height')) / 2) + 25
 
     const name = tent.querySelector('.name')
     const currentTop = name.offsetTop
