@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import Banner from './Banner'
 import Logo from './Logo'
 import ActionBar from './containers/ActionBar'
