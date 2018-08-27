@@ -5,8 +5,21 @@ import EditableText from '../../global/containers/EditableText'
 import helpers from '../../bootstrap'
 
 export default class AbRoomOverview extends Component {
-  handleSeatSizeChange(e) {
-    this.props.requestRoomUpdate(this.props.currentRoom.id, 'seat_size', e.target.value)
+  constructor(props) {
+    super(props)
+    this.throttledSeatSizeChange = _.throttle((e) => {
+      this.props.requestRoomUpdate(this.props.currentRoom.id, 'seat_size', e.target.value)
+    }, 750)
+  }
+
+  state = {
+    seatSize: this.props.currentRoom.seat_size || ''
+  }
+
+  onSeatSizeChange = (e) => {
+    e.persist()
+    this.setState({ seatSize: e.target.value })
+    this.throttledSeatSizeChange(e)
   }
 
   handleAddNewClick() {
@@ -33,7 +46,14 @@ export default class AbRoomOverview extends Component {
     this.props.requestRoomUpdate(this.props.currentRoom.id, type, name)
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.currentRoom.seat_size !== prevProps.currentRoom.seat_size) {
+      this.setState({ seatSize: this.props.currentRoom.seat_size })
+    }
+  }
+
   render() {
+    const { seatSize } = this.state
     const { currentRoom, seatCount } = this.props
 
     return (
@@ -71,7 +91,7 @@ export default class AbRoomOverview extends Component {
           <div className="flex-container seat-size">
             <div className='seat-size-slider'>
               <div className='smaller'></div>
-              <input type="range" min="30" max="115" step="3" value={currentRoom.seat_size || 75} onChange={(e) => this.handleSeatSizeChange(e)} />
+              <input type="range" min="30" max="115" step="3" value={seatSize} onChange={this.onSeatSizeChange} />
               <div className="larger"></div>
             </div>
             <p><small>Adjust Seat Size</small></p>
