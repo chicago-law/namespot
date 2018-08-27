@@ -30,9 +30,10 @@
         "popper.js": "^1.12",
         "react": "^16.3.2",
         "react-dom": "^16.3.2",
-        "redux-devtools-extension": "^2.13.2",
         "redux": "^4.0.0",
-        "redux-logger": "^3.0.6"
+        "redux-devtools-extension": "^2.13.2",
+        "redux-logger": "^3.0.6",
+        "webpack-bundle-analyzer": "^2.13.1"
     },
     "dependencies": {
         "ajv": "^6.5.0",

@@ -1,5 +1,5 @@
-let mix = require('laravel-mix')
-// let BrowserSyncPlugin = require('browser-sync-webpack-plugin');i
+const mix = require('laravel-mix')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 
 /*
@@ -19,3 +19,10 @@ mix.react('resources/assets/js/main.js', 'public/js')
    .browserSync({
      proxy:'localhost/namespot/public'
    })
+   .webpackConfig({
+      plugins: [
+        new BundleAnalyzerPlugin({
+
+        })
+      ]
+    })
