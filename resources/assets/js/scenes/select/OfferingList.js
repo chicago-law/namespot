@@ -105,7 +105,7 @@ export default class OfferingList extends Component {
 
         <ul className='content'>
 
-          {recentOfferings.length > 0 && query.length === 0 && (
+          {recentOfferings.length > 0 && query.length === 0 && Object.keys(loading).every(type => loading[type] === false) && (
             <li className='select__recent-offerings'>
               <h6>Recent</h6>
               <ul>

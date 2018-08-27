@@ -9,6 +9,13 @@
     <link rel="stylesheet" href="{{asset('css/fontawesome-all.min.css')}}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400i">
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
+
+    <link rel="shortcut icon" href="{{asset('images/favicon.ico')}}" type="image/x-icon">
+    <link rel="icon" href="{{asset('images/favicon.ico')}}" type="image/x-icon">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{asset('images/favicon-32x32.png')}}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{asset('images/favicon-96x96.png')}}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('images/favicon-16x16.png')}}">
+
   </head>
   <body>
 
