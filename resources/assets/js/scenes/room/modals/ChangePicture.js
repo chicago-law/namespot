@@ -55,7 +55,7 @@ export default class ChangePicture extends Component {
 
         <footer className="controls">
           <button className='btn-clear' onClick={() => this.props.close()}>Cancel</button>
-          <button className="btn-accent" onClick={() => this.onPictureChangeSave()}>Use This Picture</button>
+          <button type='button' className="btn-accent" onClick={() => this.onPictureChangeSave()} disabled={newPicture.length === 0}>Use This Picture</button>
         </footer>
 
       </div>

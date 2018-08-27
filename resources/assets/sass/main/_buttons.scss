@@ -17,6 +17,10 @@ button {
     background: none;
     color:$primary-accent;
   }
+  &:disabled {
+    opacity: .5;
+    cursor: default;
+  }
 }
 
 .btn-accent {
@@ -25,8 +29,11 @@ button {
   @include ms-1;
   font-size:12.8px;
   &:hover {
-    color:#fff;
+    color: #fff;
     background:$primary-accent-hover;
+    &:disabled {
+      background:$primary-accent;
+    }
   }
 }
 
