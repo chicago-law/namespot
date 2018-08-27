@@ -106,7 +106,6 @@
     flex-direction:column;
     align-items:center;
     justify-content: center;
-    // margin-top:2em;
     border-left:1px solid $off-white;
     padding-left:3em;
     p {
@@ -301,7 +300,6 @@
         justify-content:flex-start;
         align-items:center;
         padding:.75em;
-        border-radius:7px;
         cursor:pointer;
         .picture {
           height:3em;
@@ -320,7 +318,8 @@
           display:block;
         }
         &:hover {
-          background: $off-white;
+          background: $primary-accent;
+          color: #fff;
         }
         &.no-results {
           justify-content: center;

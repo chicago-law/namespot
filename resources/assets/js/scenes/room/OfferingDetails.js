@@ -13,7 +13,7 @@ export default class OfferingDetails extends Component {
   render() {
     const { currentOffering, currentRoom, currentSeats, currentStudents } = this.props
 
-    const students = currentStudents.sort((a, b) => b.last_name - a.last_name).map(student => {
+    const students = currentStudents.map(student => {
       const pictureUrl = student.picture && student.picture.length ? `url('${helpers.rootUrl}images/students/${student.picture}')` : `url('${helpers.rootUrl}images/students/no-face.png')`
       return (
         <li key={student.id}>
@@ -24,9 +24,10 @@ export default class OfferingDetails extends Component {
             title={`${student.first_name} ${student.last_name}`}
             seated={student.seats['offering_' + currentOffering.id] != null ? 'true' : 'false'}
             onClick={(e) => this.handleStudentClick(e)}
-          />
+          ></div>
         </li>
-    )})
+      )
+    })
 
     const seatedStudents = students.filter(student => student.props.children.props.seated === 'true' ? true : false)
     const unseatedStudents = students.filter(student => student.props.children.props.seated === 'false' ? true : false)
