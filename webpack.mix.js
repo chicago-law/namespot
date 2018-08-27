@@ -19,10 +19,11 @@ mix.react('resources/assets/js/main.js', 'public/js')
    .browserSync({
      proxy:'localhost/namespot/public'
    })
-   .webpackConfig({
-      plugins: [
-        new BundleAnalyzerPlugin({
-
-        })
-      ]
-    })
+mix.webpackConfig({
+  plugins: [
+    // new BundleAnalyzerPlugin()
+  ],
+  resolve: {
+    extensions: [ '.mjs', '.js', '.jsx', '.json' ]
+  }
+})

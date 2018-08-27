@@ -10,6 +10,15 @@ import AbFindStudent from '../scenes/room/containers/AbFindStudent'
 import AbStudentDetails from '../scenes/room/containers/AbStudentDetails'
 
 export default class ActionBar extends Component {
+  constructor(props) {
+    super(props)
+    this.throttledOnScroll = _.throttle((e) => {
+      this.onScroll(e)
+    }, 100, {
+      leading: true,
+      trailing: false
+    })
+  }
   state = {
     isFloating: false,
     bannerHeight: ''
@@ -22,7 +31,6 @@ export default class ActionBar extends Component {
   }
 
   onScroll = (e) => {
-    console.log(new Date().getSeconds())
     const currentScroll = e.pageY
     if (currentScroll >= this.state.bannerHeight) {
       this.setState({ isFloating: true})
@@ -32,12 +40,12 @@ export default class ActionBar extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener('scroll', _.throttle(this.onScroll, 150))
+    window.addEventListener('scroll', this.throttledOnScroll)
     this.measureHeader()
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.onScroll)
+    window.removeEventListener('scroll', this.throttledOnScroll)
   }
 
   render() {
