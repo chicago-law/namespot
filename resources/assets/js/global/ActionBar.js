@@ -22,6 +22,7 @@ export default class ActionBar extends Component {
   }
 
   onScroll = (e) => {
+    console.log(new Date().getSeconds())
     const currentScroll = e.pageY
     if (currentScroll >= this.state.bannerHeight) {
       this.setState({ isFloating: true})
@@ -31,7 +32,7 @@ export default class ActionBar extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener('scroll', this.onScroll)
+    window.addEventListener('scroll', _.throttle(this.onScroll, 150))
     this.measureHeader()
   }
 
