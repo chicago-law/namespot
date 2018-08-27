@@ -7,6 +7,7 @@ import Errors from './containers/Errors'
 import SeatingChart from '../scenes/printables/containers/SeatingChart'
 import FlashCardsDeck from '../scenes/printables/containers/FlashCardsDeck'
 import NameTents from '../scenes/printables/containers/NameTents'
+import Footer from './Footer'
 
 const App = () => (
   <Switch>
@@ -23,6 +24,7 @@ const App = () => (
       <div className='app-container'>
         <Header />
         <Main />
+        <Footer />
         <Modals />
         <Errors />
       </div>
