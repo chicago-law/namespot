@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Route } from 'react-router-dom'
+import _throttle from 'lodash/throttle'
 import EditableText from '../../global/containers/EditableText'
 import helpers from '../../bootstrap'
 
 export default class AbRoomOverview extends Component {
   constructor(props) {
     super(props)
-    this.throttledSeatSizeChange = _.throttle((e) => {
+    this.throttledSeatSizeChange = _throttle((e) => {
       this.props.requestRoomUpdate(this.props.currentRoom.id, 'seat_size', e.target.value)
     }, 750)
   }

@@ -1,5 +1,5 @@
 const mix = require('laravel-mix')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 
 /*
@@ -22,8 +22,5 @@ mix.react('resources/assets/js/main.js', 'public/js')
 mix.webpackConfig({
   plugins: [
     // new BundleAnalyzerPlugin()
-  ],
-  resolve: {
-    extensions: [ '.mjs', '.js', '.jsx', '.json' ]
-  }
+  ]
 })

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Route } from 'react-router-dom'
 import classNames from 'classnames/bind'
+import _throttle from 'lodash/throttle'
 import AbRoomOverview from '../scenes/room/containers/AbRoomOverview'
 import AbEditTable from '../scenes/room/containers/AbEditTable'
 import AbDeleteTable from '../scenes/room/containers/AbDeleteTable'
@@ -12,7 +13,7 @@ import AbStudentDetails from '../scenes/room/containers/AbStudentDetails'
 export default class ActionBar extends Component {
   constructor(props) {
     super(props)
-    this.throttledOnScroll = _.throttle((e) => {
+    this.throttledOnScroll = _throttle((e) => {
       this.onScroll(e)
     }, 100, {
       leading: true,

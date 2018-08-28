@@ -8,6 +8,9 @@
   .room-workspace-left, .room-workspace-right {
     flex:1 1 25%;
     padding-top: 1.3em;
+    @media(max-width: $desktop) {
+      flex:auto;
+    }
     p {
       position:relative;
       margin-bottom: 1em;

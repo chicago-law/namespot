@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import helpers from '../../bootstrap'
-import { FaCamera } from 'react-icons/fa'
+import { FaCamera } from 'react-icons/fa/index.mjs'
 import EditableText from '../../global/containers/EditableText'
 
 export default class AbStudentDetails extends Component {

@@ -1,5 +1,6 @@
 import { normalize } from 'normalizr'
 import * as schema from './schema'
+import _snakeCase from 'lodash/snakeCase'
 import C from '../constants'
 import helpers from '../bootstrap'
 import { receiveStudents } from './students'
@@ -127,7 +128,7 @@ export function requestUpdateOffering(offering_id, attribute, value) {
 
     // send update to db
     axios.post(`${helpers.rootUrl}api/offering/update/${offering_id}`, {
-      [_.snakeCase(attribute)]: value
+      [_snakeCase(attribute)]: value
     })
     .catch(response => dispatch(requestError('update-offering',response.message)))
   }
