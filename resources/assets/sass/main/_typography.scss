@@ -45,6 +45,9 @@ a {
     }
   }
 }
+span {
+  color: $dark-gray;
+}
 small {
   @include ms-1;
 }

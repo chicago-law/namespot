@@ -54,6 +54,12 @@
         p {
           margin-bottom: 0;
           color:$dark-gray;
+          @include ms-1;
+        }
+        .meta {
+          @include ms-2;
+          font-style: italic;
+          opacity: .75;
         }
       }
       .fa-chevron-right {
@@ -65,7 +71,7 @@
         pointer-events:none;
       }
       &:hover {
-        h4, p, .svg-inline--fa {
+        h4, p, .meta, .svg-inline--fa {
           color:$primary-accent;
         }
       }

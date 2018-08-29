@@ -45,6 +45,8 @@ export function fetchOfferings(termCode) {
             flipped: offerings[offeringId].flipped,
             namesToShow: offerings[offeringId].names_to_show,
             useNicknames: offerings[offeringId].use_nicknames,
+            createdAt: offerings[offeringId].created_at,
+            updatedAt: offerings[offeringId].updated_at,
           }
         })
         dispatch(receiveOfferings(offerings))

@@ -124,8 +124,10 @@ export default class OfferingList extends Component {
             </li>
           )}
 
-          {filteredOfferingList.length > 0 && (filteredOfferingList.map(offering =>
-            <li key={offering.id}>
+          {filteredOfferingList.length > 0 && (filteredOfferingList.map(offering => {
+            const updatedAt = new Date(offering.updatedAt * 1000)
+            return (
+              <li key={offering.id}>
               <Link to={`/offering/${offering.id}`} onClick={this.onOfferingClick} className='offering' data-id={offering.id}>
                 <h4>{offering.long_title}</h4>
                 <p>
@@ -138,9 +140,15 @@ export default class OfferingList extends Component {
                     : `${offering.instructors.length} instructors`}
                   &nbsp; &bull; {helpers.termCodeToString(offering.term_code)}
                 </p>
+                {offering.updatedAt && offering.updatedAt !== offering.createdAt && (
+                  <span className='meta'>Edited {updatedAt.getMonth() + 1}/{updatedAt.getDate()}/{updatedAt.getFullYear().toString().slice(-2)}</span>
+                )}
               </Link>
               <FontAwesomeIcon icon={['far', 'chevron-right']} />
             </li>
+            )
+          }
+
           ))}
           {filteredOfferingList.length === 0 && Object.keys(loading).every(l => loading[l] === false) && (
             <li className='select__no-classes-found'>
