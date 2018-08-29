@@ -46,7 +46,7 @@
     header {
       text-align:center;
       padding:2em 0 1em 0;
-      h2 i {
+      h2 .svg-inline--fa {
         margin-right:.5em;
       }
     }
@@ -72,10 +72,10 @@
       display:flex;
       align-items:center;
       margin:2em 0;
-      i {
+      .svg-inline--fa {
         @include ms3;
         color:$primary-accent-light;
-        padding-right:.75em;
+        margin-right: .5em;
       }
       p {
         font-style:italic;

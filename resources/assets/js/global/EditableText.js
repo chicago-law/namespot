@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { CSSTransition } from 'react-transition-group'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import helpers from '../bootstrap'
 
 export default class EditableText extends Component {
@@ -14,7 +15,7 @@ export default class EditableText extends Component {
     }
   }
 
-  handleEditClick() {
+  handleEditClick = () => {
     this.setState({
       isEditing: true,
       text: this.textRef.current.textContent
@@ -26,7 +27,6 @@ export default class EditableText extends Component {
 
   handleSaveClick() {
     const text = this.textRef.current.textContent.trim()
-    console.log(text, text.length)
     if (this.props.validator) {
       switch (this.props.validator) {
         case 'unique-room-name':
@@ -162,7 +162,7 @@ export default class EditableText extends Component {
       </div>
     )
     const startEditing = (
-      <i className="far fa-pencil" onClick={() => this.handleEditClick()} title="Click to edit"></i>
+      <FontAwesomeIcon icon={['far', 'pencil']} onClick={this.handleEditClick} title="Click to edit" />
     )
 
     return (
@@ -187,6 +187,7 @@ export default class EditableText extends Component {
 }
 
 EditableText.propTypes = {
+  requestError: PropTypes.func.isRequired,
   save: PropTypes.func.isRequired,
   text: PropTypes.string.isRequired,
   validator: PropTypes.string

@@ -15,10 +15,7 @@ export default class ActionBar extends Component {
     super(props)
     this.throttledOnScroll = _throttle((e) => {
       this.onScroll(e)
-    }, 100, {
-      leading: true,
-      trailing: false
-    })
+    }, 100)
   }
   state = {
     isFloating: false,
@@ -46,6 +43,7 @@ export default class ActionBar extends Component {
   }
 
   componentWillUnmount() {
+    this.throttledOnScroll.cancel
     window.removeEventListener('scroll', this.throttledOnScroll)
   }
 

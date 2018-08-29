@@ -23,8 +23,6 @@ if (window.location.hostname === 'localhost') {
   basename = '/namespot/public/'
 }
 
-basename = helpers.rootUrl
-
 render(
   <BrowserRouter basename={basename}>
     <Root store={store} />

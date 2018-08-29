@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import helpers from '../../bootstrap'
 
 export default class OfferingDetails extends Component {
@@ -35,8 +36,8 @@ export default class OfferingDetails extends Component {
     return (
       <div className="offering-details">
         <div className="offering-details__room-details">
-          <p className='location'><i className="far fa-map-marker-alt fa-fw"></i> Located in {currentRoom.type === 'template' ? currentRoom.name : `${currentRoom.name} (edited)`}</p>
-          <p className='enrollment'><i className="far fa-users fa-fw"></i> {currentSeats.length} seats in room, with {currentOffering.students.length} students enrolled</p>
+          <p className='location'><FontAwesomeIcon icon={['fas', 'map-marker-alt']} /> Located in {currentRoom.type === 'template' ? currentRoom.name : `${currentRoom.name} (edited)`}</p>
+          <p className='enrollment'><FontAwesomeIcon icon={['far', 'users']} /> {currentSeats.length} seats in room, with {currentOffering.students.length} students enrolled</p>
         </div>
         <div className='offering-details__roster-gallery'>
           { seatedStudents.length > 0 && (

@@ -9,7 +9,9 @@ export default class AbEditTable extends React.Component {
   }
 
   handlePointSelectorButtonClick(e) {
-    const mode = e.target.dataset.select ? e.target.dataset.select : this.findAncestor(e.target, 'point-selector').dataset.select
+    const mode = e.target.dataset.select
+      ? e.target.dataset.select
+      : this.findAncestor(e.target, 'point-selector').dataset.select
     if (mode !== this.props.pointSelection) {
       // activating the button
       this.props.setPointSelection(mode)
@@ -41,15 +43,17 @@ export default class AbEditTable extends React.Component {
   }
 
   handleApplyChangesClick() {
+    const { tempTable, match } = this.props
+
     // first check if we have both a start point and an end point, because those are
     // required for each table.
     if (
-      this.props.tempTable.coords.hasOwnProperty('start')
-      && this.props.tempTable.coords.start !== null
-      && this.props.tempTable.coords.hasOwnProperty('end')
-      && this.props.tempTable.coords.end !== null
+      tempTable.coords.hasOwnProperty('start')
+      && tempTable.coords.start !== null
+      && tempTable.coords.hasOwnProperty('end')
+      && tempTable.coords.end !== null
     ) {
-      this.props.saveNewTable(this.props.tempTable.id, this.props.match.params.roomID, this.props.tempTable.coords, this.props.tempTable.seatCount, this.props.tempTable.labelPosition)
+      this.props.saveNewTable(tempTable.id, match.params.roomID, tempTable.coords, tempTable.seatCount, tempTable.labelPosition)
       this.props.clearTempTable()
       this.props.setTask('edit-room')
       this.props.setPointSelection(null)
@@ -111,7 +115,7 @@ export default class AbEditTable extends React.Component {
         {/* Save / Cancel controls */}
         <div className="save-controls">
           <a href='javascript:void(0);'>
-            <button onClick={() => this.handleCancelClick()} className='cancel-changes'><i className="far fa-times"></i>Cancel</button>
+            <button onClick={() => this.handleCancelClick()} className='btn-clear'>Cancel</button>
           </a>
           <a href="javascript:void(0)">
             <button onClick={() => this.handleApplyChangesClick()} className='btn-accent save-changes'>Save Table</button>

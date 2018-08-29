@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
 import classNames from 'classnames/bind'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default class ChangeRoom extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      selectedRoomId:0
-    }
+  state = {
+    selectedRoomId:0
   }
 
   handleRoomChangeDropdown(e) {
@@ -41,7 +39,7 @@ export default class ChangeRoom extends Component {
     return (
       <div className={modalClasses}>
         <header>
-          <h2><i className="fa fa-map-marker-alt"></i>Change Room?</h2>
+          <h2><FontAwesomeIcon icon={['fas', 'map-marker-alt']} />Change Room?</h2>
         </header>
 
         <main>
@@ -53,7 +51,7 @@ export default class ChangeRoom extends Component {
             ))}
           </select>
           <div className="warning">
-            <i className="far fa-exclamation-circle"></i>
+            <FontAwesomeIcon icon={['far', 'exclamation-triangle']} />
             <p>Please note that changing rooms will erase any seat assignments you've made in the class so far!</p>
           </div>
         </main>

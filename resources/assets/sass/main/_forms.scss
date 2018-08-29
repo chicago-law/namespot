@@ -1,7 +1,7 @@
 .input-container {
   position:relative;
   padding-right:2em;
-  .far, .fas, .fal {
+  .svg-inline--fa {
     position:absolute;
     top:50%;
     left:12px;
@@ -48,7 +48,7 @@ form {
     .question-name {
       margin:0 0.5em .5em 0;
       font-weight:bold;
-      i {
+      .svg-inline--fa {
         margin-right: 0.5em;
       }
     }

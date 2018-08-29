@@ -31,7 +31,6 @@
       display:flex;
       align-items:center;
       p {
-        // @include ms-1;
         margin-right:.5em;
       }
     }
@@ -66,7 +65,7 @@
         pointer-events:none;
       }
       &:hover {
-        h4, p, i {
+        h4, p, .svg-inline--fa {
           color:$primary-accent;
         }
       }
@@ -75,7 +74,6 @@
 }
 
 .select>div {
-  // padding: 2em;
   &.is-loading {
     .loading {
       display:block;
@@ -111,7 +109,7 @@
         font-weight:bold;
         @include ms-1;
         &:hover {
-          color:$primary-accent;
+          color: $primary-accent;
         }
       }
     }

@@ -45,7 +45,7 @@
       select {
         display:block;
       }
-      i {
+      .svg-inline--fa {
         margin-right: .5em;
         color: $middle-gray;
       }
@@ -76,6 +76,10 @@
   .offering-details__room-details {
     text-align:right;
     margin-bottom: 2em;
+    .svg-inline--fa {
+      color: rgba($middle-gray, .75);
+      margin-right: .5em;
+    }
     @media (max-width: $desktop) {
       text-align:center;
       margin-bottom: 1em;

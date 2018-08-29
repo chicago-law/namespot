@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default class PagePref extends Component {
   state = {
@@ -52,7 +53,7 @@ export default class PagePref extends Component {
       <div className='chart-preferences'>
         <ul>
           <li>
-            <i className="far fa-file fa-fw" style={{'transform':'rotate(90deg)'}}></i>
+            <FontAwesomeIcon icon={['far', 'file']} fixedWidth style={{'transform':'rotate(90deg)'}} />
             <p>Paper Size
               <select value={selectedPaperSize} onChange={this.selectPaperSize}>
                 <option value='tabloid'>Tabloid</option>
@@ -61,7 +62,7 @@ export default class PagePref extends Component {
             </p>
           </li>
           <li>
-            <i className="far fa-font fa-fw"></i>
+            <FontAwesomeIcon icon={['far', 'font']} fixedWidth />
             <p>Font Size
               <select value={selectedFontSize} onChange={this.selectFontSize}>
                 <option value='smaller'>Smaller</option>
@@ -71,7 +72,7 @@ export default class PagePref extends Component {
             </p>
           </li>
           <li>
-            <i className="far fa-id-card fa-fw"></i>
+            <FontAwesomeIcon icon={['far', 'id-card']} fixedWidth />
             <p>Names to Show
               <select value={selectedNamesToShow} onChange={this.selectNamesToShow}>
                 <option value='first_and_last'>First and Last</option>
@@ -82,14 +83,14 @@ export default class PagePref extends Component {
             </p>
           </li>
           <li>
-            <i className="far fa-user-edit fa-fw"></i>
+            <FontAwesomeIcon icon={['far', 'user-edit']} fixedWidth />
             <p>
               <input type='checkbox' name='use-nicknames' id='use-nicknames' value={useNicknames} onChange={this.changeUseNicknames} checked={useNicknames}/>
               <label htmlFor="use-nicknames">Use Nicknames</label>
             </p>
           </li>
           <li>
-            <i className="far fa-exchange-alt fa-fw" style={{'transform':'rotate(90deg)'}}></i>
+            <FontAwesomeIcon icon={['far', 'exchange-alt']} fixedWidth style={{'transform':'rotate(90deg)'}} />
             <p>
               <input type='checkbox' name='flip-perspective' id='flip-perspective' value={flipped} onChange={this.changeFlipPerspective} checked={flipped}/>
               <label htmlFor="flip-perspective">Flip Perspective</label>

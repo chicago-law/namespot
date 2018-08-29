@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import helpers from '../../bootstrap'
-import { FaCamera } from 'react-icons/fa/index.mjs'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import EditableText from '../../global/containers/EditableText'
 
 export default class AbStudentDetails extends Component {
@@ -36,7 +36,7 @@ export default class AbStudentDetails extends Component {
 
     return (
       <div className='action-bar action-bar-student-details'>
-        <i className="far fa-arrow-left" onClick={() => this.props.setTask('offering-overview')}></i>
+        <FontAwesomeIcon icon={['far', 'arrow-left']} />
 
         <div
           className='portrait'
@@ -44,7 +44,7 @@ export default class AbStudentDetails extends Component {
           onClick={this.onPortraitClick}
         >
           <div className='change-portrait' title='Change picture'>
-            <FaCamera className='icon' />
+            <FontAwesomeIcon icon='camera' />
           </div>
         </div>
 
@@ -74,14 +74,14 @@ export default class AbStudentDetails extends Component {
         <div style={{'marginLeft':'auto'}}>
           { student.manual_attachments[`offering_${this.props.currentOffering.id}`] ?
             <button className='big-button pull-right' onClick={()=> this.onRemoveFromClass()}>
-              <i className="far fa-sign-out"></i>
+              <FontAwesomeIcon icon={['far', 'sign-out']} />
               <p>Remove Student<br/>from Class</p>
             </button>
           : false}
 
           { student.seats['offering_' + this.props.currentOffering.id] ?
             <button className='big-button pull-right' onClick={()=> this.handleUnseatClick()}>
-              <i className="far fa-unlink"></i>
+              <FontAwesomeIcon icon={['far', 'unlink']} />
               <p>Remove Student<br/>from Seat</p>
             </button>
           : false}

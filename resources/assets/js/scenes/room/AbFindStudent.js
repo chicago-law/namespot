@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { CSSTransition } from 'react-transition-group'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import helpers from '../../bootstrap'
 
 export default class AbFindStudent extends Component {
@@ -24,7 +25,7 @@ export default class AbFindStudent extends Component {
     }
   }
 
-  handleCancelSearch() {
+  handleCancelSearch = () => {
     this.props.setTask('offering-overview')
   }
 
@@ -64,14 +65,14 @@ export default class AbFindStudent extends Component {
 
     return (
       <div className='action-bar action-bar-find-student' onKeyDown={e => this.handleKeyDown(e)}>
-        <i className="far fa-arrow-left" onClick={() => this.handleCancelSearch()}></i>
+        <FontAwesomeIcon icon={['far', 'arrow-left']} onClick={this.handleCancelSearch} />
         <CSSTransition
           in={showSearchInput}
           timeout={300}
           classNames='input-container'
         >
           <div className="input-container">
-            <i className="far fa-search"></i>
+            <FontAwesomeIcon icon={['far', 'search']} />
             <input type='text' ref={this.filterRef} placeholder="Type to find student..." onChange={(e) => this.handleSearchInput(e)} value={query}/>
           </div>
         </CSSTransition>

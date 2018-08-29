@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import helpers from '../../../bootstrap'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default class PrintOffering extends Component {
   constructor(props) {
@@ -63,7 +64,7 @@ export default class PrintOffering extends Component {
       <div className='print-room' ref={this.modalRef}>
 
         <header>
-          <h2><i className="far fa-print"></i>Print</h2>
+          <h2><FontAwesomeIcon icon={['far', 'print']} />Print</h2>
         </header>
 
         <main>

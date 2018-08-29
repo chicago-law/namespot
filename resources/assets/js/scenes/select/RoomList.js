@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import classNames from 'classnames/bind'
 import Loading from '../../global/Loading'
 import helpers from '../../bootstrap'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default class RoomList extends Component {
   handleNewRoom() {
@@ -57,8 +58,8 @@ export default class RoomList extends Component {
         <ul className='content'>
           <li>
             <a href="javascript:void(0);" onClick={() => this.handleNewRoom()}>
-              <h4><i className="far fa-plus-circle"></i> Create New Room</h4>
-              <i className="far fa-chevron-right"></i>
+              <h4><FontAwesomeIcon icon={['far', 'plus-circle']} /> Create New Room</h4>
+              <FontAwesomeIcon icon={['far', 'chevron-right']} />
             </a>
           </li>
           {filteredRooms.map((id) => (
@@ -66,7 +67,7 @@ export default class RoomList extends Component {
               <Link to={`/room/${id}`}>
                 <h4>{this.props.rooms[id].name}</h4>
               </Link>
-              <i className="far fa-chevron-right"></i>
+              <FontAwesomeIcon icon={['far', 'chevron-right']} />
             </li>
           ))}
         </ul>

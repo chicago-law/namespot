@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import classNames from 'classnames/bind'
 import PropTypes from 'prop-types'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default class AssignRoom extends Component {
   constructor(props) {
@@ -52,7 +53,7 @@ export default class AssignRoom extends Component {
     return (
       <div className={modalClasses}>
         <header>
-          <h2><i className="fa fa-map-marker-alt"></i>Choose Room</h2>
+          <h2><FontAwesomeIcon icon={['fas', 'map-marker-alt']} />Choose Room</h2>
         </header>
 
         <main>

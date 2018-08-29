@@ -166,10 +166,9 @@
     display:flex;
     align-items:center;
     margin-left:auto;
-    .cancel-changes {
+    .btn-clear {
       margin-right: 2em;
-      @include ms-1;
-      i {
+      .svg-inline--fa {
         @include ms0;
         position:relative;
         top:1px;
@@ -188,7 +187,7 @@
     button {
       @include ms-1;
     }
-    i {
+    .svg-inline--fa {
       margin-right:.5em;
     }
   }
@@ -357,17 +356,17 @@
       opacity:0;
       transition: opacity 200ms ease-out;
       cursor: pointer;
-      .icon {
+      .svg-inline--fa {
         transform: translateY(.3em);
         font-size:35px;
-        fill:$dark-gray;
+        color: $primary-accent;
         transition: opacity 200ms ease-out, transform 200ms ease-out;
       }
     }
     &:hover {
       .change-portrait {
         opacity: 1;
-        .icon {
+        .svg-inline--fa {
           transform: translateY(0)
         }
       }

@@ -1,6 +1,7 @@
 const mix = require('laravel-mix')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-
+const BabelMinifyPlugin = require('babel-minify-webpack-plugin')
+// const UglifyWebpackPlugin = require('uglifyjs-webpack-plugin')
 
 /*
  |--------------------------------------------------------------------------
@@ -21,6 +22,7 @@ mix.react('resources/assets/js/main.js', 'public/js')
    })
 mix.webpackConfig({
   plugins: [
-    // new BundleAnalyzerPlugin()
+    // new BundleAnalyzerPlugin(),
+    new BabelMinifyPlugin()
   ]
 })

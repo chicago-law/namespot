@@ -10,7 +10,7 @@ const AbDeleteTable = ({ setTask }) => {
       </div>
       <div className="flex-container">
         <a href='javascript:void(0)' onClick={ () => setTask('edit-room') }>
-          <button className='btn-clear'><i className="far fa-times"></i> Cancel</button>
+          <button className='btn-clear'>Cancel</button>
         </a>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames/bind'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Loading from '../../../global/Loading'
 import helpers from '../../../bootstrap'
 
@@ -111,7 +112,13 @@ export default class EditEnrollment extends Component {
           data-studentid={student.id}
           onClick={this.onStudentClick}
         >
-          {student.first_name} {student.nickname} {student.last_name} <span>{ alreadyEnrolled ? 'Already enrolled' : <i className="far fa-user-plus"></i> }</span>
+          {student.first_name} {student.nickname} {student.last_name}
+          <span>
+            { alreadyEnrolled
+              ? 'Already enrolled'
+              : <FontAwesomeIcon icon={['far', 'user-plus']} />
+            }
+          </span>
         </li>
       )
     })
@@ -121,14 +128,14 @@ export default class EditEnrollment extends Component {
       <div className={modalClasses}>
         <Loading />
         <header>
-          <h2><i className="far fa-user-plus"></i>Add Student To Class</h2>
+          <h2><FontAwesomeIcon icon={['far', 'user-plus']} /> Add Student To Class</h2>
         </header>
 
         <main>
           <p>If for some reason a student is not enrolled in a class through Canvas, then they will not show up automatically here in the class's seating chart roster.</p>
           <p>You can manually add a student to this class when necessary by searching all Law students below.</p>
           <div className="input-container">
-            <i className="far fa-search"></i>
+            <FontAwesomeIcon icon={['far', 'search']} />
             <input type='text' ref={this.searchRef} placeholder="Search all Law students..." onChange={(e) => this.handleSearchInput(e)} value={query} />
           </div>
           <div className="results-status">

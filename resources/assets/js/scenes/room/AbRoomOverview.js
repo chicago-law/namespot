@@ -4,6 +4,7 @@ import { Route } from 'react-router-dom'
 import _throttle from 'lodash/throttle'
 import EditableText from '../../global/containers/EditableText'
 import helpers from '../../bootstrap'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default class AbRoomOverview extends Component {
   constructor(props) {
@@ -101,7 +102,7 @@ export default class AbRoomOverview extends Component {
           <div className="flex-container">
             <a href="javascript:void(0)" onClick={() => this.handleAddNewClick()}>
               <button className='big-button'>
-                <i className="far fa-plus-circle"></i>
+                <FontAwesomeIcon icon={['far', 'plus-circle']} />
                 <p>Add<br />Section</p>
               </button>
             </a>
@@ -110,7 +111,7 @@ export default class AbRoomOverview extends Component {
           <div className="flex-container">
             <a href="javascript:void(0)" onClick={ () => this.handleDeleteClick() }>
               <button className='big-button'>
-                <i className="far fa-minus-circle"></i>
+                <FontAwesomeIcon icon={['far', 'minus-circle']} />
                 <p>Remove<br />Section</p>
               </button>
             </a>
@@ -119,7 +120,7 @@ export default class AbRoomOverview extends Component {
           <div className="flex-container">
             <a href={`${helpers.rootUrl}print/seating-chart/room/${currentRoom.id}`} target='_blank' rel="noopener noreferrer" >
               <button className='big-button'>
-                <i className="far fa-print"></i>
+                <FontAwesomeIcon icon={['far', 'print']} />
                 <p>Print<br />Blank Chart</p>
               </button>
             </a>
@@ -129,7 +130,7 @@ export default class AbRoomOverview extends Component {
             <div className="flex-container">
               <a href="javascript:void(0)" onClick={ () => this.handleRoomChangeClick() }>
                 <button className='big-button'>
-                  <i className="far fa-map-marker-alt"></i>
+                  <FontAwesomeIcon icon='map-marker-alt' />
                   <p>Change<br />Room</p>
                 </button>
               </a>
@@ -138,7 +139,7 @@ export default class AbRoomOverview extends Component {
 
           <Route path="/room/:roomID/:offeringID" render={() =>
             <div className='continue-seating' onClick={() => this.handleContinueSeatingClick()}>
-              <button className='btn-accent'>Continue Seating <i className="far fa-long-arrow-right"></i></button>
+              <button className='btn-accent'>Continue Seating <FontAwesomeIcon icon={['far', 'long-arrow-right']} /></button>
               <p>Return to assigning seats when ready</p>
             </div>
           } />

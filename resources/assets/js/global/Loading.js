@@ -1,8 +1,9 @@
 import React from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Loading = () => (
   <div className="loading">
-    <i className="fas fa-spinner-third spin-fast"></i>
+    <FontAwesomeIcon icon={['fas', 'spinner-third']} spin />
   </div>
 )
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import classNames from 'classnames/bind'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Loading from '../../global/Loading'
 import helpers from '../../bootstrap'
 
@@ -89,7 +90,7 @@ export default class OfferingList extends Component {
           <h5>Select Class</h5>
           <div className='filter-controls'>
             <div className="input-container">
-              <i className="far fa-search"></i>
+              <FontAwesomeIcon icon={['far','search']} />
               <input ref={this.searchRef} type='text' value={query} onChange={(e) => this.handleSearchInput(e)} placeholder="Type to find class..." />
             </div>
             <div className="semester-dropdown-container">
@@ -137,7 +138,7 @@ export default class OfferingList extends Component {
                   &nbsp; &bull; {helpers.termCodeToString(offering.term_code)}
                 </small></p>
               </Link>
-              <i className="far fa-chevron-right"></i>
+              <FontAwesomeIcon icon={['far', 'chevron-right']} />
             </li>
           ))}
           {filteredOfferingList.length === 0 && Object.keys(loading).every(l => loading[l] === false) && (

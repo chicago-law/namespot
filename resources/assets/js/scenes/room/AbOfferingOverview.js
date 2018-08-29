@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default class AbOfferingOverview extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   handlePrintButtonClick() {
     this.props.setModal('print-room', true)
   }
@@ -30,8 +27,9 @@ export default class AbOfferingOverview extends Component {
   }
 
   render() {
+    const { currentOffering, currentStudents } = this.props
 
-    const unseatedStudents = this.props.currentStudents.filter(student => student.seats[`offering_${this.props.currentOffering.id}`] == null)
+    const unseatedStudents = currentStudents.filter(student => student.seats[`offering_${currentOffering.id}`] == null)
 
     return (
       <div className='action-bar action-bar-offering-overview'>
@@ -46,7 +44,7 @@ export default class AbOfferingOverview extends Component {
                 <path d="M15,12 C17.21,12 19,10.21 19,8 C19,5.79 17.21,4 15,4 C12.79,4 11,5.79 11,8 C11,10.21 12.79,12 15,12 Z M6,10 L6,7 L4,7 L4,10 L1,10 L1,12 L4,12 L4,15 L6,15 L6,12 L9,12 L9,10 L6,10 Z M15,14 C12.33,14 7,15.34 7,18 L7,20 L23,20 L23,18 C23,15.34 17.67,14 15,14 Z"></path>
               </g>
             </svg>
-            <p>{this.props.currentStudents.length
+            <p>{currentStudents.length
               ? unseatedStudents.length
                 ? 'Click an empty seat to place a student'
                 : 'Great! All students have been seated!'
@@ -58,15 +56,15 @@ export default class AbOfferingOverview extends Component {
         <div className="right">
           <div className="offering-overview-controls">
             <button className='big-button' onClick={() => this.handlePrintButtonClick()}>
-              <i className="far fa-print"></i>
+              <FontAwesomeIcon icon={['far', 'print']} />
               <p>Create<br />Prints</p>
             </button>
             <button className='big-button' onClick={() => this.handleEditRoomClick()} >
-              <i className="far fa-wrench"></i>
+              <FontAwesomeIcon icon={['far', 'wrench']} />
               <p>Edit Tables<br /> and Seats</p>
             </button>
             <button className='big-button' onClick={() => this.handleEditEnrollmentClick()} >
-              <i className="far fa-user-plus"></i>
+              <FontAwesomeIcon icon={['far', 'user-plus']} />
               <p>Find More<br /> Students</p>
             </button>
           </div>
@@ -78,9 +76,13 @@ export default class AbOfferingOverview extends Component {
 }
 
 AbOfferingOverview.propTypes = {
-  currentStudents: PropTypes.array.isRequired,
+  currentOffering: PropTypes.object.isRequired,
   currentRoom: PropTypes.object.isRequired,
+  currentStudents: PropTypes.array.isRequired,
   customizeOfferingRoom: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+  setModal: PropTypes.func.isRequired,
+  setTask: PropTypes.func.isRequired,
+  setView: PropTypes.func.isRequired,
   task: PropTypes.string.isRequired,
-  setTask: PropTypes.func.isRequired
 }

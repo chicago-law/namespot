@@ -3,6 +3,76 @@ import PropTypes from 'prop-types'
 import { Provider } from 'react-redux'
 import App from './App'
 
+// Add FontAwesome icons
+import { library } from '@fortawesome/fontawesome-svg-core'
+import {
+  faCamera,
+  faMapMarkerAlt
+} from '@fortawesome/free-solid-svg-icons'
+import {
+  faCalendarAlt,
+  faFile,
+  faMap
+} from '@fortawesome/free-regular-svg-icons'
+import {
+  faArrowLeft,
+  faBars,
+  faChevronRight,
+  faCog,
+  faExclamationTriangle,
+  faExchangeAlt,
+  faFont,
+  faIdCard,
+  faLongArrowRight,
+  faMinusCircle,
+  faPencil,
+  faPlusCircle,
+  faPrint,
+  faSearch,
+  faSignOut,
+  faSignOutAlt,
+  faTimes,
+  faUnlink,
+  faUserEdit,
+  faUserPlus,
+  faUsers,
+  faWrench
+} from '@fortawesome/pro-regular-svg-icons'
+import {
+  faSpinnerThird
+} from '@fortawesome/pro-solid-svg-icons'
+
+library.add(
+  faArrowLeft,
+  faBars,
+  faCalendarAlt,
+  faCamera,
+  faChevronRight,
+  faCog,
+  faExchangeAlt,
+  faExclamationTriangle,
+  faFile,
+  faFont,
+  faIdCard,
+  faLongArrowRight,
+  faMap,
+  faMapMarkerAlt,
+  faMinusCircle,
+  faPencil,
+  faPlusCircle,
+  faPrint,
+  faSearch,
+  faSignOut,
+  faSignOutAlt,
+  faSpinnerThird,
+  faTimes,
+  faUnlink,
+  faUserEdit,
+  faUserPlus,
+  faUsers,
+  faWrench
+)
+
 const Root = ({store}) => (
   <Provider store={store}>
     <App/>

@@ -8,16 +8,14 @@ import EditEnrollment from '../scenes/room/modals/containers/EditEnrollment'
 import PrintOffering from '../scenes/room/modals/containers/PrintOffering'
 import LabelPosition from '../scenes/room/modals/containers/LabelPosition'
 import ChangePicture from '../scenes/room/modals/containers/ChangePicture'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default class Modals extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      modalActive: Object.keys(this.props.modals).some(name => this.props.modals[name] === true )
-    }
+  state = {
+    modalActive: Object.keys(this.props.modals).some(name => this.props.modals[name] === true )
   }
 
-  handleCloseClick() {
+  handleCloseClick = () => {
     // loop through all modals, do a switch on them and we can write what to do for each here
     // most will just be to clear the modal out, but this allows customized behavior too
     Object.keys(this.props.modals).forEach(type => {
@@ -58,20 +56,22 @@ export default class Modals extends Component {
   }
 
   render() {
+    const { modalActive } = this.state
+    const { modals } = this.props
 
     const modalWindowClasses = classNames({
       'modal-container__window':true,
-      'change-room': this.props.modals['change-room'],
-      'assign-room': this.props.modals['assign-room'],
-      'edit-enrollment': this.props.modals['edit-enrollment'],
-      'print-room': this.props.modals['print-room'],
-      'label-position': this.props.modals['label-position'],
-      'change-picture': this.props.modals['change-picture']
+      'change-room': modals['change-room'],
+      'assign-room': modals['assign-room'],
+      'edit-enrollment': modals['edit-enrollment'],
+      'print-room': modals['print-room'],
+      'label-position': modals['label-position'],
+      'change-picture': modals['change-picture']
     })
 
     return (
       <CSSTransition
-        in={this.state.modalActive}
+        in={modalActive}
         mountOnEnter
         timeout={300}
         classNames='modal-container'
@@ -80,15 +80,15 @@ export default class Modals extends Component {
         <div className='modal-container'>
 
           <div className={modalWindowClasses}>
-          <p>{this.state.modalActive}</p>
-            <i className="far fa-times" onClick={() => this.handleCloseClick()}></i>
+          <p>{modalActive}</p>
+            <FontAwesomeIcon icon={['far', 'times']} onClick={this.handleCloseClick} />
             <div className="content">
-              {this.props.modals['change-room'] ? <ChangeRoom close={() => this.handleCloseClick()}/> : false}
-              {this.props.modals['assign-room'] ? <AssignRoom close={() => this.handleCloseClick()} /> : false}
-              {this.props.modals['edit-enrollment'] ? <EditEnrollment close={() => this.handleCloseClick()} /> : false}
-              {this.props.modals['print-room'] ? <PrintOffering close={() => this.handleCloseClick()} /> : false}
-              {this.props.modals['label-position'] ? <LabelPosition close={() => this.handleCloseClick()} /> : false}
-              {this.props.modals['change-picture'] ? <ChangePicture close={() => this.handleCloseClick()} /> : false}
+              {modals['change-room'] ? <ChangeRoom close={() => this.handleCloseClick()}/> : false}
+              {modals['assign-room'] ? <AssignRoom close={() => this.handleCloseClick()} /> : false}
+              {modals['edit-enrollment'] ? <EditEnrollment close={() => this.handleCloseClick()} /> : false}
+              {modals['print-room'] ? <PrintOffering close={() => this.handleCloseClick()} /> : false}
+              {modals['label-position'] ? <LabelPosition close={() => this.handleCloseClick()} /> : false}
+              {modals['change-picture'] ? <ChangePicture close={() => this.handleCloseClick()} /> : false}
             </div>
           </div>
 

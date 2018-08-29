@@ -24,14 +24,14 @@
   .right {
     position: relative;
     .fa-times {
+      @include ms1;
       position: absolute;
-      top:0;
-      right:0;
-      padding:.85em;
-      cursor:pointer;
-      color:$middle-gray;
+      top:.65em;
+      right:.85em;
+      color: $light-gray;
+      cursor: pointer;
       &:hover {
-        color:$rose;
+        color: $primary-accent;
       }
     }
   }

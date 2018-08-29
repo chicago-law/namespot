@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import helpers from '../../bootstrap'
 import SaveChangesButton from '../../global/SaveChangesButton'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default class Settings extends Component {
   state = {
@@ -52,7 +53,7 @@ export default class Settings extends Component {
 
           <form>
             <div className='form-question'>
-              <p className='question-name'><i className="far fa-calendar-alt"></i>Current Academic Year</p>
+              <p className='question-name'><FontAwesomeIcon icon={['far', 'calendar-alt']} />Current Academic Year</p>
               <select name='academic-year' id='academic-year-select' value={this.state.selectedYear} onChange={(e) => this.onChangeSelectedYear(e)}>
                 {helpers.getAllYears(years).map(year => (
                   <option key={year} value={year}>{year} - {year + 1}</option>
