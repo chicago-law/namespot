@@ -128,15 +128,16 @@ export default class OfferingList extends Component {
             <li key={offering.id}>
               <Link to={`/offering/${offering.id}`} onClick={this.onOfferingClick} className='offering' data-id={offering.id}>
                 <h4>{offering.long_title}</h4>
-                <p><small>
+                <p>
                   LAWS {offering.catalog_nbr}-{offering.section} &bull;&nbsp;
-                  {offering.instructors.length < 4 ?
-                    offering.instructors.map((instructor, i) =>
-                      i != 0 ? `, ${instructor.first_name} ${instructor.last_name}` :
-                      `${instructor.first_name} ${instructor.last_name}`) :
-                  `${offering.instructors.length} instructors`}
+                  {offering.instructors.length < 4
+                    ? offering.instructors.map((instructor, i) =>
+                      i != 0
+                        ? `, ${instructor.first_name} ${instructor.last_name}`
+                        : `${instructor.first_name} ${instructor.last_name}`)
+                    : `${offering.instructors.length} instructors`}
                   &nbsp; &bull; {helpers.termCodeToString(offering.term_code)}
-                </small></p>
+                </p>
               </Link>
               <FontAwesomeIcon icon={['far', 'chevron-right']} />
             </li>

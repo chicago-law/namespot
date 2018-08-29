@@ -7,7 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Offering extends Model
 {
     protected $fillable = ['room_id','catalog_nbr'];
-    public $timestamps = false;
+
+    public function __construct()
+    {
+    //   $this->dateFormat = config('app.env') === 'local' ? 'Y-m-d H:i:s' : false;
+      $this->dateFormat = 'Y-m-d H:i:s';
+    }
 
     public function instructors()
     {

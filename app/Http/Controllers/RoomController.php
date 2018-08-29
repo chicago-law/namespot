@@ -19,7 +19,7 @@ class RoomController extends Controller
         return response()->json([
             'id' => $new_room->id,
             'name' => $new_room->name
-        ],200);
+        ], 200);
     }
 
     public function update($room_id, Request $request)
@@ -32,8 +32,15 @@ class RoomController extends Controller
             $room->$key = $value;
         endforeach;
 
-        // save and return
+        // save
         $room->save();
+
+        // If the room is custom, then updating it should also touch
+        // updated_at timestamp of its offering (which will be just one offering).
+        if ($room->type === 'custom') {
+            $room->classes()->touch();
+        }
+
         return response()->json('Success',200);
     }
 

@@ -1,7 +1,8 @@
 const mix = require('laravel-mix')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-const BabelMinifyPlugin = require('babel-minify-webpack-plugin')
-// const UglifyWebpackPlugin = require('uglifyjs-webpack-plugin')
+
+// const BabelMinifyPlugin = require('babel-minify-webpack-plugin')
+// const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
 /*
  |--------------------------------------------------------------------------
@@ -16,13 +17,23 @@ const BabelMinifyPlugin = require('babel-minify-webpack-plugin')
 
 mix.react('resources/assets/js/main.js', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css')
+   .sourceMaps()
    .copyDirectory('resources/assets/images', 'public/images')
    .browserSync({
      proxy:'localhost/namespot/public'
    })
-mix.webpackConfig({
-  plugins: [
-    // new BundleAnalyzerPlugin(),
-    new BabelMinifyPlugin()
-  ]
-})
+   .options({
+    uglify: {
+      uglifyOptions: {
+        compress: {
+          collapse_vars: false
+        }
+      }
+    }
+  })
+  .webpackConfig({
+    devtool: 'source-map',
+    plugins: [
+      // new BundleAnalyzerPlugin(),
+    ]
+  })

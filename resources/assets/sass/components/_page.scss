@@ -15,7 +15,7 @@
   @media(max-width: $tablet) {
     width:$medium-page;
   }
-  &.offering-overview {
+  &.offering-overview, &.student-details, &.find-student {
     @media (max-width:$desktop) {
       margin-top:0;
     }

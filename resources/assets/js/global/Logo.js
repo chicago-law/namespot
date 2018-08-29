@@ -5,7 +5,7 @@ import helpers from '../bootstrap'
 const Logo = () => (
   <div className='logo-container'>
     <Link to="/">
-      <img src={`${helpers.rootUrl}images/namespot-logo.svg`}/>
+      <img src={`${helpers.rootUrl}images/namespot-logo.png`}/>
     </Link>
   </div>
 )

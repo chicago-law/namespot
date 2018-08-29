@@ -8,7 +8,7 @@ export default class PrintOffering extends Component {
     super(props)
     this.modalRef = React.createRef()
     this.state = {
-      chosenFormat: null,
+      chosenFormat: 'seating-chart',
       namesOnReverse: false,
     }
   }

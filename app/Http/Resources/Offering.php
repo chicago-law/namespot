@@ -51,6 +51,8 @@ class Offering extends JsonResource
             'names_to_show' => $this->names_to_show,
             'flipped' => is_null($this->flipped) ? null : (int) $this->flipped,
             'use_nicknames' => is_null($this->use_nicknames) ? null : (int) $this->use_nicknames,
+            'created_at' => $this->created_at->timestamp,
+            'updated_at' => $this->updated_at->timestamp
         ];
     }
 }

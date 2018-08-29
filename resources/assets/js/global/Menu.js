@@ -22,7 +22,7 @@ const Menu = ({toggleMenu}) => (
       <li><Link className="reverse-colors" to="/" onClick={toggleMenu}><FontAwesomeIcon icon={['far', 'sign-out-alt']} fixedWidth />Logout</Link></li>
     </ul>
     <div className="school-logo-container">
-      <img src={`${helpers.rootUrl}images/uchicago-logo.svg`} />
+      <img src={`${helpers.rootUrl}images/uchicago-logo.png`} />
     </div>
   </div>
 )
