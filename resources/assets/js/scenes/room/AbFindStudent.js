@@ -38,7 +38,7 @@ export default class AbFindStudent extends Component {
   checkForMatch(student) {
     const regex = new RegExp(this.state.query, 'gi')
     // concat together everything should be searchable
-    if ((`${student.nickname} ${student.first_name} ${student.last_name} ${student.short_full_name} ${student.nickname} ${student.cnet_id}`).match(regex)) {
+    if ((`${student.nickname} ${student.first_name} ${student.last_name} ${student.short_full_name} ${student.nickname} ${student.canvas_id}`).match(regex)) {
       return true
     }
   }

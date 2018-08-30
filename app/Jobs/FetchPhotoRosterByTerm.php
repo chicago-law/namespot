@@ -52,7 +52,7 @@ class FetchPhotoRosterByTerm implements ShouldQueue
 
       try {
         $client = new Client();
-        $base_url = config('api.ais_dev_url');
+        $base_url = config('api.ais_stage_url');
         $username = config('api.ais_username');
         $password = config('api.ais_password');
         $endpoint = "{$base_url}/photoroster/{$this->term}/{$offering->class_nbr}";
@@ -145,7 +145,7 @@ class FetchPhotoRosterByTerm implements ShouldQueue
     if (count($errors_array)):
       // send an email with exceptions summary
       $message = "FetchPhotoRosterByTerm for {$this->term} finished with " . count($errors_array) . " errors, out of " . count($offerings) . " offerings.";
-      Mail::to(config('app.admin_email'))->send(new JobException($message, $errors_array));
+      Mail::to(config('app.admin_email'))->send(new JobException($message, array_slice($errors_array, 0, 3)));
     else:
       // Send an email with job results summary
       $results = "FetchPhotoRosterByTerm for {$this->term} completed without exceptions. {$empty_responses} out of " . count($offerings) . " offerings had no photo data.";

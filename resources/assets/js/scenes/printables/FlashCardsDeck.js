@@ -198,7 +198,7 @@ export default class FlashCardsDeck extends Component {
 
         {studentsSorted.map(student => (
           <FlashCard
-            key={student.cnet_id}
+            key={student.canvas_id}
             student={student}
             offering={currentOffering}
             namesOnReverse={namesOnReverse}

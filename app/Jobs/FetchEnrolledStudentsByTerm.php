@@ -135,7 +135,7 @@ class FetchEnrolledStudentsByTerm implements ShouldQueue
     if (count($errors_array)):
       // send an email with exceptions summary
       $message = "FetchEnrolledStudentsByTerm for {$this->term} finished with " . count($errors_array) . " errors, out of " . count($offerings) . " offerings.";
-      Mail::to('dramus@uchicago.edu')->send(new JobException($message, $errors_array));
+      Mail::to('dramus@uchicago.edu')->send(new JobException($message, array_slice($errors_array, 0, 3)));
     else:
       // send results summary
       $results = "FetchEnrolledStudentsByTerm for {$this->term} completed " . count($offerings) . " offerings without any exceptions.";
