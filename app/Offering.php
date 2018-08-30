@@ -10,8 +10,8 @@ class Offering extends Model
 
     public function __construct()
     {
-    //   $this->dateFormat = config('app.env') === 'local' ? 'Y-m-d H:i:s' : false;
-      $this->dateFormat = 'Y-m-d H:i:s';
+      $this->dateFormat = config('app.env') === 'local' ? 'Y-m-d H:i:s' : false;
+    //   $this->dateFormat = 'Y-m-d H:i:s';
     }
 
     public function instructors()
