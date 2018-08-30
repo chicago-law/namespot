@@ -178,6 +178,7 @@ class FetchOfferingsByTerm implements ShouldQueue
       if ($e->hasResponse()) {
         $api_response = Psr7\str($e->getResponse());
       } else {
+        dd($e);
         $api_response = 'no response';
       }
 
