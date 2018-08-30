@@ -21,7 +21,7 @@
     }
   }
   .room-workspace-left {
-    padding-right:2em;
+    padding-right: 1.25em;
     @media (max-width:$desktop) {
       padding-right: 0;
       padding-top: 0;
@@ -31,7 +31,7 @@
     }
   }
   .room-workspace-right {
-    padding-left:2em;
+    padding-left: 1.25em;
     @media (max-width:$desktop) {
       padding-left: 0;
     }
