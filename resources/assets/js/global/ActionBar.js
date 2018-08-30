@@ -28,8 +28,8 @@ export default class ActionBar extends Component {
     this.setState({ bannerHeight })
   }
 
-  onScroll = (e) => {
-    const currentScroll = e.pageY
+  onScroll = () => {
+    const currentScroll = window.pageYOffset
     if (currentScroll >= this.state.bannerHeight) {
       this.setState({ isFloating: true})
     } else {
