@@ -4,7 +4,7 @@
   margin-left: auto;
   margin-right: auto;
   margin-top:1.5em;
-  transition:transform 500ms ease-out;
+  transition:transform 750ms $fast-ease-out;
   @media(max-width:$desktop) {
     flex:auto;
     width:$x-large-page;

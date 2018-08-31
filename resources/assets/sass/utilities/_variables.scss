@@ -49,6 +49,13 @@ $primary-font: "Lato", "Helvetica", sans-serif;
 @mixin ms4-x2 { font-size:4.882em; }
 @mixin ms5-x2 { font-size:6.104em; }
 
+/* --------- */
+/* ANIMATION */
+/* --------- */
+
+// Easing
+$fast-ease-out: cubic-bezier(0.000, 0.905, 0.270, 0.975);
+
 
 /* ----------- */
 /* BREAKPOINTS */

@@ -183,9 +183,9 @@
 }
 .modal-container-enter-active, .modal-container-enter-done {
   opacity:1;
-  transition:all 200ms ease-out;
+  transition:all 500ms $fast-ease-out;
   .modal-container__window {
-    transition:all 200ms ease-out;
+    transition:all 500ms $fast-ease-out;
     transform:translate(-50%,0);
   }
 }
@@ -194,6 +194,6 @@
 }
 .modal-container-exit-active, .modal-container-exit-done {
   opacity:.1;
-  transition:all 150ms ease-out;
+  transition:all 500ms $fast-ease-out;
 }
 

@@ -30,7 +30,7 @@
       z-index:1000000;
       box-shadow:0 0 15px rgba(0,0,0,.15);
       transform:translateX(-18em);
-      transition:transform 400ms cubic-bezier(0.000, 0.905, 0.270, 0.975);
+      transition:transform 400ms $fast-ease-out;
       .svg-inline--fa {
         @include ms1;
         margin-right:1.35em;
