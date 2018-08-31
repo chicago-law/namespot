@@ -29,6 +29,7 @@ class CreateOfferingsTable extends Migration
 
             // location
             $table->string('room_id')->nullable();
+            $table->tinyInteger('is_preserve_room_id')->nullable();
             $table->string('ais_room')->nullable();
             $table->string('ais_room_capacity')->nullable();
             $table->string('ais_location')->nullable();

@@ -147,68 +147,40 @@ export function customizeOfferingRoom(offeringID) {
 
     // send out the request to make the new room
     axios.get(`${helpers.rootUrl}api/create-room-for/${offeringID}`)
-    .then(response => {
-      // duplicates the offering's room and re-assigns offering to the new one,
-      // then do an action to update the offering's room ID in the store (rather
-      // than re-downloading all offerings to get the update)
-      // console.log(response);
-      const newRoomID = response.data.newRoomID
-      dispatch(updateOffering(offeringID, 'room_id', newRoomID))
-
-      // now download the room data for the new room
-      axios.get(`${helpers.rootUrl}api/room/${newRoomID}`)
       .then(response => {
-        // console.log(response);
-        // const normalizedData = normalize(response.data, schema.roomListSchema);
-        const normalizedRoom = {
-          [response.data.id]: {
-            ...response.data
-          }
-        }
-        dispatch(receiveRooms(normalizedRoom))
+        // duplicates the offering's room and re-assigns offering to the new one,
+        // then do an action to update the offering's room ID in the store (rather
+        // than re-downloading all offerings to get the update)
+        const newRoomID = response.data.newRoomID
+        dispatch(updateOffering(offeringID, 'room_id', newRoomID))
 
-        // once we know the new room is in the store,
-        // we need to set the current room to this
-        // update: probably doesn't need to happen here because we're doing it
-        // in the Room component on every update
-        // dispatch(findAndSetCurrentRoom(newRoomID));
+        // now download the room data for the new room
+        axios.get(`${helpers.rootUrl}api/room/${newRoomID}`)
+          .then(response => {
+            const normalizedRoom = {
+              [response.data.id]: {
+                ...response.data
+              }
+            }
+            dispatch(receiveRooms(normalizedRoom))
 
-        // finally, turn off loading
-        dispatch(setLoadingStatus('rooms', false))
+            // turn off loading
+            dispatch(setLoadingStatus('rooms', false))
+          })
+          .catch(response => console.log(response))
+
+        // Also re-download the students for this offering, which will
+        // include their updated seat assignments.
+        axios.get(`${helpers.rootUrl}api/enrollment/offering/${offeringID}`)
+          .then((response) => {
+            const normalizedData = normalize(response.data, schema.studentListSchema)
+            dispatch(receiveStudents(normalizedData.entities.students))
+
+            // turn off loading
+            dispatch(setLoadingStatus('students', false))
+          })
+          .catch(response => console.log(response))
       })
       .catch(response => console.log(response))
-
-      // now re-download the students for this offering
-      axios.get(`${helpers.rootUrl}api/enrollment/offering/${offeringID}`)
-      .then((response) => {
-        // console.log(response);
-        const normalizedData = normalize(response.data, schema.studentListSchema)
-        dispatch(receiveStudents(normalizedData.entities.students))
-
-        // turn off loading
-        dispatch(setLoadingStatus('students', false))
-      })
-      .catch(response => console.log(response))
-    })
-    .catch(response => console.log(response))
   }
 }
-
-// export function setPaperSize(paperSize) {
-//   return {
-//     type: C.SET_PAPER_SIZE,
-//     paperSize
-//   }
-// }
-// export function requestSetPaperSize(paperSize, offeringId) {
-//   return dispatch => {
-//     // set in store
-//     dispatch(setPaperSize(paperSize))
-
-//     // set in DB
-//     axios.post(`${helpers.rootUrl}api/offering/update/${offeringId}`, {
-//       'paper_size': paperSize
-//     })
-//     .catch(response => dispatch(requestError('update-paper-size',response.message)))
-//   }
-// }

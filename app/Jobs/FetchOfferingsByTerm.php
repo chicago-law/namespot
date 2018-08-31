@@ -68,8 +68,8 @@ class FetchOfferingsByTerm implements ShouldQueue
 
         // Temporarily disable timestamps. If this is enabled, then we're making
         // updated_at field pretty useless because it resets every 12 hours at 6am, 6pm.
-        $offering->timestamps = false;
-        $offering->save();
+        // $offering->timestamps = false;
+        // $offering->save();
 
         // ids
         $offering->catalog_nbr = $class->CATALOG_NBR;
@@ -104,9 +104,7 @@ class FetchOfferingsByTerm implements ShouldQueue
 
           // When there is no data, it's returned from API as an empty object.
           // If that's the case, we're just going to assign it null.
-          $offering->ais_room
-            ? false // if the offering already has an ais_room value, then we should leave it alone
-            : is_string($meeting_time->ROOM) ? $meeting_time->ROOM : null;
+          $offering->ais_room = is_string($meeting_time->ROOM) ?  $meeting_time->ROOM : null;
           $offering->ais_room_capacity = is_string($meeting_time->ROOM_CAPACITY) ? $meeting_time->ROOM_CAPACITY : null;
           $offering->building = is_string($meeting_time->BUILDING) ? $meeting_time->BUILDING : null;
           $offering->building_desc = is_string($meeting_time->BUILDING_DESCR) ? $meeting_time->BUILDING_DESCR : null;
@@ -121,20 +119,27 @@ class FetchOfferingsByTerm implements ShouldQueue
         // now save it
         $offering->save();
 
-        // If the offering is assigned a room in AIS, look to see if it
-        // matches any of ours.
-        if (!is_null($offering->ais_room)):
-          $room = Room::where('db_match_name', $offering->ais_room)->first();
-          if ($room):
-            $offering->room_id = $room->id;
-            $offering->save();
+        // If the user has made a room assignment, is_preserve_room_id will be
+        // set to true (1). In that case, don't blow away what they set with
+        // what we got back from AIS API.
+        if (is_null($offering->is_preserve_room_id) || $offering->is_preserve_room_id === 0) {
+
+          // If the offering is assigned a room in AIS, look to see if it
+          // matches any of ours.
+          if (!is_null($offering->ais_room)):
+            $room = Room::where('db_match_name', $offering->ais_room)->first();
+            if ($room):
+              $offering->room_id = $room->id;
+              $offering->save();
+            endif;
           endif;
-        endif;
+        }
 
         // attach instructors
-        // API returns one instructor as an object, more than one as array
-        // of objects, so we'll normalize it to make it always an array
         if (isset($meeting_time) && isset($meeting_time->UC_INSTRUCTOR_TBL)):
+
+          // API returns one instructor as an object, more than one as array
+          // of objects, so we'll normalize it to make it always an array.
           $instructors_array = [];
           if (is_array($meeting_time->UC_INSTRUCTOR_TBL)):
             $instructors_array = $meeting_time->UC_INSTRUCTOR_TBL;
@@ -166,8 +171,8 @@ class FetchOfferingsByTerm implements ShouldQueue
         endif;
 
         // re-enable timestamps
-        $offering->timestamps = true;
-        $offering->save();
+        // $offering->timestamps = true;
+        // $offering->save();
 
         unset($offering, $meeting_time);
 
