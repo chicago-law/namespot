@@ -42,6 +42,10 @@ export default class Workspace extends Component {
 
     // look at the URL and decide a default task based on that
     this.setDefaultTask()
+
+    // Manually scroll to the top of the page. If you had to scroll down on
+    // OfferingList, you'll start scrolled down here too.
+    document.body.scrollTop = document.documentElement.scrollTop = 0
   }
 
   componentDidUpdate(prevProps) {

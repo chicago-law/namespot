@@ -41,6 +41,7 @@ export default class Settings extends Component {
 
   render() {
     const { years } = this.props
+    const isDisabled = this.state.selectedYear === this.props.defaultYear
 
     return (
       <div className='settings-page'>
@@ -62,7 +63,7 @@ export default class Settings extends Component {
             </div>
 
             <div className='controls with-padding'>
-              <SaveChangesButton onSaveChanges={this.onSaveChanges} />
+              <SaveChangesButton onSaveChanges={this.onSaveChanges} isDisabled={isDisabled} />
             </div>
           </form>
 

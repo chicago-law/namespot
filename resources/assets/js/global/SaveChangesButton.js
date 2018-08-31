@@ -55,6 +55,7 @@ export default class SaveChangesButton extends Component {
         <button
           className='btn-accent'
           onClick={this.onSaveClick}
+          disabled={this.props.isDisabled}
         >
 
           {this.state.thinking && (
@@ -62,7 +63,7 @@ export default class SaveChangesButton extends Component {
           )}
 
           {!this.state.thinking && (
-            <span>Save Changes</span>
+            'Save Changes'
           )}
 
         </button>
@@ -72,5 +73,6 @@ export default class SaveChangesButton extends Component {
 }
 
 SaveChangesButton.propTypes = {
+  isDisabled: PropTypes.bool,
   onSaveChanges: PropTypes.func.isRequired
 }
