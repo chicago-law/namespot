@@ -28,11 +28,15 @@ class StudentController extends Controller
                     break;
                 case 'assigned_seat':
                     $student->offerings()->updateExistingPivot($request->input('offering_id'),['assigned_seat' => $request->input('assigned_seat')]);
-                    $student->offerings()->find($request->input('offering_id'))->updated_at = new Carbon();
+                    $offering = $student->offerings()->find($request->input('offering_id'));
+                    $offering->updated_at = new Carbon();
+                    $offering->save();
                     break;
                 case 'manually_attached':
-                    $student->offerings()->sync([ $request->input('offering_id') => ['manually_attached' => true] ]);
-                    $student->offerings()->find($request->input('offering_id'))->updated_at = new Carbon();
+                    $student->offerings()->$offering->sync([ $request->input('offering_id') => ['manually_attached' => true] ]);
+                    $offering = $student->offerings()->find($request->input('offering_id'));
+                    $offering->updated_at = new Carbon();
+                    $offering->save();
                     break;
             }
         endforeach;
@@ -72,7 +76,12 @@ class StudentController extends Controller
     {
         $student = Student::findOrFail($request->input('student_id'));
         $student->offerings()->detach($request->input('offering_id'));
-        $student->offerings()->find($request->input('offering_id'))->updated_at = new Carbon();
+
+        // Update timestamp.
+        $offering = $student->offerings()->find($request->input('offering_id'));
+        $offering->updated_at = new Carbon();
+        $offering->save();
+
         return response()->json('success',200);
     }
 
