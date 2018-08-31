@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Student;
 use App\Offering;
 use App\Http\Resources\Student as StudentResource;
@@ -27,11 +28,11 @@ class StudentController extends Controller
                     break;
                 case 'assigned_seat':
                     $student->offerings()->updateExistingPivot($request->input('offering_id'),['assigned_seat' => $request->input('assigned_seat')]);
-                    $student->offerings()->find($request->input('offering_id'))->touch();
+                    $student->offerings()->find($request->input('offering_id'))->updated_at = new Carbon();
                     break;
                 case 'manually_attached':
                     $student->offerings()->sync([ $request->input('offering_id') => ['manually_attached' => true] ]);
-                    $student->offerings()->find($request->input('offering_id'))->touch();
+                    $student->offerings()->find($request->input('offering_id'))->updated_at = new Carbon();
                     break;
             }
         endforeach;
@@ -71,7 +72,7 @@ class StudentController extends Controller
     {
         $student = Student::findOrFail($request->input('student_id'));
         $student->offerings()->detach($request->input('offering_id'));
-        $student->offerings()->find($request->input('offering_id'))->touch();
+        $student->offerings()->find($request->input('offering_id'))->updated_at = new Carbon();
         return response()->json('success',200);
     }
 

@@ -125,7 +125,7 @@ export default class OfferingList extends Component {
           )}
 
           {filteredOfferingList.length > 0 && (filteredOfferingList.map(offering => {
-            const updatedAt = new Date(offering.updatedAt * 1000)
+            const updatedAt = new Date(offering.updatedAt)
             return (
               <li key={offering.id}>
               <Link to={`/offering/${offering.id}`} onClick={this.onOfferingClick} className='offering' data-id={offering.id}>
@@ -140,7 +140,7 @@ export default class OfferingList extends Component {
                     : `${offering.instructors.length} instructors`}
                   &nbsp; &bull; {helpers.termCodeToString(offering.term_code)}
                 </p>
-                {offering.updatedAt && offering.updatedAt !== offering.createdAt && (
+                {offering.updatedAt && (
                   <span className='meta'>Edited {updatedAt.getMonth() + 1}/{updatedAt.getDate()}/{updatedAt.getFullYear().toString().slice(-2)}</span>
                 )}
               </Link>

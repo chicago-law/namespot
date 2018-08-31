@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Offering;
 
 class OfferingController extends Controller
@@ -49,6 +50,9 @@ class OfferingController extends Controller
     if ($request->input('use_nicknames') !== null):
       $offering->use_nicknames = (bool) $request->input('use_nicknames');
     endif;
+
+    // timestamp this update
+    $offering->updated_at = new Carbon();
 
     $offering->save();
 
@@ -111,6 +115,10 @@ class OfferingController extends Controller
     // Because this room assignment was initiated by the user, we want to preserve
     // it, rather than just blow it away with our next nightly data fetch.
     $offering->is_preserve_room_id = 1;
+
+    // Timestamp this update.
+    $offering->updated_at = new Carbon();
+
     $offering->save();
 
     return response()->json([

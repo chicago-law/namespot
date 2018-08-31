@@ -30,7 +30,7 @@ use App\Jobs\TestJob;
  * TEST: RUN A TEST JOB
  */
 Route::get('/test', function() {
-    FetchOfferingsByTerm::dispatch('2184');
+    FetchOfferingsByTerm::dispatch('2188');
     // FetchEnrolledStudentsByTerm::dispatch('2178');
     // FetchPhotoRosterByTerm::dispatch('2178');
     // TestJob::dispatch();

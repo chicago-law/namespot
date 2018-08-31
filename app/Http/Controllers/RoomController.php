@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Room;
 use App\Table;
 
@@ -38,7 +39,7 @@ class RoomController extends Controller
         // If the room is custom, then updating it should also touch
         // updated_at timestamp of its offering (which will be just one offering).
         if ($room->type === 'custom') {
-            $room->classes()->touch();
+            $room->classes()->updated_at = new Carbon();
         }
 
         return response()->json('Success',200);

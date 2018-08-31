@@ -45,7 +45,6 @@ export function fetchOfferings(termCode) {
             flipped: offerings[offeringId].flipped,
             namesToShow: offerings[offeringId].names_to_show,
             useNicknames: offerings[offeringId].use_nicknames,
-            createdAt: offerings[offeringId].created_at,
             updatedAt: offerings[offeringId].updated_at,
           }
         })
@@ -101,6 +100,7 @@ export function requestOffering(offering_id) {
             flipped: response.data.flipped,
             namesToShow: response.data.names_to_show,
             useNicknames: response.data.use_nicknames,
+            updatedAt: response.data.updated_at,
           }
         }
         dispatch(receiveOfferings(offeringObj))
