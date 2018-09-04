@@ -49,6 +49,10 @@ export default class EditEnrollment extends Component {
     })
   }
 
+  clearQuery = () => {
+    this.setState({ query: '' })
+  }
+
   onStudentClick = (e) => {
     const studentId = e.target.closest('.student').getAttribute('data-studentid')
     // Proceed only if the student is not already in the class roster
@@ -135,7 +139,10 @@ export default class EditEnrollment extends Component {
           <p>If for some reason a student is not enrolled in a class through Canvas, then they will not show up automatically here in the class's seating chart roster.</p>
           <p>You can manually add a student to this class when necessary by searching all Law students below.</p>
           <div className="input-container">
-            <FontAwesomeIcon icon={['far', 'search']} />
+            {query.length
+              ? <FontAwesomeIcon icon={['fas','times-circle']} onClick={this.clearQuery} />
+              : <FontAwesomeIcon icon={['far','search']} />
+            }
             <input type='text' ref={this.searchRef} placeholder="Search all Law students..." onChange={(e) => this.handleSearchInput(e)} value={query} />
           </div>
           <div className="results-status">

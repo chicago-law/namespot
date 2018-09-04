@@ -19,6 +19,10 @@ export default class OfferingList extends Component {
     })
   }
 
+  clearQuery = () => {
+    this.setState({ query: '' })
+  }
+
   handleTermChange(e) {
     // get classes for the selected term
     this.props.requestOfferings(e.target.value)
@@ -90,7 +94,10 @@ export default class OfferingList extends Component {
           <h5>Select Class</h5>
           <div className='filter-controls'>
             <div className="input-container">
-              <FontAwesomeIcon icon={['far','search']} />
+              {query.length
+                ? <FontAwesomeIcon icon={['fas','times-circle']} onClick={this.clearQuery} />
+                : <FontAwesomeIcon icon={['far','search']} />
+              }
               <input ref={this.searchRef} type='text' value={query} onChange={(e) => this.handleSearchInput(e)} placeholder="Type to find class..." />
             </div>
             <div className="semester-dropdown-container">

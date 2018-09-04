@@ -1,12 +1,18 @@
 .input-container {
   position:relative;
-  padding-right:2em;
   .svg-inline--fa {
     position:absolute;
     top:50%;
     left:12px;
     transform:translateY(-50%);
     color:$middle-gray;
+    &.fa-times-circle {
+      // color: $dark-gray;
+      cursor: pointer;
+      &:hover {
+        color: $primary-accent;
+      }
+    }
   }
   &.input-container-enter {
     transform:translateX(1em);
@@ -20,8 +26,6 @@
 input[type='text'], input[type='number'] {
   color:$dark-gray;
   border-radius:3px;
-  // border:1px solid $light-gray;
-  // padding:.25em .25em;
   padding:10px 0;
   padding-left:33px;
   width:19em;

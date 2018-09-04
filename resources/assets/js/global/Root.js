@@ -7,7 +7,8 @@ import App from './App'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faCamera,
-  faMapMarkerAlt
+  faMapMarkerAlt,
+  faTimesCircle
 } from '@fortawesome/free-solid-svg-icons'
 import {
   faCalendarAlt,
@@ -66,6 +67,7 @@ library.add(
   faSignOutAlt,
   faSpinnerThird,
   faTimes,
+  faTimesCircle,
   faUnlink,
   faUserEdit,
   faUserPlus,

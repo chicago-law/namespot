@@ -35,6 +35,10 @@ export default class AbFindStudent extends Component {
     }
   }
 
+  clearQuery = () => {
+    this.setState({ query: '' })
+  }
+
   checkForMatch(student) {
     const regex = new RegExp(this.state.query, 'gi')
     // concat together everything should be searchable
@@ -72,7 +76,10 @@ export default class AbFindStudent extends Component {
           classNames='input-container'
         >
           <div className="input-container">
-            <FontAwesomeIcon icon={['far', 'search']} />
+            {query.length
+              ? <FontAwesomeIcon icon={['fas','times-circle']} onClick={this.clearQuery} />
+              : <FontAwesomeIcon icon={['far','search']} />
+            }
             <input type='text' ref={this.filterRef} placeholder="Type to find student..." onChange={(e) => this.handleSearchInput(e)} value={query}/>
           </div>
         </CSSTransition>
