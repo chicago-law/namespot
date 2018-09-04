@@ -39,8 +39,9 @@ class RoomController extends Controller
         // If the room is custom, then updating it should also touch
         // updated_at timestamp of its offering (which will be just one offering).
         if ($room->type === 'custom') {
-            $room->classes()->updated_at = new Carbon();
-            $room->classes()->save();
+            $offering = $room->classes()->first();
+            $offering->updated_at = new Carbon();
+            $offering->save();
         }
 
         return response()->json('Success',200);
