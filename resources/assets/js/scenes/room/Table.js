@@ -11,17 +11,28 @@ class Table extends Component {
 
     // make the path string
     let d = ''
-    if (
-      qX !== null
-      && !isNaN(qX)
-      && qY !== null
-      && !isNaN(qY)
-    ) { // test if there is a curve point set or not
-      d = `M ${(sX * gridcolumnwidth).toFixed(2)} ${(sY * gridrowheight).toFixed(2)}
-           Q ${(qX * gridcolumnwidth).toFixed(2)} ${(qY * gridrowheight).toFixed(2)} ${(eX * gridcolumnwidth).toFixed(2)} ${(eY * gridrowheight).toFixed(2)}`
-    } else {
-      d = `M ${(sX * gridcolumnwidth).toFixed(2)} ${(sY * gridrowheight).toFixed(2)}
-           L ${(eX * gridcolumnwidth).toFixed(2)} ${(eY * gridrowheight).toFixed(2)}`
+    if ( // first check if the start and end coords are ready
+      sX !== null
+      && !isNaN(sX)
+      && sY !== null
+      && !isNaN(sY)
+      && eX !== null
+      && !isNaN(eX)
+      && eY !== null
+      && !isNaN(eY)
+    ) {
+      if ( // now check if the line should be curved or not
+        qX !== null
+        && !isNaN(qX)
+        && qY !== null
+        && !isNaN(qY)
+      ) {
+        d = `M ${(sX * gridcolumnwidth).toFixed(2)} ${(sY * gridrowheight).toFixed(2)}
+             Q ${(qX * gridcolumnwidth).toFixed(2)} ${(qY * gridrowheight).toFixed(2)} ${(eX * gridcolumnwidth).toFixed(2)} ${(eY * gridrowheight).toFixed(2)}`
+      } else {
+        d = `M ${(sX * gridcolumnwidth).toFixed(2)} ${(sY * gridrowheight).toFixed(2)}
+             L ${(eX * gridcolumnwidth).toFixed(2)} ${(eY * gridrowheight).toFixed(2)}`
+      }
     }
 
     return d
@@ -99,7 +110,7 @@ class Table extends Component {
         ref={this.tableGroupRef}
         onClick={(e) => this.handleTableClick(e)}
       >
-        <path className='table-path' ref={this.pathRef} d={d} stroke="#f4f4f4" strokeWidth="15" fill="none" strokeLinecap="round"/>
+        <path className='table-path' ref={this.pathRef} d={d} stroke="#f4f4f4" strokeWidth="30" fill="none" strokeLinecap="round"/>
       </g>
     )
   }
