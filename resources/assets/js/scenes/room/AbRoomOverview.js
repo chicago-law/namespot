@@ -69,7 +69,7 @@ export default class AbRoomOverview extends Component {
               save={(name) => this.handleSaveRoomName(name, 'name')}
               validator='unique-room-name'
             />
-            { currentRoom.type === 'template' ? (
+            {/* { currentRoom.type === 'template' ? (
               <div>
                 <h6>AIS Name</h6>
                 <EditableText
@@ -78,13 +78,15 @@ export default class AbRoomOverview extends Component {
                   validator='unique-room-db-name'
                 />
               </div>
-            ) : false }
-          </div>
-
-          <div className="flex-container pull-top">
-            <h6>Total Seats in Room</h6>
+            ) : false } */}
+            <h6>Total Room Capacity</h6>
             <p>{seatCount}</p>
           </div>
+
+          {/* <div className="flex-container pull-top">
+            <h6>Total Room Capacity</h6>
+            <p>{seatCount}</p>
+          </div> */}
 
         </div>
 
