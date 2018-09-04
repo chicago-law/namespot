@@ -75,12 +75,15 @@ class StudentController extends Controller
     public function unenroll(Request $request)
     {
         $student = Student::findOrFail($request->input('student_id'));
-        $student->offerings()->detach($request->input('offering_id'));
 
-        // Update timestamp.
+        // Update timestamp of the offering in question
+        // (needs to happen before we detach!)
         $offering = $student->offerings()->find($request->input('offering_id'));
         $offering->updated_at = new Carbon();
         $offering->save();
+
+        // Now detach
+        $student->offerings()->detach($request->input('offering_id'));
 
         return response()->json('success',200);
     }
