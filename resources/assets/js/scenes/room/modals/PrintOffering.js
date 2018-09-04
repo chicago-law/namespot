@@ -8,7 +8,7 @@ export default class PrintOffering extends Component {
     super(props)
     this.modalRef = React.createRef()
     this.state = {
-      chosenFormat: 'seating-chart',
+      chosenFormat: '',
       namesOnReverse: false,
     }
   }
@@ -74,16 +74,48 @@ export default class PrintOffering extends Component {
             <div className='form-question'>
               <p className='question-name'>Choose Format</p>
 
-              <input type='radio' id='format-seating-chart' name='choose-format' value='seating-chart' onChange={this.onFormatChange} checked={this.state.chosenFormat === 'seating-chart'} />
+              <input
+                type='radio'
+                id='format-seating-chart'
+                name='choose-format'
+                value='seating-chart'
+                onChange={this.onFormatChange}
+                checked={this.state.chosenFormat === 'seating-chart'}
+                disabled={this.props.currentOffering.room_id === null}
+              />
               <label htmlFor='format-seating-chart'>Seating Chart</label><br/>
 
-              <input type='radio' id='format-blank-seating-chart' name='choose-format' value='blank-seating-chart' onChange={this.onFormatChange} checked={this.state.chosenFormat === 'blank-seating-chart'} />
+              <input
+                type='radio'
+                id='format-blank-seating-chart'
+                name='choose-format'
+                value='blank-seating-chart'
+                onChange={this.onFormatChange}
+                checked={this.state.chosenFormat === 'blank-seating-chart'}
+                disabled={this.props.currentOffering.room_id === null}
+              />
               <label htmlFor='format-blank-seating-chart'>Blank Seating Chart</label><br/>
 
-              <input type='radio' id='format-flash-cards' name='choose-format' value='flash-cards' onChange={this.onFormatChange} checked={this.state.chosenFormat === 'flash-cards'} disabled={this.props.currentOffering.students.length === 0} />
+              <input
+                type='radio'
+                id='format-flash-cards'
+                name='choose-format'
+                value='flash-cards'
+                onChange={this.onFormatChange}
+                checked={this.state.chosenFormat === 'flash-cards'}
+                disabled={this.props.currentOffering.students.length === 0}
+              />
               <label htmlFor='format-flash-cards'>Flash Cards</label><br/>
 
-              <input type='radio' id='format-name-tents' name='choose-format' value='name-tents' onChange={this.onFormatChange} checked={this.state.chosenFormat === 'name-tents'} disabled={this.props.currentOffering.students.length === 0} />
+              <input
+                type='radio'
+                id='format-name-tents'
+                name='choose-format'
+                value='name-tents'
+                onChange={this.onFormatChange}
+                checked={this.state.chosenFormat === 'name-tents'}
+                disabled={this.props.currentOffering.students.length === 0}
+              />
               <label htmlFor='format-name-tents'>Name Tents</label>
             </div>
 
@@ -91,7 +123,13 @@ export default class PrintOffering extends Component {
             {this.state.chosenFormat === 'flash-cards' && (
               <div className='form-question'>
                 <p className='question-name options'>Options</p>
-                <input type='checkbox' name='names-on-reverse' id='names-on-reverse' checked={this.state.namesOnReverse} onChange={(e) => this.onNamesOnReverseChange(e)}/>
+                <input
+                  type='checkbox'
+                  name='names-on-reverse'
+                  id='names-on-reverse'
+                  checked={this.state.namesOnReverse}
+                  onChange={(e) => this.onNamesOnReverseChange(e)}
+                />
                 <label htmlFor='names-on-reverse'> Print names on reverse side?</label>
               </div>
             )}
@@ -102,7 +140,13 @@ export default class PrintOffering extends Component {
         <footer className="controls">
           <button className='btn-clear' onClick={() => this.props.close()}>Cancel</button>
           <a href={this.generateUrl()} target='_blank' rel='noopener noreferrer'>
-            <button className='btn-accent' onClick={() => this.printButtonClick()}>Print</button>
+            <button
+              className='btn-accent'
+              onClick={() => this.printButtonClick()}
+              disabled={this.state.chosenFormat === ''}
+            >
+              Print
+            </button>
           </a>
         </footer>
 

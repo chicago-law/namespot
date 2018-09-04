@@ -55,10 +55,6 @@ export default class AbOfferingOverview extends Component {
 
         <div className="right">
           <div className="offering-overview-controls">
-            <button className='big-button' onClick={() => this.handlePrintButtonClick()}>
-              <FontAwesomeIcon icon={['far', 'print']} />
-              <p>Create<br />Prints</p>
-            </button>
             <button className='big-button' onClick={() => this.handleEditRoomClick()} >
               <FontAwesomeIcon icon={['far', 'wrench']} />
               <p>Edit Tables<br /> and Seats</p>
@@ -66,6 +62,10 @@ export default class AbOfferingOverview extends Component {
             <button className='big-button' onClick={() => this.handleEditEnrollmentClick()} >
               <FontAwesomeIcon icon={['far', 'user-plus']} />
               <p>Find More<br /> Students</p>
+            </button>
+            <button className='big-button' onClick={() => this.handlePrintButtonClick()}>
+              <FontAwesomeIcon icon={['far', 'print']} />
+              <p>Create<br />Prints</p>
             </button>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { Route } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import classNames from 'classnames/bind'
@@ -9,6 +9,7 @@ import Grid from './containers/Grid'
 import Guides from './Guides'
 import PageHeader from './containers/PageHeader'
 import Loading from '../../global/Loading'
+import RoomNotSet from './RoomNotSet'
 
 export default class Page extends Component {
   constructor(props) {
@@ -134,7 +135,7 @@ export default class Page extends Component {
 
     const innerPageContainerClasses = classNames({
       'inner-page-container':true,
-      'card':true,
+      'card':true
     })
 
     const seatsContainerClasses = classNames({
@@ -149,52 +150,60 @@ export default class Page extends Component {
 
           <div className="page">
 
-            <Route path='/print' render={() => (
-              <canvas className='original-canvas' height={`${this.state.realPageHeight}`} width={`${this.state.realPageWidth}`}></canvas>
-            )}/>
+            {/* If this is an offering, do we have a room set for it? */}
+            {this.props.view === 'assign-seats' && this.props.currentOffering.room_id === null
+              ? <RoomNotSet />
+              : (
+                <Fragment>
+                  <Route path='/print' render={() => (
+                    <canvas className='original-canvas' height={`${this.state.realPageHeight}`} width={`${this.state.realPageWidth}`}></canvas>
+                  )}/>
 
-            <PageHeader shrinkRatio={this.state.browserPageWidth / this.state.realPageWidth} />
+                  <PageHeader shrinkRatio={this.state.browserPageWidth / this.state.realPageWidth} />
 
-            <div className={seatsContainerClasses} style={{
-              'transformOrigin':'top left',
-              'transform':`translateX(4.5px) scale(${this.state.browserPageWidth / this.state.realPageWidth})`
-            }}>
-              { this.props.currentSeats.map(seat =>
-                <Seat
-                  key={seat.id}
-                  id={seat.id}
-                  className='seat'
-                  left={seat.x}
-                  top={seat.y}
-                  labelPosition={seat.labelPosition}
-                  withStudents={this.props.withStudents}
-                />
-              )}
-            </div>
+                  <div className={seatsContainerClasses} style={{
+                    'transformOrigin':'top left',
+                    'transform':`translateX(4.5px) scale(${this.state.browserPageWidth / this.state.realPageWidth})`
+                  }}>
+                    { this.props.currentSeats.map(seat =>
+                      <Seat
+                        key={seat.id}
+                        id={seat.id}
+                        className='seat'
+                        left={seat.x}
+                        top={seat.y}
+                        labelPosition={seat.labelPosition}
+                        withStudents={this.props.withStudents}
+                      />
+                    )}
+                  </div>
 
-            <svg className='tables-container' xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox={`0 0 ${this.state.realPageWidth} ${this.state.realPageHeight}`}>
-              {tables.length ? <g className="tables">{tables}</g> : !tables.length && this.props.view === 'assign-seats' && Object.keys(this.props.loading).every(type => this.props.loading[type] === false) && !Object.keys(this.props.modals).some(name => this.props.modals[name] === true) ? <text className='no-tables' x="50%" y="50%" fontSize="50px">No tables in this room yet. Go ahead and add some!</text> : ''}
-            </svg>
+                  <svg className='tables-container' xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox={`0 0 ${this.state.realPageWidth} ${this.state.realPageHeight}`}>
+                    {tables.length ? <g className="tables">{tables}</g> : !tables.length && this.props.view === 'assign-seats' && Object.keys(this.props.loading).every(type => this.props.loading[type] === false) && !Object.keys(this.props.modals).some(name => this.props.modals[name] === true) ? <text className='no-tables' x="50%" y="50%" fontSize="50px">No tables in this room yet. Go ahead and add some!</text> : ''}
+                  </svg>
 
-            <Route path='/room' render={() =>
-              <svg className='grid-container' xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox={`0 0 ${this.state.realPageWidth} ${this.state.realPageHeight}`}>
-                <Grid gridColumns={this.state.gridColumns} gridColumnWidth={this.state.gridColumnWidth} gridRows={this.state.gridRows} gridRowHeight={this.state.gridRowHeight} />
-              </svg>
-            } />
+                  <Route path='/room' render={() =>
+                    <svg className='grid-container' xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox={`0 0 ${this.state.realPageWidth} ${this.state.realPageHeight}`}>
+                      <Grid gridColumns={this.state.gridColumns} gridColumnWidth={this.state.gridColumnWidth} gridRows={this.state.gridRows} gridRowHeight={this.state.gridRowHeight} />
+                    </svg>
+                  } />
 
-            <Route path='/room' render={() =>
-              <svg className='guides-container' xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox={`0 0 ${this.state.realPageWidth} ${this.state.realPageHeight}`}>
-                <Guides gridColumns={this.state.gridColumns} gridColumnWidth={this.state.gridColumnWidth} gridRows={this.state.gridRows} gridRowHeight={this.state.gridRowHeight} />
-              </svg>
-            } />
+                  <Route path='/room' render={() =>
+                    <svg className='guides-container' xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox={`0 0 ${this.state.realPageWidth} ${this.state.realPageHeight}`}>
+                      <Guides gridColumns={this.state.gridColumns} gridColumnWidth={this.state.gridColumnWidth} gridRows={this.state.gridRows} gridRowHeight={this.state.gridRowHeight} />
+                    </svg>
+                  } />
 
-            <div className="front-label" style={{
-              'transformOrigin':'bottom center',
-              'transform':`scale(${this.state.browserPageWidth / this.state.realPageWidth})`
-            }} >
-              <h3>FRONT</h3>
-            </div>
+                  <div className="front-label" style={{
+                    'transformOrigin':'bottom center',
+                    'transform':`scale(${this.state.browserPageWidth / this.state.realPageWidth})`
+                  }}>
+                    <h3>FRONT</h3>
+                  </div>
 
+                </Fragment>
+              )
+            }
           </div>
         </div>
       </div>

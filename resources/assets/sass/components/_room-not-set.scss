@@ -1,0 +1,14 @@
+.room-not-set {
+  display: flex;
+  justify-content: center;
+  align-items:center;
+  height: 100%;
+  p, span {
+    font-style: italic;
+  }
+  span {
+    font-weight: bold;
+    color: $primary-accent;
+    cursor: pointer;
+  }
+}

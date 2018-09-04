@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
 import classNames from 'classnames/bind'
 import PropTypes from 'prop-types'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default class AssignRoom extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      selectedRoomId: 0
-    }
+  state = {
+    selectedRoomId: 0
   }
 
   handleRoomChangeDropdown(e) {
@@ -57,8 +54,7 @@ export default class AssignRoom extends Component {
         </header>
 
         <main>
-          <p>Please choose a room for this class. You can change this later if you need to.</p>
-          {aisRoomSuggestion}
+          <p>In order to assign seats or print out a seating chart, you must first assign a room to this class. You can change this later if you need to.</p>
           <select value={selectedRoomId} onChange={(e) => this.handleRoomChangeDropdown(e)}>
             <option value="0">-- Select room --</option>
             {filteredRooms.map(roomId => (
@@ -69,7 +65,13 @@ export default class AssignRoom extends Component {
 
         <footer className="controls">
           <button className='btn-clear' onClick={() => close()}>Cancel</button>
-          <button className="btn-accent" onClick={() => this.handleSaveRoomButton()}>Use Selected Room</button>
+          <button
+            className="btn-accent"
+            onClick={() => this.handleSaveRoomButton()}
+            disabled={this.state.selectedRoomId === 0}
+          >
+            Use Selected Room
+          </button>
         </footer>
 
       </div>

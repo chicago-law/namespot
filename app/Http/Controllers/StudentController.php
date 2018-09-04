@@ -33,7 +33,7 @@ class StudentController extends Controller
                     $offering->save();
                     break;
                 case 'manually_attached':
-                    $student->offerings()->$offering->sync([ $request->input('offering_id') => ['manually_attached' => true] ]);
+                    $student->offerings()->sync([ $request->input('offering_id') => ['manually_attached' => true] ]);
                     $offering = $student->offerings()->find($request->input('offering_id'));
                     $offering->updated_at = new Carbon();
                     $offering->save();

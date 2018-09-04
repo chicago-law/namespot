@@ -63,7 +63,7 @@ export default class PagePref extends Component {
           </li>
           <li>
             <FontAwesomeIcon icon={['far', 'font']} fixedWidth />
-            <p>Font Size
+            <p>Name Font Size
               <select value={selectedFontSize} onChange={this.selectFontSize}>
                 <option value='smaller'>Smaller</option>
                 <option value='default'>Default</option>

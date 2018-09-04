@@ -26,7 +26,7 @@ export default class Modals extends Component {
             break
           case 'assign-room':
             this.props.setModal(type, false)
-            this.props.history.push('/select/offerings')
+            // this.props.history.push('/select/offerings')
             break
           case 'edit-enrollment':
             this.props.setModal(type, false)

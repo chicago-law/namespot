@@ -90,9 +90,9 @@ export default class Workspace extends Component {
     // If the offering has a null value for its room_id, and we're not waiting
     // on any data, then we can safely decide it just doesn't have a room
     // assigned to it yet, so we should ask!
-    if (this.props.currentRoomID === null && Object.keys(this.props.loading).every(type => this.props.loading[type] === false) && !this.props.modals['assign-room']) {
-      this.props.setModal('assign-room',true)
-    }
+    // if (this.props.currentRoomID === null && Object.keys(this.props.loading).every(type => this.props.loading[type] === false) && !this.props.modals['assign-room']) {
+    //   this.props.setModal('assign-room',true)
+    // }
 
     // this is checking for a very specific situation: if the room ID just
     // changed, and the view is set to 'edit-room', that means we just created
