@@ -1,5 +1,8 @@
 .action-bar-container {
   height:9em;
+  @media(max-width: $tablet) {
+    height: 7em;
+  }
   &.is-floating {
     .action-bar {
       position:fixed;
@@ -9,6 +12,9 @@
       height:9em;
       background:#fff;
       box-shadow: 0 2px 5px rgba(0,0,0,.1);
+      @media(max-width: $tablet) {
+        height: 7em;
+      }
     }
   }
 }
@@ -20,6 +26,10 @@
   padding:1em 2em;
   border-top: 1px solid $off-white;
   height:9em;
+  @media(max-width: $tablet) {
+    height: 7em;
+    padding: 0 2em;
+  }
   h4 {
     i {
       margin-left:.5em;

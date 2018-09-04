@@ -8,9 +8,6 @@
   .room-workspace-left, .room-workspace-right {
     flex:1 1 25%;
     padding-top: 1.3em;
-    @media(max-width: $desktop) {
-      display: none;
-    }
     p {
       position:relative;
       margin-bottom: 1em;
@@ -142,6 +139,9 @@
 
   .workspace-message-container {
     position:relative;
+    @media(max-width:$desktop) {
+      display: none;
+    }
     h6 {
       text-align:center;
       text-transform:uppercase;
