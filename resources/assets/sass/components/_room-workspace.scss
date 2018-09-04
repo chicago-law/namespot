@@ -9,7 +9,7 @@
     flex:1 1 25%;
     padding-top: 1.3em;
     @media(max-width: $desktop) {
-      flex:auto;
+      display: none;
     }
     p {
       position:relative;
