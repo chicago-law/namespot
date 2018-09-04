@@ -27,7 +27,6 @@ class CreateStudentsTable extends Migration
             $table->string('nickname')->nullable();
             $table->string('sortable_name')->nullable();
             $table->string('picture')->nullable();
-            $table->timestamps();
         });
     }
 

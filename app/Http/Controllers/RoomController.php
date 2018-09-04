@@ -58,9 +58,12 @@ class RoomController extends Controller
     {
         $is_in_use = true;
 
-        $type = $request->input('type');
+        $name_type = $request->input('type');
         $name = $request->input('name');
-        $hits = Room::where($type, $name)->get();
+        $hits = Room::where([
+            [$name_type, $name],
+            ['type', 'template']
+        ])->get();
         $hits->count() ? $is_in_use = false : false;
 
         return response()->json($is_in_use, 200);

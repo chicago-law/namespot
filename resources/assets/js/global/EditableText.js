@@ -63,7 +63,7 @@ export default class EditableText extends Component {
    * store all the validating functions here, and the parent gives a string
    * to tell us which built-in validation function to use.
    *
-   * Maybe there's a better way to do this. Be my guest :)
+   * Update: There is a better way to do this, and it doesn't require async/await.
    */
 
   validateUniqueRoomName(text) {

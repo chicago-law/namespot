@@ -21,7 +21,6 @@ class CreateInstructorsTable extends Migration
             $table->string('last_name');
             $table->string('email')->nullable();
             $table->string('cnet_id')->nullable();
-            $table->timestamps();
         });
     }
 
