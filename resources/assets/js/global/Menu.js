@@ -13,7 +13,7 @@ const Menu = ({toggleMenu}) => (
       <h3>First name<br/>Last name</h3>
     </header>
     <ul>
-      <li><Link className="reverse-colors" to="/select/offerings" onClick={toggleMenu}><FontAwesomeIcon icon={['far', 'map']} fixedWidth />Seating Charts</Link></li>
+      <li><Link className="reverse-colors" to="/select/offerings" onClick={toggleMenu}><FontAwesomeIcon icon={['far', 'map']} fixedWidth />Classes</Link></li>
       <li><Link className="reverse-colors" to="/select/students" onClick={toggleMenu}><FontAwesomeIcon icon={['far', 'users']} fixedWidth />Students</Link></li>
       <li><Link className="reverse-colors" to="/select/rooms" onClick={toggleMenu}><FontAwesomeIcon icon={['fas', 'map-marker-alt']} fixedWidth />Rooms</Link></li>
     </ul>

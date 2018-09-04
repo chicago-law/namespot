@@ -6,7 +6,7 @@ import BanOffering from '../scenes/room/containers/BanOffering'
 
 const BanSeatingCharts = () => (
   <div className="banner-text">
-    <h3><FontAwesomeIcon icon={['far', 'map']} />Seating Charts</h3>
+    <h3><FontAwesomeIcon icon={['far', 'map']} />Classes</h3>
   </div>
 )
 const BanStudents = () => (
