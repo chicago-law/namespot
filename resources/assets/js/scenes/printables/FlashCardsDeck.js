@@ -1,8 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames/bind'
 import Loading from '../../global/Loading'
 import FlashCard from './FlashCard'
+import PrintableReady from './PrintableReady'
 import html2canvas from 'html2canvas'
 import * as jsPDF from 'jspdf'
 import helpers from '../../bootstrap'
@@ -10,6 +11,7 @@ import helpers from '../../bootstrap'
 export default class FlashCardsDeck extends Component {
   state = {
     showLoading: true,
+    printableReady: false
   }
 
   createPdf() {
@@ -124,9 +126,9 @@ export default class FlashCardsDeck extends Component {
           pdf.save(`${title}.pdf`)
 
           // Hide everything
-          document.getElementById('root').style.display = 'none'
           this.setState({
-            showLoading:false
+            showLoading:false,
+            printableReady: true
           })
         }
       })
@@ -167,7 +169,7 @@ export default class FlashCardsDeck extends Component {
   }
 
   render() {
-    const { showLoading } = this.state
+    const { printableReady, showLoading } = this.state
     const { students, currentOffering, namesOnReverse, offeringId } = this.props
 
     // put the students into an array. If there is an offering ID, then filter
@@ -184,7 +186,7 @@ export default class FlashCardsDeck extends Component {
     const flashCardClasses = classNames({
       'printable': true,
       'flash-cards-deck': true,
-      'show-loading': showLoading
+      'show-loading': showLoading,
     })
 
     return (
@@ -196,14 +198,23 @@ export default class FlashCardsDeck extends Component {
           <Loading />
         </div>
 
-        {studentsSorted.map(student => (
-          <FlashCard
-            key={student.canvas_id}
-            student={student}
-            offering={currentOffering}
-            namesOnReverse={namesOnReverse}
-          />
-        ))}
+        {printableReady && (
+          <PrintableReady />
+        )}
+
+        {!printableReady && (
+          <Fragment>
+            {studentsSorted.map(student => (
+              <FlashCard
+                key={student.canvas_id}
+                student={student}
+                offering={currentOffering}
+                namesOnReverse={namesOnReverse}
+              />
+            ))}
+          </Fragment>
+        )}
+
 
       </div>
     )

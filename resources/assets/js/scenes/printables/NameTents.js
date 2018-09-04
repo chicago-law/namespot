@@ -4,10 +4,12 @@ import classNames from 'classnames/bind'
 import * as jsPDF from 'jspdf'
 import html2canvas from 'html2canvas'
 import Loading from '../../global/Loading'
+import PrintableReady from './PrintableReady'
 
 export default class NameTents extends Component {
   state = {
     showLoading: true,
+    printableReady: false
   }
 
   createPdf() {
@@ -62,11 +64,9 @@ export default class NameTents extends Component {
           const title = `Name Tents - ${this.props.currentOffering.long_title}`
           pdf.save(`${title}.pdf`)
 
-          // Hide everything
-          document.getElementById('root').style.display = 'none'
-
           this.setState({
-            showLoading: false
+            showLoading: false,
+            printableReady: true
           })
         }
       })
@@ -120,7 +120,7 @@ export default class NameTents extends Component {
   }
 
   render() {
-    const { showLoading } = this.state
+    const { printableReady, showLoading } = this.state
     const { currentStudents } = this.props
 
     const ntContainerClasses = classNames({
@@ -140,15 +140,21 @@ export default class NameTents extends Component {
           </div>
         )}
 
-        <div className='nt-container__nt-list'>
-          {currentStudents.map(student => (
-            <div key={student.id} className='nt-list__name-tent'>
-              <div className='name'>
-                <span>{student.short_full_name}</span>
+        {printableReady && (
+          <PrintableReady />
+        )}
+
+        {!printableReady && (
+          <div className='nt-container__nt-list'>
+            {currentStudents.map(student => (
+              <div key={student.id} className='nt-list__name-tent'>
+                <div className='name'>
+                  <span>{student.short_full_name}</span>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
       </div>
     )

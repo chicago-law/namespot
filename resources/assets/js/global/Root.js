@@ -40,10 +40,12 @@ import {
   faWrench
 } from '@fortawesome/pro-regular-svg-icons'
 import {
+  faArrowAltToBottom,
   faSpinnerThird
 } from '@fortawesome/pro-solid-svg-icons'
 
 library.add(
+  faArrowAltToBottom,
   faArrowLeft,
   faBars,
   faCalendarAlt,

@@ -5,10 +5,12 @@ import classNames from 'classnames/bind'
 import Loading from '../../global/Loading'
 import html2canvas from 'html2canvas'
 import * as jsPDF from 'jspdf'
+import PrintableReady from './PrintableReady'
 
 export default class SeatingChart extends Component {
   state = {
-    showLoading: true
+    showLoading: true,
+    printableReady: false
   }
 
   createPdf() {
@@ -63,9 +65,10 @@ export default class SeatingChart extends Component {
       pdf.save(`${title}.pdf`)
 
       // Hide everything
-      document.getElementById('root').style.display = 'none'
+      // document.getElementById('root').style.display = 'none'
       this.setState({
-        showLoading:false
+        showLoading: false,
+        printableReady: true
       })
 
     })
@@ -108,13 +111,13 @@ export default class SeatingChart extends Component {
   }
 
   render() {
-    const { showLoading } = this.state
+    const { showLoading, printableReady } = this.state
     const { withStudents } = this.props
 
     const seatingChartClasses = classNames({
       'printable': true,
       'seating-chart': true,
-      'show-loading': showLoading
+      'show-loading': showLoading,
     })
 
     return (
@@ -124,6 +127,10 @@ export default class SeatingChart extends Component {
           <p>Hang on, we&apos;re preparing your seating chart now...</p>
           <Loading />
         </div>
+
+        {printableReady && (
+          <PrintableReady />
+        )}
 
         <Page withStudents={withStudents} />
 
