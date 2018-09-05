@@ -68,6 +68,7 @@ export default class PagePref extends Component {
                 <option value='smaller'>Smaller</option>
                 <option value='default'>Default</option>
                 <option value='larger'>Larger</option>
+                <option value='x-large'>Largest</option>
               </select>
             </p>
           </li>

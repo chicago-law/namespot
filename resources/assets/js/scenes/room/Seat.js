@@ -92,6 +92,7 @@ export default class Seat extends Component {
           'is-current-student': currentStudentId == occupantId,
           'font-smaller': currentOffering.fontSize === 'smaller',
           'font-larger': currentOffering.fontSize === 'larger',
+          'font-largest': currentOffering.fontSize === 'x-large',
         })
         theSeat = (
           <div className={occupiedSeatClasses} data-studentid={occupantId}>
