@@ -98,7 +98,7 @@ export default class AbRoomOverview extends Component {
               <input type="range" min="30" max="115" step="3" value={seatSize} onChange={this.onSeatSizeChange} />
               <div className="larger"></div>
             </div>
-            <p><small>Adjust Seat Size</small></p>
+            <p><small>Seat Size</small></p>
           </div>
 
           <div className="flex-container">
