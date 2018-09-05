@@ -1,8 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import classNames from 'classnames/bind'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import InstructorNames from '../../global/InstructorNames'
 import Loading from '../../global/Loading'
 import helpers from '../../bootstrap'
 
@@ -138,14 +139,7 @@ export default class OfferingList extends Component {
               <Link to={`/offering/${offering.id}`} onClick={this.onOfferingClick} className='offering' data-id={offering.id}>
                 <h4>{offering.long_title}</h4>
                 <p>
-                  LAWS {offering.catalog_nbr}-{offering.section} &bull;&nbsp;
-                  {offering.instructors.length < 4
-                    ? offering.instructors.map((instructor, i) =>
-                      i != 0
-                        ? `, ${instructor.first_name} ${instructor.last_name}`
-                        : `${instructor.first_name} ${instructor.last_name}`)
-                    : `${offering.instructors.length} instructors`}
-                  &nbsp; &bull; {helpers.termCodeToString(offering.term_code)}
+                  LAWS {offering.catalog_nbr}-{offering.section} {offering.instructors.length > 0 && <Fragment>&bull; <InstructorNames offering={offering} /></Fragment>} &bull; {helpers.termCodeToString(offering.term_code)}
                 </p>
                 {offering.updatedAt && (
                   <span className='meta'>Edited {updatedAt.getMonth() + 1}/{updatedAt.getDate()}/{updatedAt.getFullYear().toString().slice(-2)}</span>

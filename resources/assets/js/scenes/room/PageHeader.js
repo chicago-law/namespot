@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Route } from 'react-router-dom'
 import helpers from '../../bootstrap'
+import InstructorNames from '../../global/InstructorNames'
 
 const PageHeader = (props) =>  {
   const { shrinkRatio, currentRoom, currentOffering } = props
@@ -29,13 +30,14 @@ const PageHeader = (props) =>  {
         'transformOrigin':'top left',
         'transform':`scale(${shrinkRatio})`
       }}>
-        <h3>{`${helpers.termCodeToString(currentOffering.term_code)} - University of Chicago Law School`}</h3>
+        <h3>{currentRoom.name} - {helpers.termCodeToString(currentOffering.term_code)} - University of Chicago Law School</h3>
       </div>
       <div className='right' style={{
         'transformOrigin':'top right',
         'transform':`scale(${shrinkRatio})`
       }}>
-        <h3>{`${currentOffering.long_title} - LAWS ${currentOffering.catalog_nbr}-${currentOffering.section} - ${currentRoom.name}`}</h3>
+        <h3>{`${currentOffering.long_title} - LAWS ${currentOffering.catalog_nbr}-${currentOffering.section}`}</h3>
+        {currentOffering.instructors.length > 0 && <p><InstructorNames offering={currentOffering} /></p>}
       </div>
     </div>
   )
@@ -45,7 +47,7 @@ const PageHeader = (props) =>  {
       <Route path='/room' component={roomChartDetails} />
       <Route path='/offering' component={offeringChartDetails} />
       <Route exact path='/print/seating-chart/room/:roomid' component={roomChartDetails} />
-      <Route path='/print/seating-chart/room/:roomid/offering/:offeringid' component={offeringChartDetails} />
+      <Route exact path='/print/seating-chart/room/:roomid/offering/:offeringid' component={offeringChartDetails} />
     </div>
   )
 }
