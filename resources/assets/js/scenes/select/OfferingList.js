@@ -123,7 +123,7 @@ export default class OfferingList extends Component {
                   return offering ? (
                     <li key={offering.id}>
                       <Link to={`/offering/${offering.id}`} onClick={this.onOfferingClick} className='offering' data-id={offering.id}>
-                        {offering.long_title}
+                        {offering.long_title} - {helpers.termCodeToString(offering.term_code)}
                       </Link>
                     </li>
                   ) : ''
