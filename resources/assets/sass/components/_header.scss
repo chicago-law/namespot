@@ -119,9 +119,10 @@
     display:flex;
     align-items:center;
     justify-content:center;
-    padding:1em 2em;
-    flex:0 0 130px;
+    margin-right: 2em;
+    flex:0 0 66px;
     a {
+      width: 100%;
       line-height:0;
     }
   }
