@@ -4,14 +4,16 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Custom addition: Admin email
+    | Custom additions
     |--------------------------------------------------------------------------
     |
-    | Email address to send messages about job results, errors, etc.
+    | Admin email: Email address to send messages about job results, errors, etc.
+    | Authed user: Default user to be authed in as if in local or dev environments.
     |
     */
 
-    'admin_email' => env('ADMIN_EMAIL', config('app.admin_email')),
+    'admin_email' => env('ADMIN_EMAIL'),
+    'authed_user' => env('AUTHED_USER', null),
 
     /*
     |--------------------------------------------------------------------------

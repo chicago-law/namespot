@@ -1,9 +1,9 @@
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
 import Main from '../Main'
 import { withRouter } from 'react-router-dom'
-import { setTask } from '../../actions'
+import { setTask, fetchUser } from '../../actions'
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
     view:state.app.view,
     task:state.app.task
@@ -12,6 +12,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    fetchUser: (id) => {
+      dispatch(fetchUser(id))
+    },
     setTask: (task) => {
       dispatch(setTask(task))
     }
@@ -23,4 +26,4 @@ const MainContainer = withRouter(connect(
   mapDispatchToProps
 )(Main))
 
-export default MainContainer;
+export default MainContainer

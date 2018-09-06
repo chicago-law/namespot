@@ -11,18 +11,14 @@
 |
 */
 
-// route to test an email template
-Route::get('/email/jobexception', function() {
-  $job_name = 'yeah';
-  $api_request = 'this is the api request';
-  $api_response = 'this is the response';
 
-  return new App\Mail\JobResults('yeaaah');
+// Send all web requests through our Shib Auth middleware
+Route::middleware(['uchicago-shibboleth'])->group(function () {
+
+  // route for all printable deliveries
+  Route::get('/print/{path?}', 'HomeController@print')->where('path', '.*');
+
+  // all others go to regular react page
+  Route::get('/{path?}', 'HomeController@react')->where('path', '.*');
+
 });
-
-// route for all printable deliveries
-Route::get('/print/{path?}', 'HomeController@print')->where('path', '.*');
-
-// all others go to regular react page
-Route::get('/{path?}', 'HomeController@react')->where('path', '.*');
-

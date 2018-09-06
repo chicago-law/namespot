@@ -1,16 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import helpers from '../bootstrap'
 
-const Menu = ({toggleMenu}) => (
+const Menu = ({authedUser, toggleMenu}) => (
   <div className="site-menu">
     <header>
       <button onClick={toggleMenu}>
         <FontAwesomeIcon icon={['far', 'arrow-left']} fixedWidth />
       </button>
-      <h3>First name<br/>Last name</h3>
+      {authedUser && <h3>{authedUser.first_name}<br/>{authedUser.last_name}</h3>}
     </header>
     <ul>
       <li><Link className="reverse-colors" to="/select/offerings" onClick={toggleMenu}><FontAwesomeIcon icon={['far', 'map']} fixedWidth />Classes</Link></li>
@@ -27,8 +28,16 @@ const Menu = ({toggleMenu}) => (
   </div>
 )
 
-export default Menu
+function mapStateToProps({ authedUser }, ownProps) {
+  return {
+    authedUser: authedUser,
+    toggleMenu: ownProps.toggleMenu
+  }
+}
+
+export default connect(mapStateToProps)(Menu)
 
 Menu.propTypes = {
+  authedUser: PropTypes.object,
   toggleMenu: PropTypes.func.isRequired
 }

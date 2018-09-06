@@ -6,14 +6,15 @@ import Workspace from '../scenes/room/containers/Workspace'
 import NotFound404 from './NotFound404'
 
 export default class Main extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   handleBgClick() {
     if (this.props.view === 'assign-seats' && this.props.task !== 'offering-overview') {
       this.props.setTask('offering-overview')
     }
+  }
+
+  componentDidMount() {
+    const authedUserId = document.getElementById('root').dataset.authedUser
+    authedUserId && this.props.fetchUser(authedUserId)
   }
 
   render() {
@@ -33,6 +34,7 @@ export default class Main extends Component {
 }
 
 Main.propTypes = {
+  fetchUser: PropTypes.func.isRequired,
   view: PropTypes.string,
   setTask: PropTypes.func.isRequired,
   task: PropTypes.string,

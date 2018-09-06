@@ -390,6 +390,18 @@ const selectedTerm = (state = '', action) => {
   }
 }
 
+/**
+ * authedUser
+ */
+const authedUser = (state = null, action) => {
+  switch (action.type) {
+    case C.RECEIVE_USER:
+      return action.user
+    default:
+      return state
+  }
+}
+
 const rootReducer = combineReducers({
   app: combineReducers({
     view,
@@ -418,7 +430,8 @@ const rootReducer = combineReducers({
   }),
   storage: combineReducers({
     selectedTerm
-  })
+  }),
+  authedUser
 })
 
 export default rootReducer

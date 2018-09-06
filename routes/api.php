@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Resources\Offering as OfferingResource;
 use App\Http\Resources\Student as StudentResource;
@@ -29,13 +30,15 @@ use App\Jobs\TestJob;
 /**
  * TEST: RUN A TEST JOB
  */
-Route::get('/test', function() {
-    FetchOfferingsByTerm::dispatch('2188');
+Route::get('/test', function(Request $request) {
+    // FetchOfferingsByTerm::dispatch('2188');
     // FetchEnrolledStudentsByTerm::dispatch('2178');
     // FetchPhotoRosterByTerm::dispatch('2178');
     // TestJob::dispatch();
-    return response()->json('job dispatched', 200);
+    return response()->json('Yeah', 200);
 });
+
+
 
 
 /**
@@ -120,3 +123,10 @@ Route::get('/tables/{room_id}', function($room_id) {
 Route::get('/settings', 'SettingController@get');
 // update a setting
 Route::post('/settings/update', 'SettingController@update');
+
+/**
+ * USERS
+ */
+
+ // fetch a user by ID
+ Route::get('/users/{user_id}', 'UserController@fetch');
