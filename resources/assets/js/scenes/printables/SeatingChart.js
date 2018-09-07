@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Page from '../room/containers/Page'
 import classNames from 'classnames/bind'
-import Loading from '../../global/Loading'
+import FullPageLoading from './FullPageLoading'
 import html2canvas from 'html2canvas'
 import * as jsPDF from 'jspdf'
 import PrintableReady from './PrintableReady'
@@ -117,22 +117,24 @@ export default class SeatingChart extends Component {
     const seatingChartClasses = classNames({
       'printable': true,
       'seating-chart': true,
-      'show-loading': showLoading,
     })
 
     return (
       <div className={seatingChartClasses}>
 
-        <div className='full-page-loading'>
-          <p>Hang on, we&apos;re preparing your seating chart now...</p>
-          <Loading />
-        </div>
+        {showLoading && (
+          <FullPageLoading>
+            <p>Hang on, we&apos;re preparing your seating chart now...</p>
+          </FullPageLoading>
+        )}
+
+        {!printableReady && (
+          <Page withStudents={withStudents} />
+        )}
 
         {printableReady && (
           <PrintableReady />
         )}
-
-        <Page withStudents={withStudents} />
 
       </div>
     )

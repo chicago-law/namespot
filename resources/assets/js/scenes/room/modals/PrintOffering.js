@@ -38,6 +38,9 @@ export default class PrintOffering extends Component {
       case 'name-tents':
         url += `name-tents/offering/${this.props.currentOffering.id}`
         break
+      case 'roster':
+        url += `roster/offering/${this.props.currentOffering.id}`
+        break
     }
 
     // Add the params to the URL
@@ -116,7 +119,18 @@ export default class PrintOffering extends Component {
                 checked={this.state.chosenFormat === 'name-tents'}
                 disabled={this.props.currentOffering.students.length === 0}
               />
-              <label htmlFor='format-name-tents'>Name Tents</label>
+              <label htmlFor='format-name-tents'>Name Tents</label><br/>
+
+              <input
+                type='radio'
+                id='format-roster'
+                name='choose-format'
+                value='roster'
+                onChange={this.onFormatChange}
+                checked={this.state.chosenFormat === 'roster'}
+                disabled={this.props.currentOffering.students.length === 0}
+              />
+              <label htmlFor='format-roster'>Roster</label>
             </div>
 
             {/* Flash Card options */}

@@ -27,7 +27,7 @@ module.exports = {
         "no-console": 0,
         "indent": 0,
         "react/no-unescaped-entities": 0,
-        "react/prop-types": 1,
+        "react/prop-types": 0,
         "linebreak-style": [
             "error",
             "unix"

@@ -7,6 +7,7 @@ import Errors from './containers/Errors'
 import SeatingChart from '../scenes/printables/containers/SeatingChart'
 import FlashCardsDeck from '../scenes/printables/containers/FlashCardsDeck'
 import NameTents from '../scenes/printables/containers/NameTents'
+import Roster from '../scenes/printables/Roster'
 import Footer from './Footer'
 
 const App = () => (
@@ -18,6 +19,7 @@ const App = () => (
     <Route path='/print/flash-cards/term/:termCode/' component={FlashCardsDeck}/>
     <Route path='/print/flash-cards/offering/:offeringid' component={FlashCardsDeck}/>
     <Route path='/print/name-tents/offering/:offeringid' component={NameTents}/>
+    <Route path='/print/roster/offering/:offeringid' component={Roster}/>
 
     {/* Or render the actual app */}
     <Route component={() =>

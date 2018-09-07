@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames/bind'
-import Loading from '../../global/Loading'
+import FullPageLoading from './FullPageLoading'
 import FlashCard from './FlashCard'
 import PrintableReady from './PrintableReady'
 import html2canvas from 'html2canvas'
@@ -186,17 +186,17 @@ export default class FlashCardsDeck extends Component {
     const flashCardClasses = classNames({
       'printable': true,
       'flash-cards-deck': true,
-      'show-loading': showLoading,
     })
 
     return (
       <div className={flashCardClasses}>
 
-        <div className='full-page-loading'>
-          <p>Hang on, we&apos;re preparing your flash cards now...</p>
-          <p>If you're making them for one class, this shouldn't take more than a minute or so. If you're making them for all the students, you may want to go grab a cup of coffee ;)</p>
-          <Loading />
-        </div>
+        {showLoading && (
+          <FullPageLoading>
+            <p>Hang on, we're preparing your flash cards now...</p>
+            <p>If you're making them for one class, this shouldn't take more than a minute or so. If you're making them for all the students, you may want to go grab a cup of coffee ;)</p>
+          </FullPageLoading>
+        )}
 
         {printableReady && (
           <PrintableReady />
@@ -214,7 +214,6 @@ export default class FlashCardsDeck extends Component {
             ))}
           </Fragment>
         )}
-
 
       </div>
     )

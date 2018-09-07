@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames/bind'
 import * as jsPDF from 'jspdf'
 import html2canvas from 'html2canvas'
-import Loading from '../../global/Loading'
+import FullPageLoading from './FullPageLoading'
 import PrintableReady from './PrintableReady'
 
 export default class NameTents extends Component {
@@ -126,18 +126,16 @@ export default class NameTents extends Component {
     const ntContainerClasses = classNames({
       'nt-container': true,
       'printable': true,
-      'show-loading': this.state.showLoading
     })
 
     return (
       <div className={ntContainerClasses}>
 
         {showLoading && (
-          <div className='full-page-loading'>
-            <p>Hang on, we&apos;re preparing your name tents now...</p>
+          <FullPageLoading>
+            <p>Hang on, we're preparing your flash cards now...</p>
             <p>This shouldn't take more than a minute or so.</p>
-            <Loading />
-          </div>
+          </FullPageLoading>
         )}
 
         {printableReady && (

@@ -1,0 +1,39 @@
+.printable-roster {
+  // max-width: 8.5in / 2 - 1in;
+  width: 8.5in;
+  height: 11in;
+  overflow: scroll;
+  header {
+    // 8.5 / 2, minus half in padding
+    width:2.33in;
+    padding-bottom: 2em;
+    border-bottom: 1px solid $light-gray;
+    .class-title {
+      display: block;
+      margin-bottom: 0;
+      @include ms1;
+      font-weight: bold;
+    }
+    span {
+      display: block;
+      @include ms-1;
+    }
+  }
+  .roster-row {
+    display: flex;
+    width: 2.33in;
+    align-items: center;
+    padding-right: 0.5em;
+    border: 1px solid $light-gray;
+    span {
+      display: block;
+    }
+  }
+  .picture {
+    flex: 0 0 6em;
+    height: 7em;
+    margin-right: 1em;
+    background-size: cover;
+    background-position: center;
+  }
+}
