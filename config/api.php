@@ -27,8 +27,8 @@ return [
     */
 
     'canvas_test_url' => env('CANVAS_TEST_URL'),
+    'canvas_test_token' => env('CANVAS_TEST_TOKEN'),
     'canvas_beta_url' => env('CANVAS_BETA_URL'),
     'canvas_prod_url' => env('CANVAS_PROD_URL'),
-    'canvas_test_token' => env('CANVAS_TEST_TOKEN')
-
+    'canvas_prod_token' => env('CANVAS_PROD_TOKEN')
 ];

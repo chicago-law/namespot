@@ -56,8 +56,8 @@ class FetchEnrolledStudentsByTerm implements ShouldQueue
 
       try {
         $client = new Client();
-        $base_url = config('api.canvas_test_url');
-        $token = "Bearer " . config('api.canvas_test_token');
+        $base_url = config('api.canvas_prod_url');
+        $token = "Bearer " . config('api.canvas_prod_token');
         $endpoint = "{$base_url}/courses/sis_course_id:{$YYYY}.{$QQ}.{$Subj}.{$AIS_catalog_nbr}.{$AIS_section_id}/students";
 
         // Make the call
