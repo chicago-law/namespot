@@ -1,24 +1,26 @@
-// 8.5, minus 1 inch (half in padding on each side),
-// then divided by 3 for the columns.
-$roster-row-width: 2.5in;
+// Sizes are doubled to double the resolution
+$paper-width: 17in; // 8.5 x 2
+$paper-height: 22in; // 11 x 2
+$paper-padding: 2in; // (.5 + .5) * 2 (left + right padding)
+$roster-row-width: 5in; // page width minus padding divided by number of columns (3)
 
 .printable-roster {
-  width: 8.5in;
-  height: 11in;
+  width: $paper-width;
+  height: $paper-height;
   overflow: scroll;
   header {
     width: $roster-row-width;
-    padding-bottom: 2em;
+    padding-bottom: 4em; // 2 x 2
     border-bottom: 1px solid $light-gray;
     .class-title {
       display: block;
       margin-bottom: 0;
-      @include ms0;
+      @include ms3;
       font-weight: bold;
     }
     span {
       display: block;
-      @include ms-2;
+      @include ms2;
     }
   }
   .roster-row {
@@ -28,11 +30,12 @@ $roster-row-width: 2.5in;
     border: 1px solid $light-gray;
     span {
       display: block;
+      @include ms2;
     }
   }
   .roster-row__picture {
     flex: 0 0 40%;
-    height: 7em;
+    height: 14em; // 7 x 2
     background-size: cover;
     background-position: center;
   }
@@ -40,7 +43,7 @@ $roster-row-width: 2.5in;
     flex: auto;
     padding:0 .5em;
     .details {
-      @include ms-2;
+      @include ms1;
       overflow-wrap: break-word;
       word-break: break-all
     }

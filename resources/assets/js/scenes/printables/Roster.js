@@ -13,9 +13,29 @@ class Roster extends Component {
   }
 
   createPdf() {
+    const paper = document.querySelector('.printable-roster')
+    const paperStyles = window.getComputedStyle(paper)
+    const paperWidth = parseFloat(paperStyles.getPropertyValue('width'))
+    const paperHeight = parseFloat(paperStyles.getPropertyValue('height'))
+    const columnCount = 3
+
+    // Paper dimensions in inches. Use these to get conversation ratios
+    const paperWidthInches = 17 // 8.5 x 2
+    const paperHeightInches = 22 // 11 x 2
+    const pxPerInch = paperHeight / paperHeightInches
+    function pxToInches(pxValue) {
+      return pxValue / pxPerInch
+    }
+    function inchesToPx(inValue) {
+      return inValue * pxPerInch
+    }
+
+    // Page padding
+    const paddingInches = 1 // .5 x 2
+    const padding = inchesToPx(paddingInches)
 
     const pdf = new jsPDF({
-      format: 'letter',
+      format: [paperHeightInches, paperWidthInches],
       unit: 'in',
     })
 
@@ -27,19 +47,11 @@ class Roster extends Component {
     const students = document.querySelectorAll('.roster-row')
     elems.push(header, ...students)
 
-    // the .printable-roster div has a height of 11in, set in CSS, and now we can measure it to get
-    // that value converted into pixels.
-    const initPaperHeight = parseFloat(window.getComputedStyle(document.querySelector('.printable-roster')).getPropertyValue('height'))
-    const pxPerInch = initPaperHeight / 11
-
-    // Half-inch margins padding (in pixels)
-    const padding = .5 * pxPerInch
-
     // Use these to track where we are as we loop through everything
     let i = 0
     let page = 1
-    let remainingSpace = initPaperHeight - padding
-    let column = 1
+    let remainingSpace = paperHeight - padding
+    let currentColumn = 1
 
     const addToPdf = function(el) {
       const currentOffering = this.props.offerings[this.props.offeringid]
@@ -58,8 +70,8 @@ class Roster extends Component {
           pdf.addImage(
             imgData,
             'jpeg',
-            (7.5 / 3) * (column - 1) + (padding / pxPerInch),
-            (initPaperHeight - remainingSpace) / pxPerInch
+            pxToInches(padding + (((paperWidth - padding * 2) / columnCount) * (currentColumn - 1))),
+            pxToInches(paperHeight - remainingSpace)
           )
 
           // K, element added. Now we need to subtract its height from remainingSpace
@@ -79,21 +91,21 @@ class Roster extends Component {
           }
         })
 
-      } else if (column === 1) { // Doesn't fit! But are we still only on the first column?
+      } else if (currentColumn === 1) { // Doesn't fit! But are we still only on the first column?
         // Switch to column 2
-        column = 2
+        currentColumn = 2
 
         // Take us back to the top of the page and start again
-        remainingSpace = initPaperHeight - padding
+        remainingSpace = paperHeight - padding
         addToPdf(el)
 
-      } else if (column === 2) { // Doesn't fit! Okay, filled up column 2, let's do three
+      } else if (currentColumn === 2) { // Doesn't fit! Okay, filled up column 2, let's do three
 
         // Switch to column 3
-        column = 3
+        currentColumn = 3
 
         // Take us back to the top of the page and start again
-        remainingSpace = initPaperHeight - padding
+        remainingSpace = paperHeight - padding
         addToPdf(el)
 
     } else { // Doesn't fit, and we've already filled all the columns. New page!
@@ -102,8 +114,8 @@ class Roster extends Component {
         pdf.addPage()
         page++
         pdf.setPage(page)
-        remainingSpace = initPaperHeight - padding
-        column = 1
+        remainingSpace = paperHeight - padding
+        currentColumn = 1
 
         // Now that we're on a fresh page, try again with this element that we're on
         addToPdf(el)
