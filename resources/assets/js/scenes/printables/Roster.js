@@ -145,14 +145,13 @@ class Roster extends Component {
     return (
       <div className='printable printable-roster' ref={this.rosterRef}>
 
-        {/* {showLoading && (
+        {showLoading && (
           <FullPageLoading>
             Hang on, we're preparing your class roster now. Depending on the size of the class, this may take a minute.
           </FullPageLoading>
-        )} */}
+        )}
 
-        {/* {!printableReady && currentOffering && ( */}
-        {currentOffering && (
+        {!printableReady && currentOffering && (
           <Fragment>
             <header className='roster-header'>
               <span className='class-title'>{currentOffering.long_title}</span>
@@ -174,9 +173,9 @@ class Roster extends Component {
           </Fragment>
         )}
 
-        {/* {printableReady &&  (
+        {printableReady &&  (
           <PrintableReady />
-        )} */}
+        )}
       </div>
     )
   }
