@@ -54,12 +54,19 @@ export default class Settings extends Component {
 
           <form>
             <div className='form-question'>
-              <p className='question-name'><FontAwesomeIcon icon={['far', 'calendar-alt']} />Current Academic Year</p>
-              <select name='academic-year' id='academic-year-select' value={this.state.selectedYear} onChange={(e) => this.onChangeSelectedYear(e)}>
-                {helpers.getAllYears(years).map(year => (
-                  <option key={year} value={year}>{year} - {year + 1}</option>
-                ))}
-              </select>
+              <div className='setting-icon'>
+                <FontAwesomeIcon icon={['far', 'calendar-alt']} />
+              </div>
+              <div className='setting'>
+                <h4>Current Academic Year</h4>
+                <p>Every night this site does a sync with the University's systems to keep itself up-to-date. The academic year that is set here controls which terms it will sync.</p>
+                <p>Keep in mind that this setting here doesn't change by itself, so once a year someone will need to advance it to the next academic year.</p>
+                <select name='academic-year' id='academic-year-select' value={this.state.selectedYear} onChange={(e) => this.onChangeSelectedYear(e)}>
+                  {helpers.getAllYears(years).map(year => (
+                    <option key={year} value={year}>{year} - {year + 1}</option>
+                  ))}
+                </select>
+              </div>
             </div>
 
             <div className='controls with-padding'>
