@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames/bind'
-import * as jsPDF from 'jspdf'
-import html2canvas from 'html2canvas'
 import FullPageLoading from './FullPageLoading'
 import PrintableReady from './PrintableReady'
 
@@ -61,7 +59,7 @@ export default class NameTents extends Component {
         } else {
 
           // We're done! Save the file and mop up.
-          const title = `Name Tents - ${this.props.currentOffering.long_title}`
+          const title = `Name Tents - ${this.props.currentOffering.long_title}-${this.props.currentOffering.section}`
           pdf.save(`${title}.pdf`)
 
           this.setState({

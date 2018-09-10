@@ -51,8 +51,6 @@
         "babel-polyfill": "^6.26.0",
         "classlist-polyfill": "^1.2.0",
         "classnames": "^2.2.5",
-        "html2canvas": "^1.0.0-alpha.12",
-        "jspdf": "^1.4.1",
         "prop-types": "^15.6.1",
         "query-string": "5.1.0",
         "react-redux": "^5.0.7",

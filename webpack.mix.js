@@ -14,8 +14,9 @@ const mix = require('laravel-mix')
 
 mix.react('resources/assets/js/main.js', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css')
-   .sourceMaps()
    .copyDirectory('resources/assets/images', 'public/images')
+   .copyDirectory('resources/assets/js/vendor', 'public/js')
+   .sourceMaps()
    .browserSync({
      proxy:'localhost/namespot/public'
    })
@@ -30,7 +31,7 @@ mix.react('resources/assets/js/main.js', 'public/js')
   })
   .webpackConfig({
     devtool: 'source-map',
-    plugins: [
-      // new BundleAnalyzerPlugin(),
-    ]
+    // plugins: [
+    //   new BundleAnalyzerPlugin(),
+    // ]
   })

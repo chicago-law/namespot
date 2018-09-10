@@ -2,8 +2,6 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { fetchStudents, requestOffering } from '../../actions'
 import helpers from '../../bootstrap'
-import jsPDF from 'jspdf'
-import html2canvas from 'html2canvas'
 import FullPageLoading from '../printables/FullPageLoading'
 import InstructorNames from '../../global/InstructorNames'
 import PrintableReady from './PrintableReady'
@@ -13,7 +11,6 @@ class Roster extends Component {
     showLoading: true,
     printableReady: false
   }
-  rosterRef = React.createRef()
 
   createPdf() {
 
@@ -45,6 +42,8 @@ class Roster extends Component {
     let column = 1
 
     const addToPdf = function(el) {
+      const currentOffering = this.props.offerings[this.props.offeringid]
+
       console.log(`${i} of ${elems.length}`)
 
       // First, we check if there is space enough for this next element
@@ -71,7 +70,8 @@ class Roster extends Component {
             i++
             addToPdf(elems[i])
           } else { // We're done!!
-            pdf.save('test.pdf')
+            const title = `Roster - ${currentOffering.long_title}-${currentOffering.section}`
+            pdf.save(`${title}.pdf`)
             this.setState({
               showLoading: false,
               printableReady: true
@@ -96,7 +96,7 @@ class Roster extends Component {
         remainingSpace = initPaperHeight - padding
         addToPdf(el)
 
-    } else { // Doesn't fit, and we've already filled column 2! New page!
+    } else { // Doesn't fit, and we've already filled all the columns. New page!
 
         // Okay, we'll add a new page and fully reset
         pdf.addPage()
@@ -143,11 +143,12 @@ class Roster extends Component {
       .map(sId => students[sId])
 
     return (
-      <div className='printable printable-roster' ref={this.rosterRef}>
+      <div className='printable printable-roster'>
 
         {showLoading && (
           <FullPageLoading>
-            Hang on, we're preparing your class roster now. Depending on the size of the class, this may take a minute.
+            <p>Hang on, we're preparing your roster now.</p>
+            <p>Depending on the size of the class, this may take a minute.</p>
           </FullPageLoading>
         )}
 

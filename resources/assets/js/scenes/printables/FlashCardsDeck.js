@@ -4,8 +4,6 @@ import classNames from 'classnames/bind'
 import FullPageLoading from './FullPageLoading'
 import FlashCard from './FlashCard'
 import PrintableReady from './PrintableReady'
-import html2canvas from 'html2canvas'
-import * as jsPDF from 'jspdf'
 import helpers from '../../bootstrap'
 
 export default class FlashCardsDeck extends Component {
@@ -122,7 +120,9 @@ export default class FlashCardsDeck extends Component {
         } else {
 
           // We're done! Save the file and mop up.
-          const title = `Flash Cards - ${this.props.currentOffering.long_title || helpers.termCodeToString(this.props.termCode)}`
+          const title = this.props.currentOffering.long_title
+            ? `Flash Cards - ${this.props.currentOffering.long_title}-${this.props.currentOffering.section}`
+            : `Flash Cards - Student Body - ${helpers.termCodeToString(this.props.termCode)}`
           pdf.save(`${title}.pdf`)
 
           // Hide everything

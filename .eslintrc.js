@@ -43,7 +43,9 @@ module.exports = {
     },
     "globals": {
         "axios": true,
+        "_": true,
         "canvg": true,
-        "_": true
+        "jsPDF": true,
+        "html2canvas": true
     }
 };

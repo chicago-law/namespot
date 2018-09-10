@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 import Page from '../room/containers/Page'
 import classNames from 'classnames/bind'
 import FullPageLoading from './FullPageLoading'
-import html2canvas from 'html2canvas'
-import * as jsPDF from 'jspdf'
 import PrintableReady from './PrintableReady'
 
 export default class SeatingChart extends Component {
@@ -64,8 +62,6 @@ export default class SeatingChart extends Component {
         : this.props.rooms[this.props.roomId].name
       pdf.save(`${title}.pdf`)
 
-      // Hide everything
-      // document.getElementById('root').style.display = 'none'
       this.setState({
         showLoading: false,
         printableReady: true
