@@ -3,11 +3,6 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames/bind'
 
 export default class Grid extends Component {
-  constructor(props) {
-    super(props)
-  }
-
-
   handleBlipClick(e) {
     if (this.props.pointSelection) { // only proceed if we're choosing a blip
       const pointType = this.props.pointSelection
@@ -48,6 +43,8 @@ export default class Grid extends Component {
 
   drawBlip(x, y) {
     const key = x + '_' + y
+    // shrink blip's radius by 60% if we're on letter paper
+    const r = this.props.currentOffering && this.props.currentOffering.paperSize === 'tabloid' ? 13 : 13 * 0.6
     const blipClasses = classNames({
       'blip': true,
       'belongs-to-any-table': this.doesBlipBelongToAnyTable(key, this.props.currentTables),
@@ -67,7 +64,7 @@ export default class Grid extends Component {
       id={key}
       className={blipClasses}
       onClick={(e) => this.handleBlipClick(e)}
-      r='13'
+      r={r}
       cx={cx} cy={cy}
       x={x} y={y}
       style={{ transformOrigin: `${cx}px ${cy}px` }}

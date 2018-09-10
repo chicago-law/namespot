@@ -50,15 +50,14 @@ export default class Seat extends Component {
   adjustedSeatSize() {
     // First, double the seat size since we're doubling the paper size
     // to crank up the resolution.
-    // Then, because rooms are always originally built on tabloid sized paper, we'll
-    // shrink them a little bit to compensate if page size is set to letter.
+    // Then we'll shrink them a little bit to compensate if page size is set to letter.
     // If you add more pages sizes in the future, you can make more here as necessary
     const size = this.props.currentRoom.seat_size
     switch (this.props.currentOffering.paperSize) {
       case 'tabloid':
         return size * 2
       case 'letter':
-        return (size * 2) - 43
+        return (size * 2) * 0.6
       default:
         return size * 2
     }

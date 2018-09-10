@@ -95,7 +95,7 @@ class Table extends Component {
   }
 
   render() {
-    const { id, tempTable } = this.props
+    const { id, strokeWidth, tempTable } = this.props
     const d = this.getPathString()
 
     const tableClasses = classNames({
@@ -110,7 +110,15 @@ class Table extends Component {
         ref={this.tableGroupRef}
         onClick={(e) => this.handleTableClick(e)}
       >
-        <path className='table-path' ref={this.pathRef} d={d} stroke="#f4f4f4" strokeWidth="30" fill="none" strokeLinecap="round"/>
+        <path
+          className='table-path'
+          ref={this.pathRef}
+          d={d}
+          stroke="#f4f4f4"
+          strokeWidth={strokeWidth}
+          fill="none"
+          strokeLinecap="round"
+        />
       </g>
     )
   }

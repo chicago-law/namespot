@@ -47,14 +47,13 @@ const helpers = {
   'rootUrl': document.getElementById('root').dataset.rootUrl,
   'academicYear': parseInt(document.getElementById('root').dataset.academicYear),
 
-  // when paper is rendered in the browser, these are the px dimensions
-  // (and then doubled for greater resolution)
+  // Paper is rendered in the browser with dimensions set in inches
+  // in CSS (and then doubled for resolution).
+  // These are those inches measured in pixels.
   'tabloidPxWidth': 3360,
   'tabloidPxHeight': 2173,
-  // 'tabloidPxWidth': 3100,
-  // 'tabloidPxHeight': 2000,
-  'letterPxWidth': 2112,
-  'letterPxHeight': 1632,
+  'letterPxWidth': 2006,
+  'letterPxHeight': 1550,
 
   // takes in an AIS term code, returns a nice, human-friendly string
   termCodeToString(termCode) {

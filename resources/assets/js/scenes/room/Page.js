@@ -59,11 +59,23 @@ export default class Page extends Component {
     this.measurePageInBrowser()
 
     // set the dimensions of the grid rows and columns
-    const gridRowHeight = parseFloat(parseFloat(this.state.realPageHeight / this.state.gridRows).toFixed(3))
-    const gridColumnWidth = parseFloat(parseFloat(this.state.realPageWidth / this.state.gridColumns).toFixed(3))
-    this.setState({
-      gridRowHeight, gridColumnWidth
-    })
+    if (this.props.currentOffering.paperSize === 'letter') {
+      const gridColumnWidth = parseFloat(parseFloat(helpers.letterPxWidth / this.state.gridColumns).toFixed(3))
+      const gridRowHeight = parseFloat(parseFloat(helpers.letterPxHeight / this.state.gridRows).toFixed(3))
+      this.setState({
+        realPageWidth: helpers.letterPxWidth,
+        realPageHeight: helpers.letterPxHeight,
+        gridColumnWidth,
+        gridRowHeight
+      })
+    } else {
+      const gridColumnWidth = parseFloat(parseFloat(helpers.tabloidPxWidth / this.state.gridColumns).toFixed(3))
+      const gridRowHeight = parseFloat(parseFloat(helpers.tabloidPxHeight / this.state.gridRows).toFixed(3))
+      this.setState({
+        gridColumnWidth,
+        gridRowHeight,
+      })
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -111,6 +123,7 @@ export default class Page extends Component {
         gridCoords={table.gridCoords}
         seatCount={parseInt(table.seat_count)}
         labelPosition={table.label_position}
+        strokeWidth={this.props.currentOffering && this.props.currentOffering.paperSize === 'letter' ? 30 * 0.6 : 30}
         gridrowheight={this.state.gridRowHeight}
         gridcolumnwidth={this.state.gridColumnWidth}
       />
@@ -178,19 +191,56 @@ export default class Page extends Component {
                     )}
                   </div>
 
-                  <svg className='tables-container' xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox={`0 0 ${this.state.realPageWidth} ${this.state.realPageHeight}`}>
-                    {tables.length ? <g className="tables">{tables}</g> : !tables.length && this.props.view === 'assign-seats' && Object.keys(this.props.loading).every(type => this.props.loading[type] === false) && !Object.keys(this.props.modals).some(name => this.props.modals[name] === true) ? <text className='no-tables' x="50%" y="50%" fontSize="50px">No tables in this room yet. Go ahead and add some!</text> : ''}
+                  <svg
+                    className='tables-container'
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="100%"
+                    height="100%"
+                    viewBox={`0 0 ${this.state.realPageWidth} ${this.state.realPageHeight}`}
+                  >
+                    {tables.length
+                      ? <g className="tables">{tables}</g>
+                      : !tables.length
+                        && this.props.view === 'assign-seats'
+                        && Object.keys(this.props.loading).every(type => this.props.loading[type] === false)
+                        && !Object.keys(this.props.modals).some(name => this.props.modals[name] === true)
+                          ? <text className='no-tables' x="50%" y="50%" fontSize="50px">No tables in this room yet. Go ahead and add some!</text>
+                          : ''
+                    }
                   </svg>
 
                   <Route path='/room' render={() =>
-                    <svg className='grid-container' xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox={`0 0 ${this.state.realPageWidth} ${this.state.realPageHeight}`}>
-                      <Grid gridColumns={this.state.gridColumns} gridColumnWidth={this.state.gridColumnWidth} gridRows={this.state.gridRows} gridRowHeight={this.state.gridRowHeight} />
+                    <svg
+                      className='grid-container'
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="100%"
+                      height="100%"
+                      viewBox={`0 0 ${this.state.realPageWidth} ${this.state.realPageHeight}`}
+                    >
+                      <Grid
+                        gridColumns={this.state.gridColumns}
+                        gridColumnWidth={this.state.gridColumnWidth}
+                        gridRows={this.state.gridRows}
+                        gridRowHeight={this.state.gridRowHeight}
+                        currentOffering={this.props.currentOffering}
+                      />
                     </svg>
                   } />
 
                   <Route path='/room' render={() =>
-                    <svg className='guides-container' xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox={`0 0 ${this.state.realPageWidth} ${this.state.realPageHeight}`}>
-                      <Guides gridColumns={this.state.gridColumns} gridColumnWidth={this.state.gridColumnWidth} gridRows={this.state.gridRows} gridRowHeight={this.state.gridRowHeight} />
+                    <svg
+                      className='guides-container'
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="100%"
+                      height="100%"
+                      viewBox={`0 0 ${this.state.realPageWidth} ${this.state.realPageHeight}`}
+                    >
+                      <Guides
+                        gridColumns={this.state.gridColumns}
+                        gridColumnWidth={this.state.gridColumnWidth}
+                        gridRows={this.state.gridRows}
+                        gridRowHeight={this.state.gridRowHeight}
+                      />
                     </svg>
                   } />
 

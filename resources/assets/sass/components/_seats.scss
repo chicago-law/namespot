@@ -147,9 +147,9 @@
     @include ms-2-x2;
   }
   &.font-larger .name {
-    @include ms3-x2;
+    @include ms0-x2;
   }
   &.font-largest .name {
-    @include ms4-x2;
+    @include ms1-x2;
   }
 }
