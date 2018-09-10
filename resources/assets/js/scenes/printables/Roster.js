@@ -45,7 +45,7 @@ class Roster extends Component {
     let column = 1
 
     const addToPdf = function(el) {
-      console.log(`${i} of ${elems.length}`, el)
+      console.log(`${i} of ${elems.length}`)
 
       // First, we check if there is space enough for this next element
       const height = parseFloat(window.getComputedStyle(el).getPropertyValue('height'))
@@ -145,13 +145,14 @@ class Roster extends Component {
     return (
       <div className='printable printable-roster' ref={this.rosterRef}>
 
-        {showLoading && (
+        {/* {showLoading && (
           <FullPageLoading>
-            Hang on! We're preparing your class roster now...
+            Hang on, we're preparing your class roster now. Depending on the size of the class, this may take a minute.
           </FullPageLoading>
-        )}
+        )} */}
 
-        {!printableReady && currentOffering && (
+        {/* {!printableReady && currentOffering && ( */}
+        {currentOffering && (
           <Fragment>
             <header className='roster-header'>
               <span className='class-title'>{currentOffering.long_title}</span>
@@ -163,19 +164,19 @@ class Roster extends Component {
             </header>
             {currentStudents.map(student => (
               <li key={student.id} className='roster-row'>
-                <div className='picture' style={{ 'backgroundImage': `url('${helpers.rootUrl}images/students/${student.picture}')` }}></div>
-                <div>
+                <div className='roster-row__picture' style={{ 'backgroundImage': `url('${helpers.rootUrl}images/students/${student.picture}')` }}></div>
+                <div className='roster-row__info'>
                   <span>{student.short_full_name}</span>
-                  {/* <span>{student.cnet_id}@uchicago.edu</span> */}
+                  <span className='details'>{student.cnet_id}@uchicago.edu</span>
                 </div>
               </li>
             ))}
           </Fragment>
         )}
 
-        {printableReady &&  (
+        {/* {printableReady &&  (
           <PrintableReady />
-        )}
+        )} */}
       </div>
     )
   }
