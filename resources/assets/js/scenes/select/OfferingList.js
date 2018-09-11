@@ -101,8 +101,8 @@ export default class OfferingList extends Component {
               }
               <input ref={this.searchRef} type='text' value={query} onChange={(e) => this.handleSearchInput(e)} placeholder="Type to find class..." />
             </div>
-            <div className="semester-dropdown-container">
-              <p>Semester:</p>
+            <div className="quarter-dropdown-container">
+              <p>Quarter:</p>
               <select value={selectedTermCode} onChange={(e) => this.handleTermChange(e)}>
                 {terms.map(term =>
                   <option key={term} value={term}>{ helpers.termCodeToString(term) }</option>

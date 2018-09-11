@@ -25,7 +25,7 @@ export default class FlashCardsAllStudents extends Component {
 
           <form>
             <div className='form-question'>
-              <p className='question-name'>Semester:</p>
+              <p className='question-name'>Quarter:</p>
               <select value={selectedTerm} onChange={this.onChangeTerms}>
                 {terms.map(term =>
                   <option key={term} value={term}>{helpers.termCodeToString(term)}</option>
