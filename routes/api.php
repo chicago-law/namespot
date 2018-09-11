@@ -92,6 +92,8 @@ Route::get('/room/{room_id}', function ($room_id) {
 });
 // update a room
 Route::post('/room/update/{room_id}','RoomController@update');
+// delete a room
+Route::delete('/room/{room_id}','RoomController@delete');
 // create a new room
 Route::put('/room','RoomController@new');
 // get a count of the rooms in the DB

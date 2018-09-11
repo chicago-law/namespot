@@ -66,22 +66,23 @@
     }
   }
 
+  .warning {
+    display:flex;
+    align-items:center;
+    margin:2em 0;
+    .svg-inline--fa {
+      @include ms3;
+      color:$primary-accent-light;
+      margin-right: .5em;
+    }
+    p {
+      font-style:italic;
+      margin-bottom: 0;
+    }
+  }
+
   // Change Room modal
   &.change-room {
-    .warning {
-      display:flex;
-      align-items:center;
-      margin:2em 0;
-      .svg-inline--fa {
-        @include ms3;
-        color:$primary-accent-light;
-        margin-right: .5em;
-      }
-      p {
-        font-style:italic;
-        margin-bottom: 0;
-      }
-    }
     select {
       margin:.5em 0;
     }

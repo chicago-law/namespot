@@ -5,16 +5,34 @@ import helpers from '../bootstrap'
 import { setLoadingStatus, requestError, findAndSetCurrentRoom } from './app'
 
 /**
- * ROOMS
+ * ACTION CREATORS
  */
 
-// Load rooms into state
 export function receiveRooms(rooms) {
   return {
     type: C.RECEIVE_ROOMS,
     rooms
   }
 }
+
+export function updateRoom(roomID, key, value) {
+  return {
+    type: C.UPDATE_ROOM,
+    roomID, key, value
+  }
+}
+
+export function deleteRoom(roomID) {
+  return {
+    type: C.DELETE_ROOM,
+    roomID
+  }
+}
+
+/**
+ * THUNKS
+ */
+
 // Fetch all rooms
 export function fetchRooms() {
   return function (dispatch) {
@@ -33,6 +51,7 @@ export function fetchRooms() {
     })
   }
 }
+
 // Gently ask to hydrate with rooms, if we need them. Gets a room count from
 // the DB and compares that to # of rooms in our store.
 export function requestRooms() {
@@ -73,7 +92,8 @@ export function fetchRoom(room_id) {
     })
   }
 }
-// fetch a single room if we need it
+
+// Check if a room is already in the store and fetch if not
 export function requestRoom(room_id) {
   return (dispatch, getState) => {
     if (room_id != null && !getState().entities.rooms[room_id]) {
@@ -82,13 +102,7 @@ export function requestRoom(room_id) {
   }
 }
 
-// update a room attribute
-export function updateRoom(roomID, key, value) {
-  return {
-    type: C.UPDATE_ROOM,
-    roomID, key, value
-  }
-}
+
 // update of room attribute, and sync w/ DB
 export function requestRoomUpdate(roomID, key, value) {
   return (dispatch) => {
@@ -105,6 +119,21 @@ export function requestRoomUpdate(roomID, key, value) {
     })
     .catch(response => {
       dispatch(requestError('room-update', response.message))
+    })
+  }
+}
+
+// Delete a room
+export function requestRoomDelete(roomID) {
+  return (dispatch) => {
+
+    // delete in store
+    dispatch(deleteRoom(roomID))
+
+    // delete in DB
+    axios.delete(`${helpers.rootUrl}api/room/${roomID}`)
+    .catch(res => {
+      dispatch(requestError('delete-room', `Error deleting room: ${res.message}`))
     })
   }
 }

@@ -331,6 +331,10 @@ const rooms = (state = { }, action) => {
           [action.key]: action.value
         }
       }
+    case C.DELETE_ROOM:
+      var newState = { ...state }
+      delete newState[action.roomID]
+      return newState
     default:
       return state
   }
@@ -344,8 +348,9 @@ const tables = (state = { }, action) => {
     case C.RECEIVE_TABLES:
       return action.tables
     case C.REMOVE_TABLE:
-      delete state[action.tableID]
-      return state
+      var newState = { ...state }
+      delete newState[action.tableID]
+      return newState
     default:
       return state
   }

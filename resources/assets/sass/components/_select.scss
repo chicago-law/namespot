@@ -41,7 +41,7 @@
       position:relative;
       a {
         display: block;
-        padding:1.5em 3.5em 1.5em 2em; // weird to make space for caret
+        padding:1.5em 3.5em 1.5em 2em; // padding right to make space for caret
         border-top: 1px solid $off-white;
         h4 {
           display:block;
@@ -70,9 +70,32 @@
         color:$middle-gray;
         pointer-events:none;
       }
+      .delete-room {
+        position: absolute;
+        height: 2.5em;
+        width: 2.5em;
+        right: 5em;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        color: $middle-gray;
+        transition: opacity 150ms ease-out;
+        border-radius: 100%;
+        cursor: pointer;
+        &:hover {
+          color: $primary-accent;
+          background: $off-white;
+        }
+      }
       &:hover {
-        h4, p, .meta, .svg-inline--fa {
+        h4, p, .meta, .fa-chevron-right {
           color:$primary-accent;
+        }
+        .delete-room {
+          opacity: 1;
         }
       }
     } /* end li */

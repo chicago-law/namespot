@@ -13,7 +13,8 @@ import {
 import {
   faCalendarAlt,
   faFile,
-  faMap
+  faMap,
+  faTrashAlt
 } from '@fortawesome/free-regular-svg-icons'
 import {
   faArrowLeft,
@@ -70,6 +71,7 @@ library.add(
   faSpinnerThird,
   faTimes,
   faTimesCircle,
+  faTrashAlt,
   faUnlink,
   faUserEdit,
   faUserPlus,

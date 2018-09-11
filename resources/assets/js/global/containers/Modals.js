@@ -1,7 +1,7 @@
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import Modals from '../Modals';
-import { setModal } from '../../actions';
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import Modals from '../Modals'
+import { resetCurrentRoom, setModal } from '../../actions'
 
 const mapStateToProps = (state) => {
   return {
@@ -11,6 +11,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    resetCurrentRoom: () => {
+      dispatch(resetCurrentRoom())
+    },
     setModal: (modal, status) => {
       dispatch(setModal(modal, status))
     }
@@ -20,6 +23,6 @@ const mapDispatchToProps = (dispatch) => {
 const ModalsContainer = withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(Modals));
+)(Modals))
 
-export default ModalsContainer;
+export default ModalsContainer

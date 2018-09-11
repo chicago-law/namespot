@@ -8,6 +8,7 @@ import EditEnrollment from '../scenes/room/modals/containers/EditEnrollment'
 import PrintOffering from '../scenes/room/modals/containers/PrintOffering'
 import LabelPosition from '../scenes/room/modals/containers/LabelPosition'
 import ChangePicture from '../scenes/room/modals/containers/ChangePicture'
+import ConfirmRoomDelete from '../scenes/select/modals/ConfirmRoomDelete'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default class Modals extends Component {
@@ -16,8 +17,8 @@ export default class Modals extends Component {
   }
 
   handleCloseClick = () => {
-    // loop through all modals, do a switch on them and we can write what to do for each here
-    // most will just be to clear the modal out, but this allows customized behavior too
+    // Do a switch on them and we can write what to do for each here.
+    // Most will just be to clear the modal out, but this allows customized behavior too.
     Object.keys(this.props.modals).forEach(type => {
       if (this.props.modals[type]) {
         switch (type) {
@@ -40,8 +41,12 @@ export default class Modals extends Component {
           case 'change-picture':
             this.props.setModal(type, false)
             break
+          case 'confirm-room-delete':
+            this.props.setModal(type, false)
+            this.props.resetCurrentRoom()
+            break
           default:
-            return false
+            this.props.setModal(type, false)
         }
       }
     })
@@ -66,7 +71,8 @@ export default class Modals extends Component {
       'edit-enrollment': modals['edit-enrollment'],
       'print-room': modals['print-room'],
       'label-position': modals['label-position'],
-      'change-picture': modals['change-picture']
+      'change-picture': modals['change-picture'],
+      'confirm-room-delete': modals['confirm-room-delete'],
     })
 
     return (
@@ -89,6 +95,7 @@ export default class Modals extends Component {
               {modals['print-room'] ? <PrintOffering close={() => this.handleCloseClick()} /> : false}
               {modals['label-position'] ? <LabelPosition close={() => this.handleCloseClick()} /> : false}
               {modals['change-picture'] ? <ChangePicture close={() => this.handleCloseClick()} /> : false}
+              {modals['confirm-room-delete'] ? <ConfirmRoomDelete close={() => this.handleCloseClick()} /> : false}
             </div>
           </div>
 

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import classNames from 'classnames/bind'
 import Loading from '../../global/Loading'
 import helpers from '../../bootstrap'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default class RoomList extends Component {
   handleNewRoom() {
@@ -14,8 +14,8 @@ export default class RoomList extends Component {
       const formattedRoom = {
         [response.data.id]: {
           ...response.data,
-          'type':'template',
-          'seat_size':25
+          'type': 'template',
+          'seat_size': 25
         }
       }
       this.props.receiveRooms(formattedRoom)
@@ -26,6 +26,12 @@ export default class RoomList extends Component {
       this.props.requestError('create-room',response.message, true)
       this.props.setLoadingStatus('rooms',false)
     })
+  }
+
+  onDeleteRoomClick = (e) => {
+    const roomId = e.target.closest('.delete-room').dataset.roomId
+    this.props.findAndSetCurrentRoom(roomId)
+    this.props.setModal('confirm-room-delete', true)
   }
 
   componentDidMount() {
@@ -67,6 +73,9 @@ export default class RoomList extends Component {
               <Link to={`/room/${id}`}>
                 <h4>{this.props.rooms[id].name}</h4>
               </Link>
+              <div className='delete-room' title='Delete Room?' onClick={this.onDeleteRoomClick} data-room-id={id}>
+                <FontAwesomeIcon icon={['far', 'trash-alt']} />
+              </div>
               <FontAwesomeIcon icon={['far', 'chevron-right']} />
             </li>
           ))}

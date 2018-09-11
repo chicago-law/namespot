@@ -159,7 +159,7 @@ export default class PrintOffering extends Component {
               onClick={() => this.printButtonClick()}
               disabled={this.state.chosenFormat === ''}
             >
-              Print
+              Download
             </button>
           </a>
         </footer>

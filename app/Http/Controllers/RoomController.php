@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Room;
 use App\Table;
+use App\Offering;
 
 class RoomController extends Controller
 {
@@ -52,6 +53,22 @@ class RoomController extends Controller
         $count = Room::where('type','template')->count();
 
         return response()->json($count, 200);
+    }
+
+    public function delete($room_id)
+    {
+        // Clean up any rooms that will be affected by this room delete
+        $affectedOfferings = Offering::where('room_id', $room_id)->get();
+        foreach ($affectedOfferings as $offering) {
+            $offering->room_id = null;
+            $offering->is_preserve_room_id = null;
+            $offering->save();
+        }
+
+        // Now delete the room
+        Room::destroy($room_id);
+
+        return response()->json(200);
     }
 
     public function checkname(Request $request)
