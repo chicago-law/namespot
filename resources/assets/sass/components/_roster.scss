@@ -21,6 +21,11 @@ $roster-row-width: 5in; // page width minus padding divided by number of columns
     span {
       display: block;
       @include ms2;
+      &.printed-date {
+        @include ms1;
+        font-style: italic;
+        margin-top: 1em;
+      }
     }
   }
   .roster-row {

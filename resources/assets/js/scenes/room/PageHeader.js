@@ -27,13 +27,14 @@ const PageHeader = (props) =>  {
   const offeringChartDetails = () => (
     <div className='page-header'>
       <div className='left' style={{
-        'transformOrigin':'top left',
         'transform':`scale(${shrinkRatio})`
       }}>
         <h3>{currentRoom.name} - {helpers.termCodeToString(currentOffering.term_code)} - University of Chicago Law School</h3>
+        <Route path='/print' render={() => (
+          <p>Printed {new Date().getMonth()}/{new Date().getUTCDate()}/{new Date().getFullYear().toString().slice(-2)}</p>
+        )} />
       </div>
       <div className='right' style={{
-        'transformOrigin':'top right',
         'transform':`scale(${shrinkRatio})`
       }}>
         <h3>{`${currentOffering.long_title} - LAWS ${currentOffering.catalog_nbr}-${currentOffering.section}`}</h3>

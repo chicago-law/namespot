@@ -124,10 +124,12 @@
     .left {
       left:0;
       text-align:left;
+      transform-origin: top left;
     }
     .right {
       right:0;
       text-align:right;
+      transform-origin: top right;
     }
   }
 
