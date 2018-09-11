@@ -59,7 +59,8 @@ class Roster extends Component {
       console.log(`${i} of ${elems.length}`)
 
       // First, we check if there is space enough for this next element
-      const height = parseFloat(window.getComputedStyle(el).getPropertyValue('height'))
+      const elCSS = window.getComputedStyle(el)
+      const height = parseFloat(elCSS.getPropertyValue('height'))
 
       if (height + padding < remainingSpace) { // Okay, there is room - proceed with adding to PDF
         html2canvas(el, {

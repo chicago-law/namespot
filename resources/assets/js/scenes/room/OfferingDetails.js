@@ -57,12 +57,14 @@ export default class OfferingDetails extends Component {
               </ul>
             </div>
           )}
-          <div className="unseated">
-            <p>Not Seated:</p>
-            <ul>
-              { unseatedStudents.length ? unseatedStudents : <li><p style={{'position':'relative','left':'-.15em'}}>(none)</p></li>}
-            </ul>
-          </div>
+          { unseatedStudents.length > 0 && (
+            <div className="unseated">
+              <p>Not Seated:</p>
+              <ul>
+                { unseatedStudents.length ? unseatedStudents : <li><p style={{'position':'relative','left':'-.15em'}}>(none)</p></li>}
+              </ul>
+            </div>
+          )}
         </div>
       </div>
     )

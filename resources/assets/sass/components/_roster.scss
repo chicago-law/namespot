@@ -10,8 +10,8 @@ $roster-row-width: 5in; // page width minus padding divided by number of columns
   overflow: scroll;
   header {
     width: $roster-row-width;
-    padding-bottom: 4em; // 2 x 2
-    border-bottom: 1px solid $light-gray;
+    min-height: 452px;
+    padding-right: 1em;
     .class-title {
       display: block;
       margin-bottom: 0;
