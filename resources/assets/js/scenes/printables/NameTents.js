@@ -61,6 +61,7 @@ export default class NameTents extends Component {
           // We're done! Save the file and mop up.
           const title = `Name Tents - ${this.props.currentOffering.long_title}-${this.props.currentOffering.section}`
           pdf.save(`${title}.pdf`)
+          window.close()
 
           this.setState({
             showLoading: false,

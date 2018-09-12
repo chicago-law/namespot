@@ -72,7 +72,6 @@ class Table extends Component {
     }
     if (this.props.task === 'edit-room') {
       this.props.setTask('edit-table')
-      this.props.setPointSelection('start')
       this.props.selectTable(this.props.id, this.props.currentRoom.id, this.props.seatCount, this.props.labelPosition, this.props.gridCoords)
     }
     e.stopPropagation()

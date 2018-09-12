@@ -1,7 +1,7 @@
   .guides-container {
     .guide {
       position: relative;
-      stroke:#ccc;
+      stroke:$middle-gray;
       stroke-width:1px;
       &.vert {
         transform:translateY(-13px);

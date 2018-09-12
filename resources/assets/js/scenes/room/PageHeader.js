@@ -5,7 +5,7 @@ import helpers from '../../bootstrap'
 import InstructorNames from '../../global/InstructorNames'
 
 const PageHeader = (props) =>  {
-  const { shrinkRatio, currentRoom, currentOffering } = props
+  const { shrinkRatio, currentRoom, currentOffering, withStudents } = props
 
   const roomChartDetails = () => (
     <div className='page-header'>
@@ -30,15 +30,19 @@ const PageHeader = (props) =>  {
         'transform':`scale(${shrinkRatio})`
       }}>
         <h3>{currentRoom.name} - {helpers.termCodeToString(currentOffering.term_code)} - University of Chicago Law School</h3>
-        <Route path='/print' render={() => (
-          <p>Printed {new Date().getMonth()}/{new Date().getUTCDate()}/{new Date().getFullYear().toString().slice(-2)}</p>
-        )} />
+        <Route exact path='/print/seating-chart/room/:roomid/offering/:offeringid' render={() => (
+            <p>
+              {withStudents && (
+                <span>Printed {new Date().getMonth()}/{new Date().getUTCDate()}/{new Date().getFullYear().toString().slice(-2)}</span>
+              )}
+            </p>
+          )} />
       </div>
       <div className='right' style={{
         'transform':`scale(${shrinkRatio})`
       }}>
-        <h3>{`${currentOffering.long_title} - LAWS ${currentOffering.catalog_nbr}-${currentOffering.section}`}</h3>
-        {currentOffering.instructors.length > 0 && <p><InstructorNames offering={currentOffering} /></p>}
+        <h3>{`${currentOffering.long_title} - LAWS ${currentOffering.catalog_nbr}-${currentOffering.section}`}{currentOffering.instructors.length > 0 && <span> - <InstructorNames offering={currentOffering} /></span>}</h3>
+
       </div>
     </div>
   )

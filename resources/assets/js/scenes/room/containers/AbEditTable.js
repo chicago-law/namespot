@@ -1,9 +1,9 @@
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import AbEditTable from '../AbEditTable'
-import { saveNewTable, clearTempTable, setTask, setPointSelection, setSeatCount, requestError, setModal } from '../../../actions'
+import { saveNewTable, clearTempTable, setTask, setPointSelection, setSeatCount, requestError, setModal, savePointToTempTable } from '../../../actions'
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
     currentRoom:state.app.currentRoom,
     modals: state.app.modals,
@@ -33,6 +33,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     requestError: (type, message, shouldLeave) => {
       dispatch(requestError(type, message, shouldLeave))
+    },
+    savePointToTempTable: (pointKey, pointType) => {
+      dispatch(savePointToTempTable(pointKey, pointType))
     },
     setModal: (type, status) => {
       dispatch(setModal(type, status))

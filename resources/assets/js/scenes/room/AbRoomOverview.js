@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Route } from 'react-router-dom'
 import _throttle from 'lodash/throttle'
 import EditableText from '../../global/containers/EditableText'
+import AbDivider from '../../global/AbDivider'
 import helpers from '../../bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -92,15 +93,6 @@ export default class AbRoomOverview extends Component {
 
         <div className="controls">
 
-          <div className="flex-container seat-size">
-            <div className='seat-size-slider'>
-              <div className='smaller'></div>
-              <input type="range" min="30" max="115" step="3" value={seatSize} onChange={this.onSeatSizeChange} />
-              <div className="larger"></div>
-            </div>
-            <p><small>Seat Size</small></p>
-          </div>
-
           <div className="flex-container">
             <a href="javascript:void(0)" onClick={() => this.handleAddNewClick()}>
               <button className='big-button'>
@@ -118,6 +110,19 @@ export default class AbRoomOverview extends Component {
               </button>
             </a>
           </div>
+
+          <AbDivider />
+
+          <div className="flex-container seat-size">
+            <div className='seat-size-slider'>
+              <div className='smaller'></div>
+              <input type="range" min="30" max="115" step="3" value={seatSize} onChange={this.onSeatSizeChange} />
+              <div className="larger"></div>
+            </div>
+            <p><small>Seat Size</small></p>
+          </div>
+
+          <AbDivider />
 
           <div className="flex-container">
             <a href={`${helpers.rootUrl}print/seating-chart/room/${currentRoom.id}`} target='_blank' rel="noopener noreferrer" >
@@ -138,6 +143,8 @@ export default class AbRoomOverview extends Component {
               </a>
             </div>
           } />
+
+          <AbDivider />
 
           <Route path="/room/:roomID/:offeringID" render={() =>
             <div className='continue-seating' onClick={() => this.handleContinueSeatingClick()}>

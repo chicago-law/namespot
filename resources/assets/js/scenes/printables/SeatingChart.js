@@ -61,6 +61,7 @@ export default class SeatingChart extends Component {
         `Seating Chart - ${this.props.currentOffering.long_title}-${this.props.currentOffering.section}`
         : this.props.rooms[this.props.roomId].name
       pdf.save(`${title}.pdf`)
+      window.close()
 
       this.setState({
         showLoading: false,

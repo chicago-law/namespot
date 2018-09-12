@@ -85,6 +85,8 @@ class Roster extends Component {
           } else { // We're done!!
             const title = `Roster - ${currentOffering.long_title}-${currentOffering.section}`
             pdf.save(`${title}.pdf`)
+            window.close()
+
             this.setState({
               showLoading: false,
               printableReady: true
