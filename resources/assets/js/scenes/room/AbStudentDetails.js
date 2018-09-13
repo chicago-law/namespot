@@ -32,7 +32,8 @@ export default class AbStudentDetails extends Component {
   }
 
   render() {
-    const student = this.props.students[this.props.currentStudentId]
+    const { currentOffering, students, currentStudentId } = this.props
+    const student = students[currentStudentId]
 
     return (
       <div className='action-bar action-bar-student-details'>
@@ -72,14 +73,15 @@ export default class AbStudentDetails extends Component {
         </div>
 
         <div style={{'marginLeft':'auto'}}>
-          { student.manual_attachments[`offering_${this.props.currentOffering.id}`] ?
+
+          {student.enrollment[`offering_${currentOffering.id}`].is_namespot_addition === 1 && (
             <button className='big-button pull-right' onClick={()=> this.onRemoveFromClass()}>
               <FontAwesomeIcon icon={['far', 'sign-out']} />
               <p>Remove Student<br/>from Class</p>
             </button>
-          : false}
+          )}
 
-          { student.seats['offering_' + this.props.currentOffering.id] ?
+          { student.enrollment[`offering_${currentOffering.id}`].seat !== null ?
             <button className='big-button pull-right' onClick={()=> this.handleUnseatClick()}>
               <FontAwesomeIcon icon={['far', 'unlink']} />
               <p>Remove Student<br/>from Seat</p>

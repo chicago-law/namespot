@@ -42,6 +42,13 @@ class Student extends Model
 
     public function offerings()
     {
-        return $this->belongsToMany('App\Offering')->withPivot('assigned_seat', 'manually_attached');
+        return $this->belongsToMany('App\Offering')->withPivot(
+            'assigned_seat',
+            'is_namespot_addition',
+            'canvas_enrollment_state',
+            'canvas_role',
+            'canvas_role_id',
+            'is_in_AIS'
+        );
     }
 }

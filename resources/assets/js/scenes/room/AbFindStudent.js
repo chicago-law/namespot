@@ -63,7 +63,7 @@ export default class AbFindStudent extends Component {
     const { currentOffering, currentStudents } = this.props
 
     // Only show students without seats
-    const unseatedStudents = currentStudents.filter(student => student.seats['offering_' + currentOffering.id] == null)
+    const unseatedStudents = currentStudents.filter(student => student.enrollment['offering_' + currentOffering.id].seat === null)
     // Only show students that match the query
     const filteredStudents = unseatedStudents.filter(student => this.checkForMatch(student))
 

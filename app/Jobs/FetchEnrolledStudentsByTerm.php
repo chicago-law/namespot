@@ -11,6 +11,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use App\Mail\JobException;
 use App\Mail\JobResults;
 use App\Offering;
@@ -21,6 +22,7 @@ class FetchEnrolledStudentsByTerm implements ShouldQueue
   use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
   protected $term;
+  protected $token;
 
   /**
    * Create a new job instance.
@@ -30,6 +32,7 @@ class FetchEnrolledStudentsByTerm implements ShouldQueue
   public function __construct($term)
   {
     $this->term = $term;
+    $this->token = "Bearer " . config('api.canvas_prod_token');
   }
 
   /**
@@ -41,26 +44,12 @@ class FetchEnrolledStudentsByTerm implements ShouldQueue
   {
     // Record errors here
     $errors_array = [];
+    $calls = 0;
 
-    // Grab the Offerings
-    $offerings = Offering::where('term_code', $this->term)->get();
-
-    foreach ($offerings as $offering):
-
-      // prepare some variables
-      $YYYY = '20' . substr($offering->term_code, 1, 2);
-      $QQ = quarterFromTermCode($offering->term_code);
-      $Subj = 'LAWS';
-      $AIS_catalog_nbr = $offering->catalog_nbr;
-      $AIS_section_id = $offering->section;
-
+    function fetch_enrollment($offering, $endpoint, $token, $calls) {
       try {
-        $client = new Client();
-        $base_url = config('api.canvas_prod_url');
-        $token = "Bearer " . config('api.canvas_prod_token');
-        $endpoint = "{$base_url}/courses/sis_course_id:{$YYYY}.{$QQ}.{$Subj}.{$AIS_catalog_nbr}.{$AIS_section_id}/students";
-
         // Make the call
+        $client = new Client();
         $response = $client->get($endpoint, [
           'headers' => [ 'Authorization' => $token ],
           'verify' => false
@@ -68,52 +57,77 @@ class FetchEnrolledStudentsByTerm implements ShouldQueue
 
         $body = json_decode($response->getBody()->getContents());
 
-        if (is_array($body) || is_object($body)):
+        if (is_array($body)):
           $student_id_array = [];
 
           foreach($body as $canvas_student):
-            $student = Student::firstOrNew(['canvas_id' => $canvas_student->id]);
 
-            // ids
-            $student->canvas_id = $canvas_student->id;
-            isset($canvas_student->login_id) ? $student->cnet_id = $canvas_student->login_id : false;
+            if ($canvas_student->role === 'StudentEnrollment' || $canvas_student->role === 'ObserverEnrollment'):
+              $student = Student::firstOrNew(['canvas_id' => $canvas_student->user->id]);
 
-            // names
-            $student->full_name = $canvas_student->name;
-            $student->first_name = explode(' ', $canvas_student->name)[0];
-            $student->last_name = substr($canvas_student->name, strpos($canvas_student->name, ' ') + 1);
-            $student->short_full_name = $canvas_student->short_name;
-            $student->short_first_name = explode(' ', $canvas_student->short_name)[0];
-            $student->short_last_name = substr($canvas_student->short_name, strpos($canvas_student->short_name, ' ') + 1);
-            $student->sortable_name = $canvas_student->sortable_name;
+              // ids
+              $student->canvas_id = $canvas_student->user->id;
+              isset($canvas_student->user->login_id) ? $student->cnet_id = $canvas_student->user->login_id : false;
 
-            // If student has no picture property or it is null,
-            // set it to the default picture.
-            !isset($student->picture) || is_null($student->picture) ? $student->picture = 'no-face.png' : false;
+              // names
+              $student->full_name = $canvas_student->user->name;
+              $student->first_name = explode(' ', $canvas_student->user->name)[0];
+              $student->last_name = substr($canvas_student->user->name, strpos($canvas_student->user->name, ' ') + 1);
+              $student->short_full_name = $canvas_student->user->short_name;
+              $student->short_first_name = explode(' ', $canvas_student->user->short_name)[0];
+              $student->short_last_name = substr($canvas_student->user->short_name, strpos($canvas_student->user->short_name, ' ') + 1);
+              $student->sortable_name = $canvas_student->user->sortable_name;
 
-            // save in DB
-            $student->save();
+              // If student has no picture property or it is null,
+              // set it to the default picture.
+              !isset($student->picture) || is_null($student->picture) ? $student->picture = 'no-face.png' : false;
 
-            $student_id_array[] = $student->id;
+              // save in DB
+              $student->save();
+
+              // Attach student to its Offering with enrollment information
+              $offering->students()->syncWithoutDetaching([
+                $student->id => [
+                  'canvas_enrollment_state' => $canvas_student->enrollment_state,
+                  'canvas_role' => $canvas_student->role,
+                  'canvas_role_id' => $canvas_student->role_id
+                ]
+              ]);
+
+              // $student_id_array[] = $student->id;
+
+            endif; // end role type check
 
           endforeach; // end for each Student
 
-          /**
-           * Before we can safely blow away what we had previously for
-           * enrollment with what we got from this API call, we're going to find any
-           * students that were attached manually to this offering by the
-           * user and add them to $student_id_array.
-           */
-          $manually_attached_students = $offering->manuallyAttachedStudents()->get();
-          if (count($manually_attached_students)) {
-            foreach ($manually_attached_students as $student):
-              $student_id_array[] = $student->id;
-            endforeach;
-          }
+            /**
+             * Before we can safely blow away what we had previously for
+             * enrollment with what we got from this API call, we're going to find any
+             * students that were attached manually to this offering by the
+             * user and add them to $student_id_array.
+             */
+            // $namespot_added_students = $offering->namespotAddedStudents()->get();
+            // if (count($namespot_added_students)) {
+            //   foreach ($namespot_added_students as $student):
+            //     $student_id_array[] = $student->id;
+            //   endforeach;
+            // }
 
-          // update offering's enrollment
-          $offering->students()->sync($student_id_array);
-        endif;
+            // update offering's enrollment
+            // $offering->students()->sync($student_id_array);
+
+        endif; // end body array check
+
+        // API response pagination. Do we need to run again?
+        $header_links = Psr7\parse_header($response->getHeader('Link'));
+        foreach ($header_links as $link):
+          if ($link['rel'] === 'next') {
+            $calls++;
+            $next_url = rtrim(ltrim($link[0], '<'), '>');
+            // dd($next_url);
+            fetch_enrollment($offering, $next_url, $token, $calls);
+          }
+        endforeach;
 
       } catch (RequestException $e) {
         $api_request = 'no request';
@@ -130,16 +144,35 @@ class FetchEnrolledStudentsByTerm implements ShouldQueue
         ];
       }
 
-    endforeach; // end for each Offering
+    } // end fetch_enrollment()
 
-    if (count($errors_array)):
-      // send an email with exceptions summary
-      $message = "FetchEnrolledStudentsByTerm for {$this->term} finished with " . count($errors_array) . " errors, out of " . count($offerings) . " offerings.";
-      Mail::to('dramus@uchicago.edu')->send(new JobException($message, array_slice($errors_array, 0, 3)));
-    else:
-      // send results summary
-      $results = "FetchEnrolledStudentsByTerm for {$this->term} completed " . count($offerings) . " offerings without any exceptions.";
-      Mail::to(config('app.admin_email'))->send(new JobResults($results));
-    endif;
-  }
+    $offering = Offering::where('term_code', $this->term)->first();
+
+    // $offerings = Offering::where('term_code', $this->term)->get();
+    // foreach ($offerings as $offering):
+
+      // Fire fetch_enrollment the first time!
+      $base_url = config('api.canvas_prod_url');
+      $YYYY = '20' . substr($offering->term_code, 1, 2);
+      $QQ = quarterFromTermCode($offering->term_code);
+      $Subj = 'LAWS';
+      $AIS_catalog_nbr = $offering->catalog_nbr;
+      $AIS_section_id = $offering->section;
+      $first_url = "{$base_url}/courses/sis_course_id:{$YYYY}.{$QQ}.{$Subj}.{$AIS_catalog_nbr}.{$AIS_section_id}/enrollments";
+
+      fetch_enrollment($offering, $first_url, $this->token, $calls);
+
+    // endforeach; // end for each Offering
+
+    // if (count($errors_array)):
+    //   // send an email with exceptions summary
+    //   $message = "FetchEnrolledStudentsByTerm for {$this->term} finished with " . count($errors_array) . " errors, out of " . count($offerings) . " offerings.";
+    //   Mail::to('dramus@uchicago.edu')->send(new JobException($message, array_slice($errors_array, 0, 3)));
+    // else:
+    //   // send results summary
+    //   $results = "FetchEnrolledStudentsByTerm for {$this->term} completed " . count($offerings) . " offerings without any exceptions.";
+    //   Mail::to(config('app.admin_email'))->send(new JobResults($results));
+    // endif;
+
+  } // end handle()
 }

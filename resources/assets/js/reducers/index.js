@@ -294,9 +294,12 @@ const students = (state = { }, action) => {
         ...state,
         [action.student_id]: {
           ...state[action.student_id],
-          seats: {
-            ...state[action.student_id].seats,
-            [action.offering_id]:action.seat_id
+          enrollment: {
+            ...state[action.student_id].enrollment,
+            [action.offering_id]: {
+              ...state[action.student_id].enrollment[action.offering_id],
+              seat: action.seat_id
+            }
           }
         }
       }

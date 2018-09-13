@@ -28,8 +28,7 @@ export default class AbOfferingOverview extends Component {
 
   render() {
     const { currentOffering, currentStudents } = this.props
-
-    const unseatedStudents = currentStudents.filter(student => student.seats[`offering_${currentOffering.id}`] == null)
+    const unseatedStudents = currentStudents.filter(student => student.enrollment[`offering_${currentOffering.id}`].seat === null)
 
     return (
       <div className='action-bar action-bar-offering-overview'>

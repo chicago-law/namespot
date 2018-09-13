@@ -73,9 +73,9 @@ export default class Seat extends Component {
 
     let theSeat
     const occupantId = Object.keys(students).find(studentId =>
-      students[studentId].hasOwnProperty('seats')
-      && students[studentId].seats[`offering_${currentOffering.id}`]
-      && students[studentId].seats[`offering_${currentOffering.id}`] === id
+      students[studentId].enrollment[`offering_${currentOffering.id}`]
+      && students[studentId].enrollment[`offering_${currentOffering.id}`].seat
+      && students[studentId].enrollment[`offering_${currentOffering.id}`].seat === id
     )
 
     // check if we are in a view where you want to see occupants if they're there

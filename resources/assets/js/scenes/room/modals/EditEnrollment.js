@@ -74,14 +74,17 @@ export default class EditEnrollment extends Component {
     this.props.receiveStudents(formattedStudent)
 
     // update student with seat slot for this offering
-    const seats = {
-      ...student['seats'],
-      [`offering_${this.props.currentOffering.id}`]: null
+    const enrollment = {
+      ...student.enrollment,
+      [`offering_${this.props.currentOffering.id}`]: {
+        seat: null,
+        is_namespot_addition: 1
+      }
     }
-    this.props.updateAndSaveStudent(studentId, 'seats', seats)
+    this.props.updateAndSaveStudent(studentId, 'enrollment', enrollment)
 
     // update student with flag saying it was manually attached
-    this.props.updateAndSaveStudent(studentId, 'manually_attached', 1)
+    this.props.updateAndSaveStudent(studentId, 'is_namespot_addition', 1)
 
     // update the offering's enrollment list
     // UPDATE: I don't think we need to update the offering in the DB, just in state

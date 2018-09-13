@@ -31,11 +31,20 @@ class Offering extends Model
 
     public function students()
     {
-        return $this->belongsToMany('App\Student')->withPivot('assigned_seat', 'manually_attached');
+        return $this->belongsToMany('App\Student')
+            ->wherePivot('canvas_enrollment_state','active')
+            ->withPivot(
+                'assigned_seat',
+                'is_namespot_addition',
+                'canvas_enrollment_state',
+                'canvas_role',
+                'canvas_role_id',
+                'is_in_AIS'
+            );
     }
 
-    public function manuallyAttachedStudents()
+    public function namespotAddedStudents()
     {
-        return $this->students()->where('manually_attached',1);
+        return $this->students()->where('is_namespot_addition',1);
     }
 }

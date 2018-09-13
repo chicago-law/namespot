@@ -32,8 +32,8 @@ class StudentController extends Controller
                     $offering->updated_at = new Carbon();
                     $offering->save();
                     break;
-                case 'manually_attached':
-                    $student->offerings()->sync([ $request->input('offering_id') => ['manually_attached' => true] ]);
+                case 'is_namespot_addition':
+                    $student->offerings()->sync([ $request->input('offering_id') => ['is_namespot_addition' => true] ]);
                     $offering = $student->offerings()->find($request->input('offering_id'));
                     $offering->updated_at = new Carbon();
                     $offering->save();

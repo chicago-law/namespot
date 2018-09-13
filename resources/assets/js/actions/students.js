@@ -115,7 +115,7 @@ export function updateAndSaveStudent(student_id, attribute, value) {
     dispatch(updateStudent(student_id, attribute, value))
 
     // save to DB. include offering ID in case it's needed,
-    // for example for manually_attached.
+    // for example for is_namespot_addition.
     axios.post(`${helpers.rootUrl}api/student/update/${student_id}`, {
       [attribute]:value,
       offering_id: getState().app.currentOffering.id
@@ -130,9 +130,9 @@ export function unenrollStudent(studentId, offeringId) {
     // remove the offering in question from student's list of seats
     // (affects both store and in DB)
     const student = getState().entities.students[studentId]
-    const seats = { ...student.seats}
-    delete seats[`offering_${offeringId}`]
-    dispatch(updateAndSaveStudent(studentId, 'seats', seats))
+    const enrollment = { ...student.enrollment}
+    delete enrollment[`offering_${offeringId}`]
+    dispatch(updateAndSaveStudent(studentId, 'enrollment', enrollment))
 
     // remove student from offering's student list
     // (affects both store and in DB)

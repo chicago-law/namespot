@@ -19,6 +19,11 @@ class CreateOfferingStudentPivotTable extends Migration
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
             $table->primary(['offering_id', 'student_id']);
             $table->string('assigned_seat')->nullable();
+            $table->tinyInteger('is_namespot_addition')->nullable();
+            $table->string('canvas_enrollment_state')->nullable();
+            $table->string('canvas_role')->nullable();
+            $table->tinyInteger('canvas_role_id')->nullable();
+            $table->tinyInteger('is_in_AIS')->nullable();
         });
     }
 

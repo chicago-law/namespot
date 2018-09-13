@@ -44,7 +44,7 @@ export default class Page extends Component {
       // Giving things a couple seconds to settle...
       setTimeout(() => {
         this.props.currentStudents.forEach(student => {
-          const assignedSeatId = student.seats[`offering_${this.props.currentOffering.id}`]
+          const assignedSeatId = student.enrollment[`offering_${this.props.currentOffering.id}`].seat
           if (assignedSeatId && this.props.currentSeats.every(seat => parseInt(seat.id) !== parseInt(assignedSeatId))) {
             console.log(`assigned seat: ${assignedSeatId} doesn't actually exist`)
             this.props.assignSeat(this.props.currentOffering.id, student.id, null)

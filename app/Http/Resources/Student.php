@@ -14,16 +14,18 @@ class Student extends JsonResource
      */
     public function toArray($request)
     {
-        // Create array of Offering IDs and corresponding assigned seat.
         // For some reason the seats key MUST contain some letters,
         // otherwise it gets lost when encoding to JSON.
-        $seats = [];
-        $manual_attachments = [];
+        $enrollment = [];
         foreach($this->offerings as $offering):
-            $seats['offering_' . $offering->id] = is_null($offering->pivot->assigned_seat) ? null : trim($offering->pivot->assigned_seat);
-            if ($offering->pivot->manually_attached):
-                $manual_attachments["offering_{$offering->id}"] = 1;
-            endif;
+            $enrollment['offering_' . $offering->id] = [
+                'seat' => is_null($offering->pivot->assigned_seat) ? null : trim($offering->pivot->assigned_seat),
+                'is_namespot_addition' => $offering->pivot->is_namespot_addition ? 1 : 0,
+                'canvas_enrollment_state' => $this->canvas_enrollment_state,
+                'canvas_role' => $this->canvas_role,
+                'canvas_role_id' => $this->canvas_role_id,
+                'is_in_AIS' => $this->is_in_AIS
+            ];
         endforeach;
 
         return [
@@ -35,8 +37,8 @@ class Student extends JsonResource
             'cnet_id' => $this->cnet_id,
             'nickname' => $this->nickname,
             'picture' => $this->picture,
-            'seats' => $seats,
-            'manual_attachments' => $manual_attachments
+            'enrollment' => $enrollment
         ];
+
     }
 }
