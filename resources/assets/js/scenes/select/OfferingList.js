@@ -133,7 +133,6 @@ export default class OfferingList extends Component {
           )}
 
           {filteredOfferingList.length > 0 && (filteredOfferingList.map(offering => {
-            const updatedAt = new Date(offering.updatedAt)
             return (
               <li key={offering.id}>
               <Link to={`/offering/${offering.id}`} onClick={this.onOfferingClick} className='offering' data-id={offering.id}>
@@ -142,7 +141,7 @@ export default class OfferingList extends Component {
                   LAWS {offering.catalog_nbr}-{offering.section} {offering.instructors.length > 0 && <Fragment>&bull; <InstructorNames offering={offering} /></Fragment>} &bull; {helpers.termCodeToString(offering.term_code)}
                 </p>
                 {offering.updatedAt && (
-                  <span className='meta'>Edited {updatedAt.getMonth() + 1}/{updatedAt.getDate()}/{updatedAt.getFullYear().toString().slice(-2)}</span>
+                  <span className='meta'>Edited {new Date(offering.updatedAt).toLocaleDateString()}</span>
                 )}
               </Link>
               <FontAwesomeIcon icon={['far', 'chevron-right']} />

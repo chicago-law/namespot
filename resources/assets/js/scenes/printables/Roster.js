@@ -176,7 +176,7 @@ class Roster extends Component {
               <span>Section: <strong>{currentOffering.section}</strong></span>
               <span>Instructors: <strong><InstructorNames offering={currentOffering} /></strong></span>
               <span>Students Enrolled: <strong>{currentStudents.length}</strong></span>
-              <span className='printed-date'>Printed {new Date().getMonth()}/{new Date().getUTCDate()}/{new Date().getFullYear().toString().slice(-2)}</span>
+              <span className='printed-date'>Printed {new Date().toLocaleDateString()}</span>
             </header>
             {currentStudents.map(student => (
               <li key={student.id} className='roster-row'>

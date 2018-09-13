@@ -29,20 +29,12 @@ const PageHeader = (props) =>  {
       <div className='left' style={{
         'transform':`scale(${shrinkRatio})`
       }}>
-        <h3>{currentRoom.name} - {helpers.termCodeToString(currentOffering.term_code)} - University of Chicago Law School</h3>
-        <Route exact path='/print/seating-chart/room/:roomid/offering/:offeringid' render={() => (
-            <p>
-              {withStudents && (
-                <span>Printed {new Date().getMonth()}/{new Date().getUTCDate()}/{new Date().getFullYear().toString().slice(-2)}</span>
-              )}
-            </p>
-          )} />
+        <h3>{currentRoom.name} - {helpers.termCodeToString(currentOffering.term_code)} - University of Chicago Law School {currentOffering && withStudents && <span>Printed {new Date().toLocaleDateString()}</span>}</h3>
       </div>
       <div className='right' style={{
         'transform':`scale(${shrinkRatio})`
       }}>
         <h3>{`${currentOffering.long_title} - LAWS ${currentOffering.catalog_nbr}-${currentOffering.section}`}{currentOffering.instructors.length > 0 && <span> - <InstructorNames offering={currentOffering} /></span>}</h3>
-
       </div>
     </div>
   )
