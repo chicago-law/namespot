@@ -32,19 +32,16 @@ use App\Jobs\TestJob;
  */
 Route::get('/test', function(Request $request) {
     // FetchOfferingsByTerm::dispatch('2188');
-    // FetchEnrolledStudentsByTerm::dispatch('2178');
+    FetchEnrolledStudentsByTerm::dispatch('2188');
     // FetchPhotoRosterByTerm::dispatch('2178');
     // TestJob::dispatch();
     return response()->json('Yeah', 200);
 });
 
 
-
-
 /**
  * OFFERINGS
  */
-
 // fetch single offering by ID
 Route::get('/offering/{offering_id}', function ($offering_id) {
     return new OfferingResource(Offering::find($offering_id));
@@ -58,14 +55,12 @@ Route::post('/offering/update/{offering_id}', 'OfferingController@update');
 // take an offering, duplicate its room, assign it to the new room
 Route::get('create-room-for/{offering_id}','OfferingController@createRoomFor');
 
+
 /**
  * STUDENTS
  */
-
 // fetch all students for a given offering ID
-Route::get('/enrollment/offering/{offering_id}', function ($offering_id) {
-    return StudentResource::collection(Offering::find($offering_id)->students()->get());
-});
+Route::get('/enrollment/offering/{offering_id}', 'StudentController@offering');
 // fetch all students for a given term code
 Route::get('/enrollment/term/{term_code}', 'StudentController@term');
 // update a student
@@ -77,10 +72,10 @@ Route::get('/students/search', 'StudentController@search');
 // upload a new picture file for a student
 Route::post('/student/upload-picture', 'StudentController@upload_picture');
 
+
 /**
  * ROOMS
  */
-
 // fetch all rooms. Only return actual room templates though, ignore the ones
 // customized for a specific offering.
 Route::get('/rooms', function () {
@@ -104,10 +99,10 @@ Route::post('/rooms/checkname', 'RoomController@checkname');
 // Nudge a room's tables down by 1
 Route::post('/nudge/down', 'RoomController@nudgedown');
 
+
 /**
  * TABLES
  */
-
 // update (or create new) table
 Route::post('/table/update','TableController@update');
 // delete a table
@@ -117,18 +112,18 @@ Route::get('/tables/{room_id}', function($room_id) {
     return TableResource::collection(Table::where('room_id',$room_id)->get());
 });
 
+
 /**
  * SETTINGS
  */
-
  // get all the settings
 Route::get('/settings', 'SettingController@get');
 // update a setting
 Route::post('/settings/update', 'SettingController@update');
 
+
 /**
  * USERS
  */
-
  // fetch a user by ID
  Route::get('/users/{user_id}', 'UserController@fetch');

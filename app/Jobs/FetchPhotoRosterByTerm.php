@@ -83,11 +83,12 @@ class FetchPhotoRosterByTerm implements ShouldQueue
 
           foreach ($ais_student_array as $ais_student):
 
-            // Get Cnet from email address
-            $cnet = substr($ais_student->EMAIL_ADDR, 0, strpos($ais_student->EMAIL_ADDR, '@'));
+            // First, we need to match up the results here from AIS with results from Canvas,
+            // which is what's used to populate our student DB.
 
-            // Match students from AIS response to students already in our DB (from Canvas)
-            // Looking using Cnet, or temporarily, by name
+            // Get Cnet from email address
+            // Also temporarily match on last name
+            $cnet = substr($ais_student->EMAIL_ADDR, 0, strpos($ais_student->EMAIL_ADDR, '@'));
             $middle_and_last = is_string($ais_student->MIDDLE_NAME)
               ? "{$ais_student->MIDDLE_NAME} {$ais_student->LAST_NAME}"
               : $ais_student->LAST_NAME;
@@ -97,29 +98,40 @@ class FetchPhotoRosterByTerm implements ShouldQueue
               ->orWhere('last_name', $middle_and_last)
               ->first();
 
-            // If we found a student, proceed only if their picture is either null or no-face
-            if ($student && (is_null($student->picture) || $student->picture === 'no-face.png')):
+            // If we found a student, proceed with updating them!
 
-              // Create the file name and save it as a student attribute
-              // Temporarily including last name as well, because students from
-              // AIS test endpoints come back with cnet 'nobody' for everybody.
-              $file_name = "{$cnet}_{$ais_student->LAST_NAME}.jpg";
-              $student->picture = $file_name;
-              $student->save();
+            // TODO: Create a new student if there isn't one w/ this cnet
 
-              // create and save the jpg file
-              $photo_data = $ais_student->PHOTO_DATA;
-              $decoded = base64_decode($photo_data);
+            if ($student) {
 
-              file_put_contents("images/students/{$file_name}", $decoded);
+              // Mark that their enrollment is confirmed in AIS
+              $offering->students()->syncWithoutDetaching([$student->id => [
+                'is_in_AIS' => 1
+              ]]);
 
-            endif;
+              // If their picture is either null or no-face, then update it from this call
+              if (is_null($student->picture) || $student->picture === 'no-face.png'):
 
+                // Create the file name and save it as a student attribute
+                // Temporarily including last name as well, because students from
+                // AIS test endpoints come back with cnet 'nobody' for everybody.
+                $file_name = "{$cnet}_{$ais_student->LAST_NAME}.jpg";
+                $student->picture = $file_name;
+                $student->save();
+
+                // create and save the jpg file
+                $photo_data = $ais_student->PHOTO_DATA;
+                $decoded = base64_decode($photo_data);
+
+                file_put_contents("images/students/{$file_name}", $decoded);
+
+              endif; // end if no picture
+            } // end if student
           endforeach; // end the student loop
 
           // This offering is done, but let's pause for a few seconds before
           // hitting the API with next Offering.
-          sleep(5);
+          sleep(3);
 
         } else if ((string) $body->ROW_COUNT === '0') {
           $empty_responses++;

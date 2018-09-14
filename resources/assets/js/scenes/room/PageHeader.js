@@ -29,7 +29,12 @@ const PageHeader = (props) =>  {
       <div className='left' style={{
         'transform':`scale(${shrinkRatio})`
       }}>
-        <h3>{currentRoom.name} - {helpers.termCodeToString(currentOffering.term_code)} - University of Chicago Law School {currentOffering && withStudents && <span>Printed {new Date().toLocaleDateString()}</span>}</h3>
+        <h3>
+          {currentRoom.name} - {helpers.termCodeToString(currentOffering.term_code)} - University of Chicago Law School
+          <Route path='/print' render={() => (
+            currentOffering && withStudents && <span>Printed {new Date().toLocaleDateString()}</span>
+          )} />
+        </h3>
       </div>
       <div className='right' style={{
         'transform':`scale(${shrinkRatio})`
