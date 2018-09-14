@@ -83,9 +83,6 @@ export default class EditEnrollment extends Component {
     }
     this.props.updateAndSaveStudent(studentId, 'enrollment', enrollment)
 
-    // update student with flag saying it was manually attached
-    this.props.updateAndSaveStudent(studentId, 'is_namespot_addition', 1)
-
     // update the offering's enrollment list
     // UPDATE: I don't think we need to update the offering in the DB, just in state
     const students = [...this.props.currentOffering.students, parseInt(studentId)]

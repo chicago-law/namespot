@@ -405,6 +405,19 @@ $ab-height-short: 7em;
       font-weight:bold;
     }
   }
+  .ab-student-details__remove {
+    display: inline-block;
+    @include ms-1;
+    cursor: pointer;
+    .svg-inline--fa {
+      position: relative;
+      top: 1px;
+      margin-left: .5em;
+    }
+    &:hover {
+      color: $primary-accent;
+    }
+  }
 }
 
 .ab-divider {

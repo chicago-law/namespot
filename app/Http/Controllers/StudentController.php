@@ -88,6 +88,12 @@ class StudentController extends Controller
         return response()->json('success',200);
     }
 
+    public function offering($offering_id, Request $request)
+    {
+        $students = StudentResource::collection(Offering::find($offering_id)->currentStudents()->get());
+        return response()->json($students);
+    }
+
     public function term($term_code, Request $request)
     {
         $students_array = [];

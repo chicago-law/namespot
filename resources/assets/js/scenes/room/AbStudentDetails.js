@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import helpers from '../../bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -34,6 +34,7 @@ export default class AbStudentDetails extends Component {
   render() {
     const { currentOffering, students, currentStudentId } = this.props
     const student = students[currentStudentId]
+    const enrollment = student.enrollment[`offering_${currentOffering.id}`]
 
     return (
       <div className='action-bar action-bar-student-details'>
@@ -68,18 +69,42 @@ export default class AbStudentDetails extends Component {
               save={(nickname) => this.saveStudentDetails(nickname)}
             />
           </div>
-          <h6>Email</h6>
-          <p>{`${student.cnet_id}@uchicago.edu`}</p>
+          <h6>CNet</h6>
+          <p>{student.cnet_id}</p>
+        </div>
+
+        <div className="flex-column">
+          <h6>Enrollment Sources</h6>
+          {enrollment.canvas_enrollment_state === 'active' || enrollment.is_in_AIS === 1
+            ? <p>
+                Canvas: {enrollment.canvas_enrollment_state === 'active'
+                  ? 'Yes'
+                  : 'No'
+                }
+                {enrollment.canvas_role === 'Manually Added Student' && ' (manually added by instructor)'}
+                <br />
+                AIS: {enrollment.is_in_AIS === 1
+                  ? 'Yes'
+                  : 'No'
+                }
+              </p>
+            : enrollment.is_namespot_addition === 1 && (
+                <p>
+                  Not officially enrolled, <br />added to seating chart manually<br />
+                  <span className='ab-student-details__remove' onClick={()=> this.onRemoveFromClass()}>Remove? <FontAwesomeIcon icon={['far', 'sign-out']} /></span>
+                </p>
+              )
+          }
         </div>
 
         <div style={{'marginLeft':'auto'}}>
 
-          {student.enrollment[`offering_${currentOffering.id}`].is_namespot_addition === 1 && (
-            <button className='big-button pull-right' onClick={()=> this.onRemoveFromClass()}>
+          {/* {student.enrollment[`offering_${currentOffering.id}`].is_namespot_addition === 1 && (
+            <button className='big-button pull-right' >
               <FontAwesomeIcon icon={['far', 'sign-out']} />
               <p>Remove Student<br/>from Class</p>
             </button>
-          )}
+          )} */}
 
           { student.enrollment[`offering_${currentOffering.id}`].seat !== null ?
             <button className='big-button pull-right' onClick={()=> this.handleUnseatClick()}>

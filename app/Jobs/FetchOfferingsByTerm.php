@@ -66,11 +66,6 @@ class FetchOfferingsByTerm implements ShouldQueue
         // update with the info that came back, otherwise we'll make a new one.
         $offering = Offering::firstOrNew(['class_nbr' => $class->CLASS_NBR]);
 
-        // Temporarily disable timestamps. If this is enabled, then we're making
-        // updated_at field pretty useless because it resets every 12 hours at 6am, 6pm.
-        // $offering->timestamps = false;
-        // $offering->save();
-
         // ids
         $offering->catalog_nbr = $class->CATALOG_NBR;
         $offering->crse_id = $class->CRSE_ID;
@@ -170,10 +165,6 @@ class FetchOfferingsByTerm implements ShouldQueue
 
         endif;
 
-        // re-enable timestamps
-        // $offering->timestamps = true;
-        // $offering->save();
-
         unset($offering, $meeting_time);
 
       endforeach; // end offering loop
@@ -183,7 +174,6 @@ class FetchOfferingsByTerm implements ShouldQueue
       if ($e->hasResponse()) {
         $api_response = Psr7\str($e->getResponse());
       } else {
-        // dd($e);
         $api_response = 'no response';
       }
 

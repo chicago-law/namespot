@@ -123,7 +123,7 @@ export default class OfferingList extends Component {
                   return offering ? (
                     <li key={offering.id}>
                       <Link to={`/offering/${offering.id}`} onClick={this.onOfferingClick} className='offering' data-id={offering.id}>
-                        {offering.long_title}<span>{offering.section !== '01' && `Section ${offering.section}, `}{helpers.termCodeToString(offering.term_code)}</span>
+                        {offering.long_title}<span>Section {offering.section}, {helpers.termCodeToString(offering.term_code)}</span>
                       </Link>
                     </li>
                   ) : ''
@@ -138,7 +138,7 @@ export default class OfferingList extends Component {
               <Link to={`/offering/${offering.id}`} onClick={this.onOfferingClick} className='offering' data-id={offering.id}>
                 <h4>{offering.long_title}</h4>
                 <p>
-                  LAWS {offering.catalog_nbr}-{offering.section} {offering.instructors.length > 0 && <Fragment>&bull; <InstructorNames offering={offering} /></Fragment>} &bull; {helpers.termCodeToString(offering.term_code)}
+                  Section {offering.section} &bull; LAWS {offering.catalog_nbr} {offering.instructors.length > 0 && <Fragment>&bull; <InstructorNames offering={offering} /></Fragment>} &bull; {helpers.termCodeToString(offering.term_code)}
                 </p>
                 {offering.updatedAt && (
                   <span className='meta'>Edited {new Date(offering.updatedAt).toLocaleDateString()}</span>

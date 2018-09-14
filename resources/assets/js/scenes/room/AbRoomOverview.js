@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Route } from 'react-router-dom'
 import _throttle from 'lodash/throttle'
@@ -144,13 +144,16 @@ export default class AbRoomOverview extends Component {
             </div>
           } />
 
-          <AbDivider />
+
 
           <Route path="/room/:roomID/:offeringID" render={() =>
-            <div className='continue-seating' onClick={() => this.handleContinueSeatingClick()}>
-              <button className='btn-accent'>Continue Seating <FontAwesomeIcon icon={['far', 'long-arrow-right']} /></button>
-              <p>Return to assigning seats when ready</p>
-            </div>
+            <Fragment>
+              <AbDivider />
+              <div className='continue-seating' onClick={() => this.handleContinueSeatingClick()}>
+                <button className='btn-accent'>Continue Seating <FontAwesomeIcon icon={['far', 'long-arrow-right']} /></button>
+                <p>Return to assigning seats when ready</p>
+              </div>
+            </Fragment>
           } />
 
         </div>

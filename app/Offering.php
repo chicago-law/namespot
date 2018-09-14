@@ -31,16 +31,22 @@ class Offering extends Model
 
     public function students()
     {
-        return $this->belongsToMany('App\Student')
-            ->wherePivot('canvas_enrollment_state','active')
-            ->withPivot(
-                'assigned_seat',
-                'is_namespot_addition',
-                'canvas_enrollment_state',
-                'canvas_role',
-                'canvas_role_id',
-                'is_in_AIS'
-            );
+        return $this->belongsToMany('App\Student')->withPivot(
+            'assigned_seat',
+            'is_namespot_addition',
+            'canvas_enrollment_state',
+            'canvas_role',
+            'canvas_role_id',
+            'is_in_AIS'
+        );
+    }
+
+    public function currentStudents()
+    {
+        return $this->students()
+            ->where('canvas_enrollment_state', 'active')
+            ->orWhere('is_namespot_addition', 1)
+            ->orWhere('is_in_AIS', 1);
     }
 
     public function namespotAddedStudents()
