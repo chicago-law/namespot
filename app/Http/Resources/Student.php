@@ -20,11 +20,11 @@ class Student extends JsonResource
         foreach($this->offerings as $offering):
             $enrollment['offering_' . $offering->id] = [
                 'seat' => is_null($offering->pivot->assigned_seat) ? null : trim($offering->pivot->assigned_seat),
-                'is_namespot_addition' => $offering->pivot->is_namespot_addition ? 1 : 0,
+                'is_namespot_addition' => (int) $offering->pivot->is_namespot_addition,
                 'canvas_enrollment_state' => $offering->pivot->canvas_enrollment_state,
                 'canvas_role' => $offering->pivot->canvas_role,
                 'canvas_role_id' => $offering->pivot->canvas_role_id,
-                'is_in_AIS' => $offering->pivot->is_in_AIS
+                'is_in_AIS' => (int) $offering->pivot->is_in_AIS
             ];
         endforeach;
 
