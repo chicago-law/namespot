@@ -75,7 +75,7 @@ export default class AbStudentDetails extends Component {
 
         <div className="flex-column">
           <h6>Enrollment Sources</h6>
-          {enrollment.canvas_enrollment_state === 'active' || enrollment.is_in_AIS === 1
+          {enrollment.canvas_enrollment_state === 'active' || enrollment.is_in_ais === 1
             ? <p>
                 Canvas: {enrollment.canvas_enrollment_state === 'active'
                   ? 'Yes'
@@ -83,7 +83,7 @@ export default class AbStudentDetails extends Component {
                 }
                 {enrollment.canvas_role === 'Manually Added Student' && ' (manually added by instructor)'}
                 <br />
-                AIS: {enrollment.is_in_AIS === 1
+                AIS: {enrollment.is_in_ais === 1
                   ? 'Yes'
                   : 'No'
                 }

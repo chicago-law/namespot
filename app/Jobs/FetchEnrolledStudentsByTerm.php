@@ -11,7 +11,6 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
 use App\Mail\JobException;
 use App\Mail\JobResults;
 use App\Offering;

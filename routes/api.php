@@ -31,8 +31,8 @@ use App\Jobs\TestJob;
  * TEST: RUN A TEST JOB
  */
 Route::get('/test', function(Request $request) {
-    // FetchOfferingsByTerm::dispatch('2188');
-    FetchEnrolledStudentsByTerm::dispatch('2188');
+    // FetchOfferingsByTerm::dispatch('2178');
+    // FetchEnrolledStudentsByTerm::dispatch('2178');
     // FetchPhotoRosterByTerm::dispatch('2178');
     // TestJob::dispatch();
     return response()->json('Yeah', 200);

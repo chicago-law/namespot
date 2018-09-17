@@ -37,7 +37,7 @@ class Offering extends Model
             'canvas_enrollment_state',
             'canvas_role',
             'canvas_role_id',
-            'is_in_AIS'
+            'is_in_ais'
        );
     }
 
@@ -47,7 +47,7 @@ class Offering extends Model
             ->where(function($q) {
                 $q->where('canvas_enrollment_state', 'active')
                   ->orWhere('is_namespot_addition', 1)
-                  ->orWhere('is_in_AIS', 1);
+                  ->orWhere('is_in_ais', 1);
             });
     }
 

@@ -24,7 +24,7 @@ class Student extends JsonResource
                 'canvas_enrollment_state' => $offering->pivot->canvas_enrollment_state,
                 'canvas_role' => $offering->pivot->canvas_role,
                 'canvas_role_id' => $offering->pivot->canvas_role_id,
-                'is_in_AIS' => (int) $offering->pivot->is_in_AIS
+                'is_in_ais' => (int) $offering->pivot->is_in_ais
             ];
         endforeach;
 

@@ -48,7 +48,7 @@ class Student extends Model
             'canvas_enrollment_state',
             'canvas_role',
             'canvas_role_id',
-            'is_in_AIS'
+            'is_in_ais'
         );
     }
 }

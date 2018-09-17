@@ -18,6 +18,7 @@ use App\Offering;
 use App\Instructor;
 use App\Room;
 
+
 class FetchOfferingsByTerm implements ShouldQueue
 {
   use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -58,7 +59,8 @@ class FetchOfferingsByTerm implements ShouldQueue
         'verify' => false
       ]);
 
-      $body = json_decode($response->getBody()->getContents());
+      $json_body = $response->getBody()->getContents();
+      $body = json_decode($json_body);
 
       foreach($body->UC_CLASS_TBL as $class):
 

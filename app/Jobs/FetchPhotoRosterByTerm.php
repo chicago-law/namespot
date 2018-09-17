@@ -16,6 +16,7 @@ use App\Mail\JobResults;
 use App\Offering;
 use App\Student;
 
+
 class FetchPhotoRosterByTerm implements ShouldQueue
 {
   use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -63,7 +64,8 @@ class FetchPhotoRosterByTerm implements ShouldQueue
           'verify' => false
         ]);
 
-        $body = json_decode($response->getBody()->getContents());
+        $json_body = $response->getBody()->getContents();
+        $body = json_decode($json_body);
 
         if (
           isset($body->ROW_COUNT)
@@ -98,16 +100,25 @@ class FetchPhotoRosterByTerm implements ShouldQueue
               ->orWhere('last_name', $middle_and_last)
               ->first();
 
-            // If we found a student, proceed with updating them!
 
-            // TODO: Create a new student if there isn't one w/ this cnet
+              // TODO: Create a new student if there isn't one w/ this cnet
 
+              // If we found a student, proceed with updating them!
             if ($student) {
 
               // Mark that their enrollment is confirmed in AIS
               $offering->students()->syncWithoutDetaching([$student->id => [
-                'is_in_AIS' => 1
+                'is_in_ais' => 1
               ]]);
+
+              // Grab the emplid (not included in Canvas, so we'll get it here)
+              $student->emplid = $ais_student->EMPLID;
+
+              // Store if the student is FERPA or not
+              $student->is_FERPA = $ais_student->FERPA === 'N' ? 0 : 1;
+
+              // Save (necessary because the save() coming up only happens if we assign picture)
+              $student->save();
 
               // If their picture is either null or no-face, then update it from this call
               if (is_null($student->picture) || $student->picture === 'no-face.png'):
