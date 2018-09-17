@@ -38,15 +38,17 @@ class Offering extends Model
             'canvas_role',
             'canvas_role_id',
             'is_in_AIS'
-        );
+       );
     }
 
     public function currentStudents()
     {
         return $this->students()
-            ->where('canvas_enrollment_state', 'active')
-            ->orWhere('is_namespot_addition', 1)
-            ->orWhere('is_in_AIS', 1);
+            ->where(function($q) {
+                $q->where('canvas_enrollment_state', 'active')
+                  ->orWhere('is_namespot_addition', 1)
+                  ->orWhere('is_in_AIS', 1);
+            });
     }
 
     public function namespotAddedStudents()
