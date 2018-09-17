@@ -115,7 +115,7 @@ class FetchPhotoRosterByTerm implements ShouldQueue
               $student->emplid = $ais_student->EMPLID;
 
               // Store if the student is FERPA or not
-              $student->is_FERPA = $ais_student->FERPA === 'N' ? 0 : 1;
+              $student->is_ferpa = $ais_student->FERPA === 'N' ? 0 : 1;
 
               // Save (necessary because the save() coming up only happens if we assign picture)
               $student->save();
