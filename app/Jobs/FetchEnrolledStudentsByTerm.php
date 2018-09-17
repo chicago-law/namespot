@@ -23,6 +23,7 @@ class FetchEnrolledStudentsByTerm implements ShouldQueue
 
   protected $term;
   protected $token;
+  protected $offerings;
   protected $errors;
   protected $remaining;
 
@@ -35,6 +36,7 @@ class FetchEnrolledStudentsByTerm implements ShouldQueue
   {
     $this->term = $term;
     $this->token = "Bearer " . config('api.canvas_prod_token');
+    $this->offerings = Offering::where('term_code', $this->term)->get();
     $this->errors = [];
     $this->remaining = [];
   }
@@ -46,9 +48,7 @@ class FetchEnrolledStudentsByTerm implements ShouldQueue
    */
   public function handle()
   {
-    $offerings = Offering::where('term_code', $this->term)->get();
-
-    foreach ($offerings as $i => $offering):
+    foreach ($this->offerings as $i => $offering):
 
       // Fire fetch_enrollment for the offering.
       // Function will recursively keep going if results are paginated.
@@ -60,7 +60,12 @@ class FetchEnrolledStudentsByTerm implements ShouldQueue
       $AIS_section_id = $offering->section;
       $first_url = "{$base_url}/courses/sis_course_id:{$YYYY}.{$QQ}.{$Subj}.{$AIS_catalog_nbr}.{$AIS_section_id}/enrollments";
 
-      $this->fetch_enrollment($offering, $first_url);
+      // Keep track of whether or not this is the last offering in the loop.
+      // If it is, we want to fire off our done_fetching function
+      $last_offering = $i + 1 === count($this->offerings) ? true : false;
+
+      // Fire away!
+      $this->fetch_enrollment($offering, $first_url, $last_offering);
 
       // Give it a few seconds before moving on in the loop.
       sleep(3);
@@ -68,7 +73,7 @@ class FetchEnrolledStudentsByTerm implements ShouldQueue
     endforeach; // end for each Offering
   }
 
-  private function fetch_enrollment($offering, $endpoint)
+  private function fetch_enrollment($offering, $endpoint, $last_offering)
   {
     try {
       // Make the call
@@ -125,7 +130,7 @@ class FetchEnrolledStudentsByTerm implements ShouldQueue
       $x_limit = Psr7\parse_header($response->getHeader('X-Rate-Limit-Remaining'))[0][0];
       $this->remaining[] = $x_limit;
 
-      // API response is usually paginated. Do we need to run again?
+      // Last, the API response is usually paginated. Do we need to run again?
       // Look through all the links in the header, and if "next" is one of them,
       // run it again. Or, if we get through all those links and "next" is not
       // one of them, then we're done with this offering. If last_call is true,
@@ -134,10 +139,12 @@ class FetchEnrolledStudentsByTerm implements ShouldQueue
       foreach ($header_links as $i => $link):
         if ($link['rel'] === 'next') {
           $next_url = rtrim(ltrim($link[0], '<'), '>');
-          $this->fetch_enrollment($offering, $next_url);
+          $this->fetch_enrollment($offering, $next_url, $last_offering);
           break;
-        } elseif ($i + 1 === count($header_links)) {
-          $this->done_fetching($offering);
+        } elseif ($i + 1 === count($header_links) && $last_offering) {
+          // No more header links to check, AND this is the very last offering in the loop.
+          // This was the last call of the last offering.
+          $this->done_fetching();
         }
       endforeach;
 
@@ -145,31 +152,30 @@ class FetchEnrolledStudentsByTerm implements ShouldQueue
       if ($e->hasResponse()) {
         $reason = $e->getResponse()->getReasonPhrase();
         $code = $e->getResponse()->getStatusCode();
-        $this->errors[] = [
+        $this->errors[$offering->title] = [
           'reason' => $reason ? $reason : null,
           'code' => $code ? $code : null,
           'time' => date('h:i:s'),
         ];
       } else {
         $api_request = Psr7\str($e->getRequest());
-        $this->errors[] = $api_request;
+        $this->errors[$offering->title] = $api_request;
       }
-
-      $this->done_fetching($offering);
+      if ($last_offering) {
+        $this->done_fetching();
+      }
     }
   }
 
-  private function done_fetching($offering)
+  private function done_fetching()
   {
     if (count($this->errors)):
       // send an email with exceptions summary
-      $message = "{$offering->long_title} for {$this->term} finished with " . count($this->errors) . " error(s).";
-      // $message = "FetchEnrolledStudentsByTerm for {$this->term} finished with " . count($errors) . " errors, out of " . count($offerings) . " offerings.";
+      $message = "FetchEnrolledStudentsByTerm for {$this->term} finished with " . count($this->errors) . " error(s) out of " . count($this->offerings) . " offerings.";
       Mail::to('dramus@uchicago.edu')->send(new JobException($message, $this->errors));
     else:
       // send results summary
-      $results = "{$offering->long_title} {$offering->section} for {$this->term} completed. " . print_r($this->remaining, true);
-      // $results = "FetchEnrolledStudentsByTerm for {$this->term} completed " . count($offerings) . " offerings without any exceptions.";
+      $results = "FetchEnrolledStudentsByTerm for {$this->term} finished " . count($this->offerings) . " offerings without any exceptions.";
       Mail::to(config('app.admin_email'))->send(new JobResults($results));
     endif;
   }
