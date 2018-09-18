@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { fetchStudents, requestOffering } from '../../actions'
 import helpers from '../../bootstrap'
+import queryString from 'query-string'
 import FullPageLoading from '../printables/FullPageLoading'
 import InstructorNames from '../../global/InstructorNames'
 import PrintableReady from './PrintableReady'
@@ -150,12 +151,17 @@ class Roster extends Component {
 
   render() {
     const { showLoading, printableReady } = this.state
-    const { offeringid, offerings, students } = this.props
+    const { offeringid, offerings, students, params } = this.props
     const currentOffering = offerings[offeringid]
-    const currentStudents = Object.keys(students)
+    const aisOnly = (params.aisonly === 'true')
+    let currentStudents = Object.keys(students)
       .filter(sId => currentOffering.students.includes(parseInt(sId)))
       .sort((a, b) => students[a].last_name.toUpperCase() < students[b].last_name.toUpperCase() ? -1 : 1)
       .map(sId => students[sId])
+
+    if (aisOnly) {
+      currentStudents = currentStudents.filter(student => student.enrollment[`offering_${offeringid}`].is_in_ais === 1)
+    }
 
     return (
       <div className='printable printable-roster'>
@@ -199,6 +205,7 @@ class Roster extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
+  const { search } = ownProps.location
   const { offeringid } = ownProps.match.params
   const { offerings, students } = state.entities
   const { loading } = state.app
@@ -207,7 +214,8 @@ function mapStateToProps(state, ownProps) {
     loading,
     offeringid,
     students,
-    offerings
+    offerings,
+    params: queryString.parse(search)
   }
 }
 

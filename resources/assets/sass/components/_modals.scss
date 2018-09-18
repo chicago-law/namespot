@@ -29,7 +29,7 @@
   top:4em;
   padding:0 2em;
   background: #fff;
-  box-shadow:0 5px 15px $middle-gray;
+  box-shadow:0 5px 40px $middle-gray;
   z-index: 99999;
   .fa-times {
     position:absolute;
@@ -64,6 +64,26 @@
       padding:2em;
       border-top: 1px solid $off-white;
     }
+  }
+
+  .options-enter {
+    opacity: .01;
+    transform: translateY(.5em);
+  }
+  .options-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition:all .3s ease-out;
+  }
+  .option-exit {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .options-exit-active {
+    position: absolute;
+    opacity: .01;
+    transform: translateY(.5em);
+    transition:all .3s ease-out;
   }
 
   .warning {

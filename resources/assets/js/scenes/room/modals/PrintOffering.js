@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import helpers from '../../../bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { CSSTransition } from 'react-transition-group'
+import helpers from '../../../bootstrap'
+
 
 export default class PrintOffering extends Component {
   constructor(props) {
@@ -10,6 +12,7 @@ export default class PrintOffering extends Component {
     this.state = {
       chosenFormat: '',
       namesOnReverse: false,
+      aisOnly: false
     }
   }
 
@@ -40,6 +43,7 @@ export default class PrintOffering extends Component {
         break
       case 'roster':
         url += `roster/offering/${this.props.currentOffering.id}`
+        params.aisonly = this.state.aisOnly
         break
     }
 
@@ -61,7 +65,13 @@ export default class PrintOffering extends Component {
     this.setState({ namesOnReverse: e.target.checked })
   }
 
+  onAISOnlyChange = (e) => {
+    this.setState({ aisOnly: e.target.checked })
+  }
+
   render() {
+    const { chosenFormat, namesOnReverse, aisOnly } = this.state
+    const { close, currentOffering } = this.props
 
     return (
       <div className='print-room' ref={this.modalRef}>
@@ -75,7 +85,7 @@ export default class PrintOffering extends Component {
 
             {/* Print Format */}
             <div className='form-question'>
-              <p className='question-name'>Choose Format</p>
+              <h5>Choose Format</h5>
 
               <input
                 type='radio'
@@ -83,8 +93,8 @@ export default class PrintOffering extends Component {
                 name='choose-format'
                 value='seating-chart'
                 onChange={this.onFormatChange}
-                checked={this.state.chosenFormat === 'seating-chart'}
-                disabled={this.props.currentOffering.room_id === null}
+                checked={chosenFormat === 'seating-chart'}
+                disabled={currentOffering.room_id === null}
               />
               <label htmlFor='format-seating-chart'>Seating Chart</label><br/>
 
@@ -94,8 +104,8 @@ export default class PrintOffering extends Component {
                 name='choose-format'
                 value='blank-seating-chart'
                 onChange={this.onFormatChange}
-                checked={this.state.chosenFormat === 'blank-seating-chart'}
-                disabled={this.props.currentOffering.room_id === null}
+                checked={chosenFormat === 'blank-seating-chart'}
+                disabled={currentOffering.room_id === null}
               />
               <label htmlFor='format-blank-seating-chart'>Blank Seating Chart</label><br/>
 
@@ -105,8 +115,8 @@ export default class PrintOffering extends Component {
                 name='choose-format'
                 value='flash-cards'
                 onChange={this.onFormatChange}
-                checked={this.state.chosenFormat === 'flash-cards'}
-                disabled={this.props.currentOffering.students.length === 0}
+                checked={chosenFormat === 'flash-cards'}
+                disabled={currentOffering.students.length === 0}
               />
               <label htmlFor='format-flash-cards'>Flash Cards</label><br/>
 
@@ -116,8 +126,8 @@ export default class PrintOffering extends Component {
                 name='choose-format'
                 value='name-tents'
                 onChange={this.onFormatChange}
-                checked={this.state.chosenFormat === 'name-tents'}
-                disabled={this.props.currentOffering.students.length === 0}
+                checked={chosenFormat === 'name-tents'}
+                disabled={currentOffering.students.length === 0}
               />
               <label htmlFor='format-name-tents'>Name Tents</label><br/>
 
@@ -127,37 +137,64 @@ export default class PrintOffering extends Component {
                 name='choose-format'
                 value='roster'
                 onChange={this.onFormatChange}
-                checked={this.state.chosenFormat === 'roster'}
-                disabled={this.props.currentOffering.students.length === 0}
+                checked={chosenFormat === 'roster'}
+                disabled={currentOffering.students.length === 0}
               />
               <label htmlFor='format-roster'>Roster</label>
             </div>
 
             {/* Flash Card options */}
-            {this.state.chosenFormat === 'flash-cards' && (
-              <div className='form-question'>
-                <p className='question-name options'>Options</p>
+            <CSSTransition
+              mountOnEnter
+              in={chosenFormat === 'flash-cards'}
+              timeout={300}
+              classNames='options'
+              unmountOnExit
+            >
+              <div className='option'>
+                <h5>Options</h5>
                 <input
                   type='checkbox'
                   name='names-on-reverse'
                   id='names-on-reverse'
-                  checked={this.state.namesOnReverse}
+                  checked={namesOnReverse}
                   onChange={(e) => this.onNamesOnReverseChange(e)}
                 />
                 <label htmlFor='names-on-reverse'> Print names on reverse side?</label>
               </div>
-            )}
+            </CSSTransition>
+
+            {/* Roster options */}
+            <CSSTransition
+              mountOnEnter
+              in={chosenFormat === 'roster'}
+              timeout={300}
+              classNames='options'
+              unmountOnExit
+            >
+              <div className='option'>
+                <h5>Options</h5>
+                <input
+                  type='checkbox'
+                  name='ais-only'
+                  id='ais-only'
+                  checked={aisOnly}
+                  onChange={(e) => this.onAISOnlyChange(e)}
+                />
+                <label htmlFor='ais-only'> Only include students enrolled through AIS?</label>
+              </div>
+            </CSSTransition>
 
           </form>
         </main>
 
         <footer className="controls">
-          <button className='btn-clear' onClick={() => this.props.close()}>Cancel</button>
+          <button className='btn-clear' onClick={() => close()}>Cancel</button>
           <a href={this.generateUrl()} target='_blank' rel='noopener noreferrer'>
             <button
               className='btn-accent'
               onClick={() => this.printButtonClick()}
-              disabled={this.state.chosenFormat === ''}
+              disabled={chosenFormat === ''}
             >
               Download
             </button>

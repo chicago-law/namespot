@@ -75,26 +75,24 @@ export default class AbStudentDetails extends Component {
 
         <div className="flex-column">
           <h6>Enrollment Sources</h6>
-          {enrollment.canvas_enrollment_state === 'active' || enrollment.is_in_ais === 1
-            ? <p>
-                Canvas: {enrollment.canvas_enrollment_state === 'active'
-                  ? 'Yes'
-                  : 'No'
-                }
-                {enrollment.canvas_role === 'Manually Added Student' && ' (manually added by instructor)'}
-                <br />
-                AIS: {enrollment.is_in_ais === 1
-                  ? 'Yes'
-                  : 'No'
-                }
-              </p>
-            : enrollment.is_namespot_addition === 1 && (
-                <p>
-                  Not officially enrolled, <br />added to seating chart manually<br />
-                  <span className='ab-student-details__remove' onClick={()=> this.onRemoveFromClass()}>Remove? <FontAwesomeIcon icon={['far', 'sign-out']} /></span>
-                </p>
-              )
-          }
+          <p>Canvas Status: {enrollment.canvas_enrollment_state != null
+              ? enrollment.canvas_enrollment_state.split('_').join(' ')
+              : 'not found'
+            }
+            {enrollment.canvas_role === 'Manually Added Student' && ' (enrolled by instructor)'}
+          </p>
+          <p>
+          Enrolled through AIS: {enrollment.is_in_ais === 1
+              ? 'yes'
+              : 'no'
+            }
+          </p>
+          {enrollment.is_namespot_addition === 1 && (
+            <p>
+              Added to seating chart manually
+              <span className='ab-student-details__remove' onClick={()=> this.onRemoveFromClass()}><FontAwesomeIcon icon={['far', 'sign-out']} />Remove?</span>
+            </p>
+          )}
         </div>
 
         <div style={{'marginLeft':'auto'}}>
