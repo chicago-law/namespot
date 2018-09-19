@@ -12,7 +12,7 @@ export default class FlashCard extends Component {
         {!namesOnReverse && (
           <div className='flash-card-same-side flash-card'>
             <div className='left'>
-              <img src={`${helpers.rootUrl}/images/students/${student.picture}`} />
+              <img src={`${helpers.rootUrl}storage/student_pictures/${student.picture}`} />
             </div>
             <div className='right'>
               <h1>{student.first_name} {student.last_name}</h1>
@@ -24,7 +24,7 @@ export default class FlashCard extends Component {
         {namesOnReverse && (
           <div className='flash-card-both-sides'>
             <div className="flash-card front">
-              <img src={`${helpers.rootUrl}/images/students/${student.picture}`} />
+              <img src={`${helpers.rootUrl}storage/student_pictures/${student.picture}`} />
             </div>
             <div className="flash-card back">
               <h1>{student.first_name} {student.last_name}</h1>

@@ -177,7 +177,7 @@ export default class FlashCardsDeck extends Component {
     // the students to only include this in the current offering
     const studentArray = []
     if (offeringId) {
-      Object.keys(students).forEach(id => students[id].seats.hasOwnProperty([`offering_${currentOffering.id}`]) ? studentArray.push(students[id]) : false )
+      Object.keys(students).forEach(id => students[id].enrollment.hasOwnProperty([`offering_${currentOffering.id}`]) ? studentArray.push(students[id]) : false )
     } else {
       Object.keys(students).forEach(id => studentArray.push(students[id]))
     }
@@ -207,7 +207,7 @@ export default class FlashCardsDeck extends Component {
           <Fragment>
             {studentsSorted.map(student => (
               <FlashCard
-                key={student.canvas_id}
+                key={student.id}
                 student={student}
                 offering={currentOffering}
                 namesOnReverse={namesOnReverse}

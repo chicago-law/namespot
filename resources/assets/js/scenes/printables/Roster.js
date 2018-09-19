@@ -186,7 +186,7 @@ class Roster extends Component {
             </header>
             {currentStudents.map(student => (
               <li key={student.id} className='roster-row'>
-                <div className='roster-row__picture' style={{ 'backgroundImage': `url('${helpers.rootUrl}images/students/${student.picture}')` }}></div>
+                <div className='roster-row__picture' style={{ 'backgroundImage': `url('${helpers.rootUrl}storage/student_pictures/${student.picture}')` }}></div>
                 <div className='roster-row__info'>
                   <span>{student.short_full_name}</span>
                   <span className='details'>{student.cnet_id}@uchicago.edu</span>

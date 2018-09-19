@@ -86,9 +86,8 @@ export default class AbFindStudent extends Component {
         <div className="roster-container">
           <ul>{ filteredStudents.map(student =>
               <li key={student.id} data-studentid={student.id} onClick={(e) => this.handleStudentClick(e)}>
-                <div className="picture" style={{'backgroundImage':`url('${helpers.rootUrl}images/students/${student.picture}')`}}></div>
+                <div className="picture" style={{ 'backgroundImage': `url('${helpers.rootUrl}storage/student_pictures/${student.picture}')` }}></div>
                 <p data-email={student.email}>
-                  {/* {student.first_name} {student.first_name !== student.short_first_name && student.short_first_name} {student.last_name}</p> */}
                   {student.short_first_name} {student.last_name}</p>
               </li>
             )}

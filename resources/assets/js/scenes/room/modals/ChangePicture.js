@@ -48,7 +48,7 @@ export default class ChangePicture extends Component {
         <main>
           <p>Upload a new picture for {student.short_first_name}. Images must be PNG or JPG filetypes and under 500KB.</p>
           {newPicture && (
-            <div className='picture' style={{ 'backgroundImage': `url('${helpers.rootUrl}images/students/${newPicture}')` }}></div>
+            <div className='picture' style={{ 'backgroundImage': `url('${helpers.rootUrl}storage/student_pictures/${student.picture}')` }}></div>
           )}
           <input type='file' id='picture-file' name='picture-fire' accept='image/png, image/jpeg' onChange={this.onFileSelect} />
         </main>

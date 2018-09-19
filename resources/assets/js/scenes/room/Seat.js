@@ -93,10 +93,11 @@ export default class Seat extends Component {
           'font-larger': currentOffering.fontSize === 'larger',
           'font-largest': currentOffering.fontSize === 'x-large',
         })
+
         theSeat = (
           <div className={occupiedSeatClasses} data-studentid={occupantId}>
             <div className='picture' style={{
-              'backgroundImage':`url('${helpers.rootUrl}images/students/${occupant.picture}')`,
+              'backgroundImage': `url('${helpers.rootUrl}storage/student_pictures/${occupant.picture}')`,
               'height': `${this.adjustedSeatSize()}px`,
               'width': `${this.adjustedSeatSize()}px`,
             }}>

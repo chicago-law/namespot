@@ -13,21 +13,14 @@ export default class OfferingDetails extends Component {
 
   render() {
     const { currentOffering, currentRoom, currentSeats, currentStudents } = this.props
-
     const students = currentStudents.map(student => {
-      const pictureUrl =
-        student.picture
-        && student.picture !== null
-        && student.picture.length
-          ? `url('http://192.170.208.196/storage/student_pictures/${student.picture}')`
-          : `url('${helpers.rootUrl}images/students/no-face.png')`
 
       return (
         <li key={student.id}>
           <div
             studentid={student.id}
             className='picture'
-            style={{ 'backgroundImage': pictureUrl }}
+            style={{ 'backgroundImage': `url('${helpers.rootUrl}storage/student_pictures/${student.picture}')` }}
             title={`${student.first_name} ${student.last_name}`}
             seated={student.enrollment[`offering_${currentOffering.id}`].seat !== null ? 'true' : 'false'}
             onClick={(e) => this.handleStudentClick(e)}

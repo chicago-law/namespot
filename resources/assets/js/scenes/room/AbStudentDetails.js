@@ -42,7 +42,7 @@ export default class AbStudentDetails extends Component {
 
         <div
           className='portrait'
-          style={{ 'backgroundImage': `url('${helpers.rootUrl}images/students/${student.picture}')` }}
+          style={{ 'backgroundImage': `url('${helpers.rootUrl}storage/student_pictures/${student.picture}')` }}
           onClick={this.onPortraitClick}
         >
           <div className='change-portrait' title='Change picture'>

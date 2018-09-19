@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
 use App\Student;
 use App\Offering;
 use App\Http\Resources\Student as StudentResource;
@@ -115,8 +116,8 @@ class StudentController extends Controller
 
         if ($new_picture->isValid()):
             $name = $new_picture->getBasename() . "." . $new_picture->guessExtension();
-            $path = "images/students/{$name}";
-            $result = move_uploaded_file($new_picture, $path);
+            Storage::disk('public')->put("student_pictures/{$name}", file_get_contents($new_picture));
+            $result = Storage::disk('public')->exists("student_pictures/{$name}");
         else:
             $result = false;
             $name = null;
