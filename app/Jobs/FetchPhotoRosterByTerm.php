@@ -91,12 +91,12 @@ class FetchPhotoRosterByTerm implements ShouldQueue
 
             // Get Cnet from email address
             // Also temporarily match on names
-            $cnet = substr($ais_student->EMAIL_ADDR, 0, strpos($ais_student->EMAIL_ADDR, '@'));
+            $cnet_from_ais = substr($ais_student->EMAIL_ADDR, 0, strpos($ais_student->EMAIL_ADDR, '@'));
             $middle = is_string($ais_student->MIDDLE_NAME) ? $ais_student->MIDDLE_NAME : '';
             $first_middle_last = "{$ais_student->FIRST_NAME} {$middle} {$ais_student->LAST_NAME}";
             $first_last = "{$ais_student->FIRST_NAME} {$ais_student->LAST_NAME}";
 
-            $student = Student::where('cnet_id', $cnet)
+            $student = Student::where('cnet_id', $cnet_from_ais)
               ->orWhere('full_name', $first_last)
               ->orWhere('full_name', $first_middle_last)
               ->first();
@@ -126,7 +126,9 @@ class FetchPhotoRosterByTerm implements ShouldQueue
                 // Create the file name and save it as a student attribute
                 // Temporarily including last name as well, because students from
                 // AIS test endpoints come back with cnet 'nobody' for everybody.
-                $file_name = "{$ais_student->EMPLID}.jpg";
+                $file_name = !is_null($student->cnet_id)
+                  ? "{$student->cnet_id}_{$ais_student->EMPLID}.jpg"
+                  : "{$student->last_name}_{$ais_student->EMPLID}.jpg";
                 $student->picture = $file_name;
                 $student->save();
 
