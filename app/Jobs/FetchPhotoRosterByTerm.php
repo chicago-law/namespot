@@ -126,7 +126,7 @@ class FetchPhotoRosterByTerm implements ShouldQueue
                 // Create the file name and save it as a student attribute
                 // Temporarily including last name as well, because students from
                 // AIS test endpoints come back with cnet 'nobody' for everybody.
-                $file_name = "{$cnet}_{$ais_student->LAST_NAME}.jpg";
+                $file_name = "{$ais_student->EMPLID}.jpg";
                 $student->picture = $file_name;
                 $student->save();
 
