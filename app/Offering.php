@@ -45,7 +45,7 @@ class Offering extends Model
     {
         return $this->students()
             ->where(function($q) {
-                $q->where('canvas_enrollment_state', 'active')
+                $q->whereIn('canvas_enrollment_state', ['active','invited','current_and_invited','current_and_future','current_and_concluded','creation_pending','completed'])
                   ->orWhere('is_namespot_addition', 1)
                   ->orWhere('is_in_ais', 1);
             });

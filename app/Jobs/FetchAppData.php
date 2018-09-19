@@ -48,17 +48,15 @@ class FetchAppData implements ShouldQueue
 
             // Get the offerings from AIS
             FetchOfferingsByTerm::dispatch($term);
-            sleep(120);
 
             // get enrollments from Canvas for the offerings
             FetchEnrolledStudentsByTerm::dispatch($term);
 
-            // Give us a few minutes to run before Photo Roster starts
-            sleep(700);
-
-            // get student photos from AIS for the offerings
+            // // get student photos from AIS for the offerings
             FetchPhotoRosterByTerm::dispatch($term);
-            sleep(120);
+
+            // Wait a minute before calling AIS again for the next term
+            sleep(60);
 
         } // end term loop
 

@@ -15,7 +15,13 @@ export default class OfferingDetails extends Component {
     const { currentOffering, currentRoom, currentSeats, currentStudents } = this.props
 
     const students = currentStudents.map(student => {
-      const pictureUrl = student.picture && student.picture.length ? `url('${helpers.rootUrl}images/students/${student.picture}')` : `url('${helpers.rootUrl}images/students/no-face.png')`
+      const pictureUrl =
+        student.picture
+        && student.picture !== null
+        && student.picture.length
+          ? `url('http://192.170.208.196/storage/student_pictures/${student.picture}')`
+          : `url('${helpers.rootUrl}images/students/no-face.png')`
+
       return (
         <li key={student.id}>
           <div

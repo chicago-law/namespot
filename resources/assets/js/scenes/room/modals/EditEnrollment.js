@@ -81,15 +81,17 @@ export default class EditEnrollment extends Component {
         is_namespot_addition: 1
       }
     }
+
+    // The way things are now, we do need to do two separate calls for this,
+    // because just the first will not actually save is_namespot_addition in the DB.
+    // Soo that's why we're also doing the second.
     this.props.updateAndSaveStudent(studentId, 'enrollment', enrollment)
+    this.props.updateAndSaveStudent(studentId, 'is_namespot_addition', 1)
 
-    // update the offering's enrollment list
-    // UPDATE: I don't think we need to update the offering in the DB, just in state
+    // update the offering's enrollment list in the store.
     const students = [...this.props.currentOffering.students, parseInt(studentId)]
-    // this.props.requestUpdateOffering(this.props.currentOffering.id, 'students', students)
-
-    // updates store's entities
     this.props.updateOffering(this.props.currentOffering.id, 'students', students)
+
     // update the store's currentOffering
     this.props.findAndSetCurrentOffering(this.props.currentOffering.id)
   }

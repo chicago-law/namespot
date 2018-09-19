@@ -32,8 +32,12 @@ use App\Jobs\TestJob;
  */
 Route::get('/test', function(Request $request) {
     // FetchOfferingsByTerm::dispatch('2178');
-    // FetchEnrolledStudentsByTerm::dispatch('2178');
-    // FetchPhotoRosterByTerm::dispatch('2178');
+    // FetchEnrolledStudentsByTerm::dispatch('2182');
+    // FetchPhotoRosterByTerm::dispatch('2182');
+
+    // $started = date('h:i:s');
+    // FetchAppData::dispatch('2017', $started);
+
     // TestJob::dispatch();
     return response()->json('Yeah', 200);
 });

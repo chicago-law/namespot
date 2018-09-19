@@ -402,17 +402,19 @@ $ab-height-short: 7em;
     }
     p {
       position:relative;
-      font-weight:bold;
     }
   }
   .ab-student-details__remove {
     display: inline-block;
+    margin-left: 1em;
     @include ms-1;
+    font-weight: bold;
     cursor: pointer;
     .svg-inline--fa {
       position: relative;
       top: 1px;
-      margin-left: .5em;
+      @include ms1;
+      margin-right: .5em;
     }
     &:hover {
       color: $primary-accent;

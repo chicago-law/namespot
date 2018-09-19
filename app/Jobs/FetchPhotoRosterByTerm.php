@@ -7,10 +7,11 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7;
-use Illuminate\Support\Facades\Mail;
 use App\Mail\JobException;
 use App\Mail\JobResults;
 use App\Offering;
@@ -89,17 +90,16 @@ class FetchPhotoRosterByTerm implements ShouldQueue
             // which is what's used to populate our student DB.
 
             // Get Cnet from email address
-            // Also temporarily match on last name
+            // Also temporarily match on names
             $cnet = substr($ais_student->EMAIL_ADDR, 0, strpos($ais_student->EMAIL_ADDR, '@'));
-            $middle_and_last = is_string($ais_student->MIDDLE_NAME)
-              ? "{$ais_student->MIDDLE_NAME} {$ais_student->LAST_NAME}"
-              : $ais_student->LAST_NAME;
+            $middle = is_string($ais_student->MIDDLE_NAME) ? $ais_student->MIDDLE_NAME : '';
+            $first_middle_last = "{$ais_student->FIRST_NAME} {$middle} {$ais_student->LAST_NAME}";
+            $first_last = "{$ais_student->FIRST_NAME} {$ais_student->LAST_NAME}";
 
             $student = Student::where('cnet_id', $cnet)
-              ->orWhere('last_name', $ais_student->LAST_NAME)
-              ->orWhere('last_name', $middle_and_last)
+              ->orWhere('full_name', $first_last)
+              ->orWhere('full_name', $first_middle_last)
               ->first();
-
 
               // TODO: Create a new student if there isn't one w/ this cnet
 
@@ -134,7 +134,8 @@ class FetchPhotoRosterByTerm implements ShouldQueue
                 $photo_data = $ais_student->PHOTO_DATA;
                 $decoded = base64_decode($photo_data);
 
-                file_put_contents("images/students/{$file_name}", $decoded);
+                Storage::disk('public')->put("student_pictures/{$file_name}", $decoded);
+                // file_put_contents($_SERVER['DOCUMENT_ROOT'] . "/images/students/{$file_name}", $decoded);
 
               endif; // end if no picture
             } // end if student
