@@ -109,7 +109,7 @@ class FetchEnrolledStudentsByTerm implements ShouldQueue
 
             // If student has no picture property or it is null,
             // set it to the default picture.
-            !isset($student->picture) || is_null($student->picture) ? $student->picture = 'no-face.png' : false;
+            // !isset($student->picture) || is_null($student->picture) ? $student->picture = 'no-face.png' : false;
 
             // save in DB
             $student->save();

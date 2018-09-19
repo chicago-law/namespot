@@ -1,2 +1,2 @@
-# Ignore vendor JS files
 resources/assets/js/vendor/*.js
+public/js/main.js
