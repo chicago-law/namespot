@@ -19,7 +19,7 @@ use App\Instructor;
 use App\Room;
 
 
-class FetchOfferingsByTerm implements ShouldQueue
+class FetchOfferings implements ShouldQueue
 {
   use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -188,11 +188,11 @@ class FetchOfferingsByTerm implements ShouldQueue
 
     if (count($errors_array)):
       // send an email with exceptions summary
-      $message = "FetchOfferingsByTerm for {$this->term} finished with " . count($errors_array) . " errors.";
+      $message = "FetchOfferings for {$this->term} finished with " . count($errors_array) . " errors.";
       Mail::to(config('app.admin_email'))->send(new JobException($message, $errors_array));
     else:
       // send summary email
-      $results = "FetchOfferingsByTerm for {$this->term} found " . count($body->UC_CLASS_TBL) . " offerings, with no errors.";
+      $results = "FetchOfferings for {$this->term} found " . count($body->UC_CLASS_TBL) . " offerings, with no errors.";
       Mail::to(config('app.admin_email'))->send(new JobResults($results));
     endif;
 

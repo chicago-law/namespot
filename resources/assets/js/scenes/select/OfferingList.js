@@ -99,7 +99,7 @@ export default class OfferingList extends Component {
                 ? <FontAwesomeIcon icon={['fas','times-circle']} onClick={this.clearQuery} />
                 : <FontAwesomeIcon icon={['far','search']} />
               }
-              <input ref={this.searchRef} type='text' value={query} onChange={(e) => this.handleSearchInput(e)} placeholder="Type to find class..." />
+              <input ref={this.searchRef} type='text' value={query} onChange={(e) => this.handleSearchInput(e)} placeholder="Instructor, class name or number..." />
             </div>
             <div className="quarter-dropdown-container">
               <p>Quarter:</p>

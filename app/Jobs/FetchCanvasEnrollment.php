@@ -16,7 +16,7 @@ use App\Mail\JobResults;
 use App\Offering;
 use App\Student;
 
-class FetchEnrolledStudentsByTerm implements ShouldQueue
+class FetchCanvasEnrollment implements ShouldQueue
 {
   use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -67,7 +67,7 @@ class FetchEnrolledStudentsByTerm implements ShouldQueue
       $this->fetch_enrollment($offering, $first_url, $last_offering);
 
       // Give it a few seconds before moving on in the loop.
-      sleep(3);
+      sleep(2);
 
     endforeach; // end for each Offering
   }
@@ -87,40 +87,58 @@ class FetchEnrolledStudentsByTerm implements ShouldQueue
       if (is_array($body)):
         foreach($body as $canvas_student):
 
+          /**
+           * My research shows the following possible values for a Canvas role:
+           *
+           * StudentEnrollment
+           * TeacherEnrollment
+           * TaEnrollment
+           * DesignerEnrollment
+           * ObserverEnrollment
+           * Manually Added Student
+           *
+           * We'd like to only capture students or student-y roles, like Observer.
+           */
           if (
             $canvas_student->role === 'StudentEnrollment'
             || $canvas_student->role === 'ObserverEnrollment'
             || $canvas_student->role === 'Manually Added Student'
           ):
-            $student = Student::firstOrNew(['canvas_id' => $canvas_student->user->id]);
 
-            // ids
-            $student->canvas_id = $canvas_student->user->id;
-            isset($canvas_student->user->login_id) ? $student->cnet_id = $canvas_student->user->login_id : false;
+            // Find this student in the DB, or make a new one with cnet, or canvas id.
+            if (isset($canvas_student->user->login_id) && !is_null($canvas_student->user->login_id)) {
+              $student = Student::firstOrNew(['cnet_id' => $canvas_student->user->login_id]);
+            } else if (isset($canvas_student->user->id) && !is_null($canvas_student->user->id)) {
+              $student = Student::firstOrNew(['canvas_id' => $canvas_student->user->id]);
+            }
 
-            // names
-            $student->full_name = $canvas_student->user->name;
-            $student->first_name = explode(' ', $canvas_student->user->name)[0];
-            $student->last_name = substr($canvas_student->user->name, strpos($canvas_student->user->name, ' ') + 1);
-            $student->short_full_name = $canvas_student->user->short_name;
-            $student->short_first_name = explode(' ', $canvas_student->user->short_name)[0];
-            $student->short_last_name = substr($canvas_student->user->short_name, strpos($canvas_student->user->short_name, ' ') + 1);
-            $student->sortable_name = $canvas_student->user->sortable_name;
+            // Proceed only if we were able to make a student with cnet or canvas id.
+            if ($student) {
 
-            // If student has no picture property or it is null,
-            // set it to the default picture.
-            // !isset($student->picture) || is_null($student->picture) ? $student->picture = 'no-face.png' : false;
+              // IDs
+              $student->canvas_id = $canvas_student->user->id;
 
-            // save in DB
-            $student->save();
+              // Names. Some of these will get blown away by AIS, because they actually
+              // break names down into first, m, last. Full name and full short name are kept though.
+              $student->full_name = $canvas_student->user->name;
+              $student->first_name = explode(' ', $canvas_student->user->name)[0];
+              $student->last_name = substr($canvas_student->user->name, strpos($canvas_student->user->name, ' ') + 1);
+              $student->short_full_name = $canvas_student->user->short_name;
+              $student->short_first_name = explode(' ', $canvas_student->user->short_name)[0];
+              $student->short_last_name = substr($canvas_student->user->short_name, strpos($canvas_student->user->short_name, ' ') + 1);
+              $student->sortable_name = $canvas_student->user->sortable_name;
 
-            // Attach the student with enrollment relationship data
-            $offering->students()->syncWithoutDetaching([$student->id => [
-              'canvas_enrollment_state' => $canvas_student->enrollment_state,
-              'canvas_role' => $canvas_student->role,
-              'canvas_role_id' => $canvas_student->role_id
-            ]]);
+              // save in DB
+              $student->save();
 
+              // Attach the student with enrollment relationship data
+              $offering->students()->syncWithoutDetaching([$student->id => [
+                'canvas_enrollment_state' => $canvas_student->enrollment_state,
+                'canvas_role' => $canvas_student->role,
+                'canvas_role_id' => $canvas_student->role_id
+              ]]);
+
+            } // end student check
           endif; // end role type check
         endforeach; // end for each Student
       endif; // end body array check
@@ -170,11 +188,11 @@ class FetchEnrolledStudentsByTerm implements ShouldQueue
   {
     if (count($this->errors)):
       // send an email with exceptions summary
-      $message = "FetchEnrolledStudentsByTerm for {$this->term} finished with " . count($this->errors) . " error(s) out of " . count($this->offerings) . " offerings.";
+      $message = "FetchCanvasEnrollment for {$this->term} finished with " . count($this->errors) . " error(s) out of " . count($this->offerings) . " offerings.";
       Mail::to('dramus@uchicago.edu')->send(new JobException($message, $this->errors));
     else:
       // send results summary
-      $results = "FetchEnrolledStudentsByTerm for {$this->term} finished " . count($this->offerings) . " offerings without any exceptions.";
+      $results = "FetchCanvasEnrollment for {$this->term} finished " . count($this->offerings) . " offerings without any exceptions.";
       Mail::to(config('app.admin_email'))->send(new JobResults($results));
     endif;
   }

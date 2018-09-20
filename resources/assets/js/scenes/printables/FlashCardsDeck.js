@@ -195,7 +195,7 @@ export default class FlashCardsDeck extends Component {
         {showLoading && (
           <FullPageLoading>
             <p>Hang on, we're preparing your flash cards now...</p>
-            <p>If you're making them for one class, this shouldn't take more than a minute or so. If you're making them for all the students, you may want to go grab a cup of coffee ;)</p>
+            <p>Depending on the size of the class, this may take a few minutes.</p>
           </FullPageLoading>
         )}
 

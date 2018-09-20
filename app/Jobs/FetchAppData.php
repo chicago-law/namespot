@@ -10,9 +10,10 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\JobException;
 use App\Mail\JobResults;
-use App\Jobs\FetchEnrolledStudentsByTerm;
-use App\Jobs\FetchOfferingsByTerm;
-use App\Jobs\FetchPhotoRosterByTerm;
+use App\Jobs\FetchOfferings;
+use App\Jobs\FetchCanvasEnrollment;
+use App\Jobs\FetchAisEnrollment;
+use App\Jobs\FetchPhotoRoster;
 use App\Jobs\TestJob;
 
 class FetchAppData implements ShouldQueue
@@ -47,15 +48,21 @@ class FetchAppData implements ShouldQueue
         foreach ($term_codes as $term) {
 
             // Get the offerings from AIS
-            FetchOfferingsByTerm::dispatch($term);
+            FetchOfferings::dispatch($term);
 
-            // get enrollments from Canvas for the offerings
-            FetchEnrolledStudentsByTerm::dispatch($term);
+            // Get enrollments from Canvas
+            FetchCanvasEnrollment::dispatch($term);
 
-            // // get student photos from AIS for the offerings
-            FetchPhotoRosterByTerm::dispatch($term);
+            // Get enrollments from AIS
+            FetchAisEnrollment::dispatch($term);
 
-            // Wait a minute before calling AIS again for the next term
+            // Wait a minute before calling AIS again
+            sleep(60);
+
+            // Get student photos from AIS
+            FetchPhotoRoster::dispatch($term);
+
+            // Wait a minute before calling AIS again
             sleep(60);
 
         } // end term loop

@@ -10,9 +10,10 @@ use App\Offering;
 use App\Student;
 use App\Room;
 use App\Table;
-use App\Jobs\FetchOfferingsByTerm;
-use App\Jobs\FetchEnrolledStudentsByTerm;
-use App\Jobs\FetchPhotoRosterByTerm;
+use App\Jobs\FetchOfferings;
+use App\Jobs\FetchCanvasEnrollment;
+use App\Jobs\FetchAisEnrollment;
+use App\Jobs\FetchPhotoRoster;
 use App\Jobs\FetchAppData;
 use App\Jobs\TestJob;
 
@@ -31,9 +32,9 @@ use App\Jobs\TestJob;
  * TEST: RUN A TEST JOB
  */
 Route::get('/test', function(Request $request) {
-    // FetchOfferingsByTerm::dispatch('2178');
-    // FetchEnrolledStudentsByTerm::dispatch('2182');
-    // FetchPhotoRosterByTerm::dispatch('2182');
+    // FetchOfferings::dispatch('2178');
+    // FetchCanvasEnrollment::dispatch('2182');
+    // FetchPhotoRoster::dispatch('2182');
 
     // $started = date('h:i:s');
     // FetchAppData::dispatch('2017', $started);

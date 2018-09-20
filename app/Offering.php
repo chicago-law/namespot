@@ -29,6 +29,8 @@ class Offering extends Model
         return $this->belongsTo('App\Room');
     }
 
+    // Student is just give me back all the students we have ever had enrolled,
+    // regardless of their enrollment state in either Canvas or AIS.
     public function students()
     {
         return $this->belongsToMany('App\Student')->withPivot(
@@ -36,18 +38,35 @@ class Offering extends Model
             'is_namespot_addition',
             'canvas_enrollment_state',
             'canvas_role',
-            'canvas_role_id',
+            'ais_enrollment_state',
             'is_in_ais'
        );
     }
 
+    // We're defining currentStudents as students that are coming back from either
+    // AIS or Canvas as still enrolled the close. So we're pulling out canvas's inactive,
+    // and their deleted. Also pulling out AIS's withdrawn. Or you can be a manual FA addition.
     public function currentStudents()
     {
         return $this->students()
             ->where(function($q) {
-                $q->whereIn('canvas_enrollment_state', ['active','invited','current_and_invited','current_and_future','current_and_concluded','creation_pending','completed'])
-                  ->orWhere('is_namespot_addition', 1)
-                  ->orWhere('is_in_ais', 1);
+                // Good with Canvas
+                $q->whereIn('canvas_enrollment_state', [
+                    'active',
+                    'invited',
+                    'current_and_invited',
+                    'current_and_future',
+                    'current_and_concluded',
+                    'creation_pending',
+                    'completed'
+                ])
+                // Good with AIS
+                ->orWhere([
+                    'is_in_ais' => 1,
+                    'ais_enrollment_state' => 'E'
+                ])
+                // Good with the FAs
+                ->orWhere('is_namespot_addition', 1);
             });
     }
 
