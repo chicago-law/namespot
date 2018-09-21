@@ -48,9 +48,9 @@ class FetchOfferings implements ShouldQueue
 
     try {
       $client = new Client();
-      $base_url = config('api.ais_stage_url');
+      $base_url = config('api.ais_prod_url');
       $username = config('api.ais_username');
-      $password = config('api.ais_password');
+      $password = config('api.ais_prod_password');
       $endpoint = "{$base_url}/courses/{$this->term}/LAWS";
 
       // Make the call
