@@ -75,17 +75,20 @@ export default class AbStudentDetails extends Component {
 
         <div className="flex-column">
           <h6>Enrollment Sources</h6>
-          <p>Canvas Status: {enrollment.canvas_enrollment_state != null
+          <p>AIS status: {enrollment.is_in_ais === 1
+              ? enrollment.ais_enrollment_state !== null
+                ? enrollment.ais_enrollment_state === 'E'
+                  ? 'enrolled'
+                  : enrollment.ais_enrollment_state
+                : 'not found'
+              : 'not found'
+            }
+          </p>
+          <p>Canvas status: {enrollment.canvas_enrollment_state != null
               ? enrollment.canvas_enrollment_state.split('_').join(' ')
               : 'not found'
             }
             {enrollment.canvas_role === 'Manually Added Student' && ' (enrolled by instructor)'}
-          </p>
-          <p>
-          Enrolled through AIS: {enrollment.is_in_ais === 1
-              ? 'yes'
-              : 'no'
-            }
           </p>
           {enrollment.is_namespot_addition === 1 && (
             <p>
@@ -96,14 +99,6 @@ export default class AbStudentDetails extends Component {
         </div>
 
         <div style={{'marginLeft':'auto'}}>
-
-          {/* {student.enrollment[`offering_${currentOffering.id}`].is_namespot_addition === 1 && (
-            <button className='big-button pull-right' >
-              <FontAwesomeIcon icon={['far', 'sign-out']} />
-              <p>Remove Student<br/>from Class</p>
-            </button>
-          )} */}
-
           { student.enrollment[`offering_${currentOffering.id}`].seat !== null ?
             <button className='big-button pull-right' onClick={()=> this.handleUnseatClick()}>
               <FontAwesomeIcon icon={['far', 'unlink']} />

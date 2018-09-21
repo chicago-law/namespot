@@ -52,12 +52,26 @@ export default class Modals extends Component {
     })
   }
 
+  onKeyDown = (e) => {
+    if (e.which === 27) {
+      this.handleCloseClick()
+    }
+  }
+
+  componentDidMount() {
+    document.addEventListener('keydown', this.onKeyDown)
+  }
+
   componentDidUpdate(prevProps) {
     if (prevProps.modals != this.props.modals) {
       this.setState({
         modalActive: Object.keys(this.props.modals).some(name => this.props.modals[name] === true )
       })
     }
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.onKeyDown)
   }
 
   render() {

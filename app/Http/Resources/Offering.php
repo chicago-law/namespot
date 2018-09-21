@@ -17,9 +17,12 @@ class Offering extends JsonResource
      */
     public function toArray($request)
     {
-        // create an array of student ids
+        // Create an array of student ids.
+        // By using currentStudents method on Offering, we're only getting
+        // the students that are actually, actively enrolled.
+        // Dropped and withdrawn are excluded.
         $student_ids = [];
-        foreach($this->students as $student):
+        foreach($this->currentStudents as $student):
             $student_ids[] = $student->id;
         endforeach;
 

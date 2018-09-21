@@ -153,12 +153,12 @@ class Roster extends Component {
     const { showLoading, printableReady } = this.state
     const { offeringid, offerings, students, params } = this.props
     const currentOffering = offerings[offeringid]
-    const aisOnly = (params.aisonly === 'true')
+    const aisOnly = (params.aisOnly === 'true')
+
     let currentStudents = Object.keys(students)
       .filter(sId => currentOffering.students.includes(parseInt(sId)))
       .sort((a, b) => students[a].last_name.toUpperCase() < students[b].last_name.toUpperCase() ? -1 : 1)
       .map(sId => students[sId])
-
     if (aisOnly) {
       currentStudents = currentStudents.filter(student => student.enrollment[`offering_${offeringid}`].is_in_ais === 1)
     }

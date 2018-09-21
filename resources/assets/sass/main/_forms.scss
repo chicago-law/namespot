@@ -37,12 +37,9 @@ input[type='text'], input[type='number'] {
   }
 }
 
-input[type='radio'] {
-  margin:0 .5em 1em .35em;
-}
-
-input[type='checkbox'] {
-  margin-right: 0.5em;
+// radio buttons, checkbox margins
+input[type='radio'], input[type='checkbox'] {
+  margin:0 .5em .75em .35em;
 }
 
 form {

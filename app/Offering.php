@@ -29,8 +29,10 @@ class Offering extends Model
         return $this->belongsTo('App\Room');
     }
 
-    // Student is just give me back all the students we have ever had enrolled,
-    // regardless of their enrollment state in either Canvas or AIS.
+    /**
+     * This method will just give back all the students we have ever had enrolled
+     * in this course, regardless of current status.
+     */
     public function students()
     {
         return $this->belongsToMany('App\Student')->withPivot(
@@ -43,14 +45,16 @@ class Offering extends Model
        );
     }
 
-    // We're defining currentStudents as students that are coming back from either
-    // AIS or Canvas as still enrolled the close. So we're pulling out canvas's inactive,
-    // and their deleted. Also pulling out AIS's withdrawn. Or you can be a manual FA addition.
+    /**
+     * This method will give back only students that meet requirements from each
+     * of the possible sources. It does its best to only give back students that
+     * are currently and actively enrolled and have not dropped or withdrawn.
+     */
     public function currentStudents()
     {
         return $this->students()
             ->where(function($q) {
-                // Good with Canvas
+                // Enrolled through Canvas
                 $q->whereIn('canvas_enrollment_state', [
                     'active',
                     'invited',
@@ -60,12 +64,12 @@ class Offering extends Model
                     'creation_pending',
                     'completed'
                 ])
-                // Good with AIS
+                // Enrolled through AIS
                 ->orWhere([
                     'is_in_ais' => 1,
                     'ais_enrollment_state' => 'E'
                 ])
-                // Good with the FAs
+                // Manual addition through the seating chart app
                 ->orWhere('is_namespot_addition', 1);
             });
     }

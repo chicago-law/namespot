@@ -12,7 +12,7 @@ export default class PrintOffering extends Component {
     this.state = {
       chosenFormat: '',
       namesOnReverse: false,
-      aisOnly: false
+      aisOnly: true
     }
   }
 
@@ -43,7 +43,7 @@ export default class PrintOffering extends Component {
         break
       case 'roster':
         url += `roster/offering/${this.props.currentOffering.id}`
-        params.aisonly = this.state.aisOnly
+        params.aisOnly = this.state.aisOnly
         break
     }
 
@@ -60,13 +60,15 @@ export default class PrintOffering extends Component {
   printButtonClick() {
     this.props.setModal('print-room',false)
   }
-
   onNamesOnReverseChange = (e) => {
     this.setState({ namesOnReverse: e.target.checked })
   }
-
-  onAISOnlyChange = (e) => {
-    this.setState({ aisOnly: e.target.checked })
+  onEnrollSrcChange = (e) => {
+    let aisOnly = false
+    if (e.target.value === 'ais-only') {
+      aisOnly = true
+    }
+    this.setState({ aisOnly })
   }
 
   render() {
@@ -158,7 +160,7 @@ export default class PrintOffering extends Component {
                   name='names-on-reverse'
                   id='names-on-reverse'
                   checked={namesOnReverse}
-                  onChange={(e) => this.onNamesOnReverseChange(e)}
+                  onChange={this.onNamesOnReverseChange}
                 />
                 <label htmlFor='names-on-reverse'> Print names on reverse side?</label>
               </div>
@@ -173,15 +175,31 @@ export default class PrintOffering extends Component {
               unmountOnExit
             >
               <div className='option'>
-                <h5>Options</h5>
+                <h5>Include</h5>
+
+                {/* Students with "E" status in AIS */}
                 <input
-                  type='checkbox'
-                  name='ais-only'
+                  type='radio'
                   id='ais-only'
+                  name='enrollment-sources'
+                  value='ais-only'
                   checked={aisOnly}
-                  onChange={(e) => this.onAISOnlyChange(e)}
+                  onChange={this.onEnrollSrcChange}
                 />
-                <label htmlFor='ais-only'> Only include students enrolled through AIS?</label>
+                <label htmlFor='ais-only'>Only students enrolled through AIS</label>
+                <br/>
+
+                {/* AIS enrolls, plus anyone active in Canvas, plus manual seating chart additions */}
+                <input
+                  type='radio'
+                  id='all-sources'
+                  name='enrollment-sources'
+                  value='all-sources'
+                  checked={!aisOnly}
+                  onChange={this.onEnrollSrcChange}
+                />
+                <label htmlFor='all-sources'>Students enrolled from all sources</label>
+
               </div>
             </CSSTransition>
 
