@@ -54,9 +54,9 @@ class FetchPhotoRoster implements ShouldQueue
 
       try {
         $client = new Client();
-        $base_url = config('api.ais_stage_url');
+        $base_url = config('api.ais_prod_url');
         $username = config('api.ais_username');
-        $password = config('api.ais_password');
+        $password = config('api.ais_prod_password');
         $endpoint = "{$base_url}/photoroster/{$this->term}/{$offering->class_nbr}";
 
         // Make the call

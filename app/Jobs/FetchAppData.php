@@ -66,9 +66,5 @@ class FetchAppData implements ShouldQueue
             sleep(60);
 
         } // end term loop
-
-        $results = "Got through dispatching all jobs for {$this->year}, started at {$this->started}.";
-        Mail::to(config('app.admin_email'))->send(new JobResults($results));
-
     }
 }

@@ -66,8 +66,8 @@ class FetchCanvasEnrollment implements ShouldQueue
       // Fire away!
       $this->fetch_enrollment($offering, $first_url, $last_offering);
 
-      // Give it a few seconds before moving on in the loop.
-      sleep(2);
+      // Give it a second before moving on in the loop.
+      sleep(.5);
 
     endforeach; // end for each Offering
   }
@@ -156,6 +156,7 @@ class FetchCanvasEnrollment implements ShouldQueue
       foreach ($header_links as $i => $link):
         if ($link['rel'] === 'next') {
           $next_url = rtrim(ltrim($link[0], '<'), '>');
+          sleep(.25);
           $this->fetch_enrollment($offering, $next_url, $last_offering);
           break;
         } elseif ($i + 1 === count($header_links) && $last_offering) {

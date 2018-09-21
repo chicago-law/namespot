@@ -8,6 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7;
@@ -42,6 +43,8 @@ class FetchAisEnrollment implements ShouldQueue
   {
     // Record errors here
     $errors_array = [];
+    // Record responses without rows
+    $empty_responses = 0;
 
     // Grab the Offerings
     $offerings = Offering::where('term_code', $this->term)->get();
@@ -53,9 +56,9 @@ class FetchAisEnrollment implements ShouldQueue
 
       try {
         $client = new Client();
-        $base_url = config('api.ais_stage_url');
+        $base_url = config('api.ais_prod_url');
         $username = config('api.ais_username');
-        $password = config('api.ais_password');
+        $password = config('api.ais_prod_password');
         $endpoint = "{$base_url}/roster/{$offering->class_nbr}/{$this->term}";
 
         // Make the call
@@ -97,6 +100,11 @@ class FetchAisEnrollment implements ShouldQueue
               $student->middle_name = is_string($ais_student->MIDDLE_NAME) ? $ais_student->MIDDLE_NAME : null;
               $student->last_name = $ais_student->LAST_NAME;
 
+              // Academics
+              $student->academic_career = $ais_student->ACAD_CAREER;
+              $student->academic_prog = $ais_student->ACAD_PROG;
+              $student->academic_prog_descr = $ais_student->ACAD_PROG_DESCR;
+
               // Save!
               $student->save();
 
@@ -105,9 +113,6 @@ class FetchAisEnrollment implements ShouldQueue
                 'is_in_ais' => 1,
                 'ais_enrollment_state' => $ais_student->STDNT_ENRL_STATUS,
                 'ais_enrollment_reason' => $ais_student->ENRL_STATUS_REASON,
-                'academic_career' => $ais_student->ACAD_CAREER,
-                'academic_prog' => $ais_student->ACAD_PROG,
-                'academic_prog_descr' => $ais_student->ACAD_PROG_REASON
               ]]);
 
               // Save the ID of every student we find enrolled in this offering.
@@ -128,23 +133,26 @@ class FetchAisEnrollment implements ShouldQueue
             }
           }
 
-          // This offering is done, but let's pause for a second before
-          // hitting the API with next Offering.
-          sleep(1);
+        } else if ((string) $body->ROW_COUNT === '0') {
+          $empty_responses++;
         }
+
+        // This offering is done, but let's pause for a second before
+        // hitting the API with next Offering.
+        sleep(1);
 
       } catch (RequestException $e) {
         if ($e->hasResponse()) {
           $reason = $e->getResponse()->getReasonPhrase();
           $code = $e->getResponse()->getStatusCode();
-          $this->errors[$offering->title] = [
+          $errors_array[$offering->title] = [
             'reason' => $reason ? $reason : null,
             'code' => $code ? $code : null,
             'time' => date('h:i:s'),
           ];
         } else {
           $api_request = Psr7\str($e->getRequest());
-          $this->errors[$offering->title] = [
+          $errors_array[$offering->title] = [
             'request' => $api_request
           ];
         }
@@ -158,7 +166,7 @@ class FetchAisEnrollment implements ShouldQueue
       Mail::to(config('app.admin_email'))->send(new JobException($message, array_slice($errors_array, 0, 20)));
     else:
       // Send an email with job results summary
-      $results = "FetchAisEnrollment for {$this->term} completed " . count($offerings) . " offerings without exceptions.";
+      $results = "FetchAisEnrollment for {$this->term} completed without exceptions. {$empty_responses} out of " . count($offerings) . " offerings had no enrollment data.";
       Mail::to(config('app.admin_email'))->send(new JobResults($results));
     endif;
   }

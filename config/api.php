@@ -15,7 +15,8 @@ return [
     'ais_stage_url' => env('AIS_STAGE_URL'),
     'ais_prod_url' => env('AIS_PROD_URL'),
     'ais_username' => env('AIS_USERNAME'),
-    'ais_password' => env('AIS_PASSWORD'),
+    'ais_dev_password' => env('AIS_DEV_PASSWORD'),
+    'ais_prod_password' => env('AIS_PROD_PASSWORD'),
 
     /*
     |--------------------------------------------------------------------------

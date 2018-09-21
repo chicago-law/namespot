@@ -34,7 +34,8 @@ use App\Jobs\TestJob;
 Route::get('/test', function(Request $request) {
     // FetchOfferings::dispatch('2178');
     // FetchCanvasEnrollment::dispatch('2182');
-    // FetchPhotoRoster::dispatch('2182');
+    // FetchPhotoRoster::dispatch('2188');
+    // FetchAisEnrollment::dispatch('2188');
 
     // $started = date('h:i:s');
     // FetchAppData::dispatch('2017', $started);
