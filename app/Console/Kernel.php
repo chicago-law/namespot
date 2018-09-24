@@ -5,9 +5,6 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Jobs\TestJob;
-use App\Jobs\FetchOfferings;
-use App\Jobs\FetchCanvasEnrollment;
-use App\Jobs\FetchPhotoRoster;
 use App\Jobs\FetchAppData;
 use App\Setting;
 

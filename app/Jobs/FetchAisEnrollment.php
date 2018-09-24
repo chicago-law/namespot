@@ -104,6 +104,7 @@ class FetchAisEnrollment implements ShouldQueue
               $student->academic_career = $ais_student->ACAD_CAREER;
               $student->academic_prog = $ais_student->ACAD_PROG;
               $student->academic_prog_descr = $ais_student->ACAD_PROG_DESCR;
+              $student->academic_level = $ais_student->ACADEMIC_LEVEL;
 
               // Save!
               $student->save();
