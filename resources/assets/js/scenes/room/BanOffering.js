@@ -7,7 +7,7 @@ import InstructorNames from '../../global/InstructorNames'
 const BanOffering = ({ currentOffering }) => (
   <div className="banner-text class-banner">
     <h3>
-      <FontAwesomeIcon icon={['far', 'map']} />
+      <FontAwesomeIcon icon={['far', 'users']} />
     </h3>
     <div>
       <h3>{currentOffering.long_title}</h3>
