@@ -25,33 +25,26 @@ class UchicagoShibboleth
         $cnet_id = config('app.authed_user');
       } else {
         // Look for CNet in server variables
-        $uc_email = $request->server('mail');
-        $cnet_id = substr($uc_email, 0,  strpos($uc_email, '@'));
-
-        // $shibboleth_uid_keys = array_values(preg_grep('/^(.+)?chicagoID$/', array_keys($request->server())));
-        // if (count($shibboleth_uid_keys)) $chicago_id = $request->server($shibboleth_uid_keys[0]);
-
-        // // Look for chicago ID in server variables
-        // $shibboleth_uid_keys = array_values(preg_grep('/^(.+)?chicagoID$/', array_keys($request->server())));
-        // if (count($shibboleth_uid_keys)) $chicago_id = $request->server($shibboleth_uid_keys[0]);
-
+        $cnet_id = $request->server('uid');
       }
 
-      // abort if couldn't find chicago id (and not local or dev)
+      // abort if couldn't find CNet
       abort_if(!isset($cnet_id), 401);
 
-      // otherwise, assume success and look for a user in our table with the chicago id
+      // otherwise, assume success and look for a user in our table with the CNEt
       $user = User::where('cnet_id', $cnet_id)->first();
 
-      // about if the user isn't in our DB's list of approved CNets
+      // abort if the user isn't in our DB's list of approved CNets
       abort_if(is_null($user), 401);
 
-      // Fill in some details on the user
-      // $user->chicago_id = $chicago_id;
-      // $user->first_name = $request->server('givenName');
-      // $user->last_name = $request->server('sn');
-      // $user->email = $request->server('mail');
-      // $user->save();
+      // Fill in some user details from the server
+      if ($request->server('uid') !== null):
+        $user->chicago_id = $request->server('chicagoID');
+        $user->first_name = $request->server('givenName');
+        $user->last_name = $request->server('sn');
+        $user->email = $request->server('mail');
+        $user->save();
+      endif;
 
       // Now log in the user and be on your way!
       auth()->login($user);

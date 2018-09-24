@@ -198,7 +198,7 @@ export default class PrintOffering extends Component {
                   checked={!aisOnly}
                   onChange={this.onEnrollSrcChange}
                 />
-                <label htmlFor='all-sources'>Students enrolled from all sources</label>
+                <label htmlFor='all-sources'>AIS enrolled plus manually added students</label>
 
               </div>
             </CSSTransition>
