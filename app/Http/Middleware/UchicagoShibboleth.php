@@ -22,44 +22,40 @@ class UchicagoShibboleth
 
       // If on local or dev environment, get chicago id from config
       if (app()->environment() == 'local' || app()->environment() == 'dev') {
-        $chicago_id = config('app.authed_user');
+        $cnet_id = config('app.authed_user');
       } else {
-        // Look for chicago ID in server variables
-        $shibboleth_uid_keys = array_values(preg_grep('/^(.+)?chicagoID$/', array_keys($request->server())));
-        if (count($shibboleth_uid_keys)) $chicago_id = $request->server($shibboleth_uid_keys[0]);
+        // Look for CNet in server variables
+        $uc_email = $request->server('mail');
+        $cnet_id = substr($uc_email, 0,  strpos($uc_email, '@'));
+
+        // $shibboleth_uid_keys = array_values(preg_grep('/^(.+)?chicagoID$/', array_keys($request->server())));
+        // if (count($shibboleth_uid_keys)) $chicago_id = $request->server($shibboleth_uid_keys[0]);
+
+        // // Look for chicago ID in server variables
+        // $shibboleth_uid_keys = array_values(preg_grep('/^(.+)?chicagoID$/', array_keys($request->server())));
+        // if (count($shibboleth_uid_keys)) $chicago_id = $request->server($shibboleth_uid_keys[0]);
+
       }
 
       // abort if couldn't find chicago id (and not local or dev)
-      abort_if(!isset($chicago_id), 401);
+      abort_if(!isset($cnet_id), 401);
 
       // otherwise, assume success and look for a user in our table with the chicago id
-      $user = User::where('chicago_id', $chicago_id)->first();
+      $user = User::where('cnet_id', $cnet_id)->first();
 
-      // check if we have an email for this user in our user table.
-      // if not, grab it from their shib auth login
-      if (!is_null($user) && is_null($user->email)):
-        if (!is_null($request->server('mail'))):
-          $user->email = $request->server('mail');
-          $user->save();
-        endif;
-      endif;
+      // about if the user isn't in our DB's list of approved CNets
+      abort_if(is_null($user), 401);
 
-      // if they have a cnet, but we can't find them in user table,
-      // add them to the table as a faculty member
-      // if (is_null($user)) {
-      //   $user = new User;
-      //   $user->chicago_id = $chicago_id;
-      //   $user->lastname = $request->server('sn');
-      //   $user->firstname = $request->server('givenName');
-      //   $user->email = $request->server('mail');
-      //   $user->type = 'faculty';
-      //   $user->save();
-      // }
+      // Fill in some details on the user
+      // $user->chicago_id = $chicago_id;
+      // $user->first_name = $request->server('givenName');
+      // $user->last_name = $request->server('sn');
+      // $user->email = $request->server('mail');
+      // $user->save();
 
-      // log in user!
+      // Now log in the user and be on your way!
       auth()->login($user);
     }
     return $next($request);
   }
-
 }

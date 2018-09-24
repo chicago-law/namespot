@@ -189,6 +189,7 @@ class Roster extends Component {
                 <div className='roster-row__picture' style={{ 'backgroundImage': `url('${helpers.rootUrl}storage/student_pictures/${student.picture}')` }}></div>
                 <div className='roster-row__info'>
                   <span>{student.short_full_name}</span>
+                  <span className='details'>{student.academic_prog_descr} {helpers.academicLevelToString(student.academic_level)}</span>
                   <span className='details'>{student.cnet_id}@uchicago.edu</span>
                 </div>
               </li>

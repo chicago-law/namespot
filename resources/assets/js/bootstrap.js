@@ -152,6 +152,40 @@ const helpers = {
 
     // return as a sorted array
     return [ ...terms]
+  },
+
+  /**
+   * Takes the academic level, as returned from AIS, and gives back a more
+   * nicely formatted, human-readable string.
+   */
+  academicLevelToString(lvl) {
+    switch (lvl) {
+      case 'P1':
+      case 'M1':
+      case 'D01':
+        return 'Year 1'
+      case 'P2':
+      case 'M2':
+      case 'D02':
+        return 'Year 2'
+      case 'P3':
+      case 'D03':
+        return 'Year 3'
+      case 'D04':
+        return 'Year 4'
+      case 'D05':
+        return 'Year 5'
+      case 'D06':
+        return 'Year 6'
+      case 'D07':
+        return 'Year 7'
+      case 'D08':
+        return 'Year 8'
+      case 'D09':
+        return 'Year 9'
+      default:
+        return lvl
+    }
   }
 
 }

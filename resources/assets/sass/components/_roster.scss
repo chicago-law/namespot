@@ -48,7 +48,7 @@ $roster-row-width: 5in; // page width minus padding divided by number of columns
     flex: auto;
     padding:0 .5em;
     .details {
-      @include ms1;
+      @include ms0;
       overflow-wrap: break-word;
       word-break: break-all
     }
