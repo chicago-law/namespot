@@ -53,6 +53,8 @@ class Offering extends Model
     public function currentStudents()
     {
         return $this->students()
+            // Get rid of any Test Students...
+            ->where('full_name', '!=', 'Test Student')
             ->where(function($q) {
                 // Enrolled through Canvas
                 $q->whereIn('canvas_enrollment_state', [
