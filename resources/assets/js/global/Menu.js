@@ -20,7 +20,7 @@ const Menu = ({authedUser, toggleMenu}) => (
     </ul>
     <ul>
       <li><Link className="reverse-colors" to="/select/settings" onClick={toggleMenu}><FontAwesomeIcon icon={['far', 'cog']} fixedWidth />Settings</Link></li>
-      <li><Link className="reverse-colors" to="/" onClick={toggleMenu}><FontAwesomeIcon icon={['far', 'sign-out-alt']} fixedWidth />Logout</Link></li>
+      <li><a className="reverse-colors" href={`${helpers.rootUrl}logout`} onClick={toggleMenu}><FontAwesomeIcon icon={['far', 'sign-out-alt']} fixedWidth />Logout</a></li>
     </ul>
     <div className="school-logo-container">
       <img src={`${helpers.rootUrl}images/uchicago-logo.png`} />

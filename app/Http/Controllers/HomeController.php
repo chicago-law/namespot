@@ -20,4 +20,9 @@ class HomeController extends Controller
     {
         return view('print-react');
     }
+
+    public function logout()
+    {
+        return view('logout');
+    }
 }
