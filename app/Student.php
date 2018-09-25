@@ -29,6 +29,7 @@ class Student extends Model
             'canvas_enrollment_state',
             'canvas_role',
             'ais_enrollment_state',
+            'ais_enrollment_reason',
             'is_in_ais'
         );
     }

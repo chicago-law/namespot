@@ -75,14 +75,12 @@ export default class AbStudentDetails extends Component {
 
         <div className="flex-column">
           <h6>Enrollment Sources</h6>
-          <p>AIS status: {enrollment.is_in_ais === 1
-              ? enrollment.ais_enrollment_state !== null
-                ? enrollment.ais_enrollment_state === 'E'
-                  ? 'enrolled'
-                  : enrollment.ais_enrollment_state
-                : 'not found'
-              : 'not found'
-            }
+          <p>AIS status:
+            {/* This may need to look at ais_enrollment_reason, not state */}
+            {enrollment.ais_enrollment_reason === 'ENRL' && ' enrolled'}
+            {enrollment.ais_enrollment_reason === 'WDRW' && ' withdrawn'}
+            {enrollment.ais_enrollment_reason === 'EWAT' && ' waitlisted'}
+            {enrollment.ais_enrollment_reason === null  && ' not found'}
           </p>
           <p>Canvas status: {enrollment.canvas_enrollment_state != null
               ? enrollment.canvas_enrollment_state.split('_').join(' ')
