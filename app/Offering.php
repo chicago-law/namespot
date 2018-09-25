@@ -71,16 +71,13 @@ class Offering extends Model
                     'completed'
                 ])
                 // Enrolled through AIS
-                ->orWhereIn('ais_enrollment_reason', ['ENRL', 'EWAT'])
+                ->orWhere('is_in_ais', 1)
                 // Manual addition through the seating chart app
                 ->orWhere('is_namespot_addition', 1);
             })
             // Finally, do any filtering for things that automatically
             // mean we don't want you in the current students list.
-            ->where(function($q) {
-                $q->whereNotIn('ais_enrollment_reason', ['WDRW'])
-                ->orWhereNull('ais_enrollment_reason');
-            });
+            ->where('ais_enrollment_reason', '!=', 'WDRW');
     }
 
     public function namespotAddedStudents()
