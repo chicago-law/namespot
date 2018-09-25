@@ -9,6 +9,10 @@
     data-authed-user="{{auth()->user()->id}}"
   ></div>
 
-  <script src="{{asset('js/main.js')}}"></script>
+  <?php if (config('app.env') === 'local') { ?>
+    <script src="{{asset('/js/main.js')}}"></script>
+  <?php } else { ?>
+    <script src="{{mix('/js/main.js')}}"></script>
+  <?php } ?>
 
 @endsection

@@ -186,7 +186,7 @@ export default class PrintOffering extends Component {
                   checked={aisOnly}
                   onChange={this.onEnrollSrcChange}
                 />
-                <label htmlFor='ais-only'>Only students enrolled through AIS</label>
+                <label htmlFor='ais-only'>Only students actively enrolled through AIS</label>
                 <br/>
 
                 {/* AIS enrolls, plus anyone active in Canvas, plus manual seating chart additions */}

@@ -30,18 +30,19 @@ class Offering extends Model
     }
 
     /**
-     * This method will just give back all the students we have ever had enrolled
-     * in this course, regardless of current status.
+     * This method will just give back all the students associated with this
+     * course, without any constraints as to enrollment status.
      */
     public function students()
     {
         return $this->belongsToMany('App\Student')->withPivot(
             'assigned_seat',
-            'is_namespot_addition',
-            'canvas_enrollment_state',
             'canvas_role',
+            'canvas_enrollment_state',
             'ais_enrollment_state',
-            'is_in_ais'
+            'ais_enrollment_reason',
+            'is_in_ais',
+            'is_namespot_addition'
        );
     }
 
@@ -55,6 +56,7 @@ class Offering extends Model
         return $this->students()
             // Get rid of any Test Students...
             ->where('full_name', '!=', 'Test Student')
+            // Inclusive call to grab anyone's who is good through any of these sources:
             ->where(function($q) {
                 // Enrolled through Canvas
                 $q->whereIn('canvas_enrollment_state', [
@@ -67,12 +69,14 @@ class Offering extends Model
                     'completed'
                 ])
                 // Enrolled through AIS
-                ->orWhere([
-                    'is_in_ais' => 1,
-                    'ais_enrollment_state' => 'E'
-                ])
+                ->orWhere('ais_enrollment_reason', 'ENRL')
                 // Manual addition through the seating chart app
                 ->orWhere('is_namespot_addition', 1);
+            })
+            // Finally, pull out anyone who AIS says is waitlisted or withdrawn.
+            ->where(function($q) {
+                $q->whereNotIn('ais_enrollment_reason', ['EWAT','WDRW'])
+                ->orWhereNull('ais_enrollment_reason');
             });
     }
 

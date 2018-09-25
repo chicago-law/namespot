@@ -159,7 +159,7 @@ class Roster extends Component {
       .sort((a, b) => students[a].last_name.toUpperCase() < students[b].last_name.toUpperCase() ? -1 : 1)
       .map(sId => students[sId])
     if (aisOnly) {
-      currentStudents = currentStudents.filter(student => student.enrollment[`offering_${offeringid}`].is_in_ais === 1)
+      currentStudents = currentStudents.filter(student => student.enrollment[`offering_${offeringid}`].ais_enrollment_reason === 'ENRL')
     }
 
     return (
