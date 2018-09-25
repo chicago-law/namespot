@@ -30,18 +30,19 @@ class Offering extends Model
     }
 
     /**
-     * This method will just give back all the students we have ever had enrolled
-     * in this course, regardless of current status.
+     * This method will just give back all the students associated with this
+     * course, without any constraints as to enrollment status.
      */
     public function students()
     {
         return $this->belongsToMany('App\Student')->withPivot(
             'assigned_seat',
-            'is_namespot_addition',
-            'canvas_enrollment_state',
             'canvas_role',
+            'canvas_enrollment_state',
             'ais_enrollment_state',
-            'is_in_ais'
+            'ais_enrollment_reason',
+            'is_in_ais',
+            'is_namespot_addition'
        );
     }
 
@@ -57,6 +58,7 @@ class Offering extends Model
             ->where('full_name', '!=', 'Test Student')
             // Do a big, inclusive query of anyone who looks good from their
             // respective enrollment sources.
+
             ->where(function($q) {
                 // Enrolled through Canvas
                 $q->whereIn('canvas_enrollment_state', [

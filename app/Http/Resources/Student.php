@@ -23,6 +23,7 @@ class Student extends JsonResource
                 'canvas_role' => $offering->pivot->canvas_role,
                 'canvas_enrollment_state' => $offering->pivot->canvas_enrollment_state,
                 'ais_enrollment_state' => $offering->pivot->ais_enrollment_state,
+                'ais_enrollment_reason' => $offering->pivot->ais_enrollment_reason,
                 'is_in_ais' => (int) $offering->pivot->is_in_ais,
                 'is_namespot_addition' => (int) $offering->pivot->is_namespot_addition
             ];
