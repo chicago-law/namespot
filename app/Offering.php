@@ -55,6 +55,8 @@ class Offering extends Model
         return $this->students()
             // Get rid of any Test Students...
             ->where('full_name', '!=', 'Test Student')
+            // Do a big, inclusive query of anyone who looks good from their
+            // respective enrollment sources.
             ->where(function($q) {
                 // Enrolled through Canvas
                 $q->whereIn('canvas_enrollment_state', [
@@ -67,12 +69,15 @@ class Offering extends Model
                     'completed'
                 ])
                 // Enrolled through AIS
-                ->orWhere([
-                    'is_in_ais' => 1,
-                    'ais_enrollment_state' => 'E'
-                ])
+                ->orWhereIn('ais_enrollment_reason', ['ENRL', 'EWAT'])
                 // Manual addition through the seating chart app
                 ->orWhere('is_namespot_addition', 1);
+            })
+            // Finally, do any filtering for things that automatically
+            // mean we don't want you in the current students list.
+            ->where(function($q) {
+                $q->whereNotIn('ais_enrollment_reason', ['WDRW'])
+                ->orWhereNull('ais_enrollment_reason');
             });
     }
 
