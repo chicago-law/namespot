@@ -53,7 +53,7 @@ export default class AbStudentDetails extends Component {
         <div className='flex-column'>
           <div>
             <h6>Full Name</h6>
-            <p>{`${student.first_name} ${student.last_name}`}</p>
+            <p>{`${student.first_name} ${student.middle_name !== null ? student.middle_name : ''} ${student.last_name}`}</p>
           </div>
           <div>
             <h6>Short Name</h6>

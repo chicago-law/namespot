@@ -46,7 +46,7 @@ export default class ChangePicture extends Component {
         </header>
 
         <main>
-          <p>Upload a new picture for {student.short_first_name}. Images must be PNG or JPG filetypes and under 500KB.</p>
+          <p>Upload a new picture for {student.short_first_name ? student.short_first_name : student.first_name}. Images must be PNG or JPG filetypes and under 500KB.</p>
           {newPicture && (
             <div className='picture' style={{ 'backgroundImage': `url('${helpers.rootUrl}storage/student_pictures/${student.picture}')` }}></div>
           )}

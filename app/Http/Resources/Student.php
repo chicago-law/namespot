@@ -33,6 +33,7 @@ class Student extends JsonResource
             'id' => $this->id,
             'cnet_id' => $this->cnet_id,
             'first_name' => $this->first_name,
+            'middle_name' => $this->middle_name !== null ? $this->middle_name : null,
             'last_name' => $this->last_name,
             'short_first_name' => $this->short_first_name,
             'short_full_name' => $this->short_full_name,

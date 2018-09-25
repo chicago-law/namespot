@@ -55,10 +55,12 @@ class Offering extends Model
     {
         return $this->students()
             // Get rid of any Test Students...
-            ->where('full_name', '!=', 'Test Student')
+            ->where(function($q) {
+                $q->where('full_name', '!=', 'Test Student')
+                ->orWhereNull('full_name');
+            })
             // Do a big, inclusive query of anyone who looks good from their
             // respective enrollment sources.
-
             ->where(function($q) {
                 // Enrolled through Canvas
                 $q->whereIn('canvas_enrollment_state', [
