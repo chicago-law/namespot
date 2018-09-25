@@ -124,7 +124,6 @@ export default class FlashCardsDeck extends Component {
             ? `Flash Cards - ${this.props.currentOffering.long_title}-${this.props.currentOffering.section}`
             : `Flash Cards - Student Body - ${helpers.termCodeToString(this.props.termCode)}`
           pdf.save(`${title}.pdf`)
-          window.close()
 
           // Hide everything
           this.setState({
