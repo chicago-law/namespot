@@ -4,9 +4,9 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use App\Jobs\TestJob;
 use App\Jobs\FetchAppData;
-use App\Setting;
+use App\Jobs\SetAcademicYear;
+use App\Jobs\TestJob;
 
 class Kernel extends ConsoleKernel
 {
@@ -27,19 +27,18 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // Grab the current academic year from the Settings table in DB.
-        // Fall back to 2018 if there is no academic year set.
-        $academic_year_setting = Setting::where('setting_name','academic_year')->first();
-        $year = $academic_year_setting ? $academic_year_setting->setting_value : '2018';
-
         // record the start time
         $started = date('h:i:s');
 
         // At 6am, fire off the job to grab all the data for that year.
-        $schedule->job(new FetchAppData($year, $started))->dailyAt('06:00');
+        $schedule->job(new FetchAppData($started))->dailyAt('06:00');
 
         // And once again at 6pm for redundancy, just in case.
-        $schedule->job(new FetchAppData($year, $started))->dailyAt('18:00');
+        $schedule->job(new FetchAppData($started))->dailyAt('18:00');
+
+        // Once a year on August 1st at 12:00am, move the current academic year
+        // setting to whatever the current year is.
+        $schedule->job(new SetAcademicYear())->cron('0 0 1 8 *');
     }
 
     /**

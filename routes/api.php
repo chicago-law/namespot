@@ -15,6 +15,7 @@ use App\Jobs\FetchCanvasEnrollment;
 use App\Jobs\FetchAisEnrollment;
 use App\Jobs\FetchPhotoRoster;
 use App\Jobs\FetchAppData;
+use App\Jobs\SetAcademicYear;
 use App\Jobs\TestJob;
 
 /*
@@ -36,6 +37,7 @@ Route::get('/test', function(Request $request) {
     // FetchCanvasEnrollment::dispatch('2182');
     // FetchPhotoRoster::dispatch('2188');
     // FetchAisEnrollment::dispatch('2188');
+    // SetAcademicYear::dispatch();
 
     // $started = date('h:i:s');
     // FetchAppData::dispatch('2017', $started);

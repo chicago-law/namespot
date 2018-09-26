@@ -15,12 +15,12 @@ use App\Jobs\FetchCanvasEnrollment;
 use App\Jobs\FetchAisEnrollment;
 use App\Jobs\FetchPhotoRoster;
 use App\Jobs\TestJob;
+use App\Setting;
 
 class FetchAppData implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $year;
     protected $started;
 
     /**
@@ -28,9 +28,8 @@ class FetchAppData implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($year, $started)
+    public function __construct($started)
     {
-        $this->year = $year;
         $this->started = $started;
     }
 
@@ -41,9 +40,14 @@ class FetchAppData implements ShouldQueue
      */
     public function handle()
     {
+        // Grab the current academic year from the Settings table in DB.
+        // Fall back to 2018 if there is no academic year set.
+        $academic_year_setting = Setting::where('setting_name','academic_year')->first();
+        $year = $academic_year_setting ? $academic_year_setting->setting_value : '2018';
+
         // Convert the single year into an array of AIS term codes.
         // Ie, 2018 becomes 2188, 2192, 2194.
-        $term_codes = getTermCodesFromYear($this->year);
+        $term_codes = getTermCodesFromYear($year);
 
         foreach ($term_codes as $term) {
 
