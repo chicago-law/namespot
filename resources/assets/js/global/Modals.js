@@ -103,13 +103,84 @@ export default class Modals extends Component {
           <p>{modalActive}</p>
             <FontAwesomeIcon icon={['far', 'times']} onClick={this.handleCloseClick} />
             <div className="content">
-              {modals['change-room'] ? <ChangeRoom close={() => this.handleCloseClick()}/> : false}
-              {modals['assign-room'] ? <AssignRoom close={() => this.handleCloseClick()} /> : false}
-              {modals['edit-enrollment'] ? <EditEnrollment close={() => this.handleCloseClick()} /> : false}
-              {modals['print-room'] ? <PrintOffering close={() => this.handleCloseClick()} /> : false}
-              {modals['label-position'] ? <LabelPosition close={() => this.handleCloseClick()} /> : false}
-              {modals['change-picture'] ? <ChangePicture close={() => this.handleCloseClick()} /> : false}
-              {modals['confirm-room-delete'] ? <ConfirmRoomDelete close={() => this.handleCloseClick()} /> : false}
+
+              {/* Print Offering */}
+              <CSSTransition
+                in={modals['print-room'] === true}
+                mountOnEnter
+                timeout={300}
+                classNames='content'
+                unmountOnExit
+              >
+                <PrintOffering close={this.handleCloseClick} />
+              </CSSTransition>
+
+              {/* Change Room */}
+              <CSSTransition
+                in={modals['change-room'] === true}
+                mountOnEnter
+                timeout={300}
+                classNames='content'
+                unmountOnExit
+              >
+                <ChangeRoom close={this.handleCloseClick} />
+              </CSSTransition>
+
+              {/* Assign Room */}
+              <CSSTransition
+                in={modals['assign-room'] === true}
+                mountOnEnter
+                timeout={300}
+                classNames='content'
+                unmountOnExit
+              >
+                <AssignRoom close={this.handleCloseClick} />
+              </CSSTransition>
+
+              {/* Edit Enrollment */}
+              <CSSTransition
+                in={modals['edit-enrollment'] === true}
+                mountOnEnter
+                timeout={300}
+                classNames='content'
+                unmountOnExit
+              >
+                <EditEnrollment close={this.handleCloseClick} />
+              </CSSTransition>
+
+              {/* Label Position */}
+              <CSSTransition
+                in={modals['label-position'] === true}
+                mountOnEnter
+                timeout={300}
+                classNames='content'
+                unmountOnExit
+              >
+                <LabelPosition close={this.handleCloseClick} />
+              </CSSTransition>
+
+              {/* Change Picture */}
+              <CSSTransition
+                in={modals['change-picture'] === true}
+                mountOnEnter
+                timeout={300}
+                classNames='content'
+                unmountOnExit
+              >
+                <ChangePicture close={this.handleCloseClick} />
+              </CSSTransition>
+
+              {/* Confirm Room Delete */}
+              <CSSTransition
+                in={modals['confirm-room-delete'] === true}
+                mountOnEnter
+                timeout={300}
+                classNames='content'
+                unmountOnExit
+              >
+                <ConfirmRoomDelete close={this.handleCloseClick} />
+              </CSSTransition>
+
             </div>
           </div>
 
