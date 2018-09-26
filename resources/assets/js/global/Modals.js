@@ -106,7 +106,7 @@ export default class Modals extends Component {
 
               {/* Print Offering */}
               <CSSTransition
-                in={modals['print-room'] === true}
+                in={modals['print-room']}
                 mountOnEnter
                 timeout={300}
                 classNames='content'
@@ -117,7 +117,7 @@ export default class Modals extends Component {
 
               {/* Change Room */}
               <CSSTransition
-                in={modals['change-room'] === true}
+                in={modals['change-room']}
                 mountOnEnter
                 timeout={300}
                 classNames='content'
@@ -128,7 +128,7 @@ export default class Modals extends Component {
 
               {/* Assign Room */}
               <CSSTransition
-                in={modals['assign-room'] === true}
+                in={modals['assign-room']}
                 mountOnEnter
                 timeout={300}
                 classNames='content'
@@ -139,7 +139,7 @@ export default class Modals extends Component {
 
               {/* Edit Enrollment */}
               <CSSTransition
-                in={modals['edit-enrollment'] === true}
+                in={modals['edit-enrollment']}
                 mountOnEnter
                 timeout={300}
                 classNames='content'
@@ -150,7 +150,7 @@ export default class Modals extends Component {
 
               {/* Label Position */}
               <CSSTransition
-                in={modals['label-position'] === true}
+                in={modals['label-position']}
                 mountOnEnter
                 timeout={300}
                 classNames='content'
@@ -161,7 +161,7 @@ export default class Modals extends Component {
 
               {/* Change Picture */}
               <CSSTransition
-                in={modals['change-picture'] === true}
+                in={modals['change-picture']}
                 mountOnEnter
                 timeout={300}
                 classNames='content'
@@ -172,7 +172,7 @@ export default class Modals extends Component {
 
               {/* Confirm Room Delete */}
               <CSSTransition
-                in={modals['confirm-room-delete'] === true}
+                in={modals['confirm-room-delete']}
                 mountOnEnter
                 timeout={300}
                 classNames='content'

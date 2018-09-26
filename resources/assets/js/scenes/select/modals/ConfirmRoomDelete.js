@@ -21,7 +21,7 @@ class ConfirmRoomDelete extends Component {
 
         <main>
           <p>Please confirm you'd like to delete this room:</p>
-          <h4>{room.name}</h4>
+          <h4>{room && room.name}</h4>
           <div className="warning">
             <FontAwesomeIcon icon={['far', 'exclamation-triangle']} />
             <p>Any classes in this room will no longer have a room assignment. Any students seated in this room will be unseated.</p>
@@ -30,7 +30,7 @@ class ConfirmRoomDelete extends Component {
 
         <footer className='controls'>
           <button className='btn-clear' onClick={() => this.props.close()}>Keep This Room</button>
-          <button className="btn-accent" onClick={() => this.onDeleteRoom()}>Yes, Delete {room.name}</button>
+          <button className="btn-accent" onClick={() => this.onDeleteRoom()}>Yes, Delete {room && room.name}</button>
         </footer>
 
       </div>
