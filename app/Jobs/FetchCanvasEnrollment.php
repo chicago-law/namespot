@@ -97,12 +97,13 @@ class FetchCanvasEnrollment implements ShouldQueue
            * ObserverEnrollment
            * Manually Added Student
            *
-           * We'd like to only capture students or student-y roles, like Observer.
+           * We'd like to only capture student-y roles, and also leave out the Test Students.
            */
           if (
-            $canvas_student->role === 'StudentEnrollment'
+            ($canvas_student->role === 'StudentEnrollment'
             || $canvas_student->role === 'ObserverEnrollment'
-            || $canvas_student->role === 'Manually Added Student'
+            || $canvas_student->role === 'Manually Added Student')
+            && $canvas_student->user->name !== 'Test Student'
           ):
 
             // Find this student in the DB, or make a new one with cnet, or canvas id.
