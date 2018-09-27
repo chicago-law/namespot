@@ -96,27 +96,22 @@ class FetchPhotoRoster implements ShouldQueue
               // Store if the student is FERPA or not
               $student->is_ferpa = $ais_student->FERPA === 'N' ? 0 : 1;
 
-              // Save (necessary because the save() coming up only happens if we assign picture)
+              // Create the file name and save it as a student attribute
+              // Temporarily including last name as well, because students from
+              // AIS test endpoints come back with cnet 'nobody' for everybody.
+              $file_name = !is_null($student->cnet_id)
+                ? "{$student->cnet_id}_{$ais_student->EMPLID}.jpg"
+                : "{$student->last_name}_{$ais_student->EMPLID}.jpg";
+              $student->picture = $file_name;
+
+              // Save
               $student->save();
 
-              // If their picture is either null, then update it from this call
-              if (is_null($student->picture)):
+              // create and save the jpg file
+              $photo_data = $ais_student->PHOTO_DATA;
+              $decoded = base64_decode($photo_data);
+              Storage::disk('public')->put("student_pictures/{$file_name}", $decoded);
 
-                // Create the file name and save it as a student attribute
-                // Temporarily including last name as well, because students from
-                // AIS test endpoints come back with cnet 'nobody' for everybody.
-                $file_name = !is_null($student->cnet_id)
-                  ? "{$student->cnet_id}_{$ais_student->EMPLID}.jpg"
-                  : "{$student->last_name}_{$ais_student->EMPLID}.jpg";
-                $student->picture = $file_name;
-                $student->save();
-
-                // create and save the jpg file
-                $photo_data = $ais_student->PHOTO_DATA;
-                $decoded = base64_decode($photo_data);
-                Storage::disk('public')->put("student_pictures/{$file_name}", $decoded);
-
-              endif; // end if null picture
             } // end if student
           endforeach; // end the student loop
 
