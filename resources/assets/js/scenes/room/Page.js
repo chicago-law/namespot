@@ -33,25 +33,24 @@ export default class Page extends Component {
   }
 
   checkForBadSeats() {
-    if (
-      this.props.view !== 'seating-chart'
-      && this.props.currentOffering.id !== null
-      && this.props.currentRoom !== null
-      && this.props.currentSeats.length > 0
-      && this.props.currentTables.length > 0
-      && Object.keys(this.props.loading).every(type => this.props.loading[type] === false)
-    ) {
-      // Giving things a couple seconds to settle...
-      setTimeout(() => {
+    // Giving things a couple seconds to settle...
+      if (
+        this.props.view !== 'seating-chart'
+        && this.props.currentOffering.id !== null
+        && this.props.currentRoom !== null
+        && this.props.currentSeats.length > 0
+        && this.props.currentTables.length > 0
+        && Object.keys(this.props.loading).every(type => this.props.loading[type] === false)
+      ) {
         this.props.currentStudents.forEach(student => {
           const assignedSeatId = student.enrollment[`offering_${this.props.currentOffering.id}`].seat
           if (assignedSeatId && this.props.currentSeats.every(seat => parseInt(seat.id) !== parseInt(assignedSeatId))) {
-            console.log(`assigned seat: ${assignedSeatId} doesn't actually exist`)
+            console.log(this.props)
+            console.log(`assigned seat: ${assignedSeatId} doesn't actually exist!`)
             this.props.assignSeat(this.props.currentOffering.id, student.id, null)
           }
         })
-      }, 2000)
-    }
+      }
   }
 
   componentDidMount() {
