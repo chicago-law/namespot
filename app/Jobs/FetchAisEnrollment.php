@@ -105,6 +105,7 @@ class FetchAisEnrollment implements ShouldQueue
               $student->academic_prog = $ais_student->ACAD_PROG;
               $student->academic_prog_descr = $ais_student->ACAD_PROG_DESCR;
               $student->academic_level = $ais_student->ACADEMIC_LEVEL;
+              $student->exp_grad_term = is_string($ais_student->EXP_GRAD_TERM) ? $ais_student->EXP_GRAD_TERM : null;
 
               // Save!
               $student->save();
@@ -163,11 +164,11 @@ class FetchAisEnrollment implements ShouldQueue
 
     if (count($errors_array)):
       // send an email with exceptions summary
-      $message = "FetchAisEnrollment for {$this->term} finished with " . count($errors_array) . " errors, out of " . count($offerings) . " offerings.";
+      $message = config('app.env') . ": FetchAisEnrollment for {$this->term} finished with " . count($errors_array) . " errors, out of " . count($offerings) . " offerings.";
       Mail::to(config('app.admin_email'))->send(new JobException($message, array_slice($errors_array, 0, 20)));
     else:
       // Send an email with job results summary
-      $results = "FetchAisEnrollment for {$this->term} completed without exceptions. {$empty_responses} out of " . count($offerings) . " offerings had no enrollment data.";
+      $results = config('app.env') . ": FetchAisEnrollment for {$this->term} completed without exceptions. {$empty_responses} out of " . count($offerings) . " offerings had no enrollment data.";
       Mail::to(config('app.admin_email'))->send(new JobResults($results));
     endif;
   }

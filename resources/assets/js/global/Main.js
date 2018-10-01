@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Switch, Route } from 'react-router-dom'
 import Select from '../scenes/select/Select'
 import Workspace from '../scenes/room/containers/Workspace'
+import Students from '../scenes/studentbody/Students'
 import NotFound404 from './NotFound404'
 
 export default class Main extends Component {
@@ -26,6 +27,7 @@ export default class Main extends Component {
           <Route path='/offering/:offeringID' component={Workspace} />
           <Route path='/room/:roomID/:offeringID' component={Workspace} />
           <Route path='/room/:roomID' component={Workspace} />
+          <Route path='/students/' component={Students} />
           <Route component={NotFound404} />
         </Switch>
       </div>

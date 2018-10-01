@@ -49,6 +49,9 @@ class FetchAppData implements ShouldQueue
         // Ie, 2018 becomes 2188, 2192, 2194.
         $term_codes = getTermCodesFromYear($year);
 
+        // $term_codes = ['2178','2182','2184','2188','2192','2194'];
+        // $term_codes = ['2188','2192','2194'];
+
         foreach ($term_codes as $term) {
 
             // Get the offerings from AIS

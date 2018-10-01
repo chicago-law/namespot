@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { CSSTransition } from 'react-transition-group'
 import helpers from '../../../bootstrap'
-
+import queryString from 'query-string'
 
 export default class PrintOffering extends Component {
   constructor(props) {
@@ -23,38 +23,36 @@ export default class PrintOffering extends Component {
   }
 
   generateUrl = () => {
-    let url = `${helpers.rootUrl}print/`
-    const params = {}
     // Generate the base URL according to chosen format
-    switch (this.state.chosenFormat) {
+    const { chosenFormat, aisOnly, namesOnReverse } = this.state
+    const { currentRoom, currentOffering } = this.props
+    const params = {}
+    let url = `${helpers.rootUrl}print/`
+
+    switch (chosenFormat) {
       case 'seating-chart':
-        url += `seating-chart/room/${this.props.currentRoom.id}/offering/${this.props.currentOffering.id}`
+        url += `seating-chart/room/${currentRoom.id}/offering/${currentOffering.id}`
         break
       case 'blank-seating-chart':
-        url += `seating-chart/room/${this.props.currentRoom.id}/offering/${this.props.currentOffering.id}`
+        url += `seating-chart/room/${currentRoom.id}/offering/${currentOffering.id}?`
         params.withstudents = false
         break
       case 'flash-cards':
-        url += `flash-cards/offering/${this.props.currentOffering.id}`
-        params.namesonreverse = this.state.namesOnReverse
+        url += `flash-cards/offering/${currentOffering.id}?`
+        params.namesonreverse = namesOnReverse
         break
       case 'name-tents':
-        url += `name-tents/offering/${this.props.currentOffering.id}`
+        url += `name-tents/offering/${currentOffering.id}`
         break
       case 'roster':
-        url += `roster/offering/${this.props.currentOffering.id}`
-        params.aisOnly = this.state.aisOnly
+        url += 'roster?'
+        params.aisOnly = aisOnly
+        params.rosterSource = 'offering'
+        params.offeringId = currentOffering.id
         break
     }
 
-    // Add the params to the URL
-    if (Object.keys(params).length > 0) {
-      url += '?'
-      for (let param in params) {
-        url += `${param}=${params[param]}&`
-      }
-    }
-    return url
+    return `${url}${queryString.stringify(params)}`
   }
 
   printButtonClick() {

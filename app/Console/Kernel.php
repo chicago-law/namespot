@@ -30,11 +30,18 @@ class Kernel extends ConsoleKernel
         // record the start time
         $started = date('h:i:s');
 
-        // At 6am, fire off the job to grab all the data for that year.
-        $schedule->job(new FetchAppData($started))->dailyAt('06:00');
+        if (config('app.env') === 'prod') {
+            // At 6am, fire off the job to grab all the data for that year.
+            $schedule->job(new FetchAppData($started))->dailyAt('06:00');
 
-        // And once again at 6pm for redundancy, just in case.
-        $schedule->job(new FetchAppData($started))->dailyAt('18:00');
+            // And once again at 6pm for redundancy, just in case.
+            $schedule->job(new FetchAppData($started))->dailyAt('18:00');
+        }
+
+        if (config('app.env') === 'dev') {
+            // Do it once in the middle of the night also for the dev DB.
+            $schedule->job(new FetchAppData($started))->dailyAt('01:00');
+        }
 
         // Once a year on August 1st at 12:00am, move the current academic year
         // setting to whatever the current year is.

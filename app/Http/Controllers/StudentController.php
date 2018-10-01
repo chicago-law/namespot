@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use App\Student;
 use App\Offering;
@@ -126,6 +127,43 @@ class StudentController extends Controller
         return response()->json([
             'result' => $result,
             'name' => $name
+        ]);
+    }
+
+    public function studentBody(Request $request)
+    {
+        $prog = $request->input('prog');
+        $level = $request->input('level');
+        $term = $request->input('term');
+
+        $results = [];
+        $students = Student::whereNotNull('last_name');
+
+        // If these are supplied in the request, pair down the results accordingly.
+        if (!is_null($prog)) {
+            $students->where('academic_prog', $prog);
+        }
+        if (!is_null($level)) {
+            $students->where('academic_level', $level);
+        }
+        if (!is_null($term)) {
+            $students = $students->get();
+            foreach ($students as $student) {
+                $active_enrollments = $student->activeEnrollments($term)->count();
+                if ($active_enrollments > 0) {
+                    $results[] = new StudentResource($student);
+                }
+            }
+        }
+
+        // Depending on if we needed to filter by term, assign $results to either
+        // the get() of the query, or to the existing $results array from checking
+        // activeEnrollments.
+        $results = !is_null($term) ? new Collection($results) : $students->get();
+
+        return response()->json([
+            'count' => $results->count(),
+            'results' => $results
         ]);
     }
 }

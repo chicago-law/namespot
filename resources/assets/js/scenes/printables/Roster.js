@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
-import { fetchStudents, requestOffering } from '../../actions'
+import { fetchStudents, fetchStudentBody, requestOffering } from '../../actions'
 import helpers from '../../bootstrap'
 import queryString from 'query-string'
 import FullPageLoading from '../printables/FullPageLoading'
@@ -55,9 +55,7 @@ class Roster extends Component {
     let currentColumn = 1
 
     const addToPdf = function(el) {
-      const currentOffering = this.props.offerings[this.props.offeringid]
-
-      console.log(`${i} of ${elems.length}`)
+      const currentOffering = this.props.offerings[this.props.params.offeringId]
 
       // First, we check if there is space enough for this next element
       const elCSS = window.getComputedStyle(el)
@@ -76,6 +74,9 @@ class Roster extends Component {
             pxToInches(paperHeight - remainingSpace)
           )
 
+          // Update the counter in the UI
+          document.getElementById('index').innerHTML = i
+
           // K, element added. Now we need to subtract its height from remainingSpace
           remainingSpace = remainingSpace - height
 
@@ -84,7 +85,9 @@ class Roster extends Component {
             i++
             addToPdf(elems[i])
           } else { // We're done!!
-            const title = `Roster - ${currentOffering.long_title}-${currentOffering.section}`
+            const title = currentOffering
+              ? `Roster - ${currentOffering.long_title} ${currentOffering.section}`
+              : `Roster - ${this.props.params.prog} ${this.props.params.term}`
             pdf.save(`${title}.pdf`)
 
             this.setState({
@@ -126,16 +129,23 @@ class Roster extends Component {
 
     }.bind(this) // end addToPdf
 
-    // Start us off!
+    // Start us off!!
     addToPdf(elems[0])
-
   }
 
   componentDidMount() {
-    const { dispatch, offeringid } = this.props
+    const { dispatch, params } = this.props
+    const { rosterSource, prog, level, term, offeringId } = params
 
-    dispatch(requestOffering(offeringid))
-    dispatch(fetchStudents(offeringid))
+    switch (rosterSource) {
+      case 'offering':
+        dispatch(requestOffering(offeringId))
+        dispatch(fetchStudents(offeringId))
+        break
+      case 'student-body':
+        dispatch(fetchStudentBody({ prog, level, term }))
+        break
+    }
   }
 
   componentDidUpdate() {
@@ -150,16 +160,23 @@ class Roster extends Component {
 
   render() {
     const { showLoading, printableReady } = this.state
-    const { offeringid, offerings, students, params } = this.props
-    const currentOffering = offerings[offeringid]
-    const aisOnly = (params.aisOnly === 'true')
+    const { offerings, students, params } = this.props
+    const { rosterSource, offeringId, prog, level, term, aisOnly } = params
+    let currentStudents, currentOffering
 
-    let currentStudents = Object.keys(students)
-      .filter(sId => currentOffering.students.includes(parseInt(sId)))
-      .sort((a, b) => students[a].last_name.toUpperCase() < students[b].last_name.toUpperCase() ? -1 : 1)
-      .map(sId => students[sId])
-    if (aisOnly) {
-      currentStudents = currentStudents.filter(student => student.enrollment[`offering_${offeringid}`].is_in_ais === 1)
+    if (rosterSource === 'offering') {
+      currentOffering = offerings[offeringId]
+      currentStudents = Object.keys(students)
+        .sort((a, b) => students[a].last_name.toUpperCase() < students[b].last_name.toUpperCase() ? -1 : 1)
+        .map(sId => students[sId])
+      if (aisOnly === 'true') {
+        currentStudents = currentStudents.filter(student => student.enrollment[`offering_${offeringId}`].is_in_ais === 1)
+      }
+    }
+    if (rosterSource === 'student-body') {
+      currentStudents = Object.keys(students)
+        .sort((a, b) => students[a].last_name.toUpperCase() < students[b].last_name.toUpperCase() ? -1 : 1)
+        .map(sId => students[sId])
     }
 
     return (
@@ -168,21 +185,36 @@ class Roster extends Component {
         {showLoading && (
           <FullPageLoading>
             <p>Hang on, we're preparing your roster now.</p>
-            <p>Depending on the size of the class, this may take a minute.</p>
+            <p>Depending on the number of students, this may take a minute.</p>
+            <p><span id='index'>0</span> of {currentStudents.length}</p>
           </FullPageLoading>
         )}
 
-        {!printableReady && currentOffering && (
+        {!printableReady && (
           <Fragment>
-            <header className='roster-header'>
-              <span className='class-title'>{currentOffering.long_title}</span>
-              <span>LAWS {currentOffering.catalog_nbr}-{currentOffering.section}</span>
-              <span>Term: <strong>{helpers.termCodeToString(currentOffering.term_code)}</strong></span>
-              <span>Section: <strong>{currentOffering.section}</strong></span>
-              <span>Instructors: <strong><InstructorNames offering={currentOffering} /></strong></span>
-              <span>Students Enrolled: <strong>{currentStudents.length}</strong></span>
-              <span className='printed-date'>Printed {new Date().toLocaleDateString()}</span>
-            </header>
+
+            {rosterSource === 'offering' && currentOffering && (
+              <header className='roster-header'>
+                <span className='class-title'>{currentOffering.long_title}</span>
+                <span>LAWS {currentOffering.catalog_nbr}-{currentOffering.section}</span>
+                <span>Term: <strong>{helpers.termCodeToString(currentOffering.term_code)}</strong></span>
+                <span>Section: <strong>{currentOffering.section}</strong></span>
+                <span>Instructors: <strong><InstructorNames offering={currentOffering} /></strong></span>
+                <span>Students Enrolled: <strong>{currentStudents.length}</strong></span>
+                <span className='printed-date'>Printed {new Date().toLocaleDateString()}</span>
+              </header>
+            )}
+
+            {rosterSource === 'student-body' && (
+              <header className='roster-header'>
+                <span className='class-title'>Law {helpers.formatAcademicProgram(prog)} Students</span>
+                <span>Academic Level: <strong>{level}</strong></span>
+                <span>Term: <strong>{helpers.termCodeToString(term)}</strong></span>
+                <span>Students Enrolled: <strong>{currentStudents.length}</strong></span>
+                <span className='printed-date'>Printed {new Date().toLocaleDateString()}</span>
+              </header>
+            )}
+
             {currentStudents.map(student => (
               <li key={student.id} className='roster-row'>
                 <div className='roster-row__picture' style={{ 'backgroundImage': `url('${helpers.rootUrl}storage/student_pictures/${student.picture}')` }}></div>
@@ -206,13 +238,11 @@ class Roster extends Component {
 
 function mapStateToProps(state, ownProps) {
   const { search } = ownProps.location
-  const { offeringid } = ownProps.match.params
   const { offerings, students } = state.entities
   const { loading } = state.app
 
   return {
     loading,
-    offeringid,
     students,
     offerings,
     params: queryString.parse(search)

@@ -40,7 +40,7 @@ Route::get('/test', function(Request $request) {
     // SetAcademicYear::dispatch();
 
     // $started = date('h:i:s');
-    // FetchAppData::dispatch('2017', $started);
+    // FetchAppData::dispatch($started);
 
     // TestJob::dispatch();
     return response()->json('Yeah', 200);
@@ -65,12 +65,19 @@ Route::get('create-room-for/{offering_id}','OfferingController@createRoomFor');
 
 
 /**
- * STUDENTS
+ * ENROLLMENT
  */
 // fetch all students for a given offering ID
 Route::get('/enrollment/offering/{offering_id}', 'StudentController@offering');
 // fetch all students for a given term code
 Route::get('/enrollment/term/{term_code}', 'StudentController@term');
+// Fetch the whole student body
+Route::get('/enrollment/student-body', 'StudentController@studentBody');
+
+
+/**
+ * STUDENTS
+ */
 // update a student
 Route::post('/student/update/{student_id}', 'StudentController@update');
 // remove a student from a class

@@ -54,11 +54,6 @@ class Offering extends Model
     public function currentStudents()
     {
         return $this->students()
-            // Get rid of any Test Students...
-            ->where(function($q) {
-                $q->where('full_name', '!=', 'Test Student')
-                ->orWhereNull('full_name');
-            })
             // Do a big, inclusive query of anyone who looks good from their
             // respective enrollment sources.
             ->where(function($q) {
@@ -77,9 +72,18 @@ class Offering extends Model
                 // Manual addition through the seating chart app
                 ->orWhere('is_namespot_addition', 1);
             })
-            // Finally, do any filtering for things that automatically
+            // Then do any filtering for things that automatically
             // mean we don't want you in the current students list.
-            ->where('ais_enrollment_reason', '!=', 'WDRW');
+            // No withdrawn
+            ->where(function($q) {
+                $q->where('ais_enrollment_reason', '!=', 'WDRW')
+                ->orWhereNull('ais_enrollment_reason');
+            })
+            // No Test Students
+            ->where(function($q) {
+                $q->where('full_name', '!=', 'Test Student')
+                ->orWhereNull('full_name');
+            });
     }
 
     public function namespotAddedStudents()

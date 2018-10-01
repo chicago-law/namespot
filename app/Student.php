@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
 {
+    public $timestamps = false;
     public $fillable = [
         'canvas_id',
         'cnet_id',
@@ -19,8 +20,6 @@ class Student extends Model
         'picture'
     ];
 
-    public $timestamps = false;
-
     public function offerings()
     {
         return $this->belongsToMany('App\Offering')->withPivot(
@@ -33,4 +32,12 @@ class Student extends Model
             'is_in_ais'
         );
     }
+
+    public function activeEnrollments($term)
+    {
+        return $this->offerings()
+            ->where('term_code', $term)
+            ->wherePivot('is_in_ais', 1);
+    }
 }
+

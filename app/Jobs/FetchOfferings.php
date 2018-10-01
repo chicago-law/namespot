@@ -188,11 +188,11 @@ class FetchOfferings implements ShouldQueue
 
     if (count($errors_array)):
       // send an email with exceptions summary
-      $message = "FetchOfferings for {$this->term} finished with " . count($errors_array) . " errors.";
+      $message = config('app.env') . ": FetchOfferings for {$this->term} finished with " . count($errors_array) . " errors.";
       Mail::to(config('app.admin_email'))->send(new JobException($message, $errors_array));
     else:
       // send summary email
-      $results = "FetchOfferings for {$this->term} found " . count($body->UC_CLASS_TBL) . " offerings, with no errors.";
+      $results = config('app.env') . ": FetchOfferings for {$this->term} found " . count($body->UC_CLASS_TBL) . " offerings, with no errors.";
       Mail::to(config('app.admin_email'))->send(new JobResults($results));
     endif;
 

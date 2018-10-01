@@ -19,7 +19,7 @@ const App = () => (
     <Route path='/print/flash-cards/term/:termCode/' component={FlashCardsDeck}/>
     <Route path='/print/flash-cards/offering/:offeringid' component={FlashCardsDeck}/>
     <Route path='/print/name-tents/offering/:offeringid' component={NameTents}/>
-    <Route path='/print/roster/offering/:offeringid' component={Roster}/>
+    <Route path='/print/roster/' component={Roster}/>
 
     {/* Or render the actual app */}
     <Route component={() =>

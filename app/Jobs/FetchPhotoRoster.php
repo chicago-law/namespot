@@ -142,11 +142,11 @@ class FetchPhotoRoster implements ShouldQueue
 
     if (count($errors_array)):
       // send an email with exceptions summary
-      $message = "FetchPhotoRoster for {$this->term} finished with " . count($errors_array) . " errors, out of " . count($offerings) . " offerings.";
+      $message = config('app.env') . ": FetchPhotoRoster for {$this->term} finished with " . count($errors_array) . " errors, out of " . count($offerings) . " offerings.";
       Mail::to(config('app.admin_email'))->send(new JobException($message, array_slice($errors_array, 0, 3)));
     else:
       // Send an email with job results summary
-      $results = "FetchPhotoRoster for {$this->term} completed without exceptions. {$empty_responses} out of " . count($offerings) . " offerings had no photo data.";
+      $results = config('app.env') . ": FetchPhotoRoster for {$this->term} completed without exceptions. {$empty_responses} out of " . count($offerings) . " offerings had no photo data.";
       Mail::to(config('app.admin_email'))->send(new JobResults($results));
     endif;
 

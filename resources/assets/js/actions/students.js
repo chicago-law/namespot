@@ -1,5 +1,6 @@
 import { normalize } from 'normalizr'
 import * as schema from './schema'
+import queryString from 'query-string'
 import C from '../constants'
 import helpers from '../bootstrap'
 import { setLoadingStatus, setCurrentSeatId, requestError } from './app'
@@ -67,6 +68,23 @@ export function fetchAllStudentsFromTerm(termCode) {
         dispatch(requestError('fetch-students', response.message))
         dispatch(setLoadingStatus('students',false))
       })
+  }
+}
+
+export function fetchStudentBody(params) {
+  return (dispatch) => {
+    // turn on student loading
+    dispatch(setLoadingStatus('students', true))
+
+    axios.get(`${helpers.rootUrl}api/enrollment/student-body?${queryString.stringify(params)}`)
+    .then(({ data }) => {
+      // load students into store
+      const normalizedData = normalize(data.results, schema.studentListSchema)
+      dispatch(receiveStudents(normalizedData.entities.students))
+
+      // turn off student loading
+      dispatch(setLoadingStatus('students',false))
+    })
   }
 }
 

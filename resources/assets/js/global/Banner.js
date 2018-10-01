@@ -6,7 +6,7 @@ import BanOffering from '../scenes/room/containers/BanOffering'
 
 const BanSeatingCharts = () => (
   <div className="banner-text">
-    <h3><FontAwesomeIcon icon={['far', 'users']} />Classes</h3>
+    <h3><FontAwesomeIcon icon={['far', 'map']} />Classes</h3>
   </div>
 )
 const BanStudents = () => (
@@ -35,12 +35,12 @@ const Banner = () => (
     <Switch>
       <Route exact path="/" component={BanSeatingCharts} />
       <Route path="/select/offerings" component={BanSeatingCharts} />
-      <Route path="/select/students" component={BanStudents} />
       <Route path="/select/settings" component={BanSettings} />
       <Route exact path="/select/rooms" component={BanRoomTemplates} />
       <Route exact path="/room/:id" component={BanEditRoom} />
       <Route path="/room/:id/:offeringID" component={BanOffering} />
       <Route path="/offering/:id" component={BanOffering} />
+      <Route path="/students" component={BanStudents} />
       <Route component={Ban404} />
     </Switch>
   </div>

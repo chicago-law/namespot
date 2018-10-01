@@ -193,11 +193,11 @@ class FetchCanvasEnrollment implements ShouldQueue
   {
     if (count($this->errors)):
       // send an email with exceptions summary
-      $message = "FetchCanvasEnrollment for {$this->term} finished with " . count($this->errors) . " error(s) out of " . count($this->offerings) . " offerings.";
+      $message = config('app.env') . ": FetchCanvasEnrollment for {$this->term} finished with " . count($this->errors) . " error(s) out of " . count($this->offerings) . " offerings.";
       Mail::to('dramus@uchicago.edu')->send(new JobException($message, $this->errors));
     else:
       // send results summary
-      $results = "FetchCanvasEnrollment for {$this->term} finished " . count($this->offerings) . " offerings without any exceptions.";
+      $results = config('app.env') . ": FetchCanvasEnrollment for {$this->term} finished " . count($this->offerings) . " offerings without any exceptions.";
       Mail::to(config('app.admin_email'))->send(new JobResults($results));
     endif;
   }

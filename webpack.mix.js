@@ -35,6 +35,7 @@ mix.react('resources/assets/js/main.js', 'public/js')
     //   new BundleAnalyzerPlugin(),
     // ]
   })
+  .disableSuccessNotifications()
 
 if (mix.inProduction()) {
   mix.version()

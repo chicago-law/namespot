@@ -186,7 +186,22 @@ const helpers = {
       default:
         return lvl
     }
-  }
+  },
 
+  formatAcademicProgram(prog) {
+    switch (prog) {
+      case 'LALLM':
+        return 'LL.M.'
+      case 'LAJD':
+        return 'J.D.'
+      case 'LAJSD':
+        return 'J.S.D.'
+      case 'LAMLS':
+        return 'M.L.S'
+      default:
+        return prog
+    }
+  }
 }
+
 export default helpers
