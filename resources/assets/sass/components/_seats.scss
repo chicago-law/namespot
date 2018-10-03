@@ -118,10 +118,13 @@
 
 // flip the seats back to normal if the page is flipped
 .outer-page-container.flip-perspective .seat-container .seat {
-  transform:rotateX(180deg);
+  transform:rotate(180deg);
+  &.is-current-student {
+    transform:rotate(180deg) scale(1.25);
+  }
 }
 .outer-page-container.flip-perspective .seat-container.is-active .seat {
-  transform:scale(1.25) rotateX(180deg);
+  transform:scale(1.25) rotate(180deg);
 }
 
 // set font size according to paper size
