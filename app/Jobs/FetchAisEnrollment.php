@@ -76,7 +76,7 @@ class FetchAisEnrollment implements ShouldQueue
           $ais_student_array = [];
           if (is_array($body->UC_CLASS_ROSTER_TBL)):
             $ais_student_array = $body->UC_CLASS_ROSTER_TBL;
-          elseif (is_object($body)):
+          elseif (is_object($body->UC_CLASS_ROSTER_TBL)):
             $ais_student_array[] = $body->UC_CLASS_ROSTER_TBL;
           endif;
 
