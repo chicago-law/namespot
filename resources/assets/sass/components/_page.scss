@@ -153,6 +153,17 @@
     }
   }
 
+  &.paper-letter {
+    .page-header-container {
+      .page-header h3 {
+        font-size:1em;
+      }
+    }
+    .front-label h3 {
+      font-size: 2em;
+    }
+  }
+
 } // end .outer-page-container
 
 .no-tables {
