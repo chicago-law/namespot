@@ -175,15 +175,15 @@ export default class Seat extends Component {
   }
 
   render() {
-    const { currentSeatId, id, labelPosition, left, top } = this.props
+    const { currentOffering, currentSeatId, id, labelPosition, left, top } = this.props
 
     const seatContClasses = classNames({
       'seat-container':true,
       'is-active': currentSeatId === id,
-      'label-below': labelPosition === 'below',
-      'label-above': labelPosition === 'above',
-      'label-left': labelPosition === 'left',
-      'label-right': labelPosition === 'right',
+      'label-below': (labelPosition === 'below' && currentOffering.flipped !== 1) || (labelPosition === 'above' && currentOffering.flipped === 1),
+      'label-above': (labelPosition === 'above' && currentOffering.flipped !== 1) || (labelPosition === 'below' && currentOffering.flipped === 1),
+      'label-left': (labelPosition === 'left' && currentOffering.flipped !== 1) || (labelPosition === 'right' && currentOffering.flipped === 1),
+      'label-right': (labelPosition === 'right' && currentOffering.flipped !== 1) || (labelPosition === 'left' && currentOffering.flipped === 1),
     })
 
     return (
