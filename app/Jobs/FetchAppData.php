@@ -73,5 +73,9 @@ class FetchAppData implements ShouldQueue
             sleep(60);
 
         } // end term loop
+
+      // Send an email confirming that all jobs finished without errors.
+      $results = config('app.env') . ": FetchAppData started at {$this->started} and finished at " . date('h:i:s');
+      Mail::to(config('app.admin_email'))->send(new JobResults($results));
     }
 }

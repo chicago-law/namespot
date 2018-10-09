@@ -99,12 +99,10 @@ class FetchCanvasEnrollment implements ShouldQueue
            *
            * We'd like to only capture student-y roles, and also leave out the Test Students.
            */
-          if (
-            (
-              $canvas_student->role === 'StudentEnrollment'
-              || $canvas_student->role === 'ObserverEnrollment'
-              || $canvas_student->role === 'Manually Added Student'
-            )
+          if (( $canvas_student->role === 'StudentEnrollment'
+            || $canvas_student->role === 'ObserverEnrollment'
+            || $canvas_student->role === 'Manually Added Student'
+          )
             && $canvas_student->user->name !== 'Test Student'
             && $canvas_student->user->name !== 'Test student'
           ):
@@ -191,14 +189,14 @@ class FetchCanvasEnrollment implements ShouldQueue
 
   private function done_fetching()
   {
-    if (count($this->errors)):
-      // send an email with exceptions summary
-      $message = config('app.env') . ": FetchCanvasEnrollment for {$this->term} finished with " . count($this->errors) . " error(s) out of " . count($this->offerings) . " offerings.";
-      Mail::to('dramus@uchicago.edu')->send(new JobException($message, $this->errors));
-    else:
-      // send results summary
-      $results = config('app.env') . ": FetchCanvasEnrollment for {$this->term} finished " . count($this->offerings) . " offerings without any exceptions.";
-      Mail::to(config('app.admin_email'))->send(new JobResults($results));
-    endif;
+    // if (count($this->errors)):
+    //   // send an email with exceptions summary
+    //   $message = config('app.env') . ": FetchCanvasEnrollment for {$this->term} finished with " . count($this->errors) . " error(s) out of " . count($this->offerings) . " offerings.";
+    //   Mail::to('dramus@uchicago.edu')->send(new JobException($message, $this->errors));
+    // else:
+    //   // send results summary
+    //   $results = config('app.env') . ": FetchCanvasEnrollment for {$this->term} finished " . count($this->offerings) . " offerings without any exceptions.";
+    //   Mail::to(config('app.admin_email'))->send(new JobResults($results));
+    // endif;
   }
 }

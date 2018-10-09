@@ -162,14 +162,14 @@ class FetchAisEnrollment implements ShouldQueue
 
     endforeach; // end offering loop
 
-    if (count($errors_array)):
-      // send an email with exceptions summary
-      $message = config('app.env') . ": FetchAisEnrollment for {$this->term} finished with " . count($errors_array) . " errors, out of " . count($offerings) . " offerings.";
-      Mail::to(config('app.admin_email'))->send(new JobException($message, array_slice($errors_array, 0, 20)));
-    else:
-      // Send an email with job results summary
-      $results = config('app.env') . ": FetchAisEnrollment for {$this->term} completed without exceptions. {$empty_responses} out of " . count($offerings) . " offerings had no enrollment data.";
-      Mail::to(config('app.admin_email'))->send(new JobResults($results));
-    endif;
+    // if (count($errors_array)):
+    //   // send an email with exceptions summary
+    //   $message = config('app.env') . ": FetchAisEnrollment for {$this->term} finished with " . count($errors_array) . " errors, out of " . count($offerings) . " offerings.";
+    //   Mail::to(config('app.admin_email'))->send(new JobException($message, array_slice($errors_array, 0, 20)));
+    // else:
+    //   // Send an email with job results summary
+    //   $results = config('app.env') . ": FetchAisEnrollment for {$this->term} completed without exceptions. {$empty_responses} out of " . count($offerings) . " offerings had no enrollment data.";
+    //   Mail::to(config('app.admin_email'))->send(new JobResults($results));
+    // endif;
   }
 }
