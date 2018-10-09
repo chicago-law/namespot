@@ -23,6 +23,7 @@ class CreateTablesTable extends Migration
             $table->integer('eY');
             $table->integer('qX')->nullable();
             $table->integer('qY')->nullable();
+            $table->string('label_position')->nullable();
             $table->timestamps();
         });
     }

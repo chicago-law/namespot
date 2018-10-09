@@ -20,6 +20,7 @@ class CreateStudentsTable extends Migration
             $table->string('cnet_id')->nullable();
             $table->string('full_name');
             $table->string('first_name')->nullable();
+            $table->string('middle_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('short_full_name')->nullable();
             $table->string('short_first_name')->nullable();
@@ -27,6 +28,12 @@ class CreateStudentsTable extends Migration
             $table->string('nickname')->nullable();
             $table->string('sortable_name')->nullable();
             $table->string('picture')->nullable();
+            $table->tinyInt('is_ferpa')->nullable();
+            $table->string('academic_career')->nullable();
+            $table->string('academic_prog')->nullable();
+            $table->string('academic_prog_descr')->nullable();
+            $table->string('academic_level')->nullable();
+            $table->string('exp_grad_term')->nullable();
         });
     }
 
