@@ -143,13 +143,16 @@
     .inner-page-container {
       box-shadow: 0 -5px 5px rgba(0,0,0,.1), 0 -18px 10px -12px rgba(0, 0, 0, 0.15);
     }
-    .front-label h3 {
-      transform:rotate(-180deg);
-    }
     .page-header-container {
       bottom:0.3em;
       top:auto;
       transform:rotate(-180deg) translateY(-8px);
+    }
+    .front-label {
+      bottom: 16px;
+      h3 {
+        transform:rotate(-180deg);
+      }
     }
   }
 
