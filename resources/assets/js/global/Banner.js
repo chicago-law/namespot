@@ -24,6 +24,11 @@ const BanSettings = () => (
     <h3><FontAwesomeIcon icon={['far', 'cog']} />Settings</h3>
   </div>
 )
+const BanImport = () => (
+  <div className="banner-text">
+    <h3><FontAwesomeIcon icon={['far', 'upload']} />Import Data</h3>
+  </div>
+)
 const Ban404 = () => (
   <div className="banner-text">
     <h3><FontAwesomeIcon icon={['far', 'exclamation-triangle']} />404 Error</h3>
@@ -41,6 +46,7 @@ const Banner = () => (
       <Route path="/room/:id/:offeringID" component={BanOffering} />
       <Route path="/offering/:id" component={BanOffering} />
       <Route path="/students" component={BanStudents} />
+      <Route path="/import" component={BanImport} />
       <Route component={Ban404} />
     </Switch>
   </div>

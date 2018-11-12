@@ -102,7 +102,6 @@ export function requestRoom(room_id) {
   }
 }
 
-
 // update of room attribute, and sync w/ DB
 export function requestRoomUpdate(roomID, key, value) {
   return (dispatch) => {

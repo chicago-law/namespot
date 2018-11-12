@@ -142,3 +142,9 @@ Route::post('/settings/update', 'SettingController@update');
  */
  // fetch a user by ID
  Route::get('/users/{user_id}', 'UserController@fetch');
+
+ /**
+  * DATA IMPORT
+  */
+// Import students from CSV
+Route::post('/import/students', 'ImportController@students');

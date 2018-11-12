@@ -12,158 +12,158 @@ use App\Http\Resources\Student as StudentResource;
 
 class StudentController extends Controller
 {
-    protected $fillable = ['nickname','email'];
+  protected $fillable = ['nickname','email'];
 
-    public function update($student_id, Request $request)
-    {
-        // find the student
-        $student = Student::findOrFail($student_id);
+  public function update($student_id, Request $request)
+  {
+    // find the student
+    $student = Student::findOrFail($student_id);
 
-        // loop through and make the updates
-        // handle each one as needed through the switch
-        foreach ($request->input() as $key => $value):
-            switch ($key) {
-                case 'email':
-                case 'nickname':
-                case 'picture':
-                    $student->$key = $value;
-                    break;
-                case 'assigned_seat':
-                    $student->offerings()->updateExistingPivot($request->input('offering_id'),['assigned_seat' => $request->input('assigned_seat')]);
-                    $offering = $student->offerings()->find($request->input('offering_id'));
-                    $offering->updated_at = new Carbon();
-                    $offering->save();
-                    break;
-                case 'is_namespot_addition':
-                    $student->offerings()->sync([ $request->input('offering_id') => ['is_namespot_addition' => true] ]);
-                    $offering = $student->offerings()->find($request->input('offering_id'));
-                    $offering->updated_at = new Carbon();
-                    $offering->save();
-                    break;
-            }
-        endforeach;
+    // loop through and make the updates
+    // handle each one as needed through the switch
+    foreach ($request->input() as $key => $value):
+      switch ($key) {
+        case 'email':
+        case 'nickname':
+        case 'picture':
+          $student->$key = $value;
+          break;
+        case 'assigned_seat':
+          $student->offerings()->updateExistingPivot($request->input('offering_id'),['assigned_seat' => $request->input('assigned_seat')]);
+          $offering = $student->offerings()->find($request->input('offering_id'));
+          $offering->updated_at = new Carbon();
+          $offering->save();
+          break;
+        case 'is_namespot_addition':
+          $student->offerings()->sync([ $request->input('offering_id') => ['is_namespot_addition' => true] ]);
+          $offering = $student->offerings()->find($request->input('offering_id'));
+          $offering->updated_at = new Carbon();
+          $offering->save();
+          break;
+      }
+    endforeach;
 
-        // save and return
-        $student->save();
+    // save and return
+    $student->save();
 
-        $response = new StudentResource($student);
+    $response = new StudentResource($student);
 
-        return response()->json($response,200);
-    }
+    return response()->json($response,200);
+  }
 
-    public function search(Request $request)
-    {
-        $s = $request->input('s');
+  public function search(Request $request)
+  {
+    $s = $request->input('s');
 
-        // $results = Student::search($s)->get();
-        $results = Student::where('full_name', "LIKE", "%$s%")
-            ->orWhere('short_full_name', "LIKE", "%$s%")
-            ->orWhere('nickname', "LIKE", "%$s%")
-            ->orWhere('cnet_id', "LIKE", "%$s%")
-            ->get();
+    // $results = Student::search($s)->get();
+    $results = Student::where('full_name', "LIKE", "%$s%")
+      ->orWhere('short_full_name', "LIKE", "%$s%")
+      ->orWhere('nickname', "LIKE", "%$s%")
+      ->orWhere('cnet_id', "LIKE", "%$s%")
+      ->get();
 
-        // if a limit is supplied in parameters, take that many, otherwise just
-        // take them all
-        $limit = $request->input('limit') ? $request->input('limit') : $results->count();
+    // if a limit is supplied in parameters, take that many, otherwise just
+    // take them all
+    $limit = $request->input('limit') ? $request->input('limit') : $results->count();
 
-        $response = [
-            'count' => $results->count(),
-            'students' => StudentResource::collection($results)->take($limit)
-        ];
+    $response = [
+      'count' => $results->count(),
+      'students' => StudentResource::collection($results)->take($limit)
+    ];
 
-        return response()->json($response, 200);
-    }
+    return response()->json($response, 200);
+  }
 
-    public function unenroll(Request $request)
-    {
-        $student = Student::findOrFail($request->input('student_id'));
+  public function unenroll(Request $request)
+  {
+    $student = Student::findOrFail($request->input('student_id'));
 
-        // Update timestamp of the offering in question
-        // (needs to happen before we detach!)
-        $offering = $student->offerings()->find($request->input('offering_id'));
-        $offering->updated_at = new Carbon();
-        $offering->save();
+    // Update timestamp of the offering in question
+    // (needs to happen before we detach!)
+    $offering = $student->offerings()->find($request->input('offering_id'));
+    $offering->updated_at = new Carbon();
+    $offering->save();
 
-        // Now detach
-        $student->offerings()->detach($request->input('offering_id'));
+    // Now detach
+    $student->offerings()->detach($request->input('offering_id'));
 
-        return response()->json('success',200);
-    }
+    return response()->json('success',200);
+  }
 
-    public function offering($offering_id, Request $request)
-    {
-        $students = StudentResource::collection(Offering::find($offering_id)->currentStudents()->get());
-        return response()->json($students);
-    }
+  public function offering($offering_id, Request $request)
+  {
+    $students = StudentResource::collection(Offering::find($offering_id)->currentStudents()->get());
+    return response()->json($students);
+  }
 
-    public function term($term_code, Request $request)
-    {
-        $students_array = [];
-        $offerings = Offering::where('term_code', $term_code)->get();
-        foreach ($offerings as $offering):
-            foreach ($offering->students as $student):
-                if (!array_key_exists($student->id, $students_array)):
-                    $students_array[] = new StudentResource($student);
-                endif;
-            endforeach;
-        endforeach;
-
-        return response()->json($students_array);
-    }
-
-    public function upload_picture(Request $request)
-    {
-        $new_picture = $request->newPicture;
-
-        if ($new_picture->isValid()):
-            $name = $new_picture->getBasename() . "." . $new_picture->guessExtension();
-            Storage::disk('public')->put("student_pictures/{$name}", file_get_contents($new_picture));
-            $result = Storage::disk('public')->exists("student_pictures/{$name}");
-        else:
-            $result = false;
-            $name = null;
+  public function term($term_code, Request $request)
+  {
+    $students_array = [];
+    $offerings = Offering::where('term_code', $term_code)->get();
+    foreach ($offerings as $offering):
+      foreach ($offering->students as $student):
+        if (!array_key_exists($student->id, $students_array)):
+          $students_array[] = new StudentResource($student);
         endif;
+      endforeach;
+    endforeach;
 
-        return response()->json([
-            'result' => $result,
-            'name' => $name
-        ]);
+    return response()->json($students_array);
+  }
+
+  public function upload_picture(Request $request)
+  {
+    $new_picture = $request->newPicture;
+
+    if ($new_picture->isValid()):
+      $name = $new_picture->getBasename() . "." . $new_picture->guessExtension();
+      Storage::disk('public')->put("student_pictures/{$name}", file_get_contents($new_picture));
+      $result = Storage::disk('public')->exists("student_pictures/{$name}");
+    else:
+      $result = false;
+      $name = null;
+    endif;
+
+    return response()->json([
+      'result' => $result,
+      'name' => $name
+    ]);
+  }
+
+  public function studentBody(Request $request)
+  {
+    $prog = $request->input('prog');
+    $level = $request->input('level');
+    $term = $request->input('term');
+
+    $results = [];
+    $students = Student::whereNotNull('last_name');
+
+    // If these are supplied in the request, pair down the results accordingly.
+    if (!is_null($prog)) {
+      $students->where('academic_prog', $prog);
+    }
+    if (!is_null($level)) {
+      $students->where('academic_level', $level);
+    }
+    if (!is_null($term)) {
+      $students = $students->get();
+      foreach ($students as $student) {
+        $active_enrollments = $student->activeEnrollments($term)->count();
+        if ($active_enrollments > 0) {
+          $results[] = new StudentResource($student);
+        }
+      }
     }
 
-    public function studentBody(Request $request)
-    {
-        $prog = $request->input('prog');
-        $level = $request->input('level');
-        $term = $request->input('term');
+    // Depending on if we needed to filter by term, assign $results to either
+    // the get() of the query, or to the existing $results array from checking
+    // activeEnrollments.
+    $results = !is_null($term) ? new Collection($results) : $students->get();
 
-        $results = [];
-        $students = Student::whereNotNull('last_name');
-
-        // If these are supplied in the request, pair down the results accordingly.
-        if (!is_null($prog)) {
-            $students->where('academic_prog', $prog);
-        }
-        if (!is_null($level)) {
-            $students->where('academic_level', $level);
-        }
-        if (!is_null($term)) {
-            $students = $students->get();
-            foreach ($students as $student) {
-                $active_enrollments = $student->activeEnrollments($term)->count();
-                if ($active_enrollments > 0) {
-                    $results[] = new StudentResource($student);
-                }
-            }
-        }
-
-        // Depending on if we needed to filter by term, assign $results to either
-        // the get() of the query, or to the existing $results array from checking
-        // activeEnrollments.
-        $results = !is_null($term) ? new Collection($results) : $students->get();
-
-        return response()->json([
-            'count' => $results->count(),
-            'results' => $results
-        ]);
-    }
+    return response()->json([
+      'count' => $results->count(),
+      'results' => $results
+    ]);
+  }
 }

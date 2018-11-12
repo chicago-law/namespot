@@ -51,6 +51,7 @@ class FetchAppData implements ShouldQueue
 
         // $term_codes = ['2178','2182','2184','2188','2192','2194'];
         // $term_codes = ['2188','2192','2194'];
+        // $term_codes = ['2188'];
 
         foreach ($term_codes as $term) {
 

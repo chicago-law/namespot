@@ -5,6 +5,7 @@ import Select from '../scenes/select/Select'
 import Workspace from '../scenes/room/containers/Workspace'
 import Students from '../scenes/studentbody/Students'
 import NotFound404 from './NotFound404'
+import Import from '../scenes/import/Import'
 
 export default class Main extends Component {
   handleBgClick() {
@@ -28,6 +29,7 @@ export default class Main extends Component {
           <Route path='/room/:roomID/:offeringID' component={Workspace} />
           <Route path='/room/:roomID' component={Workspace} />
           <Route path='/students/' component={Students} />
+          <Route path='/import/' component={Import} />
           <Route component={NotFound404} />
         </Switch>
       </div>
