@@ -1,21 +1,23 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import helpers from '../../bootstrap'
+import { requestError } from '../../actions'
 
 class Import extends Component {
   onFileSelect = (e) => {
-    console.log('yeah')
     this.fileUploadHandler(e.target.files[0])
   }
 
   fileUploadHandler(file) {
+    const { dispatch } = this.props
     const fd = new FormData()
-    fd.append('namespotData', file, file.name)
 
+    fd.append('namespotData', file, file.name)
     axios.post(`${helpers.rootUrl}api/import/students`, fd)
       .then(response => {
         console.log(response)
       })
-      .catch(response => this.props.requestError('file-upload', response.message))
+      .catch(response => dispatch(requestError('file-upload', response.message)))
   }
 
   render() {
@@ -28,4 +30,4 @@ class Import extends Component {
   }
 }
 
-export default Import
+export default connect()(Import)
