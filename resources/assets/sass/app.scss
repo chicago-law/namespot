@@ -1,9 +1,9 @@
 // Utilities
 @import 'utilities/normalize';
 @import 'utilities/variables';
+@import 'utilities/typography';
 
 // Main
-@import 'main/typography';
 @import 'main/buttons';
 @import 'main/forms';
 @import 'main/main';
@@ -20,6 +20,8 @@
 @import 'components/editable-text';
 @import 'components/errors';
 @import 'components/header';
+@import 'components/import-export';
+@import 'components/import-section';
 @import 'components/loading';
 @import 'components/logout';
 @import 'components/modals';

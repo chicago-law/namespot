@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Offering extends Model
 {
-    protected $fillable = ['room_id','catalog_nbr'];
+    protected $fillable = ['room_id', 'catalog_nbr', 'long_title'];
 
     // We're disabling the built in timestamp functionality. There is still the updated_at
     // column though, and we're going to use it manually. Why? Because otherwise everything
@@ -74,15 +74,15 @@ class Offering extends Model
             })
             // Then do any filtering for things that automatically
             // mean we don't want you in the current students list.
-            // No withdrawn
+            // No withdrawn:
             ->where(function($q) {
                 $q->where('ais_enrollment_reason', '!=', 'WDRW')
-                ->orWhereNull('ais_enrollment_reason');
+                  ->orWhereNull('ais_enrollment_reason');
             })
-            // No Test Students
+            // No Test Students:
             ->where(function($q) {
                 $q->where('full_name', '!=', 'Test Student')
-                ->orWhereNull('full_name');
+                  ->orWhereNull('full_name');
             });
     }
 

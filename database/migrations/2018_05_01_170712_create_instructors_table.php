@@ -16,9 +16,9 @@ class CreateInstructorsTable extends Migration
         Schema::create('instructors', function (Blueprint $table) {
             $table->increments('id');
             $table->string('chicago_id')->nullable();
-            $table->string('emplid');
-            $table->string('first_name');
-            $table->string('last_name');
+            $table->string('emplid')->nullable();
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
             $table->string('email')->nullable();
             $table->string('cnet_id')->nullable();
         });

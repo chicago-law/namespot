@@ -44,7 +44,7 @@ export default class Grid extends Component {
   drawBlip(x, y) {
     const key = x + '_' + y
     // shrink blip's radius by 60% if we're on letter paper
-    const r = this.props.currentOffering && this.props.currentOffering.paperSize === 'tabloid' ? 13 : 13 * 0.6
+    const r = this.props.currentOffering && this.props.currentOffering.paper_size === 'tabloid' ? 13 : 13 * 0.6
     const blipClasses = classNames({
       'blip': true,
       'belongs-to-any-table': this.doesBlipBelongToAnyTable(key, this.props.currentTables),

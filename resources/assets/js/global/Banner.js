@@ -26,7 +26,7 @@ const BanSettings = () => (
 )
 const BanImport = () => (
   <div className="banner-text">
-    <h3><FontAwesomeIcon icon={['far', 'upload']} />Import Data</h3>
+    <h3><FontAwesomeIcon icon={['far', 'upload']} />Import / Export Data</h3>
   </div>
 )
 const Ban404 = () => (

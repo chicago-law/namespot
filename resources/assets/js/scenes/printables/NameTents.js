@@ -88,7 +88,7 @@ export default class NameTents extends Component {
     if (currentTop < maxTop) {
       const span = name.querySelector('span')
       const currentSize = parseFloat(window.getComputedStyle(span).getPropertyValue('font-size'))
-      span.style.fontSize = currentSize - 5 + 'px'
+      span.style.font_size = currentSize - 5 + 'px'
       this.checkNameSize(tent)
     }
   }

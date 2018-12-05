@@ -30,24 +30,6 @@ export function fetchOfferings(termCode) {
       // convert case from snake_case (DB, PHP) to camelCase for JS
       if (normalizedData != null) {
         const offerings = normalizedData.entities.offerings
-        Object.keys(offerings).forEach(offeringId => {
-          offerings[offeringId] = {
-            id: offerings[offeringId].id,
-            room_id: offerings[offeringId].room_id,
-            long_title: offerings[offeringId].long_title,
-            catalog_nbr: offerings[offeringId].catalog_nbr,
-            section: offerings[offeringId].section,
-            term_code: offerings[offeringId].term_code,
-            instructors: offerings[offeringId].instructors,
-            students: offerings[offeringId].students,
-            paperSize: offerings[offeringId].paper_size,
-            fontSize: offerings[offeringId].font_size,
-            flipped: offerings[offeringId].flipped,
-            namesToShow: offerings[offeringId].names_to_show,
-            useNicknames: offerings[offeringId].use_nicknames,
-            updatedAt: offerings[offeringId].updated_at,
-          }
-        })
         dispatch(receiveOfferings(offerings))
       }
       dispatch(setLoadingStatus('offerings',false))
@@ -87,20 +69,7 @@ export function requestOffering(offering_id) {
       .then(response => {
         const offeringObj = {
           [response.data.id]: {
-            id: response.data.id,
-            room_id: response.data.room_id,
-            long_title: response.data.long_title,
-            catalog_nbr: response.data.catalog_nbr,
-            section: response.data.section,
-            term_code: response.data.term_code,
-            instructors: response.data.instructors,
-            students: response.data.students,
-            paperSize: response.data.paper_size,
-            fontSize: response.data.font_size,
-            flipped: response.data.flipped,
-            namesToShow: response.data.names_to_show,
-            useNicknames: response.data.use_nicknames,
-            updatedAt: response.data.updated_at,
+            ...response.data
           }
         }
         dispatch(receiveOfferings(offeringObj))
@@ -130,7 +99,8 @@ export function requestUpdateOffering(offering_id, attribute, value) {
 
     // send update to db
     axios.post(`${helpers.rootUrl}api/offering/update/${offering_id}`, {
-      [_snakeCase(attribute)]: value
+      // [_snakeCase(attribute)]: value
+      attribute: value
     })
     .catch(response => dispatch(requestError('update-offering',response.message)))
   }

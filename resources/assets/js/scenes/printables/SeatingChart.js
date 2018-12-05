@@ -38,7 +38,7 @@ export default class SeatingChart extends Component {
       // these are the dimensions for the PDF that will be generated, in inches.
       // They should be doubled from normal, because we're cranking out higher res
       let dimensions
-      switch (this.props.currentOffering.paperSize) {
+      switch (this.props.currentOffering.paper_size) {
         case 'tabloid':
           dimensions = [22.5, 35.5]
           break

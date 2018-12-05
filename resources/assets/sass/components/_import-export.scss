@@ -1,0 +1,15 @@
+.import-export {
+  margin-top: 5em;
+  padding: 2em;
+  .anchor-links {
+    display: inline-block;
+    li {
+      display: inline-block;
+      list-style-type: none;
+      margin-right: 2em;
+      a {
+        display: inline-block;
+      }
+    }
+  }
+}

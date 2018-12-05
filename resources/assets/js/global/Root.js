@@ -11,16 +11,21 @@ import {
   faTimesCircle
 } from '@fortawesome/free-solid-svg-icons'
 import {
+  faArrowAltCircleDown,
   faCalendarAlt,
   faFile,
   faMap,
   faTrashAlt
 } from '@fortawesome/free-regular-svg-icons'
 import {
+  faTable,
+} from '@fortawesome/pro-light-svg-icons'
+import {
   faArrowLeft,
   faBars,
+  faBookOpen,
+  faCheck,
   faChevronRight,
-  faUpload,
   faCog,
   faExclamationTriangle,
   faExchangeAlt,
@@ -39,6 +44,7 @@ import {
   faSignOutAlt,
   faTimes,
   faUnlink,
+  faUpload,
   faUserEdit,
   faUserPlus,
   faUsers,
@@ -50,11 +56,14 @@ import {
 } from '@fortawesome/pro-solid-svg-icons'
 
 library.add(
+  faArrowAltCircleDown,
   faArrowAltToBottom,
   faArrowLeft,
   faBars,
+  faBookOpen,
   faCalendarAlt,
   faCamera,
+  faCheck,
   faChevronRight,
   faUpload,
   faCog,
@@ -77,6 +86,7 @@ library.add(
   faSignOut,
   faSignOutAlt,
   faSpinnerThird,
+  faTable,
   faTimes,
   faTimesCircle,
   faTrashAlt,

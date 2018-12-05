@@ -10,7 +10,6 @@ export default class SaveChangesButton extends Component {
     showSuccess: false
   }
 
-
   onSaveClick = (e) => {
     e.preventDefault()
     this.setState({ thinking: true })

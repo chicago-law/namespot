@@ -1,6 +1,11 @@
 import { connect } from 'react-redux'
 import OfferingDetails from '../OfferingDetails'
-import { assignSeat, setTask, setCurrentStudentId } from '../../../actions'
+import {
+  assignSeat,
+  setTask,
+  setCurrentStudentId,
+  updateStudent,
+} from '../../../actions'
 
 const mapStateToProps = (state) => {
 
@@ -42,7 +47,10 @@ const mapDispatchToProps = (dispatch) => {
     },
     setCurrentStudentId: id => {
       dispatch(setCurrentStudentId(id))
-    }
+    },
+    updateStudent: (student_id, attr, value) => {
+      dispatch(updateStudent(student_id, attr, value))
+    },
   }
 }
 

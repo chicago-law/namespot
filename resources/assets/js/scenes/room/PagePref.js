@@ -5,10 +5,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 export default class PagePref extends Component {
   state = {
     flipped: this.props.currentOffering.flipped !== null ? Boolean(this.props.currentOffering.flipped) : false,
-    selectedFontSize: this.props.currentOffering.fontSize || 'default',
-    selectedNamesToShow: this.props.currentOffering.namesToShow || 'first_and_last',
-    selectedPaperSize: this.props.currentOffering.paperSize || 'tabloid',
-    useNicknames: this.props.currentOffering.useNicknames !== null ? Boolean(this.props.currentOffering.useNicknames) : true
+    selectedFontSize: this.props.currentOffering.font_size || 'default',
+    selectedNamesToShow: this.props.currentOffering.names_to_show || 'first_and_last',
+    selectedPaperSize: this.props.currentOffering.paper_size || 'tabloid',
+    useNicknames: this.props.currentOffering.use_nicknames !== null ? Boolean(this.props.currentOffering.use_nicknames) : true
   }
 
   changeFlipPerspective = (e) => {
@@ -17,19 +17,19 @@ export default class PagePref extends Component {
   }
   selectFontSize = (e) => {
     this.setState({ selectedFontSize: e.target.value })
-    this.props.requestUpdateOffering(this.props.currentOffering.id, 'fontSize', e.target.value)
+    this.props.requestUpdateOffering(this.props.currentOffering.id, 'font_size', e.target.value)
   }
   selectNamesToShow = (e) => {
     this.setState({ selectedNamesToShow: e.target.value })
-    this.props.requestUpdateOffering(this.props.currentOffering.id, 'namesToShow', e.target.value)
+    this.props.requestUpdateOffering(this.props.currentOffering.id, 'names_to_show', e.target.value)
   }
   selectPaperSize = (e) => {
     this.setState({ selectedPaperSize: e.target.value })
-    this.props.requestUpdateOffering(this.props.currentOffering.id, 'paperSize', e.target.value)
+    this.props.requestUpdateOffering(this.props.currentOffering.id, 'paper_size', e.target.value)
   }
   changeUseNicknames = (e) => {
     this.setState({ useNicknames: e.target.checked })
-    this.props.requestUpdateOffering(this.props.currentOffering.id, 'useNicknames', +e.target.checked)
+    this.props.requestUpdateOffering(this.props.currentOffering.id, 'use_nicknames', +e.target.checked)
   }
 
   componentDidUpdate(prevProps) {
@@ -38,10 +38,10 @@ export default class PagePref extends Component {
     if (prevProps.currentOffering.id === null && this.props.currentOffering.id !== null) {
       this.setState({
         flipped: this.props.currentOffering.flipped !== null ? Boolean(this.props.currentOffering.flipped) : false,
-        selectedFontSize: this.props.currentOffering.fontSize || 'default',
-        selectedNamesToShow: this.props.currentOffering.namesToShow || 'first_and_last',
-        selectedPaperSize: this.props.currentOffering.paperSize || 'tabloid',
-        useNicknames: this.props.currentOffering.useNicknames !== null ? Boolean(this.props.currentOffering.useNicknames) : true
+        selectedFontSize: this.props.currentOffering.font_size || 'default',
+        selectedNamesToShow: this.props.currentOffering.names_to_show || 'first_and_last',
+        selectedPaperSize: this.props.currentOffering.paper_size || 'tabloid',
+        useNicknames: this.props.currentOffering.use_nicknames !== null ? Boolean(this.props.currentOffering.use_nicknames) : true
       })
     }
   }

@@ -56,9 +56,7 @@ export default class OfferingList extends Component {
   render() {
     const { query, selectedTermCode } = this.state
     const { loading, offerings, recentOfferings, years } = this.props
-
     const terms = helpers.getAllTermCodes(years)
-
     const offeringListClasses = classNames({
       'offering-list':true,
       'is-loading':loading.offerings
@@ -140,8 +138,8 @@ export default class OfferingList extends Component {
                 <p>
                   Section {offering.section} &bull; LAWS {offering.catalog_nbr} {offering.instructors.length > 0 && <Fragment>&bull; <InstructorNames offering={offering} /></Fragment>} &bull; {helpers.termCodeToString(offering.term_code)}
                 </p>
-                {offering.updatedAt && (
-                  <span className='meta'>Edited {new Date(offering.updatedAt).toLocaleDateString()}</span>
+                {offering.updated_at && (
+                  <span className='meta'>Edited {new Date(offering.updated_at).toLocaleDateString()}</span>
                 )}
               </Link>
               <FontAwesomeIcon icon={['far', 'chevron-right']} />

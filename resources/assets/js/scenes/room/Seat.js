@@ -53,7 +53,7 @@ export default class Seat extends Component {
     // Then we'll shrink them a little bit to compensate if page size is set to letter.
     // If you add more pages sizes in the future, you can make more here as necessary
     const size = this.props.currentRoom.seat_size
-    switch (this.props.currentOffering.paperSize) {
+    switch (this.props.currentOffering.paper_size) {
       case 'tabloid':
         return size * 2
       case 'letter':
@@ -89,9 +89,9 @@ export default class Seat extends Component {
           'seat': true,
           'is-occupied': true,
           'is-current-student': currentStudentId == occupantId,
-          'font-smaller': currentOffering.fontSize === 'smaller',
-          'font-larger': currentOffering.fontSize === 'larger',
-          'font-largest': currentOffering.fontSize === 'x-large',
+          'font-smaller': currentOffering.font_size === 'smaller',
+          'font-larger': currentOffering.font_size === 'larger',
+          'font-largest': currentOffering.font_size === 'x-large',
         })
 
         theSeat = (
@@ -105,13 +105,13 @@ export default class Seat extends Component {
             <p className='name'>
 
               {(
-                currentOffering.namesToShow === 'first_and_last'
-                || currentOffering.namesToShow === 'first_and_last_initial'
-                || currentOffering.namesToShow === 'first_only'
-                || currentOffering.namesToShow === null
+                currentOffering.names_to_show === 'first_and_last'
+                || currentOffering.names_to_show === 'first_and_last_initial'
+                || currentOffering.names_to_show === 'first_only'
+                || currentOffering.names_to_show === null
               ) && (
                 <span className='first'>
-                  {occupant.nickname && (currentOffering.useNicknames == true || currentOffering.useNicknames === null) ?
+                  {occupant.nickname && (currentOffering.use_nicknames == true || currentOffering.use_nicknames === null) ?
                     occupant.nickname
                     : occupant.short_first_name ?
                       occupant.short_first_name
@@ -121,9 +121,9 @@ export default class Seat extends Component {
               )}
 
               {(
-                currentOffering.namesToShow === 'first_and_last'
-                || currentOffering.namesToShow === 'last_only'
-                || currentOffering.namesToShow === null
+                currentOffering.names_to_show === 'first_and_last'
+                || currentOffering.names_to_show === 'last_only'
+                || currentOffering.names_to_show === null
               ) && (
                 <span className='last'>
                   {occupant.last_name}
@@ -131,7 +131,7 @@ export default class Seat extends Component {
               )}
 
               {(
-                currentOffering.namesToShow === 'first_and_last_initial'
+                currentOffering.names_to_show === 'first_and_last_initial'
               ) && (
                 <span className='last'>
                   {`${occupant.last_name.charAt(0)}.`}

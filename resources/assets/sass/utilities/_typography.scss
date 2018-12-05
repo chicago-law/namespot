@@ -12,36 +12,35 @@ h1, h2, h3, h4, h5, h6, h6, p {
 }
 h1 {
   @include ms3;
+  font-weight: normal;
 }
 h2 {
   @include ms2;
+  font-weight: normal;
 }
 h3 {
   @include ms1;
-  // font-weight:normal;
 }
 h4 {
   @include ms0;
-  font-weight:bold;
 }
 h5 {
   @include ms0;
   color:$middle-gray;
   text-transform:uppercase;
+  letter-spacing: 0.5px;
 }
 h6 {
   @include ms-1;
   font-weight:bold;
-  color:$middle-gray;
 }
 a {
   color:$primary-accent;
   text-decoration:none;
-  // transition:color 50ms ease-out;
   &.reverse-colors {
     color:#fff;
     &:hover {
-      color:$primary-accent
+      color:$primary-accent;
     }
   }
 }
@@ -50,4 +49,11 @@ span {
 }
 small {
   @include ms-1;
+}
+code {
+  display: inline;
+  margin: 0 0.25em;
+  padding: 0.3em;
+  border-radius: 4px;
+  background: $lighter-gray;
 }

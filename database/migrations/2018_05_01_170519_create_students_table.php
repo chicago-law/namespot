@@ -15,10 +15,10 @@ class CreateStudentsTable extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('canvas_id');
+            $table->string('canvas_id')->nullable();
             $table->string('emplid')->nullable();
             $table->string('cnet_id')->nullable();
-            $table->string('full_name');
+            $table->string('full_name')->nullable();
             $table->string('first_name')->nullable();
             $table->string('middle_name')->nullable();
             $table->string('last_name')->nullable();
@@ -28,7 +28,7 @@ class CreateStudentsTable extends Migration
             $table->string('nickname')->nullable();
             $table->string('sortable_name')->nullable();
             $table->string('picture')->nullable();
-            $table->tinyInt('is_ferpa')->nullable();
+            $table->tinyInteger('is_ferpa')->nullable();
             $table->string('academic_career')->nullable();
             $table->string('academic_prog')->nullable();
             $table->string('academic_prog_descr')->nullable();

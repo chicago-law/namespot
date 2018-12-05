@@ -16,14 +16,14 @@ class CreateOfferingsTable extends Migration
         Schema::create('offerings', function (Blueprint $table) {
             // ids
             $table->increments('id');
-            $table->string('catalog_nbr');
-            $table->string('crse_id');
-            $table->string('class_nbr');
+            $table->string('catalog_nbr')->nullable();
+            $table->string('crse_id')->nullable();
+            $table->string('class_nbr')->nullable();
             $table->string('section')->nullable();
 
             // names
-            $table->string('title');
-            $table->string('long_title');
+            $table->string('title')->nullable();
+            $table->string('long_title')->nullable();
             $table->string('component')->nullable();
             $table->string('component_descr')->nullable();
 
@@ -37,7 +37,7 @@ class CreateOfferingsTable extends Migration
             $table->string('building_desc')->nullable();
 
             // when
-            $table->string('term_code');
+            $table->string('term_code')->nullable();
             $table->string('days')->nullable();
             $table->string('start_time')->nullable();
             $table->string('end_time')->nullable();

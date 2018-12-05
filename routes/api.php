@@ -143,8 +143,22 @@ Route::post('/settings/update', 'SettingController@update');
  // fetch a user by ID
  Route::get('/users/{user_id}', 'UserController@fetch');
 
- /**
-  * DATA IMPORT
-  */
+
+/**
+ * DATA IMPORT
+ */
 // Import students from CSV
-Route::post('/import/students', 'ImportController@students');
+Route::post('/import/{type}', 'ImportController@import');
+
+
+/**
+ * DATA EXPORT
+ */
+// Export students from DB
+Route::get('/export/students', 'StudentController@export');
+// Export offerings from DB
+Route::get('/export/offerings', 'OfferingController@export');
+// Export enrollments from DB
+Route::get('/export/enrollments', 'EnrollmentController@export');
+// Export instructors from DB
+Route::get('/export/instructors', 'InstructorController@export');

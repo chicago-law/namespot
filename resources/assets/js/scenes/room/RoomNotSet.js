@@ -10,7 +10,7 @@ class RoomNotSet extends Component {
   render() {
     return (
       <div className='room-not-set'>
-        <p>No room is set yet for this class. <span onClick={this.onClickToSet}>Click here to choose one</span></p>
+        <p>No room is set yet for this class. <span onClick={this.onClickToSet}>Choose one now</span></p>
       </div>
     )
   }

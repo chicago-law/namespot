@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\OfferingsExport;
 use App\Offering;
 
 class OfferingController extends Controller
@@ -125,5 +127,10 @@ class OfferingController extends Controller
       'newRoomID' => $new_room->id,
       'seatChanges' => $seat_changes
     ], 200);
+  }
+
+  public function export()
+  {
+    return Excel::download(new OfferingsExport, 'offerings.xlsx');
   }
 }

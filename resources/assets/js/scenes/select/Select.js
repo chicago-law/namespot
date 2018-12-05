@@ -3,7 +3,6 @@ import { Switch, Route } from 'react-router-dom'
 import RoomList from './containers/RoomList'
 import OfferingList from './containers/OfferingList'
 import StudentList from './containers/StudentList'
-import Settings from './containers/Settings'
 
 const Select = () => (
   <div className='select card narrow-wrap'>
@@ -12,7 +11,6 @@ const Select = () => (
       <Route path="/select/offerings" component={OfferingList} />
       <Route path="/select/rooms" component={RoomList} />
       <Route path="/select/students" component={StudentList} />
-      <Route path="/select/settings" component={Settings} />
     </Switch>
   </div>
 )

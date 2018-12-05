@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model
 {
     public $timestamps = false;
-    public $fillable = [
+    protected $fillable = [
         'canvas_id',
         'cnet_id',
         'full_name',
@@ -33,6 +33,7 @@ class Student extends Model
         );
     }
 
+    // Return the offerings that match the passed in term and are also active in AIS
     public function activeEnrollments($term)
     {
         return $this->offerings()

@@ -58,7 +58,7 @@ export default class Page extends Component {
     this.measurePageInBrowser()
 
     // set the dimensions of the grid rows and columns
-    if (this.props.currentOffering.paperSize === 'letter') {
+    if (this.props.currentOffering.paper_size === 'letter') {
       const gridColumnWidth = parseFloat(parseFloat(helpers.letterPxWidth / this.state.gridColumns).toFixed(3))
       const gridRowHeight = parseFloat(parseFloat(helpers.letterPxHeight / this.state.gridRows).toFixed(3))
       this.setState({
@@ -89,7 +89,7 @@ export default class Page extends Component {
 
     // If the paper size changed, we need to do a few things manually here:
     // Changing to letter...
-    if (prevProps.currentOffering.paperSize !== 'letter' && this.props.currentOffering.paperSize === 'letter') {
+    if (prevProps.currentOffering.paper_size !== 'letter' && this.props.currentOffering.paper_size === 'letter') {
       const gridColumnWidth = parseFloat(parseFloat(helpers.letterPxWidth / this.state.gridColumns).toFixed(3))
       const gridRowHeight = parseFloat(parseFloat(helpers.letterPxHeight / this.state.gridRows).toFixed(3))
       this.setState({
@@ -100,7 +100,7 @@ export default class Page extends Component {
       })
     }
     // Changing to tabloid...
-    if (prevProps.currentOffering.paperSize !== 'tabloid' && this.props.currentOffering.paperSize === 'tabloid') {
+    if (prevProps.currentOffering.paper_size !== 'tabloid' && this.props.currentOffering.paper_size === 'tabloid') {
       const gridColumnWidth = parseFloat(parseFloat(helpers.tabloidPxWidth / this.state.gridColumns).toFixed(3))
       const gridRowHeight = parseFloat(parseFloat(helpers.tabloidPxHeight / this.state.gridRows).toFixed(3))
       this.setState({
@@ -122,7 +122,7 @@ export default class Page extends Component {
         gridCoords={table.gridCoords}
         seatCount={parseInt(table.seat_count)}
         labelPosition={table.label_position}
-        strokeWidth={this.props.currentOffering && this.props.currentOffering.paperSize === 'letter' ? 30 * 0.6 : 30}
+        strokeWidth={this.props.currentOffering && this.props.currentOffering.paper_size === 'letter' ? 30 * 0.6 : 30}
         gridrowheight={this.state.gridRowHeight}
         gridcolumnwidth={this.state.gridColumnWidth}
       />
@@ -141,8 +141,8 @@ export default class Page extends Component {
       'choosing-a-point':this.props.pointSelection,
       'is-loading':this.props.loading.rooms || this.props.loading.tables || this.props.loading.offerings || this.props.loading.students,
       'flip-perspective': this.props.currentOffering.flipped,
-      'paper-tabloid': this.props.currentOffering.paperSize === 'tabloid' || this.props.currentOffering.paperSize === null,
-      'paper-letter': this.props.currentOffering.paperSize === 'letter',
+      'paper-tabloid': this.props.currentOffering.paper_size === 'tabloid' || this.props.currentOffering.paper_size === null,
+      'paper-letter': this.props.currentOffering.paper_size === 'letter',
     })
 
     const innerPageContainerClasses = classNames({

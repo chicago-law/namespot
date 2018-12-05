@@ -84,7 +84,7 @@ export default class AbStudentDetails extends Component {
           </p>
           {enrollment.is_namespot_addition === 1 && (
             <p>
-              Added to seating chart manually
+              Added to class manually
               <span className='ab-student-details__remove' onClick={()=> this.onRemoveFromClass()}><FontAwesomeIcon icon={['far', 'sign-out']} />Remove?</span>
             </p>
           )}

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\StudentsExport;
 use App\Student;
 use App\Offering;
 use App\Http\Resources\Student as StudentResource;
@@ -165,5 +167,10 @@ class StudentController extends Controller
       'count' => $results->count(),
       'results' => $results
     ]);
+  }
+
+  public function export()
+  {
+    return Excel::download(new StudentsExport, 'students.xlsx');
   }
 }

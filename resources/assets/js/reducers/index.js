@@ -410,6 +410,30 @@ const authedUser = (state = null, action) => {
   }
 }
 
+/**
+ * stale
+ */
+const stale = (state = [], action) => {
+  switch (action.type) {
+    case C.MARK_STALE: {
+      if (!state.includes(action.entityType)) {
+        return [...state, action.entityType]
+      }
+      return state
+    }
+    case C.MARK_NOT_STALE: {
+      const newArray = [...state]
+      const i = newArray.indexOf(action.entityType)
+      if (i > -1) {
+        newArray.splice(i, 1)
+      }
+      return newArray
+    }
+    default:
+      return state
+  }
+}
+
 const rootReducer = combineReducers({
   app: combineReducers({
     view,
@@ -439,7 +463,8 @@ const rootReducer = combineReducers({
   storage: combineReducers({
     selectedTerm
   }),
-  authedUser
+  authedUser,
+  stale,
 })
 
 export default rootReducer
