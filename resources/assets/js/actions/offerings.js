@@ -100,7 +100,7 @@ export function requestUpdateOffering(offering_id, attribute, value) {
     // send update to db
     axios.post(`${helpers.rootUrl}api/offering/update/${offering_id}`, {
       // [_snakeCase(attribute)]: value
-      attribute: value
+      [attribute]: value
     })
     .catch(response => dispatch(requestError('update-offering',response.message)))
   }

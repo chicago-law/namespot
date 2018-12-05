@@ -31,9 +31,10 @@ export default class OfferingDetails extends Component {
             onClick={(e) => this.handleStudentClick(e)}
           >
             <img
-              src={`${helpers.rootUrl}storage/student_pictures/${student.picture}')`}
+              src={`${helpers.rootUrl}storage/student_pictures/${student.picture}`}
               alt=''
               onError={() => this.onStudentPictureError(student.id)}
+              style={{ display: 'none' }}
             />
           </div>
         </li>
