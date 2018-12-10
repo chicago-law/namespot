@@ -12,6 +12,7 @@ const mapStateToProps = (state) => {
     loading:state.app.loading,
     offerings:state.entities.offerings,
     recentOfferings: recentOfferingsArray,
+    settings: state.settings,
     years: state.app.years
   }
 }

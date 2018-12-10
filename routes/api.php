@@ -134,7 +134,7 @@ Route::get('/tables/{room_id}', function($room_id) {
  // get all the settings
 Route::get('/settings', 'SettingController@get');
 // update a setting
-Route::post('/settings/update', 'SettingController@update');
+Route::put('/settings', 'SettingController@update');
 
 
 /**

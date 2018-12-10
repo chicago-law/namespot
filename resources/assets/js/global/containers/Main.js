@@ -5,8 +5,8 @@ import { setTask, fetchUser } from '../../actions'
 
 const mapStateToProps = (state) => {
   return {
-    view:state.app.view,
-    task:state.app.task
+    view: state.app.view,
+    task: state.app.task,
   }
 }
 

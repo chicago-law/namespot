@@ -1,6 +1,5 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import helpers from '../../bootstrap'
 
 const CatalogPrefix = ({ catalogPrefix, onChange }) => (
   <div className='form-question'>

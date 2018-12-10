@@ -171,7 +171,10 @@ export default class Page extends Component {
                     <canvas className='original-canvas' height={`${this.state.realPageHeight}`} width={`${this.state.realPageWidth}`}></canvas>
                   )}/>
 
-                  <PageHeader shrinkRatio={this.state.browserPageWidth / this.state.realPageWidth} />
+                  <PageHeader
+                    catalogPrefix={this.props.settings.catalog_prefix}
+                    shrinkRatio={this.state.browserPageWidth / this.state.realPageWidth}
+                  />
 
                   <div className={seatsContainerClasses} style={{
                     'transformOrigin':'top left',

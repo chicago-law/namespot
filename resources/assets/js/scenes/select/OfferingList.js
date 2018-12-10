@@ -55,7 +55,7 @@ export default class OfferingList extends Component {
 
   render() {
     const { query, selectedTermCode } = this.state
-    const { loading, offerings, recentOfferings, years } = this.props
+    const { loading, offerings, recentOfferings, settings, years } = this.props
     const terms = helpers.getAllTermCodes(years)
     const offeringListClasses = classNames({
       'offering-list':true,
@@ -72,7 +72,7 @@ export default class OfferingList extends Component {
       // first check if they're in the selected term
       if (offering.term_code === selectedTermCode) {
         // prepare a few things to make them better searchable by regex...
-        const courseNumString = `LAWS ${offering.catalog_nbr}`
+        const courseNumString = `${settings.catalog_prefix || 'LAWS'} ${offering.catalog_nbr}`
         let instructorsString = ''
         for (let i = 0; i < offering.instructors.length; i++) {
           instructorsString += offering.instructors[i].first_name + ' ' + offering.instructors[i].last_name + ' '
@@ -87,7 +87,7 @@ export default class OfferingList extends Component {
     return (
       <div className={offeringListClasses}>
 
-        <Loading />
+       <Loading />
 
         <header>
           <h5>Select Class</h5>
@@ -136,7 +136,7 @@ export default class OfferingList extends Component {
               <Link to={`/offering/${offering.id}`} onClick={this.onOfferingClick} className='offering' data-id={offering.id}>
                 <h4>{offering.long_title}</h4>
                 <p>
-                  Section {offering.section} &bull; LAWS {offering.catalog_nbr} {offering.instructors.length > 0 && <Fragment>&bull; <InstructorNames offering={offering} /></Fragment>} &bull; {helpers.termCodeToString(offering.term_code)}
+                  Section {offering.section} &bull; {settings.catalog_prefix || 'LAWS'} {offering.catalog_nbr} {offering.instructors.length > 0 && <Fragment>&bull; <InstructorNames offering={offering} /></Fragment>} &bull; {helpers.termCodeToString(offering.term_code)}
                 </p>
                 {offering.updated_at && (
                   <span className='meta'>Edited {new Date(offering.updated_at).toLocaleDateString()}</span>

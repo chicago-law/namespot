@@ -160,7 +160,7 @@ class Roster extends Component {
 
   render() {
     const { showLoading, printableReady } = this.state
-    const { offerings, students, params } = this.props
+    const { offerings, settings, students, params } = this.props
     const { rosterSource, offeringId, prog, level, term, aisOnly } = params
     let currentStudents, currentOffering
 
@@ -196,7 +196,7 @@ class Roster extends Component {
             {rosterSource === 'offering' && currentOffering && (
               <header className='roster-header'>
                 <span className='class-title'>{currentOffering.long_title}</span>
-                <span>LAWS {currentOffering.catalog_nbr}-{currentOffering.section}</span>
+                <span>{settings.catalog_prefix || 'LAWS'} {currentOffering.catalog_nbr}-{currentOffering.section}</span>
                 <span>Term: <strong>{helpers.termCodeToString(currentOffering.term_code)}</strong></span>
                 <span>Section: <strong>{currentOffering.section}</strong></span>
                 <span>Instructors: <strong><InstructorNames offering={currentOffering} /></strong></span>
@@ -240,11 +240,13 @@ function mapStateToProps(state, ownProps) {
   const { search } = ownProps.location
   const { offerings, students } = state.entities
   const { loading } = state.app
+  const { settings } = state
 
   return {
     loading,
     students,
     offerings,
+    settings,
     params: queryString.parse(search)
   }
 }

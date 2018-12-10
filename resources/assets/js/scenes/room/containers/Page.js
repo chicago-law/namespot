@@ -58,6 +58,7 @@ const mapStateToProps = (state, ownProps) => {
     loading: state.app.loading,
     modals: state.app.modals,
     pointSelection: state.app.pointSelection,
+    settings: state.settings,
     task: state.app.task,
     tempTable: state.app.tempTable,
     view: state.app.view,

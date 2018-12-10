@@ -4,8 +4,14 @@ import { Route } from 'react-router-dom'
 import helpers from '../../bootstrap'
 import InstructorNames from '../../global/InstructorNames'
 
-const PageHeader = (props) =>  {
-  const { shrinkRatio, currentRoom, currentOffering, withStudents } = props
+const PageHeader = ({
+  shrinkRatio,
+  currentRoom,
+  currentOffering,
+  withStudents,
+  catalogPrefix,
+}) =>  {
+  const catalog_prefix = catalogPrefix // converting back to snake case for consistency
 
   const roomChartDetails = () => (
     <div className='page-header'>
@@ -39,7 +45,7 @@ const PageHeader = (props) =>  {
       <div className='right' style={{
         'transform':`scale(${shrinkRatio})`
       }}>
-        <h3>{`${currentOffering.long_title} - LAWS ${currentOffering.catalog_nbr}-${currentOffering.section}`}{currentOffering.instructors.length > 0 && <span> - <InstructorNames offering={currentOffering} /></span>}</h3>
+        <h3>{`${currentOffering.long_title} - ${catalog_prefix || 'LAWS'} ${currentOffering.catalog_nbr}-${currentOffering.section}`}{currentOffering.instructors.length > 0 && <span> - <InstructorNames offering={currentOffering} /></span>}</h3>
       </div>
     </div>
   )

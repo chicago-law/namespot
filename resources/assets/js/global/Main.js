@@ -9,15 +9,15 @@ import ImportExport from '../scenes/import/ImportExport'
 import Settings from '../scenes/settings/Settings'
 
 export default class Main extends Component {
+  componentDidMount() {
+    const authedUserId = document.getElementById('root').dataset.authedUser
+    authedUserId && this.props.fetchUser(authedUserId)
+  }
+
   handleBgClick() {
     if (this.props.view === 'assign-seats' && this.props.task !== 'offering-overview') {
       this.props.setTask('offering-overview')
     }
-  }
-
-  componentDidMount() {
-    const authedUserId = document.getElementById('root').dataset.authedUser
-    authedUserId && this.props.fetchUser(authedUserId)
   }
 
   render() {

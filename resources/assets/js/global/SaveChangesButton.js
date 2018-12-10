@@ -1,77 +1,45 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'
 import classNames from 'classnames/bind'
 import { CSSTransition } from 'react-transition-group'
 import Loading from './Loading'
 
-export default class SaveChangesButton extends Component {
-  state = {
-    thinking: false,
-    showSuccess: false
-  }
+const SaveChangesButton = ({ isDisabled, thinking, showSuccess, onSaveChanges }) => {
+  const buttonClasses = classNames({
+    'save-changes-button': true,
+    'is-thinking': thinking,
+    'show-success': showSuccess
+  })
 
-  onSaveClick = (e) => {
-    e.preventDefault()
-    this.setState({ thinking: true })
-    new Promise((resolve, reject) => {
-      this.props.onSaveChanges(resolve, reject)
-    })
-    .then(() => {
-      this.setState({
-        thinking: false,
-        showSuccess: true
-      })
-      setTimeout(() => {
-        this.setState({ showSuccess: false })
-      }, 2000)
-    })
-    .catch(response => {
-      this.setState({ thinking: false })
-      console.log(response)
-    })
-  }
+  return (
+    <div className={buttonClasses}>
 
-  render() {
+      <CSSTransition
+        in={showSuccess}
+        timeout={300}
+        classNames="saved"
+        unmountOnExit
+      >
+        <span className='saved-message'>Saved</span>
+      </CSSTransition>
 
-    const buttonClasses = classNames({
-      'save-changes-button': true,
-      'is-thinking': this.state.thinking,
-      'show-success': this.state.showSuccess
-    })
+      <button
+        className='btn-accent'
+        onClick={onSaveChanges}
+        disabled={isDisabled}
+        type="button"
+      >
 
-    return (
-      <div className={buttonClasses}>
+        {thinking && (
+          <Loading />
+        )}
 
-        <CSSTransition
-          in={this.state.showSuccess}
-          timeout={300}
-          classNames="saved"
-          unmountOnExit
-        >
-          <span className='saved-message'>Saved</span>
-        </CSSTransition>
+        {!thinking && (
+          'Save Changes'
+        )}
 
-        <button
-          className='btn-accent'
-          onClick={this.onSaveClick}
-          disabled={this.props.isDisabled}
-        >
-
-          {this.state.thinking && (
-            <Loading />
-          )}
-
-          {!this.state.thinking && (
-            'Save Changes'
-          )}
-
-        </button>
-      </div>
-    )
-  }
+      </button>
+    </div>
+  )
 }
 
-SaveChangesButton.propTypes = {
-  isDisabled: PropTypes.bool,
-  onSaveChanges: PropTypes.func.isRequired
-}
+export default SaveChangesButton

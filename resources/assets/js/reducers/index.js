@@ -219,12 +219,7 @@ const modals = (state = { }, action) => {
 /**
  * app / loading
  */
-const loading = (state = {
-  rooms:false,
-  tables:false,
-  offerings:false,
-  students:false
-}, action) => {
+const loading = (state = {}, action) => {
   switch(action.type) {
     case C.SET_LOADING_STATUS:
       return {
@@ -434,6 +429,18 @@ const stale = (state = [], action) => {
   }
 }
 
+/**
+ * settings
+ */
+const settings = (state = {}, action) => {
+  switch (action.type) {
+    case C.RECEIVE_SETTINGS:
+      return action.settings
+    default:
+      return state
+  }
+}
+
 const rootReducer = combineReducers({
   app: combineReducers({
     view,
@@ -465,6 +472,7 @@ const rootReducer = combineReducers({
   }),
   authedUser,
   stale,
+  settings,
 })
 
 export default rootReducer
