@@ -11,11 +11,6 @@ export default class OfferingDetails extends Component {
     e.stopPropagation()
   }
 
-  onStudentPictureError = (id) => {
-    const { updateStudent } = this.props
-    updateStudent(id, 'picture', 'no-face.png')
-  }
-
   render() {
     const { currentOffering, currentRoom, currentSeats, currentStudents } = this.props
     const students = currentStudents.map(student => {
@@ -29,14 +24,7 @@ export default class OfferingDetails extends Component {
             title={`${student.first_name} ${student.last_name}`}
             seated={student.enrollment[`offering_${currentOffering.id}`].seat !== null ? 'true' : 'false'}
             onClick={(e) => this.handleStudentClick(e)}
-          >
-            <img
-              src={`${helpers.rootUrl}storage/student_pictures/${student.picture}`}
-              alt=''
-              onError={() => this.onStudentPictureError(student.id)}
-              style={{ display: 'none' }}
-            />
-          </div>
+          />
         </li>
       )
     })

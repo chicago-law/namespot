@@ -60,7 +60,7 @@ const ImportStudents = () => (
       <tr>
         <td>picture</td>
         <td>string</td>
-        <td>Filename of student avatar image. Image is assumed to be in <code>{'{root URL}'}/images/students/</code>. For example, if this field is "sample-face.jpg", the site will look for an image at <code>{'{root URL}'}/images/students/sample-face.jpg</code>.</td>
+        <td>Filename of student avatar image. Image is assumed to be in <code>{'{root URL}'}/storage/student_pictures/</code>. For example, if this field is "sample-face.jpg", the site will look for an image at <code>{'{root URL}'}/storage/student_pictures/sample-face.jpg</code>.</td>
       </tr>
       <tr>
         <td>email</td>

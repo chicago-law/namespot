@@ -24,7 +24,7 @@ class App extends Component {
 
     if (!Object.keys(loading).includes('settings') || loading.settings) {
       return (
-        <div>
+        <div style={{ marginTop: '5em' }}>
           <Loading />
         </div>
       )

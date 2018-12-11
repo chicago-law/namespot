@@ -65,7 +65,6 @@ export default class Seat extends Component {
 
   createSeat() {
     const { currentOffering, currentStudentId, id, students, view, withStudents } = this.props
-
     const seatPictureStyles = {
       'height': `${this.adjustedSeatSize()}px`,
       'width': `${this.adjustedSeatSize()}px`,
@@ -111,10 +110,10 @@ export default class Seat extends Component {
                 || currentOffering.names_to_show === null
               ) && (
                 <span className='first'>
-                  {occupant.nickname && (currentOffering.use_nicknames == true || currentOffering.use_nicknames === null) ?
-                    occupant.nickname
-                    : occupant.short_first_name ?
-                      occupant.short_first_name
+                  {occupant.nickname && (currentOffering.use_nicknames == true || currentOffering.use_nicknames === null)
+                    ? occupant.nickname
+                    : occupant.short_first_name
+                      ? occupant.short_first_name
                       : occupant.first_name
                   }
                 </span>

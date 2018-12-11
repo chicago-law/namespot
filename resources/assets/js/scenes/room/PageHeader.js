@@ -10,8 +10,10 @@ const PageHeader = ({
   currentOffering,
   withStudents,
   catalogPrefix,
+  schoolName
 }) =>  {
   const catalog_prefix = catalogPrefix // converting back to snake case for consistency
+  const school_name = schoolName
 
   const roomChartDetails = () => (
     <div className='page-header'>
@@ -19,7 +21,7 @@ const PageHeader = ({
         'transformOrigin':'top left',
         'transform':`scale(${shrinkRatio})`,
       }}>
-        <h3>University of Chicago Law School</h3>
+        <h3>{school_name && school_name}</h3>
       </div>
       <div className='right' style={{
         'transformOrigin':'top right',
@@ -36,7 +38,7 @@ const PageHeader = ({
         'transform':`scale(${shrinkRatio})`
       }}>
         <h3>
-          {currentRoom.name} - {helpers.termCodeToString(currentOffering.term_code)} - University of Chicago Law School
+          {currentRoom.name} - {helpers.termCodeToString(currentOffering.term_code)} {school_name && ` - ${school_name}`}
           <Route path='/print' render={() => (
             currentOffering && withStudents && <span>Printed {new Date().toLocaleDateString()}</span>
           )} />

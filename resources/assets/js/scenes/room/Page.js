@@ -33,24 +33,26 @@ export default class Page extends Component {
   }
 
   checkForBadSeats() {
-    // Giving things a couple seconds to settle...
-      if (
-        this.props.view !== 'seating-chart'
-        && this.props.currentOffering.id !== null
-        && this.props.currentRoom !== null
-        && this.props.currentSeats.length > 0
-        && this.props.currentTables.length > 0
-        && Object.keys(this.props.loading).every(type => this.props.loading[type] === false)
-      ) {
-        this.props.currentStudents.forEach(student => {
-          const assignedSeatId = student.enrollment[`offering_${this.props.currentOffering.id}`].seat
-          if (assignedSeatId && this.props.currentSeats.every(seat => parseInt(seat.id) !== parseInt(assignedSeatId))) {
-            console.log(this.props)
-            console.log(`assigned seat: ${assignedSeatId} doesn't actually exist!`)
-            this.props.assignSeat(this.props.currentOffering.id, student.id, null)
-          }
-        })
-      }
+    // If a seat doesn't exist, remove the student from it.
+    // Only do this if a bunch of specific conditions are met - don't want to be
+    // accidentally removing students from real seats!
+    if (
+      this.props.view !== 'seating-chart'
+      && this.props.currentOffering.id !== null
+      && this.props.currentRoom !== null
+      && this.props.currentSeats.length > 0
+      && this.props.currentTables.length > 0
+      && Object.keys(this.props.loading).every(type => this.props.loading[type] === false)
+    ) {
+      this.props.currentStudents.forEach(student => {
+        const assignedSeatId = student.enrollment[`offering_${this.props.currentOffering.id}`].seat
+        if (assignedSeatId && this.props.currentSeats.every(seat => parseInt(seat.id) !== parseInt(assignedSeatId))) {
+          console.log(this.props)
+          console.log(`assigned seat: ${assignedSeatId} doesn't actually exist!`)
+          this.props.assignSeat(this.props.currentOffering.id, student.id, null)
+        }
+      })
+    }
   }
 
   componentDidMount() {
@@ -88,7 +90,7 @@ export default class Page extends Component {
     }
 
     // If the paper size changed, we need to do a few things manually here:
-    // Changing to letter...
+    // Changing TO letter...
     if (prevProps.currentOffering.paper_size !== 'letter' && this.props.currentOffering.paper_size === 'letter') {
       const gridColumnWidth = parseFloat(parseFloat(helpers.letterPxWidth / this.state.gridColumns).toFixed(3))
       const gridRowHeight = parseFloat(parseFloat(helpers.letterPxHeight / this.state.gridRows).toFixed(3))
@@ -99,7 +101,7 @@ export default class Page extends Component {
         gridColumnWidth
       })
     }
-    // Changing to tabloid...
+    // Changing TO tabloid...
     if (prevProps.currentOffering.paper_size !== 'tabloid' && this.props.currentOffering.paper_size === 'tabloid') {
       const gridColumnWidth = parseFloat(parseFloat(helpers.tabloidPxWidth / this.state.gridColumns).toFixed(3))
       const gridRowHeight = parseFloat(parseFloat(helpers.tabloidPxHeight / this.state.gridRows).toFixed(3))
@@ -173,6 +175,7 @@ export default class Page extends Component {
 
                   <PageHeader
                     catalogPrefix={this.props.settings.catalog_prefix}
+                    schoolName={this.props.settings.school_name}
                     shrinkRatio={this.state.browserPageWidth / this.state.realPageWidth}
                   />
 

@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import ReactTimeout from 'react-timeout'
 import { requestError, receiveSettings } from '../../actions'
 import helpers from '../../bootstrap'
 import SaveChangesButton from '../../global/SaveChangesButton'
 import AcadYear from './AcadYear'
 import CatalogPrefix from './CatalogPrefix'
+import SchoolName from './SchoolName'
 
 class Settings extends Component {
   state = {
@@ -14,6 +16,7 @@ class Settings extends Component {
     settings: {
       academic_year: this.props.defaultYear,
       catalog_prefix: (this.props.settings && this.props.settings.catalog_prefix) || '',
+      school_name: (this.props.settings && this.props.settings.school_name) || '',
     }
   }
 
@@ -37,8 +40,18 @@ class Settings extends Component {
     }))
   }
 
+  onChangeSchool = (name) => {
+    this.setState(prevState => ({
+      settings: {
+        ...prevState.settings,
+        school_name: name,
+      },
+      isDirty: true,
+    }))
+  }
+
   onSaveChanges = () => {
-    const { dispatch } = this.props
+    const { dispatch, setTimeout } = this.props
     const { settings } = this.state
 
     this.setState({ loading: true })
@@ -51,9 +64,7 @@ class Settings extends Component {
           showSuccess: true,
           isDirty: false
         })
-        setTimeout(() => {
-          this.setState({ showSuccess: false})
-        }, 4000)
+        setTimeout(this.showSuccess, 4000)
       })
       .catch(res => {
         dispatch(requestError('save-setting', res.message))
@@ -61,6 +72,10 @@ class Settings extends Component {
           loading: false,
         })
       })
+  }
+
+  showSuccess = () => {
+    this.setState({ showSuccess: false })
   }
 
   render() {
@@ -74,14 +89,19 @@ class Settings extends Component {
         </header>
         <div className='content'>
           <form>
-            <AcadYear
-              onChange={this.onChangeSelectedYear}
-              years={years}
-              currentYear={settings.academic_year}
+
+            <SchoolName
+              onChange={this.onChangeSchool}
+              schoolName={settings.school_name}
             />
             <CatalogPrefix
               onChange={this.onChangePrefix}
               catalogPrefix={settings.catalog_prefix}
+            />
+            <AcadYear
+              onChange={this.onChangeSelectedYear}
+              years={years}
+              currentYear={settings.academic_year}
             />
 
             <div className='controls'>
@@ -107,4 +127,4 @@ function mapStateToProps({ settings, app }) {
   }
 }
 
-export default connect(mapStateToProps)(Settings)
+export default ReactTimeout(connect(mapStateToProps)(Settings))
