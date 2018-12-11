@@ -17,7 +17,7 @@ const BanOffering = ({ settings, currentOffering }) => (
           {settings.catalog_prefix || 'LAWS'}
           &nbsp;{currentOffering.catalog_nbr} {currentOffering.section && ` - Section ${currentOffering.section}`}
           &nbsp;&bull; <InstructorNames offering={currentOffering} />
-          &nbsp;&bull; {helpers.termCodeToString(currentOffering.term_code)}
+          {currentOffering.term_code && ` • ${helpers.termCodeToString(currentOffering.term_code)}`}
         </small>
       </p>
     </div>

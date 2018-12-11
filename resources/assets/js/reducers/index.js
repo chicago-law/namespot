@@ -441,6 +441,21 @@ const settings = (state = {}, action) => {
   }
 }
 
+/**
+ * receivedOfferingsFor
+ */
+const receivedOfferingsFor = (state = [], action) => {
+  switch (action.type) {
+    case C.MARK_TERM_RECEIVED:
+      return [
+        ...state,
+        action.term
+      ]
+    default:
+      return state
+  }
+}
+
 const rootReducer = combineReducers({
   app: combineReducers({
     view,
@@ -473,6 +488,7 @@ const rootReducer = combineReducers({
   authedUser,
   stale,
   settings,
+  receivedOfferingsFor,
 })
 
 export default rootReducer

@@ -40,7 +40,7 @@ const ImportOfferings = () => (
       <tr>
         <td>term_code</td>
         <td>int</td>
-        <td>The academic term of the offering. It is a concatenation of the following: the first digit of the millennia, then the last two digits of the year, then either a 2, 4, or 8, depending if the term is winter, spring, or autumn, respectively. For example, Autumn 2018 is 2188. Spring 2019 is 2194.</td>
+        <td>The academic term of the offering. It is a concatenation of the following: the first digit of the millennia, then the last two digits of the year, then either a 2, 4, or 8, depending if the term is winter, spring, or autumn, respectively. For example, Autumn 2018 is <code>2188</code>. Spring 2019 is <code>2194</code>.</td>
       </tr>
       <tr>
         <td>room_id</td>

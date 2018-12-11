@@ -38,7 +38,9 @@ const PageHeader = ({
         'transform':`scale(${shrinkRatio})`
       }}>
         <h3>
-          {currentRoom.name} - {helpers.termCodeToString(currentOffering.term_code)} {school_name && ` - ${school_name}`}
+          {currentRoom.name}
+          {currentOffering.term_code && ` - ${helpers.termCodeToString(currentOffering.term_code)}`}
+          {school_name && ` - ${school_name}`}
           <Route path='/print' render={() => (
             currentOffering && withStudents && <span>Printed {new Date().toLocaleDateString()}</span>
           )} />
@@ -50,7 +52,8 @@ const PageHeader = ({
         <h3>
           {currentOffering.long_title}
           &nbsp;- {catalog_prefix || 'LAWS'} {currentOffering.catalog_nbr} {currentOffering.section && ` - ${currentOffering.section} `}
-          {currentOffering.instructors.length > 0 && <span> - <InstructorNames offering={currentOffering} /></span>}</h3>
+          {currentOffering.instructors.length > 0 && <span> - <InstructorNames offering={currentOffering} /></span>}
+        </h3>
       </div>
     </div>
   )

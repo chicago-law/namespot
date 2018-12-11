@@ -1,11 +1,16 @@
 import { normalize } from 'normalizr'
+import queryString from 'query-string'
 import * as schema from './schema'
-import _snakeCase from 'lodash/snakeCase'
 import C from '../constants'
 import helpers from '../bootstrap'
 import { receiveStudents } from './students'
 import { receiveRooms } from './rooms'
-import { setLoadingStatus, requestError, findAndSetCurrentOffering } from './app'
+import { markTermReceived } from './receivedOfferingsFor'
+import {
+  setLoadingStatus,
+  requestError,
+  findAndSetCurrentOffering,
+} from './app'
 
 /**
  * OFFERINGS!
@@ -18,47 +23,45 @@ export function receiveOfferings(offerings) {
     offerings
   }
 }
-// Fetch all offerings for a given term code
-export function fetchOfferings(termCode) {
-  return (dispatch) => {
-    // set loading state
+// Fetch all offerings, with optional filters.
+export function fetchOfferings(options = {}) {
+  return (dispatch, getState) => {
+
+    // Check for conditions that mean we don't need to actually do the fetch.
+    const { receivedOfferingsFor } = getState()
+    // Have we already got all offerings?
+    if (receivedOfferingsFor.includes('all')) {
+      return false
+    }
+    // Have we already got the term in question?
+    if (options.termCode && receivedOfferingsFor.includes(options.termCode)) {
+      return false
+    }
+
+    // We need it! Proceed.
+    dispatch(markTermReceived(options.termCode))
     dispatch(setLoadingStatus('offerings',true))
-    // make API call
-    axios.get(`${helpers.rootUrl}api/offerings/${termCode}`)
+
+    // Make API call
+    const params = queryString.stringify(options)
+    axios.get(`${helpers.rootUrl}api/offerings?${params}`)
     .then(response => {
       const normalizedData = response.data.length ? normalize(response.data, schema.offeringListSchema) : null
-      // convert case from snake_case (DB, PHP) to camelCase for JS
       if (normalizedData != null) {
         const offerings = normalizedData.entities.offerings
         dispatch(receiveOfferings(offerings))
       }
-      dispatch(setLoadingStatus('offerings',false))
+      dispatch(setLoadingStatus('offerings', false))
     })
     .catch(response => {
-      dispatch(requestError('fetch-offerings',`Offerings fetch: ${response.message}`))
-      dispatch(setLoadingStatus('offerings',false))
+      dispatch(requestError('fetch-offerings', `Offerings fetch: ${response.message}`))
+      dispatch(setLoadingStatus('offerings', false))
     })
-  }
-}
-// Gently request a fresh load of offerings
-export function requestOfferings(termCode) {
-  return (dispatch, getState) => {
-    // look through the offerings already in entities. if you have more than 1
-    // that has the termCode provided, then we do not need to fetch more.
-
-    const offeringsObj = getState().entities.offerings
-    const offeringIdArray = Object.keys(offeringsObj)
-
-    let offeringsWithTermCode = 0
-    offeringIdArray.forEach(id => {
-      offeringsObj[id].term_code === termCode ? offeringsWithTermCode++ : false
-    })
-
-    offeringsWithTermCode > 1 ? false : dispatch(fetchOfferings(termCode))
   }
 }
 
 // Request and fetch a single offering by ID
+// TODO: make requestOfferings also filter by ID
 export function requestOffering(offering_id) {
   return (dispatch, getState) => {
     if (!getState().entities.offerings[offering_id]) {

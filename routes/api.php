@@ -54,10 +54,8 @@ Route::get('/test', function(Request $request) {
 Route::get('/offering/{offering_id}', function ($offering_id) {
     return new OfferingResource(Offering::find($offering_id));
 });
-// fetch all offerings for given term code
-Route::get('/offerings/{term_code}', function ($term_code) {
-    return OfferingResource::collection(Offering::where('term_code',$term_code)->get());
-});
+// fetch offerings, with optional filters
+Route::get('/offerings', 'OfferingController@offerings');
 // update an offering attribute
 Route::post('/offering/update/{offering_id}', 'OfferingController@update');
 // take an offering, duplicate its room, assign it to the new room

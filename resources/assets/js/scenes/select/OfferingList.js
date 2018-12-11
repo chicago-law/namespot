@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react'
-import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import classNames from 'classnames/bind'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -25,10 +24,8 @@ export default class OfferingList extends Component {
   }
 
   handleTermChange(e) {
-    // get classes for the selected term
-    this.props.requestOfferings(e.target.value)
-    // save the selected term so it's there in the future
-    this.props.saveSessionTerm(e.target.value)
+    this.props.fetchOfferings({ termCode: e.target.value }) // get classes for the selected term
+    this.props.saveSessionTerm(e.target.value) // save the selected term in local storage
     this.setState({
       selectedTermCode: e.target.value,
       query:''
@@ -48,8 +45,10 @@ export default class OfferingList extends Component {
   }
 
   componentDidMount() {
-    this.props.requestOfferings(this.state.selectedTermCode)
-    this.props.setView('offering-list')
+    const { selectedTermCode } = this.state
+    const { fetchOfferings, setView } = this.props
+    fetchOfferings({ termCode: selectedTermCode })
+    setView('offering-list')
     this.searchRef.current.focus()
   }
 
@@ -64,13 +63,12 @@ export default class OfferingList extends Component {
 
     // sort the offerings
     const sortedOfferings = Object.keys(offerings).sort((idA, idB) => offerings[idA].long_title < offerings[idB].long_title ? -1 : 1)
-
     // only show offerings filtered by selected term and by the search query
     const filteredOfferingList = []
     sortedOfferings.forEach(id => {
       const offering = offerings[id]
       // first check if they're in the selected term
-      if (offering.term_code === selectedTermCode) {
+      if (offering.term_code === selectedTermCode || selectedTermCode === 'all') {
         // prepare a few things to make them better searchable by regex...
         const courseNumString = `${settings.catalog_prefix || 'LAWS'} ${offering.catalog_nbr}`
         let instructorsString = ''
@@ -87,7 +85,7 @@ export default class OfferingList extends Component {
     return (
       <div className={offeringListClasses}>
 
-       <Loading />
+        <Loading />
 
         <header>
           <h5>Select Class</h5>
@@ -102,6 +100,7 @@ export default class OfferingList extends Component {
             <div className="quarter-dropdown-container">
               <p>Quarter:</p>
               <select value={selectedTermCode} onChange={(e) => this.handleTermChange(e)}>
+                <option value="all">All quarters</option>
                 {terms.map(term =>
                   <option key={term} value={term}>{ helpers.termCodeToString(term) }</option>
                 )}
@@ -130,7 +129,7 @@ export default class OfferingList extends Component {
                           {offering.long_title}
                           <span>
                             {settings.catalog_prefix || 'LAWS'}&nbsp;
-                            {offering.catalog_nbr} {offering.section && ` - ${offering.section} `}
+                            {offering.catalog_nbr} {offering.section && `-${offering.section} `}
                             {helpers.termCodeToString(offering.term_code)}
                           </span>
                         </Link>
@@ -154,7 +153,12 @@ export default class OfferingList extends Component {
                     <Fragment>
                       &bull; <InstructorNames offering={offering} />
                     </Fragment>
-                  )} &bull; {helpers.termCodeToString(offering.term_code)}
+                  )}
+                  {offering.term_code && (
+                    <Fragment>
+                      &bull; {helpers.termCodeToString(offering.term_code)}
+                    </Fragment>
+                  )}
                 </p>
                 {offering.updated_at && (
                   <span className='meta'>Edited {new Date(offering.updated_at).toLocaleDateString()}</span>
@@ -176,15 +180,4 @@ export default class OfferingList extends Component {
       </div>
     )
   }
-}
-
-OfferingList.propTypes = {
-  defaultTerm: PropTypes.string.isRequired,
-  loading: PropTypes.object.isRequired,
-  offerings: PropTypes.object.isRequired,
-  recentOfferings: PropTypes.array.isRequired,
-  requestOfferings: PropTypes.func.isRequired,
-  setView: PropTypes.func.isRequired,
-  saveSessionTerm: PropTypes.func.isRequired,
-  years: PropTypes.object.isRequired
 }

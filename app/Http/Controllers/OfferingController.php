@@ -7,9 +7,23 @@ use Illuminate\Support\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\OfferingsExport;
 use App\Offering;
+use App\Http\Resources\Offering as OfferingResource;
 
 class OfferingController extends Controller
 {
+  public function offerings(Request $request)
+  {
+    // Filter by term code
+    $termCode = $request->input('termCode');
+    if ($termCode && $termCode !== 'all') {
+      $offerings = OfferingResource::collection(Offering::where('term_code', $request->input('termCode'))->get());
+      return response()->json($offerings);
+    }
+
+    $offerings = OfferingResource::collection(Offering::all());
+    return response()->json($offerings);
+  }
+
   public function update($offering_id, Request $request)
   {
     // find the offering
