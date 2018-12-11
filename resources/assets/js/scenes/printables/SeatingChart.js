@@ -34,11 +34,12 @@ export default class SeatingChart extends Component {
       canvas: seatingChartCanvas,
     }
     html2canvas(input, h2cOptions).then((canvas) => {
+      const { currentOffering, rooms, roomId } = this.props
 
       // these are the dimensions for the PDF that will be generated, in inches.
       // They should be doubled from normal, because we're cranking out higher res
       let dimensions
-      switch (this.props.currentOffering.paper_size) {
+      switch (currentOffering.paper_size) {
         case 'tabloid':
           dimensions = [22.5, 35.5]
           break
@@ -57,9 +58,9 @@ export default class SeatingChart extends Component {
         format: dimensions
       })
       pdf.addImage(imgData, 'jpeg', 0, 0)
-      const title = this.props.currentOffering.long_title ?
-        `Seating Chart - ${this.props.currentOffering.long_title}-${this.props.currentOffering.section}`
-        : this.props.rooms[this.props.roomId].name
+      const title = currentOffering.long_title
+        ? `Seating Chart - ${currentOffering.long_title}${currentOffering.section ? ' ' + currentOffering.section : ''}`
+        : `${rooms[roomId].name} Blank`
       pdf.save(`${title}.pdf`)
 
       this.setState({

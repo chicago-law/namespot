@@ -47,7 +47,10 @@ const PageHeader = ({
       <div className='right' style={{
         'transform':`scale(${shrinkRatio})`
       }}>
-        <h3>{`${currentOffering.long_title} - ${catalog_prefix || 'LAWS'} ${currentOffering.catalog_nbr}-${currentOffering.section}`}{currentOffering.instructors.length > 0 && <span> - <InstructorNames offering={currentOffering} /></span>}</h3>
+        <h3>
+          {currentOffering.long_title}
+          &nbsp;- {catalog_prefix || 'LAWS'} {currentOffering.catalog_nbr} {currentOffering.section && ` - ${currentOffering.section} `}
+          {currentOffering.instructors.length > 0 && <span> - <InstructorNames offering={currentOffering} /></span>}</h3>
       </div>
     </div>
   )

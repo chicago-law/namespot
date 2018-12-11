@@ -12,7 +12,14 @@ const BanOffering = ({ settings, currentOffering }) => (
     </h3>
     <div>
       <h3>{currentOffering.long_title}</h3>
-      <p><small>{settings.catalog_prefix || 'LAWS'} {currentOffering.catalog_nbr}-{currentOffering.section} &bull; <InstructorNames offering={currentOffering} /> &bull; {helpers.termCodeToString(currentOffering.term_code)}</small></p>
+      <p>
+        <small>
+          {settings.catalog_prefix || 'LAWS'}
+          &nbsp;{currentOffering.catalog_nbr} {currentOffering.section && ` - Section ${currentOffering.section}`}
+          &nbsp;&bull; <InstructorNames offering={currentOffering} />
+          &nbsp;&bull; {helpers.termCodeToString(currentOffering.term_code)}
+        </small>
+      </p>
     </div>
   </div>
 )

@@ -118,13 +118,25 @@ export default class OfferingList extends Component {
               <ul>
                 {recentOfferings.map(offeringId => {
                   const offering = offerings[offeringId]
-                  return offering ? (
-                    <li key={offering.id}>
-                      <Link to={`/offering/${offering.id}`} onClick={this.onOfferingClick} className='offering' data-id={offering.id}>
-                        {offering.long_title}<span>Section {offering.section}, {helpers.termCodeToString(offering.term_code)}</span>
-                      </Link>
-                    </li>
-                  ) : ''
+                  return offering
+                  ? (
+                      <li key={offering.id}>
+                        <Link
+                          to={`/offering/${offering.id}`}
+                          onClick={this.onOfferingClick}
+                          className='offering'
+                          data-id={offering.id}
+                        >
+                          {offering.long_title}
+                          <span>
+                            {settings.catalog_prefix || 'LAWS'}&nbsp;
+                            {offering.catalog_nbr} {offering.section && ` - ${offering.section} `}
+                            {helpers.termCodeToString(offering.term_code)}
+                          </span>
+                        </Link>
+                      </li>
+                    )
+                  : ''
                 })}
               </ul>
             </li>
@@ -136,7 +148,13 @@ export default class OfferingList extends Component {
               <Link to={`/offering/${offering.id}`} onClick={this.onOfferingClick} className='offering' data-id={offering.id}>
                 <h4>{offering.long_title}</h4>
                 <p>
-                  Section {offering.section} &bull; {settings.catalog_prefix || 'LAWS'} {offering.catalog_nbr} {offering.instructors.length > 0 && <Fragment>&bull; <InstructorNames offering={offering} /></Fragment>} &bull; {helpers.termCodeToString(offering.term_code)}
+                  {settings.catalog_prefix || 'LAWS'}&nbsp;
+                  {offering.catalog_nbr} {offering.section && ` - Section ${offering.section} `}
+                  {offering.instructors.length > 0 && (
+                    <Fragment>
+                      &bull; <InstructorNames offering={offering} />
+                    </Fragment>
+                  )} &bull; {helpers.termCodeToString(offering.term_code)}
                 </p>
                 {offering.updated_at && (
                   <span className='meta'>Edited {new Date(offering.updated_at).toLocaleDateString()}</span>
