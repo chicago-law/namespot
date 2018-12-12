@@ -24,14 +24,13 @@ export default class Main extends Component {
     return (
       <div className='main' onClick={() => this.handleBgClick()}>
         <Switch>
-          <Route exact path="/" component={Select} />
           <Route path="/select" component={Select} />
           <Route path='/offering/:offeringID' component={Workspace} />
           <Route path='/room/:roomID/:offeringID' component={Workspace} />
           <Route path='/room/:roomID' component={Workspace} />
           <Route path='/students/' component={Students} />
-          <Route path='/settings/' component={Settings} />
           <Route path='/import/' component={ImportExport} />
+          <Route path='/settings/' component={Settings} />
           <Route component={NotFound404} />
         </Switch>
       </div>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import helpers from '../../bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -57,7 +57,21 @@ export default class AbStudentDetails extends Component {
           </div>
           <div>
             <h6>Short Name</h6>
-            <p>{student.short_full_name}</p>
+            <p>
+              {(student.short_first_name || student.short_last_name) && (
+                <Fragment>
+                  {student.short_first_name
+                    ? student.short_first_name
+                    : student.first_name
+                  }
+                  &nbsp;
+                  {student.short_last_name
+                    ? student.short_last_name
+                    : student.last_name
+                  }
+                </Fragment>
+              )}
+            </p>
           </div>
         </div>
 

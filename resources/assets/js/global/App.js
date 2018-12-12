@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter, Switch, Route } from 'react-router-dom'
+import { withRouter, Switch, Route, Redirect } from 'react-router-dom'
 import Header from './Header'
 import Main from './containers/Main'
 import Modals from './containers/Modals'
@@ -40,6 +40,11 @@ class App extends Component {
         <Route path='/print/flash-cards/offering/:offeringid' component={FlashCardsDeck}/>
         <Route path='/print/name-tents/offering/:offeringid' component={NameTents}/>
         <Route path='/print/roster/' component={Roster}/>
+
+        {/* Redirect home to Class selector */}
+        <Route exact path='/' render={() => (
+          <Redirect to="/select/offerings" />
+        )} />
 
         {/* Or render the actual app */}
         <Route render={() =>

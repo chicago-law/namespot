@@ -38,15 +38,14 @@ const Ban404 = () => (
 const Banner = () => (
   <div className="banner-container">
     <Switch>
-      <Route exact path="/" component={BanSeatingCharts} />
       <Route path="/select/offerings" component={BanSeatingCharts} />
-      <Route path="/select/settings" component={BanSettings} />
+      <Route path="/offering/:id" component={BanOffering} />
+      <Route path="/room/:id/:offeringID" component={BanOffering} />
       <Route exact path="/select/rooms" component={BanRoomTemplates} />
       <Route exact path="/room/:id" component={BanEditRoom} />
-      <Route path="/room/:id/:offeringID" component={BanOffering} />
-      <Route path="/offering/:id" component={BanOffering} />
       <Route path="/students" component={BanStudents} />
       <Route path="/import" component={BanImport} />
+      <Route path="/settings" component={BanSettings} />
       <Route component={Ban404} />
     </Switch>
   </div>

@@ -103,6 +103,7 @@ export default class Seat extends Component {
             </div>
             <p className='name'>
 
+              {/* First Name */}
               {(
                 currentOffering.names_to_show === 'first_and_last'
                 || currentOffering.names_to_show === 'first_and_last_initial'
@@ -119,16 +120,19 @@ export default class Seat extends Component {
                 </span>
               )}
 
+              {/* Last Name */}
               {(
                 currentOffering.names_to_show === 'first_and_last'
                 || currentOffering.names_to_show === 'last_only'
                 || currentOffering.names_to_show === null
               ) && (
                 <span className='last'>
-                  {occupant.last_name}
+                  {occupant.short_last_name
+                    ? occupant.short_last_name
+                    : occupant.last_name
+                  }
                 </span>
               )}
-
               {(
                 currentOffering.names_to_show === 'first_and_last_initial'
               ) && (

@@ -196,7 +196,7 @@ class Roster extends Component {
             {rosterSource === 'offering' && currentOffering && (
               <header className='roster-header'>
                 <span className='class-title'>{currentOffering.long_title}</span>
-                <span>{settings.catalog_prefix || 'LAWS'} {currentOffering.catalog_nbr}-{currentOffering.section}</span>
+                <span>{settings.catalog_prefix || 'LAWS'} {currentOffering.catalog_nbr}</span>
                 <span>Term: <strong>{helpers.termCodeToString(currentOffering.term_code)}</strong></span>
                 <span>Section: <strong>{currentOffering.section}</strong></span>
                 <span>Instructors: <strong><InstructorNames offering={currentOffering} /></strong></span>
@@ -219,7 +219,17 @@ class Roster extends Component {
               <li key={student.id} className='roster-row'>
                 <div className='roster-row__picture' style={{ 'backgroundImage': `url('${helpers.rootUrl}storage/student_pictures/${student.picture}')` }}></div>
                 <div className='roster-row__info'>
-                  <span>{student.short_full_name}</span>
+                  <span>
+                    {student.short_first_name
+                      ? student.short_first_name
+                      : student.first_name
+                    }
+                    &nbsp;
+                    {student.short_last_name
+                      ? student.short_last_name
+                      : student.last_name
+                    }
+                  </span>
                   <span className='details'>{student.academic_prog_descr} {helpers.academicLevelToString(student.academic_level)}</span>
                   <span className='details'>{student.cnet_id}</span>
                 </div>

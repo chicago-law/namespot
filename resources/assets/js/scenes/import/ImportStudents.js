@@ -45,12 +45,12 @@ const ImportStudents = () => (
       <tr>
         <td>short_first_name</td>
         <td>string</td>
-        <td>Alternate for first name. Displayed on seating charts.</td>
+        <td>Optional preferred alternate for first name. Displayed throughout app and on printables if present.</td>
       </tr>
       <tr>
         <td>short_last_name</td>
         <td>string</td>
-        <td>Alternate for last name. Displayed on seating charts.</td>
+        <td>Optional preferred alternate for last name. Displayed throughout app and on printables if present.</td>
       </tr>
       <tr>
         <td>nickname</td>

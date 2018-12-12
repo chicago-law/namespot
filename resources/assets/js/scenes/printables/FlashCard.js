@@ -15,7 +15,17 @@ export default class FlashCard extends Component {
               <img src={`${helpers.rootUrl}storage/student_pictures/${student.picture}`} />
             </div>
             <div className='right'>
-              <h1>{student.first_name} {student.last_name}</h1>
+              <h1>
+                {student.short_first_name
+                  ? student.short_first_name
+                  : student.first_name
+                }
+                &nbsp;
+                {student.short_last_name
+                  ? student.short_last_name
+                  : student.last_name
+                }
+              </h1>
               <p>{offering.long_title}<br/>{helpers.termCodeToString(offering.term_code)}</p>
             </div>
           </div>
@@ -27,7 +37,17 @@ export default class FlashCard extends Component {
               <img src={`${helpers.rootUrl}storage/student_pictures/${student.picture}`} />
             </div>
             <div className="flash-card back">
-              <h1>{student.first_name} {student.last_name}</h1>
+              <h1>
+                {student.short_first_name
+                  ? student.short_first_name
+                  : student.first_name
+                }
+                &nbsp;
+                {student.short_last_name
+                  ? student.short_last_name
+                  : student.last_name
+                }
+              </h1>
               <p>{offering.long_title}<br/>{helpers.termCodeToString(offering.term_code)}</p>
             </div>
           </div>

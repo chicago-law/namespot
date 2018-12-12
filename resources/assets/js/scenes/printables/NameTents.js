@@ -145,13 +145,22 @@ export default class NameTents extends Component {
             {currentStudents.map(student => (
               <div key={student.id} className='nt-list__name-tent'>
                 <div className='name'>
-                  <span>{student.short_full_name}</span>
+                  <span>
+                    {student.short_first_name
+                      ? student.short_first_name
+                      : student.first_name
+                    }
+                    &nbsp;
+                    {student.short_last_name
+                      ? student.short_last_name
+                      : student.last_name
+                    }
+                  </span>
                 </div>
               </div>
             ))}
           </div>
         )}
-
       </div>
     )
   }
