@@ -86,8 +86,8 @@ class Roster extends Component {
             addToPdf(elems[i])
           } else { // We're done!!
             const title = currentOffering
-              ? `Roster - ${currentOffering.long_title} ${currentOffering.section}`
-              : `Roster - ${this.props.params.prog} ${this.props.params.term}`
+              ? `Roster - ${currentOffering.long_title}${currentOffering.section ? ' ' + currentOffering.section : ''}`
+              : `Roster${this.props.params.prog ? ' - ' + this.props.params.prog : ''}${this.props.params.term ? ' - ' + helpers.termCodeToString(this.props.params.term) : ''}`
             pdf.save(`${title}.pdf`)
 
             this.setState({
@@ -207,7 +207,7 @@ class Roster extends Component {
 
             {rosterSource === 'student-body' && (
               <header className='roster-header'>
-                <span className='class-title'>Law {helpers.formatAcademicProgram(prog)} Students</span>
+                <span className='class-title'>{helpers.formatAcademicProgram(prog)} Students</span>
                 <span>Academic Level: <strong>{level}</strong></span>
                 <span>Term: <strong>{helpers.termCodeToString(term)}</strong></span>
                 <span>Students Enrolled: <strong>{currentStudents.length}</strong></span>

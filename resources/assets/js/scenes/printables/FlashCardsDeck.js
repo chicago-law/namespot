@@ -47,7 +47,7 @@ export default class FlashCardsDeck extends Component {
     const addToPdf = function(cardsArray) {
       const canvasOptions = {
         logging: false,
-        scale:'1',
+        scale: '1',
       }
 
       let even = false
@@ -121,13 +121,13 @@ export default class FlashCardsDeck extends Component {
 
           // We're done! Save the file and mop up.
           const title = this.props.currentOffering.long_title
-            ? `Flash Cards - ${this.props.currentOffering.long_title}-${this.props.currentOffering.section}`
-            : `Flash Cards - Student Body - ${helpers.termCodeToString(this.props.termCode)}`
+            ? `Flash Cards - ${this.props.currentOffering.long_title}${this.props.currentOffering.section ? ' ' + this.props.currentOffering.section : ''}`
+            : `Flash Cards - Student Body${this.props.termCode ? ' ' + helpers.termCodeToString(this.props.termCode) : ''}`
           pdf.save(`${title}.pdf`)
 
           // Hide everything
           this.setState({
-            showLoading:false,
+            showLoading: false,
             printableReady: true
           })
         }
@@ -135,7 +135,7 @@ export default class FlashCardsDeck extends Component {
 
     }.bind(this) // end addToPdf
 
-    // start the loop
+    // start the loop!
     addToPdf(cards)
   }
 

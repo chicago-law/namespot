@@ -60,7 +60,7 @@ export default class SeatingChart extends Component {
       pdf.addImage(imgData, 'jpeg', 0, 0)
       const title = currentOffering.long_title
         ? `Seating Chart - ${currentOffering.long_title}${currentOffering.section ? ' ' + currentOffering.section : ''}`
-        : `${rooms[roomId].name} Blank`
+        : `Blank Chart - ${rooms[roomId].name}`
       pdf.save(`${title}.pdf`)
 
       this.setState({

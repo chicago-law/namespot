@@ -59,7 +59,7 @@ export default class NameTents extends Component {
         } else {
 
           // We're done! Save the file and mop up.
-          const title = `Name Tents - ${this.props.currentOffering.long_title}-${this.props.currentOffering.section}`
+          const title = `Name Tents - ${this.props.currentOffering.long_title}${this.props.currentOffering.section ? ' ' + this.props.currentOffering.section : ''}`
           pdf.save(`${title}.pdf`)
 
           this.setState({
@@ -81,7 +81,6 @@ export default class NameTents extends Component {
     // plus a little more since the text doesn't start right at the point that offsetTop
     // measures from.
     const maxTop = (parseFloat(window.getComputedStyle(tent).getPropertyValue('height')) / 2) + 25
-
     const name = tent.querySelector('.name')
     const currentTop = name.offsetTop
 

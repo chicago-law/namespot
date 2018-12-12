@@ -77,6 +77,7 @@ const helpers = {
       }
       return `${quarter} ${year}`
     }
+    return ''
   },
 
   // Takes in the first half of an academic year and returns an array
@@ -189,19 +190,23 @@ const helpers = {
   },
 
   formatAcademicProgram(prog) {
-    switch (prog) {
-      case 'LALLM':
-        return 'LL.M.'
-      case 'LAJD':
-        return 'J.D.'
-      case 'LAJSD':
-        return 'J.S.D.'
-      case 'LAMLS':
-        return 'M.L.S'
-      default:
-        return prog
+    if (prog != null) {
+      switch (prog) {
+        case 'LALLM':
+          return 'LL.M.'
+        case 'LAJD':
+          return 'J.D.'
+        case 'LAJSD':
+          return 'J.S.D.'
+        case 'LAMLS':
+          return 'M.L.S'
+        default:
+          return prog
+      }
     }
+    return ''
   }
+
 }
 
 export default helpers
