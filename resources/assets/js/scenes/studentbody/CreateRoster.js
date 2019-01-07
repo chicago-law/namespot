@@ -7,7 +7,7 @@ class CreateRoster extends Component {
   state = {
     academicProg: '',
     academicLevel: '',
-    term: helpers.termCodesFromYear(this.props.years.academicYear)[0]
+    term: '',
   }
 
   onPlanChange = (e) => {

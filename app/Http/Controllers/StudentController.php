@@ -60,6 +60,10 @@ class StudentController extends Controller
     // $results = Student::search($s)->get();
     $results = Student::where('full_name', "LIKE", "%$s%")
       ->orWhere('short_full_name', "LIKE", "%$s%")
+      ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$s}%"])
+      ->orWhereRaw("CONCAT(first_name, ' ', short_last_name) LIKE ?", ["%{$s}%"])
+      ->orWhereRaw("CONCAT(short_first_name, ' ', last_name) LIKE ?", ["%{$s}%"])
+      ->orWhereRaw("CONCAT(short_first_name, ' ', short_last_name) LIKE ?", ["%{$s}%"])
       ->orWhere('nickname', "LIKE", "%$s%")
       ->orWhere('cnet_id', "LIKE", "%$s%")
       ->get();

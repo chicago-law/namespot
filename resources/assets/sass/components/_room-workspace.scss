@@ -2,8 +2,19 @@
   display:flex;
   align-items:flex-start;
   @media(max-width:$desktop) {
-    display: block;
-    text-align:center;
+    // display: block;
+    // text-align:center;
+    flex-direction: column;
+    align-items: stretch;
+    .room-workspace-right {
+      order: 0;
+    }
+    .outer-page-container {
+      order: 1;
+    }
+    .room-workspace-left {
+      order: 2;
+    }
   }
   .room-workspace-left, .room-workspace-right {
     flex:1 1 25%;
@@ -95,8 +106,10 @@
     justify-content:flex-start;
     margin-top:1.5em;
     @media (max-width: $desktop) {
-      display:block;
-      text-align:center;
+      // display:block;
+      // text-align:center;
+      flex-direction: row;
+      justify-content: center;
       margin-top: 0;
     }
     .enrollment {
@@ -108,8 +121,7 @@
       @media(max-width:$desktop) {
         text-align:center;
         max-width:$x-large-page;
-        margin-left:auto;
-        margin-right:auto;
+        margin: 0 1em 1em 1em;
       }
       @media (max-width:$laptop) {
         max-width:$large-page;
