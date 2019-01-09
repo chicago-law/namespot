@@ -353,7 +353,7 @@ const mapStateToProps = ({ app, entities, settings }, { match, withStudents = tr
 
   // find all tables that belong to this room
   const currentTables = Object.keys(tables)
-    .filter(id => tables[id].room_id === currentRoom.id)
+    .filter(id => parseFloat(tables[id].room_id) === parseFloat(currentRoom.id))
     .map(id => tables[id])
 
   // make an array of all the seats in the current room
