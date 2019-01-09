@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { Switch, Route } from 'react-router-dom'
 import Select from '../scenes/select/Select'
 import Workspace from '../scenes/room/containers/Workspace'
@@ -7,16 +7,19 @@ import Students from '../scenes/studentbody/Students'
 import NotFound404 from './NotFound404'
 import ImportExport from '../scenes/import/ImportExport'
 import Settings from '../scenes/settings/Settings'
+import { setTask, fetchUser } from '../actions'
 
-export default class Main extends Component {
+class Main extends Component {
   componentDidMount() {
+    const { dispatch } = this.props
     const authedUserId = document.getElementById('root').dataset.authedUser
-    authedUserId && this.props.fetchUser(authedUserId)
+    authedUserId && dispatch(fetchUser(authedUserId))
   }
 
   handleBgClick() {
-    if (this.props.view === 'assign-seats' && this.props.task !== 'offering-overview') {
-      this.props.setTask('offering-overview')
+    const { dispatch, task, view } = this.props
+    if (view === 'assign-seats' && task !== 'offering-overview') {
+      dispatch(setTask('offering-overview'))
     }
   }
 
@@ -38,9 +41,9 @@ export default class Main extends Component {
   }
 }
 
-Main.propTypes = {
-  fetchUser: PropTypes.func.isRequired,
-  view: PropTypes.string,
-  setTask: PropTypes.func.isRequired,
-  task: PropTypes.string,
-}
+const mapStateToProps = ({ app }) => ({
+  view: app.view,
+  task: app.task,
+})
+
+export default connect(mapStateToProps)(Main)

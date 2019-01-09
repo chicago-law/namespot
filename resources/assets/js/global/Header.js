@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 import Banner from './Banner'
 import Logo from './Logo'
-import ActionBar from './containers/ActionBar'
+import ActionBar from './ActionBar'
 import Nav from './Nav'
 
 export default class Header extends Component {

@@ -46,12 +46,8 @@ class FetchAppData implements ShouldQueue
         $year = $academic_year_setting ? $academic_year_setting->setting_value : '2018';
 
         // Convert the single year into an array of AIS term codes.
-        // Ie, 2018 becomes 2188, 2192, 2194.
+        // Ie, "2018" becomes [2188, 2192, 2194].
         $term_codes = getTermCodesFromYear($year);
-
-        // $term_codes = ['2178','2182','2184','2188','2192','2194'];
-        // $term_codes = ['2188','2192','2194'];
-        // $term_codes = ['2188'];
 
         foreach ($term_codes as $term) {
 

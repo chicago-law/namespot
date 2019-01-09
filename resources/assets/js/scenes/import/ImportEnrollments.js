@@ -33,12 +33,12 @@ const ImportEnrollments = () => (
       <tr>
         <td>canvas_enrollment_state</td>
         <td>string</td>
-        <td>Use to indicate if this enrollment is reflected in Canvas. Possible values: <code>active</code>, <code>inactive.</code></td>
+        <td>Indicates if this enrollment is reflected in Canvas. Possible values: <code>active</code>, <code>inactive.</code></td>
       </tr>
       <tr>
         <td>ais_enrollment_state</td>
         <td>string</td>
-        <td>Use to indicate if this enrollment is reflected in AIS.</td>
+        <td>Indicates if this enrollment is reflected in AIS.</td>
       </tr>
       <tr>
         <td>is_namespot_addition</td>

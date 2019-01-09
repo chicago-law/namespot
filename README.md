@@ -23,11 +23,10 @@ Finally, set up Laravel's .ENV file with your database's credentials, and then r
 
 ## Using Namespot
 
-You'll probably want to make rooms first. Go to Rooms from the menu and create/edit them from there.
+### Rooms
+You'll probably want to make rooms first. Go to Rooms from the menu and create/edit them from there. A "room" is basically just a grid of coordinates laid out over a rectangle. A "table" is just a line with start and end coordinates, and optionally a middle coordinate for it to bend towards. A table will then distribute its seats evenly along its line. That's pretty much it.
 
-For names and classes, it's up to you to populate your database. We have our Namespot instance dispatching nightly Jobs to grab data from our university's database with [Guzzle](https://github.com/guzzle/guzzle). For inspiration for your own jobs, feel free to checkout ours in ```apps\Jobs```. A planned feature for the future is the ability to import a CSV and get your data into the app that way.
+### Class and Student Data
+For all the data related to classes and students, it's up to you to populate your database. We have our own Namespot instance dispatching nightly Jobs to grab data from our university's database with [Guzzle](https://github.com/guzzle/guzzle). For inspiration for your own jobs, feel free to checkout ours in ```apps\Jobs```.
 
-## Some Helpful Links
-Sometimes when starting a new Laravel project you might have some issues with permissions writing to the log file. I found this thread to be helpful: https://laracasts.com/discuss/channels/general-discussion/laravel-framework-file-permission-security/replies/163407.
-
-For issues with dispatching emails, check https://github.com/swiftmailer/swiftmailer/issues/544.
+You can also import CSV spreadsheets into Namespot to bring in new or updated data. See the Import/Export Data page for more information.

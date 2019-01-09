@@ -1,18 +1,28 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import Page from '../room/containers/Page'
+import { connect } from 'react-redux'
+import queryString from 'query-string'
+import Page from '../room/Page'
 import classNames from 'classnames/bind'
 import FullPageLoading from './FullPageLoading'
 import PrintableReady from './PrintableReady'
+import {
+  fetchRoom,
+  fetchTables,
+  requestOffering,
+  requestStudents,
+  findAndSetCurrentOffering,
+  findAndSetCurrentRoom,
+  setView,
+ } from '../../actions'
 
-export default class SeatingChart extends Component {
+class SeatingChart extends Component {
   state = {
     showLoading: true,
     printableReady: false
   }
 
   createPdf() {
-    // We start by manually add the SVGs to a blank canvas with canvg
+    // We start by manually adding the SVGs to a blank canvas with canvg
     // because html2canvas will skip them for some reason!
 
     // grab the existing canvas we put in the dom
@@ -72,35 +82,40 @@ export default class SeatingChart extends Component {
   }
 
   componentDidMount() {
+    const { dispatch, roomId, offeringId } = this.props
+
     // set view to 'seating-chart'
-    this.props.setView('seating-chart')
+    dispatch(setView('seating-chart'))
 
     // fetch room data
-    if (this.props.roomId) {
-      this.props.fetchRoom(this.props.roomId)
-      this.props.fetchTables(this.props.roomId)
+    if (roomId) {
+      dispatch(fetchRoom(roomId))
+      dispatch(fetchTables(roomId))
     }
 
     // fetch offering data, if we need it
-    if (this.props.offeringId) {
-      this.props.requestOffering(this.props.offeringId)
-      this.props.requestStudents(this.props.offeringId)
+    if (offeringId) {
+      dispatch(requestOffering(offeringId))
+      dispatch(requestStudents(offeringId))
     }
 
     // set store's currentRoom and currentOffering (if there is one)
-    this.props.findAndSetCurrentRoom(this.props.roomId)
-    this.props.offeringId ? this.props.findAndSetCurrentOffering(this.props.offeringId) : false
+    dispatch(findAndSetCurrentRoom(roomId))
+    if (offeringId) dispatch(findAndSetCurrentOffering(offeringId))
   }
 
   componentDidUpdate() {
+    const { showLoading } = this.state
+    const { dispatch, roomId, offeringId, loading } = this.props
+
     // again, set currentRoom and currentOffering in app store in case we were
     // waiting on room data from fetching.
-    this.props.findAndSetCurrentRoom(this.props.roomId)
-    this.props.offeringId ? this.props.findAndSetCurrentOffering(this.props.offeringId) : false
+    dispatch(findAndSetCurrentRoom(roomId))
+    if (offeringId) dispatch(findAndSetCurrentOffering(offeringId))
 
     // check if we're waiting on anything to finish loading. If not, go ahead
     // and make the PDF.
-    if (Object.keys(this.props.loading).every(loadingType => this.props.loading[loadingType] === false) && this.state.showLoading === true) {
+    if (Object.keys(loading).every(loadingType => loading[loadingType] === false) && showLoading === true) {
       setTimeout(()=> {
         this.createPdf()
       }, 2000)
@@ -138,23 +153,28 @@ export default class SeatingChart extends Component {
   }
 }
 
-SeatingChart.propTypes = {
-  currentOffering: PropTypes.object.isRequired,
-  fetchRoom: PropTypes.func.isRequired,
-  fetchTables: PropTypes.func.isRequired,
-  findAndSetCurrentOffering: PropTypes.func.isRequired,
-  findAndSetCurrentRoom: PropTypes.func.isRequired,
-  loading: PropTypes.object.isRequired,
-  offeringId: PropTypes.string,
-  offerings: PropTypes.object,
-  requestOffering: PropTypes.func.isRequired,
-  requestStudents: PropTypes.func.isRequired,
-  roomId: PropTypes.string.isRequired,
-  rooms: PropTypes.object.isRequired,
-  seats: PropTypes.object.isRequired,
-  setView: PropTypes.func.isRequired,
-  students: PropTypes.object,
-  tables: PropTypes.object.isRequired,
-  withStudents: PropTypes.bool.isRequired
+const mapStateToProps = (state, ownProps) => {
+  let currentOffering = {}
+  if (ownProps.match.params.offeringid != null && Object.keys(state.entities.offerings).length && state.entities.offerings[ownProps.match.params.offeringid]) {
+    currentOffering = state.entities.offerings[ownProps.match.params.offeringid]
+  }
+
+  // parse any URL parameters
+  const urlParams = queryString.parse(ownProps.location.search)
+  const withStudents = urlParams.withstudents === 'false' ? false : true
+
+  return {
+    currentOffering,
+    loading: state.app.loading,
+    offeringId: ownProps.match.params.offeringid,
+    offerings: state.entities.offerings,
+    roomId: ownProps.match.params.roomid,
+    rooms: state.entities.rooms,
+    seats: state.entities.seats,
+    students: state.entities.students,
+    tables: state.entities.tables,
+    withStudents
+  }
 }
 
+export default connect(mapStateToProps)(SeatingChart)

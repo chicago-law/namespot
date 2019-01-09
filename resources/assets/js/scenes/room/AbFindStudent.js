@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { CSSTransition } from 'react-transition-group'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import helpers from '../../bootstrap'
+import { assignSeat, setTask, setCurrentSeatId } from '../../actions'
 
-export default class AbFindStudent extends Component {
+class AbFindStudent extends Component {
   state = {
     query: '',
     showSearchInput: false
@@ -19,14 +20,16 @@ export default class AbFindStudent extends Component {
   }
 
   handleStudentClick(e) {
-    if (this.props.task === 'find-student') {
-      this.props.assignSeat(this.props.currentOffering.id, e.target.closest('[data-studentid]').dataset.studentid, this.props.currentSeatId)
-      this.props.setTask('offering-overview')
+    const { dispatch, currentOffering, currentSeatId, task } = this.props
+    if (task === 'find-student') {
+      dispatch(assignSeat(currentOffering.id, e.target.closest('[data-studentid]').dataset.studentid, currentSeatId))
+      dispatch(setTask('offering-overview'))
     }
   }
 
   handleCancelSearch = () => {
-    this.props.setTask('offering-overview')
+    const { dispatch } = this.props
+    dispatch(setTask('offering-overview'))
   }
 
   handleKeyDown(e) {
@@ -40,7 +43,8 @@ export default class AbFindStudent extends Component {
   }
 
   checkForMatch(student) {
-    const regex = new RegExp(this.state.query, 'gi')
+    const { query } = this.state
+    const regex = new RegExp(query, 'gi')
     // concat together everything should be searchable
     if ((`${student.nickname} ${student.first_name} ${student.last_name} ${student.short_full_name} ${student.nickname} ${student.canvas_id}`).match(regex)) {
       return true
@@ -55,16 +59,17 @@ export default class AbFindStudent extends Component {
   }
 
   componentWillUnmount() {
-    this.props.setCurrentSeatId(null)
+    const { dispatch } = this.props
+    dispatch(setCurrentSeatId(null))
   }
 
   render() {
     const { showSearchInput, query } = this.state
     const { currentOffering, currentStudents } = this.props
 
-    // Only show students without seats
+    // Students without seats
     const unseatedStudents = currentStudents.filter(student => student.enrollment['offering_' + currentOffering.id].seat === null)
-    // Only show students that match the query
+    // Students that match the query
     const filteredStudents = unseatedStudents.filter(student => this.checkForMatch(student))
 
     return (
@@ -104,12 +109,19 @@ export default class AbFindStudent extends Component {
   }
 }
 
-AbFindStudent.propTypes = {
-  assignSeat: PropTypes.func.isRequired,
-  currentOffering: PropTypes.object.isRequired,
-  currentSeatId: PropTypes.string.isRequired,
-  currentStudents: PropTypes.array.isRequired,
-  setCurrentSeatId: PropTypes.func.isRequired,
-  setTask: PropTypes.func.isRequired,
-  task: PropTypes.string.isRequired,
+const mapStateToProps = (state) => {
+  // Students enrolled in this class
+  const currentStudents = Object.keys(state.entities.students)
+    .filter(id => state.app.currentOffering.students.includes(parseInt(id)))
+    .map(id => state.entities.students[id])
+    .sort((a, b) => b.last_name.toUpperCase() < a.last_name.toUpperCase() ? 1 : -1)
+
+  return {
+    currentStudents,
+    currentOffering:state.app.currentOffering,
+    currentSeatId:state.app.currentSeatId,
+    task:state.app.task
+  }
 }
+
+export default connect(mapStateToProps)(AbFindStudent)

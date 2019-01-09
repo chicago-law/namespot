@@ -1,16 +1,23 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import classNames from 'classnames/bind'
 import FullPageLoading from './FullPageLoading'
 import PrintableReady from './PrintableReady'
+import {
+  requestStudents,
+  setView,
+  requestOffering,
+  findAndSetCurrentOffering
+} from '../../actions'
 
-export default class NameTents extends Component {
+
+class NameTents extends Component {
   state = {
     showLoading: true,
     printableReady: false
   }
 
-  createPdf() {
+  createPdf = () => {
     const tents = document.querySelectorAll('.nt-list__name-tent')
 
     // before we do anything else, we're going to check that all names fit on their cards.
@@ -35,7 +42,7 @@ export default class NameTents extends Component {
 
     const addToPdf = function(tentsArray) {
 
-      console.log(`Processing ${c} of ${tents.length}`)
+      console.log(`Processing ${c} of ${tents.length}`) //eslint-disable-line
 
       // set us to current page
       pdf.setPage(currentPage)
@@ -93,25 +100,30 @@ export default class NameTents extends Component {
   }
 
   componentDidMount() {
-    this.props.setView('name-tents')
+    const { dispatch, offeringId } = this.props
+
+    dispatch(setView('name-tents'))
 
     // fetch offering data, if we need it
-    if (this.props.offeringId) {
-      this.props.requestOffering(this.props.offeringId)
-      this.props.requestStudents(this.props.offeringId)
+    if (offeringId) {
+      dispatch(requestOffering(offeringId))
+      dispatch(requestStudents(offeringId))
     }
 
     // set store's currentOffering (if there is one)
-    this.props.offeringId ? this.props.findAndSetCurrentOffering(this.props.offeringId) : false
+    if (offeringId) dispatch(findAndSetCurrentOffering(offeringId))
   }
 
   componentDidUpdate() {
+    const { showLoading } = this.state
+    const { dispatch, offeringId, loading } = this.props
+
     // again, set currentOffering in app store in case we were waiting on data from fetching.
-    this.props.offeringId ? this.props.findAndSetCurrentOffering(this.props.offeringId) : false
+    if (offeringId) dispatch(findAndSetCurrentOffering(offeringId))
 
     // check if we're waiting on anything to finish loading. If not, go ahead
     // and make the PDF.
-    if (Object.keys(this.props.loading).every(loadingType => this.props.loading[loadingType] === false) && this.state.showLoading === true) {
+    if (Object.keys(loading).every(loadingType => loading[loadingType] === false) && showLoading === true) {
       this.createPdf()
     }
   }
@@ -165,13 +177,24 @@ export default class NameTents extends Component {
   }
 }
 
-NameTents.propTypes = {
-  currentOffering: PropTypes.object.isRequired,
-  currentStudents: PropTypes.array.isRequired,
-  findAndSetCurrentOffering: PropTypes.func.isRequired,
-  loading: PropTypes.object.isRequired,
-  offeringId: PropTypes.string,
-  requestOffering: PropTypes.func.isRequired,
-  requestStudents: PropTypes.func.isRequired,
-  setView: PropTypes.func.isRequired,
+const mapStateToProps = (state, ownProps) => {
+  let currentOffering = {}
+  if (ownProps.match.params.offeringid != null && Object.keys(state.entities.offerings).length && state.entities.offerings[ownProps.match.params.offeringid]) {
+    currentOffering = state.entities.offerings[ownProps.match.params.offeringid]
+  }
+
+  const currentStudents = Object.keys(state.entities.students)
+    .filter(studentId => currentOffering.students.includes(parseInt(studentId)))
+    .map(studentId => state.entities.students[studentId])
+    .sort((a, b) => a.last_name < b.last_name ? -1 : 1)
+
+  return {
+    currentOffering,
+    currentStudents,
+    offeringId: ownProps.match.params.offeringid,
+    students: state.entities.students,
+    loading: state.app.loading,
+  }
 }
+
+export default connect(mapStateToProps)(NameTents)

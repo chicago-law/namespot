@@ -1,7 +1,8 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { setTask } from '../../actions'
 
-const AbDeleteTable = ({ setTask }) => {
+const AbDeleteTable = () => {
 
   return (
     <div className='action-bar action-bar-delete-table'>
@@ -17,8 +18,4 @@ const AbDeleteTable = ({ setTask }) => {
   )
 }
 
-export default AbDeleteTable
-
-AbDeleteTable.propTypes = {
-  setTask: PropTypes.func.isRequired
-}
+export default connect()(AbDeleteTable)

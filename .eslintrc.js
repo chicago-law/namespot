@@ -23,19 +23,25 @@ module.exports = {
         "babel",
     ],
     "rules": {
-        "no-unused-vars": 1,
-        "no-console": "warn",
         "indent": 0,
-        "react/no-unescaped-entities": 0,
-        "react/prop-types": 0,
         "linebreak-style": [
             "error",
             "unix"
         ],
+        "no-confusing-arrow": ["error", {"allowParens": true}],
+        "no-console": "warn",
+        "no-plusplus": 0,
+        "no-unused-vars": 1,
         "quotes": [
             "error",
             "single"
         ],
+        "radix": 0,
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+        "react/jsx-one-expression-per-line": 0,
+        "react/no-unescaped-entities": 0,
+        "react/no-did-update-set-state": 0,
+        "react/prop-types": 0,
         "semi": [
             "error",
             "never"

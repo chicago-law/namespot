@@ -1,23 +1,27 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { CSSTransition } from 'react-transition-group'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { removeError } from '../actions'
 
-export default class Errors extends Component {
-  handleCloseClick(e) {
+class Errors extends Component {
+  handleCloseClick = (e) => {
+    const { dispatch } = this.props
     const name = e.target.closest('.error').getAttribute('data-errorname')
-    this.props.removeError(name)
+    dispatch(removeError(name))
   }
 
   render() {
+    const { errors } = this.props
+
     return (
       <CSSTransition
-        in={this.props.errors.length > 0 ? true : false}
+        in={errors.length > 0 ? true : false}
         timeout={200}
         classNames='errors-container'
       >
         <ul className='errors-container'>
-          {this.props.errors.map(error => (
+          {errors.map(error => (
             <li key={error.name} className='error' data-errorname={error.name}>
               <div className="left">
                 <FontAwesomeIcon icon={['far', 'exclamation-triangle']} />
@@ -36,7 +40,8 @@ export default class Errors extends Component {
   }
 }
 
-Errors.propTypes = {
-  errors:PropTypes.array,
-  removeError: PropTypes.func.isRequired
-}
+const mapStateToProps = ({ app }) => ({
+  errors: app.errors,
+})
+
+export default connect(mapStateToProps)(Errors)

@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import classNames from 'classnames/bind'
-import Page from './containers/Page'
+import Page from './Page'
 import PagePref from './containers/PagePref'
-import OfferingDetails from './containers/OfferingDetails'
+import OfferingDetails from './OfferingDetails'
 import WorkspaceMessage from './containers/WorkspaceMessage'
 
 export default class Workspace extends Component {

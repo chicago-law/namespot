@@ -1,123 +1,143 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import classNames from 'classnames/bind'
+import { savePointToTempTable } from '../../actions'
 
-export default class Grid extends Component {
-  handleBlipClick(e) {
-    if (this.props.pointSelection) { // only proceed if we're choosing a blip
-      const pointType = this.props.pointSelection
+class Grid extends Component {
+  shouldComponentUpdate(prevProps) {
+    const {
+      currentTables,
+      pointSelection,
+      tempTable,
+      view,
+    } = this.props
+    if (
+        currentTables.length !== prevProps.currentTables.length // tables just loaded
+        || pointSelection !== prevProps.pointSelection // point is selected
+        || tempTable.coords !== prevProps.tempTable.coords // tempTable coord changes
+        || view !== prevProps.view // view changes
+    ) {
+      return true
+    }
+    return false
+  }
+
+  handleBlipClick = (e) => {
+    const { dispatch, pointSelection, tempTable } = this.props
+    if (pointSelection) { // only proceed if we're choosing a blip
+      const pointType = pointSelection
       const pointKey = e.target.getAttribute('id')
-      if (this.isBlipActive(pointKey, this.props.tempTable)) {
-        this.props.savePointToTempTable(null, pointType)
+      if (this.isBlipActive(pointKey, tempTable)) {
+        dispatch(savePointToTempTable(null, pointType))
       } else {
-        this.props.savePointToTempTable(pointKey, pointType)
+        dispatch(savePointToTempTable(pointKey, pointType))
       }
     }
   }
 
-  isBlipActive(pointKey, tempTable) {
-    // is this point's key the same as either the start, end, or curve property of this.props.tempTable?
+  isBlipActive = (blipKey, tempTable) => {
+    // is this blip's key the same as either the start, end,
+    // or curve property of this.props.tempTable?
     if (tempTable.coords) {
-      for (let coordType in tempTable.coords) {
-        if (tempTable.coords.hasOwnProperty(coordType)) {
-          if (tempTable.coords[coordType] === pointKey) {
-            return coordType
-          }
+      let activeType = false
+      Object.keys(tempTable.coords).forEach((type) => {
+        if (tempTable.coords[type] === blipKey) {
+          activeType = type
         }
-      }
+      })
+      return activeType
     }
+    return false
   }
 
-  doesBlipBelongToAnyTable(blipKey, tables) {
-    // check if this blip is a part of any of the room's tables
-    let included = false
-    for (let tableKey in tables) {
-      for (let coordKey in tables[tableKey].gridCoords) {
-        if (tables[tableKey].gridCoords[coordKey] === blipKey) {
-          included = true
-        }
-      }
-    }
-    return included
-  }
+  doesBlipBelongToAnyTable = (blipKey, tables) => (
+    tables.some(table => (
+      Object.keys(table.gridCoords).some(type => (
+        table.gridCoords[type] === blipKey
+      ))
+    ))
+  )
 
   drawBlip(x, y) {
-    const key = x + '_' + y
+    const {
+      currentOffering,
+      currentTables,
+      tempTable,
+      pointSelection,
+      gridColumnWidth,
+      gridRowHeight,
+    } = this.props
+    const key = `${x}_${y}`
     // shrink blip's radius by 60% if we're on letter paper
-    const r = this.props.currentOffering && this.props.currentOffering.paper_size === 'tabloid' ? 13 : 13 * 0.6
+    const r = currentOffering && currentOffering.paper_size === 'tabloid' ? 13 : 13 * 0.6
     const blipClasses = classNames({
-      'blip': true,
-      'belongs-to-any-table': this.doesBlipBelongToAnyTable(key, this.props.currentTables),
-      'belongs-to-active-table': this.isBlipActive(key, this.props.tempTable),
-      'is-being-replaced': this.isBlipActive(key, this.props.tempTable) === this.props.pointSelection ? true : false
+      blip: true,
+      'belongs-to-any-table': this.doesBlipBelongToAnyTable(key, currentTables),
+      'belongs-to-active-table': this.isBlipActive(key, tempTable),
+      'is-being-replaced': this.isBlipActive(key, tempTable) === pointSelection,
     })
-    const cx = (x * this.props.gridColumnWidth).toFixed(2)
-    const cy = (y * this.props.gridRowHeight).toFixed(2)
+    const cx = (x * gridColumnWidth).toFixed(2)
+    const cy = (y * gridRowHeight).toFixed(2)
 
     // don't try and return a blip until we have proper coordinate values
-    if (isNaN(cx)) {
-      return false
-    }
+    // if (Number.isNaN(cx)) {
+    //   return false
+    // }
 
-    const blip = <circle
-      key={key}
-      id={key}
-      className={blipClasses}
-      onClick={(e) => this.handleBlipClick(e)}
-      r={r}
-      cx={cx} cy={cy}
-      x={x} y={y}
-      style={{ transformOrigin: `${cx}px ${cy}px` }}
-    />
+    const blip = (
+      <circle
+        key={key}
+        id={key}
+        className={blipClasses}
+        onClick={e => this.handleBlipClick(e)}
+        r={r}
+        cx={cx}
+        cy={cy}
+        x={x}
+        y={y}
+        style={{ transformOrigin: `${cx}px ${cy}px` }}
+      />
+    )
     return blip
   }
 
   makeBlipGrid() {
-    let blips = []
-    for (let i = 0; i < this.props.gridColumns; i++) {
-      for (let j = 0; j < this.props.gridRows; j++) {
+    const { gridColumns, gridRows } = this.props
+    const blips = []
+    for (let i = 0; i < gridColumns; i++) {
+      for (let j = 0; j < gridRows; j++) {
         blips.push(this.drawBlip(i, j))
       }
     }
     return blips
   }
 
-  shouldComponentUpdate(prevProps) {
-    if (
-        this.props.pointSelection != prevProps.pointSelection // point is selected
-        || this.props.tempTable.coords != prevProps.tempTable.coords // tempTable coord changes
-        || this.props.view !== prevProps.view // view changes
-    ) {
-      return true
-    } else {
-      return false
-    }
-  }
-
-  componentDidMount() {
-    this.forceUpdate()
-  }
-
   render() {
-    const grid = this.makeBlipGrid()
+    const { currentTables, view } = this.props
+    const grid = currentTables.length > 0 || view === 'edit-room' ? this.makeBlipGrid() : ''
 
     return (
-      <g className='grid'>
+      <g className="grid">
         { grid }
       </g>
     )
   }
 }
 
-Grid.propTypes = {
-  currentTables: PropTypes.array.isRequired,
-  gridColumnWidth: PropTypes.number,
-  gridColumns: PropTypes.number,
-  gridRowHeight: PropTypes.number,
-  gridRows: PropTypes.number,
-  pointSelection: PropTypes.string,
-  savePointToTempTable: PropTypes.func.isRequired,
-  task: PropTypes.string.isRequired,
-  tempTable: PropTypes.object,
-  view: PropTypes.string
+const mapStateToProps = ({ app, entities }) => {
+  // find all tables that belong to this room
+  const { tables } = entities
+  const currentTables = Object.keys(tables)
+    .filter(id => tables[id].room_id === app.currentRoom.id)
+    .map(id => tables[id])
+
+  return {
+    currentTables,
+    pointSelection: app.pointSelection,
+    task: app.task,
+    tempTable: app.tempTable,
+    view: app.view,
+  }
 }
+
+export default connect(mapStateToProps)(Grid)

@@ -4,19 +4,11 @@ import helpers from '../../bootstrap'
 
 const DownloadLinks = ({ type }) => (
   <Fragment>
-    <a
-      href="#"
-      className='download-links'
-    >
+    <a href={`${helpers.rootUrl}spreadsheets/${type}_template.csv`} className='download-links'>
       <FontAwesomeIcon icon={['far', 'arrow-alt-circle-down']} />
       Download template
     </a>
-    <a
-      href={`${helpers.rootUrl}api/export/${type}`}
-      className='download-links'
-      // target="_blank"
-      // rel="noopener noreferrer"
-    >
+    <a href={`${helpers.rootUrl}api/export/${type}`} className='download-links'>
       <FontAwesomeIcon icon={['fal', 'table']} />
       Export all {type}
     </a>

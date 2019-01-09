@@ -1,8 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import helpers from '../../bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import helpers from '../../bootstrap'
 import InstructorNames from '../../global/InstructorNames'
 
 const BanOffering = ({ settings, currentOffering }) => (
@@ -24,14 +23,9 @@ const BanOffering = ({ settings, currentOffering }) => (
   </div>
 )
 
-function mapStateToProps({ settings }) {
-  return {
-    settings,
-  }
-}
+const mapStateToProps = ({ app, settings }) => ({
+  currentOffering: app.currentOffering,
+  settings,
+})
 
 export default connect(mapStateToProps)(BanOffering)
-
-BanOffering.propTypes = {
-  currentOffering: PropTypes.object.isRequired
-}

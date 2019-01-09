@@ -1,19 +1,28 @@
 import React, { Component, Fragment } from 'react'
-import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import classNames from 'classnames/bind'
 import FullPageLoading from './FullPageLoading'
 import FlashCard from './FlashCard'
 import PrintableReady from './PrintableReady'
 import helpers from '../../bootstrap'
+import queryString from 'query-string'
+import {
+  requestStudents,
+  fetchAllStudentsFromTerm,
+  setView,
+  requestOffering,
+  findAndSetCurrentOffering,
+ } from '../../actions'
 
-export default class FlashCardsDeck extends Component {
+
+class FlashCardsDeck extends Component {
   state = {
     showLoading: true,
     printableReady: false
   }
 
-  createPdf() {
-    const { namesOnReverse } = this.props
+  createPdf = () => {
+    const { currentOffering, termCode, namesOnReverse } = this.props
 
     const pdf = new jsPDF({
       format: 'letter',
@@ -90,7 +99,7 @@ export default class FlashCardsDeck extends Component {
         // increment the count and then check if we need to run the function again
 
         // increment c
-        console.log(`Just created number ${c} of ${cards.length}`)
+        console.log(`Just created number ${c} of ${cards.length}`) //eslint-disable-line
 
         // Increment c and check if we need to go again.
         c++
@@ -120,9 +129,9 @@ export default class FlashCardsDeck extends Component {
         } else {
 
           // We're done! Save the file and mop up.
-          const title = this.props.currentOffering.long_title
-            ? `Flash Cards - ${this.props.currentOffering.long_title}${this.props.currentOffering.section ? ' ' + this.props.currentOffering.section : ''}`
-            : `Flash Cards - Student Body${this.props.termCode ? ' ' + helpers.termCodeToString(this.props.termCode) : ''}`
+          const title = currentOffering.long_title
+            ? `Flash Cards - ${currentOffering.long_title}${currentOffering.section ? ' ' + currentOffering.section : ''}`
+            : `Flash Cards - Student Body${termCode ? ' ' + helpers.termCodeToString(termCode) : ''}`
           pdf.save(`${title}.pdf`)
 
           // Hide everything
@@ -140,30 +149,32 @@ export default class FlashCardsDeck extends Component {
   }
 
   componentDidMount() {
-    this.props.setView('flash-cards')
+    const { dispatch, offeringId, termCode } = this.props
 
-    // fetch offering data, if we need it
-    if (this.props.offeringId) {
-      this.props.requestOffering(this.props.offeringId)
-      this.props.requestStudents(this.props.offeringId)
-    }
+    dispatch(setView('flash-cards'))
 
-    if (this.props.termCode) {
-      this.props.fetchAllStudentsFromTerm(this.props.termCode)
+    // Fetch data as required.
+    if (offeringId) {
+      dispatch(requestOffering(offeringId))
+      dispatch(requestStudents(offeringId))
     }
+    if (termCode) dispatch(fetchAllStudentsFromTerm(termCode))
 
     // set store's currentRoom and currentOffering (if there is one)
-    this.props.offeringId ? this.props.findAndSetCurrentOffering(this.props.offeringId) : false
+    if (offeringId) dispatch(findAndSetCurrentOffering(offeringId))
   }
 
   componentDidUpdate() {
+    const { showLoading } = this.state
+    const { dispatch, offeringId, loading } = this.props
+
     // again, set currentRoom and currentOffering in app store in case we were
     // waiting on room data from fetching.
-    this.props.offeringId ? this.props.findAndSetCurrentOffering(this.props.offeringId) : false
+    if (offeringId) dispatch(findAndSetCurrentOffering(offeringId))
 
     // check if we're waiting on anything to finish loading. If not, go ahead
     // and make the PDF.
-    if (Object.keys(this.props.loading).every(loadingType => this.props.loading[loadingType] === false) && this.state.showLoading === true) {
+    if (Object.keys(loading).every(loadingType => loading[loadingType] === false) && showLoading === true) {
       this.createPdf()
     }
   }
@@ -220,16 +231,24 @@ export default class FlashCardsDeck extends Component {
   }
 }
 
-FlashCardsDeck.propTypes = {
-  currentOffering: PropTypes.object.isRequired,
-  findAndSetCurrentOffering: PropTypes.func.isRequired,
-  fetchAllStudentsFromTerm: PropTypes.func.isRequired,
-  loading: PropTypes.object.isRequired,
-  namesOnReverse: PropTypes.bool.isRequired,
-  offeringId: PropTypes.string,
-  requestOffering: PropTypes.func.isRequired,
-  requestStudents: PropTypes.func.isRequired,
-  setView: PropTypes.func.isRequired,
-  students: PropTypes.object.isRequired,
-  termCode: PropTypes.string
+const mapStateToProps = ({ entities, app }, { match, location }) => {
+  let currentOffering = {}
+  if (match.params.offeringid != null && Object.keys(entities.offerings).length && entities.offerings[match.params.offeringid]) {
+    currentOffering = entities.offerings[match.params.offeringid]
+  }
+
+  // parse URL parameters
+  const urlParams = queryString.parse(location.search)
+  const namesOnReverse = urlParams.namesonreverse && urlParams.namesonreverse === 'true' ? true : false
+
+  return {
+    namesOnReverse,
+    currentOffering,
+    students: entities.students,
+    offeringId: match.params.offeringid,
+    termCode: match.params.termCode,
+    loading: app.loading,
+  }
 }
+
+export default connect(mapStateToProps)(FlashCardsDeck)

@@ -1,29 +1,44 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  setTask,
+  customizeOfferingRoom,
+  setView,
+  setModal
+} from '../../actions'
 
-export default class AbOfferingOverview extends Component {
+class AbOfferingOverview extends Component {
   handlePrintButtonClick() {
-    this.props.setModal('print-room', true)
+    const { dispatch } = this.props
+    dispatch(setModal('print-room', true))
   }
 
   handleEditRoomClick() {
+    const {
+      dispatch,
+      currentRoom,
+      currentOffering,
+      history
+    } = this.props
     // is the room already 'customized?
-    if (this.props.currentRoom.type === 'template') {
-      this.props.setTask('edit-room')
-      this.props.setView('edit-room')
+    if (currentRoom.type === 'template') {
+      dispatch(setTask('edit-room'))
+      dispatch(setView('edit-room'))
       // create a duplicate room and tables, and attach to this offering
       // (FYI, we do the url redirect from Room's componentDidMount)
-     this.props.customizeOfferingRoom(this.props.currentOffering.id)
+     dispatch(customizeOfferingRoom(currentOffering.id))
     } else {
-      this.props.setTask('edit-room')
-      this.props.setView('edit-room')
-      this.props.history.push(`/room/${this.props.currentRoom.id}/${this.props.currentOffering.id}`)
+      dispatch(setTask('edit-room'))
+      dispatch(setView('edit-room'))
+      history.push(`/room/${currentRoom.id}/${currentOffering.id}`)
     }
   }
 
   handleEditEnrollmentClick() {
-    this.props.setModal('edit-enrollment', true)
+    const { dispatch } = this.props
+    dispatch(setModal('edit-enrollment', true))
   }
 
   render() {
@@ -33,7 +48,7 @@ export default class AbOfferingOverview extends Component {
     return (
       <div className='action-bar action-bar-offering-overview'>
 
-        <div className="left"></div>
+        <div className="left" />
 
         <div className="center">
           <div className='click-an-empty-seat'>
@@ -81,14 +96,22 @@ export default class AbOfferingOverview extends Component {
   }
 }
 
-AbOfferingOverview.propTypes = {
-  currentOffering: PropTypes.object.isRequired,
-  currentRoom: PropTypes.object.isRequired,
-  currentStudents: PropTypes.array.isRequired,
-  customizeOfferingRoom: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
-  setModal: PropTypes.func.isRequired,
-  setTask: PropTypes.func.isRequired,
-  setView: PropTypes.func.isRequired,
-  task: PropTypes.string.isRequired,
+const mapStateToProps = ({ app, entities }) => {
+  const currentStudents = []
+  Object.keys(entities.students).forEach(studentId => {
+    if (app.currentOffering.students.includes(parseInt(studentId))) {
+      currentStudents.push(entities.students[studentId])
+    }
+  })
+
+  return {
+    currentStudents,
+    currentRoom:app.currentRoom,
+    currentOffering:app.currentOffering,
+    task:app.task,
+    loading:app.loading,
+    view: app.view
+  }
 }
+
+export default withRouter(connect(mapStateToProps)(AbOfferingOverview))

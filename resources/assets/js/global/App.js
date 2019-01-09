@@ -1,13 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter, Switch, Route, Redirect } from 'react-router-dom'
+import {
+  withRouter,
+  Switch,
+  Route,
+  Redirect,
+} from 'react-router-dom'
 import Header from './Header'
-import Main from './containers/Main'
-import Modals from './containers/Modals'
-import Errors from './containers/Errors'
-import SeatingChart from '../scenes/printables/containers/SeatingChart'
-import FlashCardsDeck from '../scenes/printables/containers/FlashCardsDeck'
-import NameTents from '../scenes/printables/containers/NameTents'
+import Main from './Main'
+import Modals from './Modals'
+import Errors from './Errors'
+import SeatingChart from '../scenes/printables/SeatingChart'
+import FlashCardsDeck from '../scenes/printables/FlashCardsDeck'
+import NameTents from '../scenes/printables/NameTents'
 import Roster from '../scenes/printables/Roster'
 import Footer from './Footer'
 import Loading from './Loading'
@@ -20,7 +25,7 @@ class App extends Component {
   }
 
   render() {
-    const { loading } = this.props
+    const { location, loading } = this.props
 
     if (!Object.keys(loading).includes('settings') || loading.settings) {
       return (
@@ -50,7 +55,7 @@ class App extends Component {
         <Route render={() =>
           <div className='app-container'>
             <Header />
-            <Main />
+            <Main location={location} />
             <Footer />
             <Modals />
             <Errors />

@@ -1,19 +1,18 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { CSSTransition } from 'react-transition-group'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import helpers from '../bootstrap'
+import { requestError } from '../actions'
 
-export default class EditableText extends Component {
-  constructor(props) {
-    super(props)
-    this.textRef = React.createRef()
-    this.state = {
-      isEditing: false,
-      text: '',
-      showingSaved:false
-    }
+class EditableText extends Component {
+  state = {
+    isEditing: false,
+    text: '',
+    showingSaved:false
   }
+
+  textRef = React.createRef()
 
   handleEditClick = () => {
     this.setState({
@@ -25,7 +24,8 @@ export default class EditableText extends Component {
     window.getSelection().selectAllChildren(this.textRef.current)
   }
 
-  handleSaveClick() {
+  handleSaveClick = () => {
+    const { dispatch } = this.props
     const text = this.textRef.current.textContent.trim()
     if (this.props.validator) {
       switch (this.props.validator) {
@@ -39,7 +39,7 @@ export default class EditableText extends Component {
           this.validateStudentNickname(text)
           break
         default:
-          this.props.requestError('validation-error','There was an error validating the text')
+          dispatch(requestError('validation-error','There was an error validating the text'))
       }
     } else {
       this.saveValidText(text)
@@ -186,9 +186,4 @@ export default class EditableText extends Component {
   }
 }
 
-EditableText.propTypes = {
-  requestError: PropTypes.func.isRequired,
-  save: PropTypes.func.isRequired,
-  text: PropTypes.string.isRequired,
-  validator: PropTypes.string
-}
+export default connect()(EditableText)

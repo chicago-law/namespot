@@ -1,17 +1,15 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-const BanEditRoom = ({ currentRoom }) => {
-  return (
-    <div className="banner-text">
-      <h3><FontAwesomeIcon icon={['fas', 'map-marker-alt']} />{currentRoom.name}</h3>
-    </div>
-  )
-}
+const BanEditRoom = ({ currentRoom }) => (
+  <div className="banner-text">
+    <h3><FontAwesomeIcon icon={['fas', 'map-marker-alt']} />{currentRoom.name}</h3>
+  </div>
+)
 
-export default BanEditRoom
+const mapStateToProps = ({ app }) => ({
+  currentRoom: app.currentRoom,
+})
 
-BanEditRoom.propTypes = {
-  currentRoom: PropTypes.object.isRequired
-}
+export default connect(mapStateToProps)(BanEditRoom)

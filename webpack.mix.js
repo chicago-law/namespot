@@ -16,6 +16,7 @@ mix.react('resources/assets/js/main.js', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css')
    .copyDirectory('resources/assets/images', 'public/images')
    .copyDirectory('resources/assets/js/vendor', 'public/js')
+   .copyDirectory('resources/assets/spreadsheets', 'public/spreadsheets')
    .sourceMaps()
    .browserSync({
      proxy:'localhost/namespot/public'

@@ -1,10 +1,21 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import helpers from '../../bootstrap'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AbDivider from '../../global/AbDivider'
+import {
+  saveNewTable,
+  clearTempTable,
+  setTask,
+  setPointSelection,
+  setSeatCount,
+  requestError,
+  setModal,
+  savePointToTempTable,
+} from '../../actions'
 
-export default class AbEditTable extends React.Component {
+class AbEditTable extends React.Component {
   state = {
     seatCount: this.props.tempTable.seatCount
   }
@@ -15,36 +26,42 @@ export default class AbEditTable extends React.Component {
   }
 
   handlePointSelectorButtonClick(e) {
+    const { dispatch, pointSelection } = this.props
     const mode = e.target.dataset.select
       ? e.target.dataset.select
       : this.findAncestor(e.target, 'point-selector').dataset.select
-    if (mode !== this.props.pointSelection) {
+
+    if (mode !== pointSelection) {
       // activating the button
-      this.props.setPointSelection(mode)
+      dispatch(setPointSelection(mode))
     } else {
       // deactivating the button
-      this.props.setPointSelection(null)
+      dispatch(setPointSelection(null))
     }
   }
 
   onLabelPosButtonClick() {
-    this.props.setModal('label-position',true)
+    const { dispatch } = this.props
+    dispatch(setModal('label-position', true))
   }
 
   handleSeatCountChange(e) {
+    const { dispatch } = this.props
     const seatCount = e.target.value
     this.setState({ seatCount })
-    this.props.setSeatCount(seatCount)
+    dispatch(setSeatCount(seatCount))
   }
 
   handleCancelClick() {
-    this.props.clearTempTable()
-    this.props.setTask('edit-room')
-    this.props.setPointSelection(null)
+    const { dispatch } = this.props
+    dispatch(clearTempTable())
+    dispatch(setTask('edit-room'))
+    dispatch(setPointSelection(null))
   }
 
   nudgeTable = (direction) => {
-    const { start, curve, end } = this.props.tempTable.coords
+    const { dispatch, tempTable } = this.props
+    const { start, curve, end } = tempTable.coords
     let [ sX, sY ] = start.split('_')
     let [ qX, qY ] = curve.split('_')
     let [ eX, eY ] = end.split('_')
@@ -58,30 +75,30 @@ export default class AbEditTable extends React.Component {
     switch (direction) {
       case 'up':
         if (sY - 1 >= 0 && eY - 1 >= 0 && (qY === null || qY - 1 >= 0)) {
-          this.props.savePointToTempTable(`${sX}_${sY - 1}`, 'start')
-          this.props.savePointToTempTable(`${eX}_${eY - 1}`, 'end')
-          qY !== null && this.props.savePointToTempTable(`${qX}_${qY - 1}`, 'curve')
+          dispatch(savePointToTempTable(`${sX}_${sY - 1}`, 'start'))
+          dispatch(savePointToTempTable(`${eX}_${eY - 1}`, 'end'))
+          qY !== null && dispatch(savePointToTempTable(`${qX}_${qY - 1}`, 'curve'))
         }
         break
       case 'down':
         if (sY + 1 <= 37 && eY + 1 <= 37 && (qY === null || qY + 1 <= 37)) {
-          this.props.savePointToTempTable(`${sX}_${sY + 1}`, 'start')
-          this.props.savePointToTempTable(`${eX}_${eY + 1}`, 'end')
-          qY !== null && this.props.savePointToTempTable(`${qX}_${qY + 1}`, 'curve')
+          dispatch(savePointToTempTable(`${sX}_${sY + 1}`, 'start'))
+          dispatch(savePointToTempTable(`${eX}_${eY + 1}`, 'end'))
+          qY !== null && dispatch(savePointToTempTable(`${qX}_${qY + 1}`, 'curve'))
         }
         break
       case 'left':
         if (sX - 1 >= 0 && eX - 1 >= 0 && (qX === null || qX - 1 >= 0)) {
-          this.props.savePointToTempTable(`${sX - 1}_${sY}`, 'start')
-          this.props.savePointToTempTable(`${eX - 1}_${eY}`, 'end')
-          qX !== null && this.props.savePointToTempTable(`${qX - 1}_${qY}`, 'curve')
+          dispatch(savePointToTempTable(`${sX - 1}_${sY}`, 'start'))
+          dispatch(savePointToTempTable(`${eX - 1}_${eY}`, 'end'))
+          qX !== null && dispatch(savePointToTempTable(`${qX - 1}_${qY}`, 'curve'))
         }
         break
       case 'right':
         if (sX + 1 <= 77 && eX + 1 <= 77 && (qX === null || qX + 1 <= 77)) {
-          this.props.savePointToTempTable(`${sX + 1}_${sY}`, 'start')
-          this.props.savePointToTempTable(`${eX + 1}_${eY}`, 'end')
-          qX !== null && this.props.savePointToTempTable(`${qX + 1}_${qY}`, 'curve')
+          dispatch(savePointToTempTable(`${sX + 1}_${sY}`, 'start'))
+          dispatch(savePointToTempTable(`${eX + 1}_${eY}`, 'end'))
+          qX !== null && dispatch(savePointToTempTable(`${qX + 1}_${qY}`, 'curve'))
         }
         break
     }
@@ -89,7 +106,7 @@ export default class AbEditTable extends React.Component {
   }
 
   handleApplyChangesClick() {
-    const { tempTable, match } = this.props
+    const { dispatch, tempTable, match } = this.props
     // check if we have both a start point and an end point
     if (
       tempTable.coords.hasOwnProperty('start')
@@ -97,12 +114,12 @@ export default class AbEditTable extends React.Component {
       && tempTable.coords.hasOwnProperty('end')
       && tempTable.coords.end !== null
     ) {
-      this.props.saveNewTable(tempTable.id, match.params.roomID, tempTable.coords, tempTable.seatCount, tempTable.labelPosition)
-      this.props.clearTempTable()
-      this.props.setTask('edit-room')
-      this.props.setPointSelection(null)
+      dispatch(saveNewTable(tempTable.id, match.params.roomID, tempTable.coords, tempTable.seatCount, tempTable.labelPosition))
+      dispatch(clearTempTable())
+      dispatch(setTask('edit-room'))
+      dispatch(setPointSelection(null))
     } else {
-      this.props.requestError('start-end-required', 'Both a starting point and an ending point are required for all tables', true)
+      dispatch(requestError('start-end-required', 'Both a starting point and an ending point are required for all tables', true))
     }
   }
 
@@ -142,11 +159,14 @@ export default class AbEditTable extends React.Component {
   }
 
   render() {
+    const { seatCount } = this.state
+    const { pointSelection, tempTable } = this.props
+
     return (
       <div className='action-bar action-bar-edit-table'>
 
         {/* Select Start Point Button */}
-        <div className={`flex-container point-selector start-point ${ this.props.pointSelection === 'start' ? 'active' : ''}`} data-select="start" onClick={(e) => this.handlePointSelectorButtonClick(e)}>
+        <div className={`flex-container point-selector start-point ${ pointSelection === 'start' ? 'active' : ''}`} data-select="start" onClick={(e) => this.handlePointSelectorButtonClick(e)}>
           <button className='big-button'>
             <div className="diagram">
               <svg width="47" height="33" xmlns="http://www.w3.org/2000/svg"><g fill="none" fillRule="evenodd"><circle fill="#2F7AD0" cx="5" cy="15" r="5" /><path d="M10.576 14.5h36.92" stroke="#ccc" strokeLinecap="round" strokeWidth="2"/></g></svg>
@@ -156,7 +176,7 @@ export default class AbEditTable extends React.Component {
         </div>
 
         {/* Select Curve Point button */}
-        <div className={`flex-container point-selector curve-point ${this.props.pointSelection === 'curve' ? 'active' : ''}`} data-select="curve" onClick={(e) => this.handlePointSelectorButtonClick(e)}>
+        <div className={`flex-container point-selector curve-point ${pointSelection === 'curve' ? 'active' : ''}`} data-select="curve" onClick={(e) => this.handlePointSelectorButtonClick(e)}>
           <button className='big-button'>
             <div className="diagram">
               {/* <svg width="57" height="15" xmlns="http://www.w3.org/2000/svg"><g fill="none" fillRule="evenodd"><path d="M0 14.287C4.258 8.096 13.507 5 27.747 5s23.49 3.096 27.747 9.287" stroke="#2F7AD0" strokeLinecap="round" strokeDasharray="4" /><circle fill="#2F7AD0" cx="29" cy="5" r="5" /></g></svg> */}
@@ -167,7 +187,7 @@ export default class AbEditTable extends React.Component {
         </div>
 
         {/* select end point button */}
-        <div className={`flex-container point-selector end-point ${this.props.pointSelection === 'end' ? 'active' : ''}`} data-select="end" onClick={(e) => this.handlePointSelectorButtonClick(e)}>
+        <div className={`flex-container point-selector end-point ${pointSelection === 'end' ? 'active' : ''}`} data-select="end" onClick={(e) => this.handlePointSelectorButtonClick(e)}>
           <button className='big-button'>
             <div className="diagram">
               <svg width="38" height="33" xmlns="http://www.w3.org/2000/svg"><g fill="none" fillRule="evenodd"><path d="M.5 14.5h32.062" stroke="#ccc" strokeLinecap="round" strokeWidth="2"/><circle fill="#2F7AD0" cx="33" cy="15" r="5" /></g></svg>
@@ -214,7 +234,7 @@ export default class AbEditTable extends React.Component {
 
         {/* set number of seats */}
         <div className='flex-container seats-number'>
-          <input type='number' value={this.state.seatCount} onChange={(e) => this.handleSeatCountChange(e)}/>
+          <input type='number' value={seatCount} onChange={(e) => this.handleSeatCountChange(e)}/>
           <p>Number of<br/>Seats</p>
         </div>
 
@@ -222,7 +242,7 @@ export default class AbEditTable extends React.Component {
         <div className={'flex-container label-position'} onClick={(e) => this.onLabelPosButtonClick(e)}>
           <button className='big-button'>
             <img src={`${helpers.rootUrl}images/label-position.png`} alt='label position button'/>
-            <p>Label Position:<br/>{this.props.tempTable.labelPosition}</p>
+            <p>Label Position:<br/>{tempTable.labelPosition}</p>
           </button>
         </div>
 
@@ -241,18 +261,13 @@ export default class AbEditTable extends React.Component {
   }
 }
 
-AbEditTable.propTypes = {
-    clearTempTable: PropTypes.func.isRequired,
-    currentRoom: PropTypes.object.isRequired,
-    match: PropTypes.object.isRequired,
-    pointSelection: PropTypes.string,
-    requestError:PropTypes.func.isRequired,
-    saveNewTable:PropTypes.func.isRequired,
-    setPointSelection: PropTypes.func.isRequired,
-    setModal: PropTypes.func.isRequired,
-    setSeatCount: PropTypes.func.isRequired,
-    setTask: PropTypes.func.isRequired,
-    task: PropTypes.string,
-    tempTable: PropTypes.object,
-    view: PropTypes.string
-  }
+const mapStateToProps = ({ app }) => ({
+  currentRoom: app.currentRoom,
+  modals: app.modals,
+  view: app.view,
+  task: app.task,
+  tempTable: app.tempTable,
+  pointSelection: app.pointSelection,
+})
+
+export default withRouter(connect(mapStateToProps)(AbEditTable))

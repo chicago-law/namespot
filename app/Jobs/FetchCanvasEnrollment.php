@@ -152,7 +152,7 @@ class FetchCanvasEnrollment implements ShouldQueue
       // Last, the API response is usually paginated. Do we need to run again?
       // Look through all the links in the header, and if "next" is one of them,
       // run it again. Or, if we get through all those links and "next" is not
-      // one of them, then we're done with this offering. If last_call is true,
+      // one of them, then we're done with this offering. If last_offering is true,
       // then go ahead and fire done_fetching().
       $header_links = Psr7\parse_header($response->getHeader('Link'));
       foreach ($header_links as $i => $link):

@@ -1,34 +1,48 @@
 import React, { Component, Fragment } from 'react'
-import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import helpers from '../../bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import EditableText from '../../global/containers/EditableText'
+import EditableText from '../../global/EditableText'
+import {
+  updateAndSaveStudent,
+  setTask,
+  assignSeat,
+  setCurrentStudentId,
+  unenrollStudent,
+  setModal,
+} from '../../actions'
 
-export default class AbStudentDetails extends Component {
-  constructor(props) {
-    super(props)
+class AbStudentDetails extends Component {
+  componentWillUnmount() {
+    const { dispatch } = this.props
+    dispatch(setCurrentStudentId(null))
   }
 
-  saveStudentDetails(nickname) {
-    this.props.updateAndSaveStudent(this.props.currentStudentId, 'nickname', nickname)
+  handleBack = () => {
+    const { dispatch } = this.props
+    dispatch(setTask('offering-overview'))
   }
 
-  handleUnseatClick() {
-    this.props.assignSeat(this.props.currentOffering.id, this.props.currentStudentId, null)
+  saveStudentDetails = (nickname) => {
+    const { dispatch } = this.props
+    dispatch(updateAndSaveStudent(this.props.currentStudentId, 'nickname', nickname))
   }
 
-  onRemoveFromClass() {
-    this.props.unenrollStudent(this.props.currentStudentId, this.props.currentOffering.id)
-    this.props.setTask('offering-overview')
-    this.props.setCurrentStudentId(null)
+  handleUnseatClick = () => {
+    const { dispatch, currentOffering, currentStudentId } = this.props
+    dispatch(assignSeat(currentOffering.id, currentStudentId, null))
+  }
+
+  onRemoveFromClass = () => {
+    const { dispatch, currentStudentId, currentOffering } = this.props
+    dispatch(unenrollStudent(currentStudentId, currentOffering.id))
+    dispatch(setTask('offering-overview'))
+    dispatch(setCurrentStudentId(null))
   }
 
   onPortraitClick = () => {
-    this.props.setModal('change-picture', true)
-  }
-
-  componentWillUnmount() {
-    this.props.setCurrentStudentId(null)
+    const { dispatch } = this.props
+    dispatch(setModal('change-picture', true))
   }
 
   render() {
@@ -38,7 +52,7 @@ export default class AbStudentDetails extends Component {
 
     return (
       <div className='action-bar action-bar-student-details'>
-        <FontAwesomeIcon icon={['far', 'arrow-left']} />
+        <FontAwesomeIcon icon={['far', 'arrow-left']} onClick={this.handleBack} />
 
         <div
           className='portrait'
@@ -118,14 +132,12 @@ export default class AbStudentDetails extends Component {
   }
 }
 
-AbStudentDetails.propTypes = {
-  assignSeat: PropTypes.func.isRequired,
-  currentOffering: PropTypes.object.isRequired,
-  currentStudentId: PropTypes.number.isRequired,
-  setCurrentStudentId: PropTypes.func.isRequired,
-  setModal: PropTypes.func.isRequired,
-  setTask: PropTypes.func.isRequired,
-  students: PropTypes.object.isRequired,
-  unenrollStudent: PropTypes.func.isRequired,
-  updateAndSaveStudent: PropTypes.func.isRequired
+const mapStateToProps = ({ entities, app }) => {
+  return {
+    students: entities.students,
+    currentStudentId: app.currentStudentId,
+    currentOffering: app.currentOffering
+  }
 }
+
+export default connect(mapStateToProps)(AbStudentDetails)

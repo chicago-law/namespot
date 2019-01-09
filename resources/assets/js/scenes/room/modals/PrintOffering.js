@@ -56,11 +56,13 @@ export default class PrintOffering extends Component {
   }
 
   printButtonClick() {
-    this.props.setModal('print-room',false)
+    this.props.setModal('print-room', false)
   }
+
   onNamesOnReverseChange = (e) => {
     this.setState({ namesOnReverse: e.target.checked })
   }
+
   onEnrollSrcChange = (e) => {
     let aisOnly = false
     if (e.target.value === 'ais-only') {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import classNames from 'classnames/bind'
 import { CSSTransition } from 'react-transition-group'
 import ChangeRoom from '../scenes/room/modals/containers/ChangeRoom'
@@ -10,52 +10,11 @@ import LabelPosition from '../scenes/room/modals/containers/LabelPosition'
 import ChangePicture from '../scenes/room/modals/containers/ChangePicture'
 import ConfirmRoomDelete from '../scenes/select/modals/ConfirmRoomDelete'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { resetCurrentRoom, setModal } from '../actions'
 
-export default class Modals extends Component {
+class Modals extends Component {
   state = {
     modalActive: Object.keys(this.props.modals).some(name => this.props.modals[name] === true )
-  }
-
-  handleCloseClick = () => {
-    // Do a switch on them and we can write what to do for each here.
-    // Most will just be to clear the modal out, but this allows customized behavior too.
-    Object.keys(this.props.modals).forEach(type => {
-      if (this.props.modals[type]) {
-        switch (type) {
-          case 'change-room':
-            this.props.setModal(type, false)
-            break
-          case 'assign-room':
-            this.props.setModal(type, false)
-            // this.props.history.push('/select/offerings')
-            break
-          case 'edit-enrollment':
-            this.props.setModal(type, false)
-            break
-          case 'print-room':
-            this.props.setModal(type, false)
-            break
-          case 'label-position':
-            this.props.setModal(type, false)
-            break
-          case 'change-picture':
-            this.props.setModal(type, false)
-            break
-          case 'confirm-room-delete':
-            this.props.setModal(type, false)
-            this.props.resetCurrentRoom()
-            break
-          default:
-            this.props.setModal(type, false)
-        }
-      }
-    })
-  }
-
-  onKeyDown = (e) => {
-    if (e.which === 27) {
-      this.handleCloseClick()
-    }
   }
 
   componentDidMount() {
@@ -72,6 +31,48 @@ export default class Modals extends Component {
 
   componentWillUnmount() {
     document.removeEventListener('keydown', this.onKeyDown)
+  }
+
+  handleCloseClick = () => {
+    const { dispatch, modals } = this.props
+    // Do a switch on them and we can write what to do for each here.
+    // Most will just be to clear the modal out, but this allows customized behavior too.
+    Object.keys(modals).forEach(type => {
+      if (modals[type]) {
+        switch (type) {
+          case 'change-room':
+            dispatch(setModal(type, false))
+            break
+          case 'assign-room':
+            dispatch(setModal(type, false))
+            break
+          case 'edit-enrollment':
+            dispatch(setModal(type, false))
+            break
+          case 'print-room':
+            dispatch(setModal(type, false))
+            break
+          case 'label-position':
+            dispatch(setModal(type, false))
+            break
+          case 'change-picture':
+            dispatch(setModal(type, false))
+            break
+          case 'confirm-room-delete':
+            dispatch(setModal(type, false))
+            dispatch(resetCurrentRoom())
+            break
+          default:
+            dispatch(setModal(type, false))
+        }
+      }
+    })
+  }
+
+  onKeyDown = (e) => {
+    if (e.which === 27) {
+      this.handleCloseClick()
+    }
   }
 
   render() {
@@ -184,7 +185,7 @@ export default class Modals extends Component {
             </div>
           </div>
 
-          <div className="modal-container__shader" onClick={() => this.handleCloseClick()}></div>
+          <div className="modal-container__shader" onClick={this.handleCloseClick}></div>
 
         </div>
       </CSSTransition>
@@ -192,9 +193,8 @@ export default class Modals extends Component {
   }
 }
 
-Modals.propTypes = {
-  history: PropTypes.object.isRequired,
-  modals: PropTypes.object.isRequired,
-  setModal: PropTypes.func.isRequired
+const mapStateToProps = ({ app }) => ({
+  modals: app.modals,
+})
 
-}
+export default connect(mapStateToProps)(Modals)

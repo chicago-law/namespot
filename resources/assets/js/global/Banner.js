@@ -1,8 +1,8 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import BanEditRoom from '../scenes/room/containers/BanEditRoom'
-import BanOffering from '../scenes/room/containers/BanOffering'
+import BanEditRoom from '../scenes/room/BanEditRoom'
+import BanOffering from '../scenes/room/BanOffering'
 
 const BanSeatingCharts = () => (
   <div className="banner-text">

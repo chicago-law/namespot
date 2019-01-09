@@ -34,7 +34,6 @@ export default class OfferingList extends Component {
 
   onOfferingClick = (e) => {
     e.preventDefault()
-
     // add clicked offering's ID to local storage
     const id = e.target.closest('.offering').dataset.id
     // if recentOfferings includes the id, then create new array with that filtered out, and then add to beginning
@@ -151,7 +150,7 @@ export default class OfferingList extends Component {
                   {offering.catalog_nbr} {offering.section && ` - Section ${offering.section} `}
                   {offering.instructors.length > 0 && (
                     <Fragment>
-                      &bull; <InstructorNames offering={offering} />
+                      &bull; <InstructorNames offering={offering} />&nbsp;
                     </Fragment>
                   )}
                   {offering.term_code && (

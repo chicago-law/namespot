@@ -1,39 +1,24 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { Route } from 'react-router-dom'
 import classNames from 'classnames/bind'
 import _throttle from 'lodash/throttle'
-import AbRoomOverview from '../scenes/room/containers/AbRoomOverview'
-import AbEditTable from '../scenes/room/containers/AbEditTable'
-import AbDeleteTable from '../scenes/room/containers/AbDeleteTable'
-import AbOfferingOverview from '../scenes/room/containers/AbOfferingOverview'
-import AbFindStudent from '../scenes/room/containers/AbFindStudent'
-import AbStudentDetails from '../scenes/room/containers/AbStudentDetails'
+import AbRoomOverview from '../scenes/room/AbRoomOverview'
+import AbEditTable from '../scenes/room/AbEditTable'
+import AbDeleteTable from '../scenes/room/AbDeleteTable'
+import AbOfferingOverview from '../scenes/room/AbOfferingOverview'
+import AbFindStudent from '../scenes/room/AbFindStudent'
+import AbStudentDetails from '../scenes/room/AbStudentDetails'
 
-export default class ActionBar extends Component {
+class ActionBar extends Component {
   constructor(props) {
     super(props)
     this.throttledOnScroll = _throttle((e) => {
       this.onScroll(e)
     }, 50)
-  }
-  state = {
-    isFloating: false,
-    bannerHeight: ''
-  }
-
-  measureHeader() {
-    const banner = document.querySelector('.banner-container')
-    const bannerHeight = parseFloat(window.getComputedStyle(banner).getPropertyValue('height'))
-    this.setState({ bannerHeight })
-  }
-
-  onScroll = () => {
-    const currentScroll = window.pageYOffset
-    if (currentScroll >= this.state.bannerHeight) {
-      this.setState({ isFloating: true})
-    } else {
-      this.setState({ isFloating: false})
+    this.state = {
+      isFloating: false,
+      bannerHeight: '',
     }
   }
 
@@ -43,11 +28,28 @@ export default class ActionBar extends Component {
   }
 
   componentWillUnmount() {
-    this.throttledOnScroll.cancel
+    this.throttledOnScroll.cancel()
     window.removeEventListener('scroll', this.throttledOnScroll)
   }
 
+  measureHeader = () => {
+    const banner = document.querySelector('.banner-container')
+    const bannerHeight = parseFloat(window.getComputedStyle(banner).getPropertyValue('height'))
+    this.setState({ bannerHeight })
+  }
+
+  onScroll = () => {
+    const { bannerHeight } = this.state
+    const currentScroll = window.pageYOffset
+    if (currentScroll >= bannerHeight) {
+      this.setState({ isFloating: true })
+    } else {
+      this.setState({ isFloating: false })
+    }
+  }
+
   render() {
+    const { isFloating } = this.state
     const { task } = this.props
 
     let actionBarContents
@@ -59,16 +61,16 @@ export default class ActionBar extends Component {
         actionBarContents = <AbEditTable />
         break
       case 'delete-table':
-        actionBarContents = <AbDeleteTable/>
+        actionBarContents = <AbDeleteTable />
         break
       case 'offering-overview':
-        actionBarContents = <AbOfferingOverview/>
+        actionBarContents = <AbOfferingOverview />
         break
       case 'find-student':
-        actionBarContents = <AbFindStudent/>
+        actionBarContents = <AbFindStudent />
         break
       case 'student-details':
-        actionBarContents = <AbStudentDetails/>
+        actionBarContents = <AbStudentDetails />
         break
       default:
         actionBarContents = null
@@ -76,18 +78,22 @@ export default class ActionBar extends Component {
 
     const actionBarContainerClasses = classNames({
       'action-bar-container': true,
-      'is-floating': this.state.isFloating
+      'is-floating': isFloating,
     })
 
     return (
       <div className={actionBarContainerClasses}>
-        <Route path={'/room/:roomID/'} render={() => actionBarContents} />
-        <Route path={'/offering/:offeringID/'} render={() => actionBarContents} />
+        <Route path="/room/:roomID/" render={() => actionBarContents} />
+        <Route path="/offering/:offeringID/" render={() => actionBarContents} />
       </div>
     )
   }
 }
 
-ActionBar.propTypes = {
-  task:PropTypes.string.isRequired
+function mapStateToProps({ app }) {
+  return {
+    task: app.task,
+  }
 }
+
+export default connect(mapStateToProps)(ActionBar)
