@@ -34,6 +34,7 @@ input[type='text'], input[type='number'] {
   &:focus {
     border-color:lighten($primary-accent,15%);
     box-shadow:0 0 10px $middle-gray;
+    outline: 0;
   }
 }
 

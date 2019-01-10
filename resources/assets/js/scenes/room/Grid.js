@@ -79,11 +79,6 @@ class Grid extends Component {
     const cx = (x * gridColumnWidth).toFixed(2)
     const cy = (y * gridRowHeight).toFixed(2)
 
-    // don't try and return a blip until we have proper coordinate values
-    // if (Number.isNaN(cx)) {
-    //   return false
-    // }
-
     const blip = (
       <circle
         key={key}
