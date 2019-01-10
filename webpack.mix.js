@@ -31,7 +31,7 @@ mix.react('resources/assets/js/main.js', 'public/js')
     }
   })
   .webpackConfig({
-    // devtool: 'source-map',
+    devtool: 'source-map',
     // plugins: [
     //   new BundleAnalyzerPlugin(),
     // ]

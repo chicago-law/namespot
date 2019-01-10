@@ -99,7 +99,7 @@ const mapStateToProps = ({ app, entities }) => {
 
   // get the tables for the current room
   const currentTables = Object.keys(tables)
-    .filter(id => tables[id].room_id === parseFloat(app.currentOffering.room_id))
+    .filter(id => parseFloat(tables[id].room_id) === parseFloat(app.currentOffering.room_id))
     .map(id => tables[id])
 
   // make an array of all the seat IDs at the tables
