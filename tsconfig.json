@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "target": "es5",
+    "jsx": "react",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "declaration": false,
+    "noEmit": false,
+    "noUnusedLocals": false,
+    "noImplicitAny": false,
+    "noImplicitReturns": false,
+    "allowSyntheticDefaultImports": true,
+    "removeComments": true,
+    "strictNullChecks": false,
+    "outDir": "/public",
+    "lib": [
+      "es6",
+      "es7",
+      "dom"
+    ],
+    "rootDir": "./resources/js",
+    "baseUrl": "./"
+  },
+  "exclude": [
+    "public",
+    "dist",
+    "build",
+    "node_modules",
+    "vendor"
+  ]
+}
