@@ -7,7 +7,7 @@ import {
 } from './types'
 
 export const initialState: TodosState = [{
-  task: 'feed the cat',
+  task: 'feed the kitty',
   completed: true,
 }]
 
