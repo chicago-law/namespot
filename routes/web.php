@@ -11,6 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+  Route::middleware([])->group(function () {
+    // Route everything to our React view
+    Route::get('/{path?}', 'HomeController@react')->where('path', '.*');
+  });

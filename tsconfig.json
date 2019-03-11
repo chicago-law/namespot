@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "allowJs": true,
     "sourceMap": true,
     "target": "es5",
     "jsx": "react",
@@ -9,19 +10,22 @@
     "experimentalDecorators": true,
     "declaration": false,
     "noEmit": false,
-    "noUnusedLocals": false,
-    "noImplicitAny": false,
-    "noImplicitReturns": false,
     "allowSyntheticDefaultImports": true,
     "removeComments": true,
-    "strictNullChecks": false,
-    "outDir": "/public",
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "noUnusedLocals": true,
+    "outDir": "/public/",
     "lib": [
       "es6",
       "es7",
       "dom"
     ],
-    "rootDir": "./resources/js",
+    "rootDir": "./",
     "baseUrl": "./"
   },
   "exclude": [

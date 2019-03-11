@@ -9,7 +9,7 @@ module.exports = {
   ],
   globals: {
     Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly',
+    SharedArrayBuffer: 'readonly'
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -27,9 +27,12 @@ module.exports = {
     '@typescript-eslint/indent': ['error', 2],
     '@typescript-eslint/explicit-member-accessibility': 0,
     '@typescript-eslint/explicit-function-return-type': 0,
+    '@typescript-eslint/semi': 0,
+    'import/prefer-default-export': 0,
     'react/jsx-filename-extension': 'off',
+    'react/jsx-one-expression-per-line': 'off',
     'react/no-unescaped-entities': 0,
-    'semi': [2, 'never']
+    'semi': [1, "never"]
   },
   'settings': {
     'import/resolver': {
