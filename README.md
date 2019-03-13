@@ -17,8 +17,11 @@ Prereqs: Install [node, npm](https://nodejs.org/en/), and [Composer](https://get
 
 Then,
 `git clone https://github.com/elramus/laravel-typescript-react-boilerplate.git`
+
 `cd` into the new folder
+
 `composer install`
+
 `npm install`
 
 All set! Run `npm run watch` to get started.
