@@ -20,13 +20,12 @@ import {
 export function receiveOfferings(offerings) {
   return {
     type: C.RECEIVE_OFFERINGS,
-    offerings
+    offerings,
   }
 }
 // Fetch all offerings, with optional filters.
 export function fetchOfferings(options = {}) {
   return (dispatch, getState) => {
-
     // Check for conditions that mean we don't need to actually do the fetch.
     const { receivedOfferingsFor } = getState()
     // Have we already got all offerings?
@@ -39,21 +38,21 @@ export function fetchOfferings(options = {}) {
     }
 
     // We need it! Proceed.
-    dispatch(markTermReceived(options.termCode))
-    dispatch(setLoadingStatus('offerings',true))
+    dispatch(setLoadingStatus('offerings', true))
 
     // Make API call
     const params = queryString.stringify(options)
     axios.get(`${helpers.rootUrl}api/offerings?${params}`)
-    .then(response => {
+    .then((response) => {
       const normalizedData = response.data.length ? normalize(response.data, schema.offeringListSchema) : null
       if (normalizedData != null) {
         const offerings = normalizedData.entities.offerings
         dispatch(receiveOfferings(offerings))
+        dispatch(markTermReceived(options.termCode))
       }
       dispatch(setLoadingStatus('offerings', false))
     })
-    .catch(response => {
+    .catch((response) => {
       dispatch(requestError('fetch-offerings', `Offerings fetch: ${response.message}`))
       dispatch(setLoadingStatus('offerings', false))
     })
@@ -66,14 +65,14 @@ export function requestOffering(offering_id) {
   return (dispatch, getState) => {
     if (!getState().entities.offerings[offering_id]) {
       // set loading on
-      dispatch(setLoadingStatus('offerings',true))
+      dispatch(setLoadingStatus('offerings', true))
       // perform the fetch
       axios.get(`${helpers.rootUrl}api/offering/${offering_id}`)
-      .then(response => {
+      .then((response) => {
         const offeringObj = {
           [response.data.id]: {
-            ...response.data
-          }
+            ...response.data,
+          },
         }
         dispatch(receiveOfferings(offeringObj))
         // turn off loading
@@ -87,7 +86,9 @@ export function requestOffering(offering_id) {
 export function updateOffering(offering_id, attribute, value) {
   return {
     type: C.UPDATE_OFFERING,
-    offering_id, attribute, value
+    offering_id,
+attribute,
+value,
   }
 }
 
@@ -103,9 +104,9 @@ export function requestUpdateOffering(offering_id, attribute, value) {
     // send update to db
     axios.post(`${helpers.rootUrl}api/offering/update/${offering_id}`, {
       // [_snakeCase(attribute)]: value
-      [attribute]: value
+      [attribute]: value,
     })
-    .catch(response => dispatch(requestError('update-offering',response.message)))
+    .catch(response => dispatch(requestError('update-offering', response.message)))
   }
 }
 
@@ -113,14 +114,13 @@ export function requestUpdateOffering(offering_id, attribute, value) {
 // to the new tables
 export function customizeOfferingRoom(offeringID) {
   return (dispatch) => {
-
     // turn on loading
     dispatch(setLoadingStatus('rooms', true))
     dispatch(setLoadingStatus('students', true))
 
     // send out the request to make the new room
     axios.get(`${helpers.rootUrl}api/create-room-for/${offeringID}`)
-      .then(response => {
+      .then((response) => {
         // duplicates the offering's room and re-assigns offering to the new one,
         // then do an action to update the offering's room ID in the store (rather
         // than re-downloading all offerings to get the update)
@@ -129,11 +129,11 @@ export function customizeOfferingRoom(offeringID) {
 
         // now download the room data for the new room
         axios.get(`${helpers.rootUrl}api/room/${newRoomID}`)
-          .then(response => {
+          .then((response) => {
             const normalizedRoom = {
               [response.data.id]: {
-                ...response.data
-              }
+                ...response.data,
+              },
             }
             dispatch(receiveRooms(normalizedRoom))
 

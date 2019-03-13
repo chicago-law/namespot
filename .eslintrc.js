@@ -7,7 +7,8 @@ module.exports = {
     "parser": "babel-eslint",
     "extends": [
         "eslint:recommended",
-        "plugin:react/recommended"
+        "plugin:react/recommended",
+        "airbnb"
     ],
     "parserOptions": {
         "ecmaVersion": 6,
@@ -23,15 +24,18 @@ module.exports = {
         "babel",
     ],
     "rules": {
+        "camelcase": 0,
         "indent": 0,
         "linebreak-style": [
             "error",
             "unix"
         ],
+        "max-len": 0,
         "no-confusing-arrow": ["error", {"allowParens": true}],
         "no-console": "warn",
         "no-plusplus": 0,
         "no-unused-vars": 1,
+        "prefer-destructuring": 0,
         "quotes": [
             "error",
             "single"

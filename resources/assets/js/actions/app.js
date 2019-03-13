@@ -2,7 +2,6 @@ import C from '../constants'
 import helpers from '../bootstrap'
 
 
-
 /**
  * view
  * 'edit-room','assign-seats','class-list','room-list','student-list'
@@ -10,7 +9,7 @@ import helpers from '../bootstrap'
 export function setView(view) {
   return {
     type: C.SET_VIEW,
-    view
+    view,
   }
 }
 
@@ -21,14 +20,63 @@ export function setView(view) {
  */
 export function setTask(task) {
   return {
-    type:C.SET_TASK,
-    task
+    type: C.SET_TASK,
+    task,
+  }
+}
+
+/**
+ * ERROR MESSAGES
+ */
+export function addError(name, message) {
+  return {
+    type: C.ADD_ERROR,
+    name,
+    message,
+  }
+}
+export function removeError(name) {
+  return {
+    type: C.REMOVE_ERROR,
+    name,
+  }
+}
+// only add the error message if it isn't already in the errors array
+export function requestError(name, message, shouldLeave) {
+  return (dispatch, getState) => {
+    let duplicate = false
+    getState().app.errors.forEach((error) => {
+      if (error.name === name) {
+        duplicate = true
+      }
+    })
+    if (!duplicate) {
+      dispatch(addError(name, message))
+      // remove the error message after 4 seconds if true is passed as third parameter
+      if (shouldLeave) {
+        window.setTimeout(() => {
+          dispatch(removeError(name))
+        }, 4000)
+      }
+    }
   }
 }
 
 /**
  * currentRoom
  */
+// loads a room into store's app's currentRoom
+export function setCurrentRoom(room) {
+  return {
+    type: C.SET_CURRENT_ROOM,
+    room,
+  }
+}
+export function resetCurrentRoom() {
+  return {
+    type: C.RESET_CURRENT_ROOM,
+  }
+}
 export function findAndSetCurrentRoom(roomID) {
   return (dispatch, getState) => {
     if (getState().entities.rooms[roomID]) {
@@ -36,38 +84,26 @@ export function findAndSetCurrentRoom(roomID) {
     }
   }
 }
-// loads a room into store's app's currentRoom
-export function setCurrentRoom(room) {
-  return {
-    type:C.SET_CURRENT_ROOM,
-    room
-  }
-}
-export function resetCurrentRoom() {
-  return {
-    type:C.RESET_CURRENT_ROOM
-  }
-}
 
 /**
  * currentOffering
  */
+export function setCurrentOffering(offering) {
+  return {
+    type: C.SET_CURRENT_OFFERING,
+    offering,
+  }
+}
+export function resetCurrentOffering() {
+  return {
+    type: C.RESET_CURRENT_OFFERING,
+  }
+}
 export function findAndSetCurrentOffering(offeringID) {
   return (dispatch, getState) => {
     if (getState().entities.offerings[offeringID]) {
       dispatch(setCurrentOffering(getState().entities.offerings[offeringID]))
     }
-  }
-}
-export function setCurrentOffering(offering) {
-  return {
-    type:C.SET_CURRENT_OFFERING,
-    offering
-  }
-}
-export function resetCurrentOffering() {
-  return {
-    type:C.RESET_CURRENT_OFFERING
   }
 }
 
@@ -76,8 +112,8 @@ export function resetCurrentOffering() {
  */
 export function setCurrentSeatId(seatID) {
   return {
-    type:C.SET_CURRENT_SEAT,
-    seatID
+    type: C.SET_CURRENT_SEAT,
+    seatID,
   }
 }
 
@@ -86,8 +122,8 @@ export function setCurrentSeatId(seatID) {
  */
 export function setCurrentStudentId(studentID) {
   return {
-    type:C.SET_CURRENT_STUDENT,
-    studentID
+    type: C.SET_CURRENT_STUDENT,
+    studentID,
   }
 }
 
@@ -98,7 +134,7 @@ export function setCurrentStudentId(studentID) {
 // load a blank table into tempTable
 export function newTable() {
   return {
-    type: C.NEW_TABLE
+    type: C.NEW_TABLE,
   }
 }
 // load an existing table into tempTable in the store
@@ -109,35 +145,35 @@ export function selectTable(tableID, roomID, seatCount, labelPosition, coords) {
     roomID,
     seatCount,
     labelPosition,
-    coords
+    coords,
   }
 }
 // set the seat count of tempTable
 export function setSeatCount(seatCount) {
   return {
     type: C.SET_SEAT_COUNT,
-    seatCount
+    seatCount,
   }
 }
 // set the label position of tempTable
 export function setLabelPosition(labelPosition) {
   return {
     type: C.SET_LABEL_POSITION,
-    labelPosition
+    labelPosition,
   }
 }
 // save a point to the tempTable coords object
 export function savePointToTempTable(pointKey, pointType) {
   return {
-    type:C.SAVE_POINT_TO_TEMP_TABLE,
+    type: C.SAVE_POINT_TO_TEMP_TABLE,
     pointKey,
-    pointType
+    pointType,
   }
 }
 // clear tempTable from the store
 export function clearTempTable() {
   return {
-    type: C.CLEAR_TEMP_TABLE
+    type: C.CLEAR_TEMP_TABLE,
   }
 }
 
@@ -148,7 +184,7 @@ export function clearTempTable() {
 export function setPointSelection(pointType) {
   return {
     type: C.SET_POINT_SELECTION,
-    pointType
+    pointType,
   }
 }
 
@@ -159,27 +195,27 @@ export function setPointSelection(pointType) {
 export function setAcademicYear(year) {
   return {
     type: C.SET_ACADEMIC_YEAR,
-    year
+    year,
   }
 }
 export function requestAcademicYearChange(year) {
-  return(dispatch => {
+  return ((dispatch) => {
     // update in DB
     axios.post(`${helpers.rootUrl}api/settings/update`, {
-      'setting_name': 'academic_year',
-      'setting_value': year
+      setting_name: 'academic_year',
+      setting_value: year,
     })
     .then(() => {
       // if successful, update in the store
       dispatch(setAcademicYear(year))
     })
-    .catch(response => {
-      dispatch(requestError('settings-update',response.message))
+    .catch((response) => {
+      dispatch(requestError('settings-update', response.message))
     })
   })
 }
 export function fetchAcademicYear() {
-  return(dispatch => {
+  return ((dispatch) => {
     const year = helpers.academicYear
     dispatch(setAcademicYear(parseInt(year)))
   })
@@ -190,13 +226,14 @@ export function fetchAcademicYear() {
  */
 export function setModal(modal, status) {
   return {
-    type:C.SET_MODAL,
-    modal, status
+    type: C.SET_MODAL,
+    modal,
+status,
   }
 }
 export function clearModals() {
   return {
-    type:C.CLEAR_MODALS
+    type: C.CLEAR_MODALS,
   }
 }
 
@@ -205,43 +242,8 @@ export function clearModals() {
  */
 export function setLoadingStatus(loadingType, status) {
   return {
-    type:C.SET_LOADING_STATUS,
-    loadingType, status
-  }
-}
-
-/**
- * ERROR MESSAGES
- */
-export function addError(name, message) {
-  return {
-    type:C.ADD_ERROR,
-    name, message
-  }
-}
-export function removeError(name) {
-  return {
-    type:C.REMOVE_ERROR,
-    name
-  }
-}
-// only add the error message if it isn't already in the errors array
-export function requestError(name, message, shouldLeave) {
-  return (dispatch, getState) => {
-    let duplicate = false
-    getState().app.errors.forEach(error => {
-      if (error.name === name) {
-        duplicate = true
-      }
-    })
-    if (!duplicate) {
-      dispatch(addError(name, message))
-      // remove the error message after 4 seconds if true is passed as third parameter
-      if (shouldLeave) {
-        window.setTimeout(function() {
-          dispatch(removeError(name))
-        }, 4000)
-      }
-    }
+    type: C.SET_LOADING_STATUS,
+    loadingType,
+status,
   }
 }

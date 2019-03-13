@@ -1,21 +1,6 @@
 .room-workspace {
   display:flex;
   align-items:flex-start;
-  @media(max-width:$desktop) {
-    // display: block;
-    // text-align:center;
-    flex-direction: column;
-    align-items: stretch;
-    .room-workspace-right {
-      order: 0;
-    }
-    .outer-page-container {
-      order: 1;
-    }
-    .room-workspace-left {
-      order: 2;
-    }
-  }
   .room-workspace-left, .room-workspace-right {
     flex:1 1 25%;
     padding-top: 1.3em;
@@ -40,11 +25,40 @@
   }
   .room-workspace-right {
     padding-left: 1.25em;
-    @media (max-width:$desktop) {
+    @media (max-width:$laptop) {
       padding-left: 0;
     }
   }
 
+  @media(min-width: $laptop) and (max-width: $desktop) {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    .room-workspace-right {
+      order: 2;
+      flex: 1 1 100px;
+    }
+    .outer-page-container {
+      order: 1;
+      flex: 0 0 1000px;
+    }
+    .room-workspace-left {
+      order: 0;
+      flex: 1 1 100%;
+    }
+  }
+  @media(max-width:$laptop) {
+    flex-direction: column;
+    align-items: stretch;
+    .room-workspace-right {
+      order: 0;
+    }
+    .outer-page-container {
+      order: 1;
+    }
+    .room-workspace-left {
+      order: 2;
+    }
+  }
   .chart-preferences {
     li {
       display:flex;
@@ -65,7 +79,7 @@
       padding: 1.5em 0;
       ul {
         display:flex;
-        justify-content:space-around;
+        justify-content:space-between;
         margin:0;
         li {
           margin-bottom: 0;
@@ -75,7 +89,7 @@
   }
 
   .offering-details {
-    @media (max-width: $desktop) {
+    @media (max-width: $laptop) {
       display: block;
       text-align: center;
     }
@@ -88,7 +102,7 @@
       color: rgba($middle-gray, .75);
       margin-right: .5em;
     }
-    @media (max-width: $desktop) {
+    @media (max-width: $laptop) {
       text-align:center;
       margin-bottom: 1em;
       p {
@@ -105,9 +119,7 @@
     flex-direction:column;
     justify-content:flex-start;
     margin-top:1.5em;
-    @media (max-width: $desktop) {
-      // display:block;
-      // text-align:center;
+    @media (max-width: $laptop) {
       flex-direction: row;
       justify-content: center;
       margin-top: 0;
@@ -118,7 +130,7 @@
     .seated, .unseated {
       text-align:right;
       margin-bottom: 2em;
-      @media(max-width:$desktop) {
+      @media(max-width:$laptop) {
         text-align:center;
         max-width:$x-large-page;
         margin: 0 1em 1em 1em;
@@ -152,7 +164,7 @@
 
   .workspace-message-container {
     position:relative;
-    @media(max-width:$desktop) {
+    @media(max-width:$laptop) {
       display: none;
     }
     h6 {
@@ -177,24 +189,28 @@
       }
     }
     .message-content {
-      position:absolute;
-      top:50%;
-      padding:1em;
-      background:$lighter-gray;
-      border-radius:5px;
-      transition: transform 300ms ease-out, opacity 300ms ease-out;
+      position: absolute;
+      padding: 1em;
+      background: $lighter-gray;
+      border-radius: 5px;
     }
     .message-enter {
-      opacity:01;
-      transform: translateY(-45%);
+      opacity: .01;
+      transform: translateY(15px);
     }
     .message-enter-active, .message-enter-done {
-      opacity:1;
-      transform: translateY(-50%);
+      opacity: 1;
+      transform: translateY(0);
+      transition: transform 300ms ease-out, opacity 300ms ease-out;
+    }
+    .message-exit {
+      opacity: 1;
+      transform: translateY(0);
     }
     .message-exit-active {
-      opacity:.01;
-      transform: translateY(-45%);
+      opacity: .01;
+      transform: translateY(15px);
+      transition: transform 300ms ease-out, opacity 300ms ease-out;
     }
   }
 }

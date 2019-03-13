@@ -5,6 +5,7 @@
  */
 
 window.axios = require('axios')
+
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
 
 /**
@@ -13,7 +14,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
  * a simple convenience so we don't have to attach every token manually.
  */
 
-let token = document.head.querySelector('meta[name="csrf-token"]')
+const token = document.head.querySelector('meta[name="csrf-token"]')
 
 if (token) {
   window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content
@@ -44,22 +45,22 @@ if (token) {
 const helpers = {
 
   // grab some essential data that we put into div#root as attributes
-  'rootUrl': document.getElementById('root').dataset.rootUrl,
-  'academicYear': parseInt(document.getElementById('root').dataset.academicYear),
+  rootUrl: document.getElementById('root').dataset.rootUrl,
+  academicYear: parseInt(document.getElementById('root').dataset.academicYear),
 
   // Paper is rendered in the browser with dimensions set in inches
   // in CSS (and then doubled for resolution).
   // These are those inches measured in pixels.
-  'tabloidPxWidth': 3360,
-  'tabloidPxHeight': 2173,
-  'letterPxWidth': 2006,
-  'letterPxHeight': 1550,
+  tabloidPxWidth: 3360,
+  tabloidPxHeight: 2173,
+  letterPxWidth: 2006,
+  letterPxHeight: 1550,
 
   // takes in an AIS term code, returns a nice, human-friendly string
   termCodeToString(termCode) {
     if (termCode != null) {
       // year
-      const year = termCode[0] + '0' + termCode[1] + termCode[2]
+      const year = `${termCode[0]}0${termCode[1]}${termCode[2]}`
       // quarter
       let quarter = ''
       switch (String(termCode[3])) {
@@ -86,9 +87,9 @@ const helpers = {
     const year1 = String(year)
     const year2 = String(parseInt(year) + 1)
     const results = []
-    results.push(`2${year1.substring(2,4)}8`) // autumn
-    results.push(`2${year2.substring(2,4)}2`) // winter
-    results.push(`2${year2.substring(2,4)}4`) // spring
+    results.push(`2${year1.substring(2, 4)}8`) // autumn
+    results.push(`2${year2.substring(2, 4)}2`) // winter
+    results.push(`2${year2.substring(2, 4)}4`) // spring
     return results
   },
 
@@ -105,7 +106,6 @@ const helpers = {
    * }
    */
   getAllYears(years) {
-
     // first, make a Set (array of unique values) of the years we want to get term codes for
     const yearList = new Set()
 
@@ -115,7 +115,7 @@ const helpers = {
     // all the years in between the initialYear and the current academic year
     const yearsBetween = years.academicYear - years.initialYear
     if (yearsBetween) {
-      for (let i=1;i<=yearsBetween;i++) {
+      for (let i = 1; i <= yearsBetween; i++) {
         yearList.add(years.initialYear + i)
       }
     }
@@ -125,12 +125,12 @@ const helpers = {
     yearList.add(years.academicYear + 1)
 
     // include future years past latter academic year
-    for (let j=years.futureYears;j>0;j--) {
+    for (let j = years.futureYears; j > 0; j--) {
       yearList.add(years.academicYear + 1 + j)
     }
 
     // return as a sorted array
-    return [ ...yearList].sort()
+    return [...yearList].sort()
   },
 
   /**
@@ -138,21 +138,20 @@ const helpers = {
    * generated from those years
    */
   getAllTermCodes(years) {
-
     // get all the applicable years from the "years" Store object
     const yearList = helpers.getAllYears(years)
 
     // now make terms from the years
     const terms = new Set()
-    for (let year of yearList) {
+    for (const year of yearList) {
       const currentTerms = helpers.termCodesFromYear(year)
-      for (let term of currentTerms) {
+      for (const term of currentTerms) {
         terms.add(term)
       }
     }
 
     // return as a sorted array
-    return [ ...terms]
+    return [...terms]
   },
 
   /**
@@ -205,7 +204,12 @@ const helpers = {
       }
     }
     return ''
-  }
+  },
+
+  findAncestor(el, cls) {
+    while ((el = el.parentElement) && !el.classList.contains(cls));
+    return el
+  },
 
 }
 

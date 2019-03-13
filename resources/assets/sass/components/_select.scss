@@ -39,7 +39,11 @@
     margin:0;
     li {
       position:relative;
-      a {
+      button {
+        width: 100%;
+        text-align: left;
+      }
+      a, button {
         display: block;
         padding:1.5em 3.5em 1.5em 2em; // padding right to make space for caret
         border-top: 1px solid $off-white;
@@ -76,6 +80,7 @@
         width: 2.5em;
         right: 5em;
         top: 50%;
+        padding: 0;
         transform: translateY(-50%);
         display: flex;
         align-items: center;

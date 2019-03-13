@@ -1,5 +1,4 @@
 const mix = require('laravel-mix')
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 /*
  |--------------------------------------------------------------------------
@@ -19,22 +18,16 @@ mix.react('resources/assets/js/main.js', 'public/js')
    .copyDirectory('resources/assets/spreadsheets', 'public/spreadsheets')
    .sourceMaps()
    .browserSync({
-     proxy:'localhost/namespot/public'
+     proxy: 'localhost/namespot/public',
    })
    .options({
     uglify: {
       uglifyOptions: {
         compress: {
-          collapse_vars: false
-        }
-      }
-    }
-  })
-  .webpackConfig({
-    devtool: 'source-map',
-    // plugins: [
-    //   new BundleAnalyzerPlugin(),
-    // ]
+          collapse_vars: false,
+        },
+      },
+    },
   })
   .disableSuccessNotifications()
 
