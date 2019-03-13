@@ -11,8 +11,8 @@ const mix = require('laravel-mix') //eslint-disable-line
  |
  */
 
-mix.ts('frontend/js/index.js', 'public/js')
-  .sass('frontend/sass/main.scss', 'public/css')
-  .copyDirectory('frontend/images', 'public/images')
+mix.ts('resources/js/index.js', 'public/js')
+  .sass('resources/sass/main.scss', 'public/css')
+  .copyDirectory('resources/images', 'public/images')
   .sourceMaps()
   .browserSync()
