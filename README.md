@@ -30,7 +30,7 @@ To fire up the dev server, use `npm run watch`. However, you'll probably need to
   .browserSync({
     proxy: 'localhost/laravel-typescript-react-boilerplate/public',
   })
-  ...
+...
 ```
 
 Laravel's [installation page](https://laravel.com/docs/5.8/installation) is pretty helpful when setting up, so check it out first if you have any issues. 
