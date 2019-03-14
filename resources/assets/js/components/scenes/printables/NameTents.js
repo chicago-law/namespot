@@ -1,3 +1,5 @@
+/* eslint-disable new-cap */
+/* eslint-disable func-names */
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import classNames from 'classnames/bind'
@@ -17,7 +19,39 @@ class NameTents extends Component {
     printableReady: false,
   }
 
+  componentDidMount() {
+    const { dispatch, offeringId } = this.props
+
+    dispatch(setView('name-tents'))
+
+    // fetch offering data, if we need it
+    if (offeringId) {
+      dispatch(requestOffering(offeringId))
+      dispatch(requestStudents(offeringId))
+    }
+
+    // set store's currentOffering (if there is one)
+    if (offeringId) dispatch(findAndSetCurrentOffering(offeringId))
+  }
+
+  componentDidUpdate() {
+    const { showLoading } = this.state
+    const { dispatch, offeringId, loading } = this.props
+
+    // again, set currentOffering in app store in case we were waiting on data from fetching.
+    if (offeringId) dispatch(findAndSetCurrentOffering(offeringId))
+
+    // check if we're waiting on anything to finish loading. If not, go ahead
+    // and make the PDF.
+    if (Object.keys(loading).every(loadingType => loading[loadingType] === false) && showLoading === true) {
+      setTimeout(() => {
+        this.createPdf()
+      }, 2000)
+    }
+  }
+
   createPdf = () => {
+    const { currentOffering } = this.props
     const tents = document.querySelectorAll('.nt-list__name-tent')
 
     // before we do anything else, we're going to check that all names fit on their cards.
@@ -61,7 +95,7 @@ class NameTents extends Component {
           addToPdf(tents)
         } else {
           // We're done! Save the file and mop up.
-          const title = `Name Tents - ${this.props.currentOffering.long_title}${this.props.currentOffering.section ? ` ${this.props.currentOffering.section}` : ''}`
+          const title = `Name Tents - ${currentOffering.long_title}${currentOffering.section ? ` ${currentOffering.section}` : ''}`
           pdf.save(`${title}.pdf`)
 
           this.setState({
@@ -87,37 +121,10 @@ class NameTents extends Component {
     if (currentTop < maxTop) {
       const span = name.querySelector('span')
       const currentSize = parseFloat(window.getComputedStyle(span).getPropertyValue('font-size'))
-      span.style.font_size = `${currentSize - 5}px`
+      const newSize = currentSize - 5
+      span.style.fontSize = `${newSize}px`
+
       this.checkNameSize(tent)
-    }
-  }
-
-  componentDidMount() {
-    const { dispatch, offeringId } = this.props
-
-    dispatch(setView('name-tents'))
-
-    // fetch offering data, if we need it
-    if (offeringId) {
-      dispatch(requestOffering(offeringId))
-      dispatch(requestStudents(offeringId))
-    }
-
-    // set store's currentOffering (if there is one)
-    if (offeringId) dispatch(findAndSetCurrentOffering(offeringId))
-  }
-
-  componentDidUpdate() {
-    const { showLoading } = this.state
-    const { dispatch, offeringId, loading } = this.props
-
-    // again, set currentOffering in app store in case we were waiting on data from fetching.
-    if (offeringId) dispatch(findAndSetCurrentOffering(offeringId))
-
-    // check if we're waiting on anything to finish loading. If not, go ahead
-    // and make the PDF.
-    if (Object.keys(loading).every(loadingType => loading[loadingType] === false) && showLoading === true) {
-      this.createPdf()
     }
   }
 
@@ -145,25 +152,25 @@ class NameTents extends Component {
         )}
 
         {!printableReady && (
-          <div className="nt-container__nt-list">
-            {currentStudents.map(student => (
-              <div key={student.id} className="nt-list__name-tent">
-                <div className="name">
-                  <span>
-                    {student.short_first_name
+        <div className="nt-container__nt-list">
+          {currentStudents.map(student => (
+            <div key={student.id} className="nt-list__name-tent">
+              <div className="name">
+                <span>
+                  {student.short_first_name
                       ? student.short_first_name
                       : student.first_name
                     }
                     &nbsp;
-                    {student.short_last_name
+                  {student.short_last_name
                       ? student.short_last_name
                       : student.last_name
                     }
-                  </span>
-                </div>
+                </span>
               </div>
+            </div>
             ))}
-          </div>
+        </div>
         )}
       </div>
     )

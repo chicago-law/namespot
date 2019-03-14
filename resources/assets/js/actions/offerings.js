@@ -24,7 +24,7 @@ export function receiveOfferings(offerings) {
   }
 }
 // Fetch all offerings, with optional filters.
-export function fetchOfferings(options = {}) {
+export function fetchOfferings(options = {}, callback) {
   return (dispatch, getState) => {
     // Check for conditions that mean we don't need to actually do the fetch.
     const { receivedOfferingsFor } = getState()
@@ -51,6 +51,7 @@ export function fetchOfferings(options = {}) {
         dispatch(markTermReceived(options.termCode))
       }
       dispatch(setLoadingStatus('offerings', false))
+      if (callback) callback()
     })
     .catch((response) => {
       dispatch(requestError('fetch-offerings', `Offerings fetch: ${response.message}`))

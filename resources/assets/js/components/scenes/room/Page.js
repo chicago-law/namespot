@@ -261,7 +261,6 @@ class Page extends Component {
                           className="no-tables"
                           x="50%"
                           y="50%"
-                          fontSize="50px"
                         >
                           No tables in this room yet. Go ahead and add some!
                         </text>

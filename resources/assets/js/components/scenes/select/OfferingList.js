@@ -11,16 +11,19 @@ import { setView, fetchOfferings, saveSessionTerm } from '../../../actions'
 class OfferingList extends Component {
   state = {
     query: '',
-    selectedTermCode: this.props.defaultTerm // eslint-disable-line
+    selectedTermCode: '',
   }
 
   searchRef = React.createRef()
 
   componentDidMount() {
-    const { selectedTermCode } = this.state
-    const { dispatch } = this.props
+    const { dispatch, years } = this.props
+    const prevTerm = localStorage.getItem('selectedTerm')
+    const termCode = prevTerm || `2${String(years.academicYear).substring(2, 4)}8` // default to Autumn of whatever the current year is
 
-    dispatch(fetchOfferings({ termCode: selectedTermCode }))
+    dispatch(fetchOfferings({ termCode }, () => this.setState({
+      selectedTermCode: termCode,
+    })))
     dispatch(setView('offering-list'))
     this.searchRef.current.focus()
   }
@@ -125,6 +128,7 @@ class OfferingList extends Component {
             <div className="quarter-dropdown-container">
               <p>Quarter:</p>
               <select value={selectedTermCode} onChange={e => this.handleTermChange(e)}>
+                <option value="">--</option>
                 <option value="all">All quarters</option>
                 {terms.map(term => (
                   <option key={term} value={term}>{ helpers.termCodeToString(term) }</option>
@@ -209,7 +213,6 @@ const mapStateToProps = ({ app, entities, settings }) => {
   const recentOfferingsArray = localStorage.getItem('recentOfferings') ? JSON.parse(localStorage.getItem('recentOfferings')) : []
 
   return {
-    defaultTerm: localStorage.getItem('selectedTerm') || 'all',
     loading: app.loading,
     offerings: entities.offerings,
     recentOfferings: recentOfferingsArray,

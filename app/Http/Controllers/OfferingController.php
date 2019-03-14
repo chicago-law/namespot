@@ -20,8 +20,10 @@ class OfferingController extends Controller
       return response()->json($offerings);
     }
 
-    $offerings = OfferingResource::collection(Offering::all());
-    return response()->json($offerings);
+    $offerings = Offering::all();
+    $offeringResources = OfferingResource::collection($offerings);
+
+    return response()->json($offeringResources);
   }
 
   public function update($offering_id, Request $request)
