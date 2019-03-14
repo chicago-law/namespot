@@ -1,3 +1,6 @@
+/* eslint-disable new-cap */
+/* eslint-disable func-names */
+/* eslint-disable no-unused-expressions */
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import classNames from 'classnames/bind'
@@ -19,6 +22,37 @@ class FlashCardsDeck extends Component {
   state = {
     showLoading: true,
     printableReady: false,
+  }
+
+  componentDidMount() {
+    const { dispatch, offeringId, termCode } = this.props
+
+    dispatch(setView('flash-cards'))
+
+    // Fetch data as required.
+    if (offeringId) {
+      dispatch(requestOffering(offeringId))
+      dispatch(requestStudents(offeringId))
+    }
+    if (termCode) dispatch(fetchAllStudentsFromTerm(termCode))
+
+    // set store's currentRoom and currentOffering (if there is one)
+    if (offeringId) dispatch(findAndSetCurrentOffering(offeringId))
+  }
+
+  componentDidUpdate() {
+    const { showLoading } = this.state
+    const { dispatch, offeringId, loading } = this.props
+
+    // again, set currentRoom and currentOffering in app store in case we were
+    // waiting on room data from fetching.
+    if (offeringId) dispatch(findAndSetCurrentOffering(offeringId))
+
+    // check if we're waiting on anything to finish loading. If not, go ahead
+    // and make the PDF.
+    if (Object.keys(loading).every(loadingType => loading[loadingType] === false) && showLoading === true) {
+      this.createPdf()
+    }
   }
 
   createPdf = () => {
@@ -138,37 +172,6 @@ class FlashCardsDeck extends Component {
     addToPdf(cards)
   }
 
-  componentDidMount() {
-    const { dispatch, offeringId, termCode } = this.props
-
-    dispatch(setView('flash-cards'))
-
-    // Fetch data as required.
-    if (offeringId) {
-      dispatch(requestOffering(offeringId))
-      dispatch(requestStudents(offeringId))
-    }
-    if (termCode) dispatch(fetchAllStudentsFromTerm(termCode))
-
-    // set store's currentRoom and currentOffering (if there is one)
-    if (offeringId) dispatch(findAndSetCurrentOffering(offeringId))
-  }
-
-  componentDidUpdate() {
-    const { showLoading } = this.state
-    const { dispatch, offeringId, loading } = this.props
-
-    // again, set currentRoom and currentOffering in app store in case we were
-    // waiting on room data from fetching.
-    if (offeringId) dispatch(findAndSetCurrentOffering(offeringId))
-
-    // check if we're waiting on anything to finish loading. If not, go ahead
-    // and make the PDF.
-    if (Object.keys(loading).every(loadingType => loading[loadingType] === false) && showLoading === true) {
-      this.createPdf()
-    }
-  }
-
   render() {
     const { printableReady, showLoading } = this.state
     const {
@@ -179,7 +182,11 @@ class FlashCardsDeck extends Component {
     // the students to only include this in the current offering
     const studentArray = []
     if (offeringId) {
-      Object.keys(students).forEach(id => (students[id].enrollment.hasOwnProperty([`offering_${currentOffering.id}`]) ? studentArray.push(students[id]) : false))
+      Object.keys(students).forEach(id => (
+        [`offering_${currentOffering.id}`] in students[id].enrollment
+          ? studentArray.push(students[id])
+          : false
+      ))
     } else {
       Object.keys(students).forEach(id => studentArray.push(students[id]))
     }
@@ -214,7 +221,7 @@ class FlashCardsDeck extends Component {
                 offering={currentOffering}
                 namesOnReverse={namesOnReverse}
               />
-            ))}
+              ))}
           </Fragment>
         )}
 
