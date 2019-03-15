@@ -50,7 +50,15 @@ const PageHeader = ({
         transform: `scale(${shrinkRatio})`,
       }}
       >
-        <h3>{formatOfferingDetailsLeft()}<span>Printed {new Date().toLocaleDateString()}</span></h3>
+        <h3>
+          {formatOfferingDetailsLeft()}
+          <Route
+            path="/print"
+            render={() => (
+              <span>Printed {new Date().toLocaleDateString()}</span>
+            )}
+          />
+        </h3>
       </div>
       <div
         className="right"
