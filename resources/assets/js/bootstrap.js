@@ -211,6 +211,19 @@ const helpers = {
     return el
   },
 
+  /**
+   * Takes in a date string and parses on anything not 0-9 and returns a Date object.
+   */
+  parseDate(dateString) {
+    if (!dateString) {
+      return false
+    }
+    const chunks = dateString.split(/[^0-9]/) // Split on anything that is not 0-9
+    const date = new Date(chunks[0], chunks[1] - 1, chunks[2], chunks[3], chunks[4], chunks[5])
+
+    return date
+  },
+
 }
 
 export default helpers

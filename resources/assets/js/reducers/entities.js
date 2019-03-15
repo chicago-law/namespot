@@ -9,15 +9,15 @@ const offerings = (state = { }, action) => {
     case C.RECEIVE_OFFERINGS:
       return {
         ...state,
-        ...action.offerings
+        ...action.offerings,
       }
     case C.UPDATE_OFFERING:
       return {
         ...state,
         [action.offering_id]: {
           ...state[action.offering_id],
-          [action.attribute]: action.value
-        }
+          [action.attribute]: action.value,
+        },
       }
     default:
       return state
@@ -32,7 +32,7 @@ const students = (state = { }, action) => {
     case C.RECEIVE_STUDENTS:
       return {
         ...state,
-        ...action.students
+        ...action.students,
       }
     case C.SEAT_STUDENT:
       return {
@@ -43,18 +43,18 @@ const students = (state = { }, action) => {
             ...state[action.student_id].enrollment,
             [action.offering_id]: {
               ...state[action.student_id].enrollment[action.offering_id],
-              seat: action.seat_id
-            }
-          }
-        }
+              seat: action.seat_id,
+            },
+          },
+        },
       }
     case C.UPDATE_STUDENT:
       return {
         ...state,
         [action.student_id]: {
           ...state[action.student_id],
-          [action.attribute]:action.value
-        }
+          [action.attribute]: action.value,
+        },
       }
     default:
       return state
@@ -69,15 +69,15 @@ const rooms = (state = { }, action) => {
     case C.RECEIVE_ROOMS:
       return {
         ...state,
-        ...action.rooms
+        ...action.rooms,
       }
     case C.UPDATE_ROOM:
       return {
         ...state,
         [action.roomID]: {
           ...state[action.roomID],
-          [action.key]: action.value
-        }
+          [action.key]: action.value,
+        },
       }
     case C.DELETE_ROOM:
       var newState = { ...state }
@@ -113,16 +113,16 @@ const seats = (state = { }, action) => {
       // loop through the seats in the store for the incoming table
       // if the action's seat batch does not include this seat from the store, delete it
       // once we've cleared out the old seats, then set receive seats into store
-      Object.keys(state).filter(seatId => state[seatId].table_id === action.tableId).forEach(seatId => {
+      Object.keys(state).filter(seatId => state[seatId].table_id === action.tableId).forEach((seatId) => {
         !Object.keys(action.seats).includes(seatId) ? delete state[seatId] : false
       })
       return {
         ...state,
-        ...action.seats
+        ...action.seats,
       }
     case C.DELETE_SEATS:
       // we want to remove all the seats in state that have the provided table id
-      Object.keys(state).forEach(seatId => {
+      Object.keys(state).forEach((seatId) => {
         state[seatId].table_id === action.tableId ? delete state[seatId] : false
       })
       return state

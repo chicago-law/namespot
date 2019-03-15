@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import { normalize } from 'normalizr'
 import queryString from 'query-string'
 import * as schema from './schema'

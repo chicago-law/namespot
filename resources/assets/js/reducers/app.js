@@ -20,7 +20,7 @@ const view = (state = null, action) => {
 const currentRoomDefault = {
   id: null,
   name: null,
-  seat_size: null
+  seat_size: null,
 }
 const currentRoom = (state = currentRoomDefault, action) => {
   switch (action.type) {
@@ -66,12 +66,12 @@ const currentOfferingDefault = {
   instructors: [],
   name: null,
   room_id: null,
-  term_code:null,
+  term_code: null,
   students: [],
   paper_size: 'tabloid',
   flipped: false,
   namesToShow: 'first_and_last',
-  useNicknames: true
+  useNicknames: true,
 }
 const currentOffering = (state = currentOfferingDefault, action) => {
   switch (action.type) {
@@ -104,41 +104,41 @@ const tempTable = (state = { }, action) => {
   switch (action.type) {
     case C.NEW_TABLE:
       return {
-        id:'new',
-        room_id:null,
-        seatCount:0,
-        coords:{},
-        labelPosition:'below'
+        id: 'new',
+        room_id: null,
+        seatCount: 0,
+        coords: {},
+        labelPosition: 'below',
       }
     case C.SELECT_TABLE:
       return {
-        id:action.tableID,
-        room_id:action.roomID,
-        seatCount:action.seatCount,
-        labelPosition:action.labelPosition,
-        coords:{
-          'start':action.coords.start,
-          'end':action.coords.end,
-          'curve':action.coords.curve,
-        }
+        id: action.tableID,
+        room_id: action.roomID,
+        seatCount: action.seatCount,
+        labelPosition: action.labelPosition,
+        coords: {
+          start: action.coords.start,
+          end: action.coords.end,
+          curve: action.coords.curve,
+        },
       }
     case C.SET_SEAT_COUNT:
       return {
         ...state,
-        seatCount: action.seatCount
+        seatCount: action.seatCount,
       }
     case C.SET_LABEL_POSITION:
       return {
         ...state,
-        labelPosition: action.labelPosition
+        labelPosition: action.labelPosition,
       }
     case C.SAVE_POINT_TO_TEMP_TABLE:
       return {
         ...state,
         coords: {
           ...state.coords,
-          [action.pointType]:action.pointKey
-        }
+          [action.pointType]: action.pointKey,
+        },
       }
     case C.CLEAR_TEMP_TABLE:
       return {}
@@ -175,7 +175,7 @@ const pointSelection = (state = null, action) => {
 
 // App / years / initial
 const initialYear = (state = 2017, action) => {
-  switch(action.type) {
+  switch (action.type) {
     default:
       return state
   }
@@ -184,7 +184,7 @@ const initialYear = (state = 2017, action) => {
 // Always the FIRST of the two years. So 2018-2019 would be stored as 2018.
 // Gets its default from helpers, which gets it from #root div
 const academicYear = (state = helpers.academicYear, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case C.SET_ACADEMIC_YEAR:
       return action.year
     default:
@@ -193,7 +193,7 @@ const academicYear = (state = helpers.academicYear, action) => {
 }
 // App / years / future
 const futureYears = (state = 1, action) => {
-  switch(action.type) {
+  switch (action.type) {
     default:
       return state
   }
@@ -207,7 +207,7 @@ const modals = (state = { }, action) => {
     case C.SET_MODAL:
       return {
         ...state,
-        [action.modal]:action.status
+        [action.modal]: action.status,
       }
     case C.CLEAR_MODALS:
       return { }
@@ -220,11 +220,11 @@ const modals = (state = { }, action) => {
  * app / loading
  */
 const loading = (state = {}, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case C.SET_LOADING_STATUS:
       return {
         ...state,
-        [action.loadingType]: action.status
+        [action.loadingType]: action.status,
       }
     default:
       return state
@@ -234,15 +234,15 @@ const loading = (state = {}, action) => {
 /**
  * app / errors
  */
-const errors = ( state = [], action) => {
+const errors = (state = [], action) => {
   switch (action.type) {
     case C.ADD_ERROR:
       return [
         ...state,
         {
-          name:action.name,
-          message:action.message
-        }
+          name: action.name,
+          message: action.message,
+        },
       ]
     case C.REMOVE_ERROR:
       return state.filter(error => error.name != action.name)
@@ -263,11 +263,11 @@ const app = combineReducers({
   years: combineReducers({
     initialYear,
     academicYear,
-    futureYears
+    futureYears,
   }),
   modals,
   loading,
-  errors
+  errors,
 })
 
 export default app

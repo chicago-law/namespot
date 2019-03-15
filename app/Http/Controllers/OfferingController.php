@@ -16,11 +16,14 @@ class OfferingController extends Controller
     // Filter by term code
     $termCode = $request->input('termCode');
     if ($termCode && $termCode !== 'all') {
-      $offerings = OfferingResource::collection(Offering::where('term_code', $request->input('termCode'))->get());
+      $offerings = Offering::with(['students', 'instructors'])
+        ->where('term_code', $request->input('termCode'))
+        ->get();
+      $offeringResources = OfferingResource::collection($offerings);
       return response()->json($offerings);
     }
 
-    $offerings = Offering::all();
+    $offerings = Offering::with(['students', 'instructors'])->get();
     $offeringResources = OfferingResource::collection($offerings);
 
     return response()->json($offeringResources);

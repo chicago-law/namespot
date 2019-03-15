@@ -9,12 +9,15 @@ const PageHeader = ({
   shrinkRatio,
   currentRoom,
   currentOffering,
-  withStudents,
   catalogPrefix,
   schoolName,
 }) => {
   const catalog_prefix = catalogPrefix // converting back to snake case for consistency
   const school_name = schoolName
+
+  function formatOfferingDetailsLeft() {
+    return `${currentRoom.name} ${currentOffering.term_code && ` - ${helpers.termCodeToString(currentOffering.term_code)}`}${school_name && ` - ${school_name}`}`
+  }
 
   const roomChartDetails = () => (
     <div className="page-header">
@@ -47,19 +50,7 @@ const PageHeader = ({
         transform: `scale(${shrinkRatio})`,
       }}
       >
-        <h3>
-          {currentRoom.name}
-          {currentOffering.term_code && ` - ${helpers.termCodeToString(currentOffering.term_code)}`}
-          {school_name && ` - ${school_name}`}
-          <Route
-            path="/print"
-            render={() => (
-              currentOffering && withStudents && (
-                <span>Printed {new Date().toLocaleDateString()}</span>
-              )
-            )}
-          />
-        </h3>
+        <h3>{formatOfferingDetailsLeft()}<span>Printed {new Date().toLocaleDateString()}</span></h3>
       </div>
       <div
         className="right"

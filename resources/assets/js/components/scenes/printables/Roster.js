@@ -1,3 +1,6 @@
+/* eslint-disable new-cap */
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable func-names */
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import queryString from 'query-string'
@@ -12,6 +15,49 @@ class Roster extends Component {
     showLoading: true,
     printableReady: false,
   }
+
+  componentDidMount() {
+    const { dispatch, params } = this.props
+    const {
+      rosterSource, prog, level, term, offeringId,
+    } = params
+
+    switch (rosterSource) {
+      case 'offering':
+        dispatch(requestOffering(offeringId))
+        dispatch(fetchStudents(offeringId))
+        break
+      case 'student-body':
+        dispatch(fetchStudentBody({ prog, level, term }))
+        break
+      default:
+        break
+    }
+  }
+
+  componentDidUpdate() {
+    const { showLoading } = this.state
+    const { loading } = this.props
+    // check if we're waiting on anything to finish loading. If not, go ahead
+    // and make the PDF.
+    if (Object.keys(loading).every(loadingType => loading[loadingType] === false) && showLoading === true) {
+      setTimeout(() => {
+        this.createPdf()
+      }, 2000)
+    }
+  }
+
+  formatStudentName = (student) => {
+    const firstName = student.short_first_name
+      ? student.short_first_name
+      : student.first_name
+    const lastName = student.short_last_name
+      ? student.short_last_name
+      : student.last_name
+    return `${firstName} ${lastName}`
+  }
+
+  formatStudentDegree = student => `${student.academic_prog_descr} ${helpers.academicLevelToString(student.academic_level)}`
 
   createPdf() {
     const paper = document.querySelector('.printable-roster')
@@ -55,7 +101,8 @@ class Roster extends Component {
     let currentColumn = 1
 
     const addToPdf = function (el) {
-      const currentOffering = this.props.offerings[this.props.params.offeringId]
+      const { offerings, params } = this.props
+      const currentOffering = offerings[params.offeringId]
 
       // First, we check if there is space enough for this next element
       const elCSS = window.getComputedStyle(el)
@@ -87,7 +134,7 @@ class Roster extends Component {
           } else { // We're done!!
             const title = currentOffering
               ? `Roster - ${currentOffering.long_title}${currentOffering.section ? ` ${currentOffering.section}` : ''}`
-              : `Roster${this.props.params.prog ? ` - ${this.props.params.prog}` : ''}${this.props.params.term ? ` - ${helpers.termCodeToString(this.props.params.term)}` : ''}`
+              : `Roster${this.props.params.prog ? ` - ${helpers.formatAcademicProgram(this.props.params.prog)}` : ''}${this.props.params.term ? ` - ${helpers.termCodeToString(this.props.params.term)}` : ''}`
             pdf.save(`${title}.pdf`)
 
             this.setState({
@@ -127,43 +174,16 @@ class Roster extends Component {
     addToPdf(elems[0])
   }
 
-  componentDidMount() {
-    const { dispatch, params } = this.props
-    const {
- rosterSource, prog, level, term, offeringId,
-} = params
-
-    switch (rosterSource) {
-      case 'offering':
-        dispatch(requestOffering(offeringId))
-        dispatch(fetchStudents(offeringId))
-        break
-      case 'student-body':
-        dispatch(fetchStudentBody({ prog, level, term }))
-        break
-    }
-  }
-
-  componentDidUpdate() {
-    // check if we're waiting on anything to finish loading. If not, go ahead
-    // and make the PDF.
-    if (Object.keys(this.props.loading).every(loadingType => this.props.loading[loadingType] === false) && this.state.showLoading === true) {
-      setTimeout(() => {
-        this.createPdf()
-      }, 2000)
-    }
-  }
-
   render() {
     const { showLoading, printableReady } = this.state
     const {
- offerings, settings, students, params,
-} = this.props
+      offerings, settings, students, params,
+    } = this.props
     const {
- rosterSource, offeringId, prog, level, term, aisOnly,
-} = params
-    let currentStudents; let
-currentOffering
+      rosterSource, offeringId, prog, level, term, aisOnly,
+    } = params
+    let currentStudents
+    let currentOffering
 
     if (rosterSource === 'offering') {
       currentOffering = offerings[offeringId]
@@ -220,19 +240,9 @@ currentOffering
               <li key={student.id} className="roster-row">
                 <div className="roster-row__picture" style={{ backgroundImage: `url('${helpers.rootUrl}storage/student_pictures/${student.picture}')` }} />
                 <div className="roster-row__info">
-                  <span>
-                    {student.short_first_name
-                      ? student.short_first_name
-                      : student.first_name
-                    }
-                    &nbsp;
-                    {student.short_last_name
-                      ? student.short_last_name
-                      : student.last_name
-                    }
-                  </span>
-                  <span className="details">{student.academic_prog_descr} {helpers.academicLevelToString(student.academic_level)}</span>
-                  <span className="details">{student.cnet_id}</span>
+                  <span>{this.formatStudentName(student)}</span>
+                  <span className="details">{this.formatStudentDegree(student)}</span>
+                  <span className="details">{`CNet ID: ${student.cnet_id}`}</span>
                 </div>
               </li>
             ))}

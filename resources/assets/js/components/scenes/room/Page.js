@@ -362,9 +362,11 @@ const mapStateToProps = ({ app, entities, settings }, { match, withStudents = tr
   })
 
   // make an array of all the students in the current offering
+  // Needed for checking bad seats.
   const currentStudents = Object.keys(students)
-    .filter(id => currentOffering.students.includes(parseInt(id)))
+    .filter(id => app.currentOffering.students.includes(parseInt(id)))
     .map(id => students[id])
+    .sort((a, b) => (b.last_name.toUpperCase() < a.last_name.toUpperCase() ? 1 : -1))
 
   return {
     currentRoomID,

@@ -50,7 +50,7 @@ class ActionBar extends Component {
 
   render() {
     const { isFloating } = this.state
-    const { task } = this.props
+    const { task, currentOffering } = this.props
 
     let actionBarContents
     switch (task) {
@@ -84,15 +84,19 @@ class ActionBar extends Component {
     return (
       <div className={actionBarContainerClasses}>
         <Route path="/room/:roomID/" render={() => actionBarContents} />
-        <Route path="/offering/:offeringID/" render={() => actionBarContents} />
+        {currentOffering.students && currentOffering.students.length > 0 && (
+          <Route path="/offering/:offeringID/" render={() => actionBarContents} />
+        )}
       </div>
     )
   }
 }
 
 function mapStateToProps({ app }) {
+  const { task, currentOffering } = app
   return {
-    task: app.task,
+    currentOffering,
+    task,
   }
 }
 

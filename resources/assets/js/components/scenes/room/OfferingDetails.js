@@ -19,6 +19,7 @@ class OfferingDetails extends Component {
       currentSeats,
       currentStudents,
     } = this.props
+
     const students = currentStudents.map(student => (
       <li key={student.id}>
         <button

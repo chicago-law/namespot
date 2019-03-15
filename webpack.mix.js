@@ -18,7 +18,7 @@ mix.react('resources/assets/js/main.js', 'public/js')
    .copyDirectory('resources/assets/spreadsheets', 'public/spreadsheets')
    .sourceMaps()
    .browserSync({
-     proxy: 'localhost/namespot/public',
+     proxy: 'namespot.localhost',
    })
    .options({
     uglify: {

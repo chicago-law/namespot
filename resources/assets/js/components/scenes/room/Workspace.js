@@ -5,6 +5,7 @@ import Page from './Page'
 import PagePref from './PagePref'
 import OfferingDetails from './OfferingDetails'
 import WorkspaceMessage from './WorkspaceMessage'
+import Loading from '../../Loading'
 
 class Workspace extends Component {
   pageContRef = React.createRef()
@@ -140,6 +141,16 @@ class Workspace extends Component {
   }
 
   render() {
+    const { loading } = this.props
+
+    if (loading.students || loading.rooms) {
+      return (
+        <div style={{ marginTop: '10em' }}>
+          <Loading />
+        </div>
+      )
+    }
+
     return (
       <div className="room-workspace">
 

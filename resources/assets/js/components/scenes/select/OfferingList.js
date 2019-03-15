@@ -12,19 +12,26 @@ class OfferingList extends Component {
   state = {
     query: '',
     selectedTermCode: '',
+    recentOfferings: [],
   }
 
   searchRef = React.createRef()
 
   componentDidMount() {
     const { dispatch, years } = this.props
-    const prevTerm = localStorage.getItem('selectedTerm')
-    const termCode = prevTerm || `2${String(years.academicYear).substring(2, 4)}8` // default to Autumn of whatever the current year is
+    const termCode = localStorage.getItem('selectedTerm')
+      ? JSON.parse(localStorage.getItem('selectedTerm'))
+      : `2${String(years.academicYear).substring(2, 4)}8` // default to Autumn of whatever the current year is
+    const recentOfferings = localStorage.getItem('recentOfferings')
+      ? JSON.parse(localStorage.getItem('recentOfferings'))
+      : []
 
-    dispatch(fetchOfferings({ termCode }, () => this.setState({
-      selectedTermCode: termCode,
-    })))
+    dispatch(fetchOfferings({ termCode }))
     dispatch(setView('offering-list'))
+    this.setState({
+      selectedTermCode: termCode,
+      recentOfferings,
+    })
     this.searchRef.current.focus()
   }
 
@@ -36,17 +43,23 @@ class OfferingList extends Component {
 
   handleTermChange = (e) => {
     const { dispatch } = this.props
+    const { value } = e.target
 
-    dispatch(fetchOfferings({ termCode: e.target.value })) // get classes for the selected term
-    dispatch(saveSessionTerm(e.target.value)) // save the selected term in local storage
+    // Value will be empty string if user selected "--" from quarter menu.
+    if (value !== '') {
+      dispatch(fetchOfferings({ termCode: value })) // get classes for the selected term
+      dispatch(saveSessionTerm(value)) // save the selected term in local storage
+    }
+
     this.setState({
-      selectedTermCode: e.target.value,
+      selectedTermCode: value,
       query: '',
     })
   }
 
   onOfferingClick = (e) => {
-    const { history, recentOfferings } = this.props
+    const { recentOfferings } = this.state
+    const { history } = this.props
     e.preventDefault()
 
     // add clicked offering's ID to local storage
@@ -64,11 +77,10 @@ class OfferingList extends Component {
   }
 
   render() {
-    const { query, selectedTermCode } = this.state
+    const { query, selectedTermCode, recentOfferings } = this.state
     const {
       loading,
       offerings,
-      recentOfferings,
       settings,
       years,
     } = this.props
@@ -189,7 +201,7 @@ class OfferingList extends Component {
                   )}
                 </p>
                 {offering.updated_at && (
-                  <span className="meta">Edited {new Date(offering.updated_at).toLocaleDateString()}</span>
+                  <span className="meta">Edited {helpers.parseDate(offering.updated_at).toLocaleDateString()}</span>
                 )}
               </Link>
               <FontAwesomeIcon icon={['far', 'chevron-right']} />
@@ -209,16 +221,12 @@ class OfferingList extends Component {
   }
 }
 
-const mapStateToProps = ({ app, entities, settings }) => {
-  const recentOfferingsArray = localStorage.getItem('recentOfferings') ? JSON.parse(localStorage.getItem('recentOfferings')) : []
-
-  return {
+const mapStateToProps = ({ app, entities, settings }) => ({
     loading: app.loading,
     offerings: entities.offerings,
-    recentOfferings: recentOfferingsArray,
     settings,
     years: app.years,
-  }
-}
+  })
+
 
 export default connect(mapStateToProps)(OfferingList)

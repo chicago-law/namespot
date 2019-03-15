@@ -27,7 +27,9 @@ const mapStateToProps = (state, ownProps) => {
    */
   const { entities, app } = state
   const { offerings, tables } = entities
-  const { currentRoom, currentOffering, view } = app
+  const {
+    loading, currentRoom, currentOffering, view,
+  } = app
   const { match } = ownProps
   const { params } = match
 
@@ -48,6 +50,7 @@ const mapStateToProps = (state, ownProps) => {
   ))
 
   return {
+    loading,
     currentTables,
     currentRoomID,
     currentOfferingID,
