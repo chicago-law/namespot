@@ -89,7 +89,7 @@ class FetchAisEnrollment implements ShouldQueue
               $student = Student::firstOrNew(['emplid' => $ais_student->EMPLID]);
             }
 
-            // Proceed only if we were able to make a student with cnet or emplid.
+            // Proceed only if we were able to find/make a student with cnet or emplid.
             if ($student) {
 
               // IDs

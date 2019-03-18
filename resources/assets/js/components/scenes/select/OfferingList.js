@@ -19,9 +19,22 @@ class OfferingList extends Component {
 
   componentDidMount() {
     const { dispatch, years } = this.props
-    const termCode = localStorage.getItem('selectedTerm')
-      ? JSON.parse(localStorage.getItem('selectedTerm'))
-      : `2${String(years.academicYear).substring(2, 4)}8` // default to Autumn of whatever the current year is
+    let termCode
+    const defaultTermCode = `2${String(years.academicYear).substring(2, 4)}8` // default to Autumn of whatever the current year is
+    const prevTermCode = localStorage.getItem('selectedTerm')
+    // selectedTerm used to be stored a little differently in storage, so we're
+    // gonna try to decode if, but if it fails, then we'll just blow it away and
+    // use the default value, and it'll get saved correctly in the future.
+    if (prevTermCode) {
+      try {
+        termCode = JSON.parse(prevTermCode)
+      } catch (error) {
+        localStorage.removeItem('selectedTerm')
+        termCode = defaultTermCode
+      }
+    } else {
+      termCode = defaultTermCode
+    }
     const recentOfferings = localStorage.getItem('recentOfferings')
       ? JSON.parse(localStorage.getItem('recentOfferings'))
       : []
