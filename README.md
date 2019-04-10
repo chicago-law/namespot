@@ -26,7 +26,7 @@ Now run `php artisan key:generate`. That will populate the `APP_KEY` field in th
 To fire up the dev server, use `npm run watch`. However, you'll probably need to do some additional configuration with BrowserSync in `webpack.mix.js` depending on how you have your project files setup. For example, I have to specify localhost and the specific directory of this project like so:
 ```
   .browserSync({
-    proxy: 'localhost/laravel-typescript-react-boilerplate/public',
+    proxy: 'laravel-typescript-react.localhost',
   })
 ```
 

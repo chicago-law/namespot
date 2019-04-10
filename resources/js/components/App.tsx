@@ -1,15 +1,18 @@
 import React, { Component } from 'react'
-import styled, { keyframes } from '../utils/styled-components'
+import styled, { keyframes } from '../utils/styledComponents'
 
 const float = keyframes`
   0% {
-    transform: translateY(0)
+    transform: translateY(0) scale(1);
+    filter: saturate(0) drop-shadow(0 1px 1px rgba(0,0,0,.5));
   }
   40% {
-    transform: translateY(-25px)
+    transform: translateY(-25px) scale(1.1);
+    filter: saturate(0) drop-shadow(0 30px 5px rgba(0,0,0,.2));
   }
   100% {
-    transform: translateY(00px)
+    transform: translateY(0) scale(1);
+    filter: saturate(0) drop-shadow(0 1px 1px rgba(0,0,0,.5));
   }
 `
 const Container = styled('div')`
@@ -22,8 +25,7 @@ const Logos = styled('div')`
   align-items: center;
   max-width: 40em;
   margin: 5em auto 0 auto;
-  animation: ${float} 5s ease-out infinite;
-  filter: saturate(0);
+  animation: ${float} 4s ease-in-out infinite;
   img {
     flex: 0 1 30%;
     margin: 0 2em;
@@ -32,7 +34,7 @@ const Logos = styled('div')`
 
 class App extends Component<{}, {}> {
   componentDidMount() {
-    console.log('I\'m alive, awake, alert, enthusiastic 👍') // eslint-disable-line
+    console.log('I\'m alive, awake, alert, enthusiastic 👍')
   }
 
   render() {

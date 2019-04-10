@@ -15,4 +15,6 @@ mix.ts('resources/js/index.js', 'public/js')
   .sass('resources/sass/main.scss', 'public/css')
   .copyDirectory('resources/images', 'public/images')
   .sourceMaps()
-  .browserSync()
+  .browserSync({
+    proxy: 'laravel-typescript-react.localhost',
+  })

@@ -1,5 +1,4 @@
 import * as styledComponents from 'styled-components'
-
 import { ThemeInterface } from './theme'
 
 const {

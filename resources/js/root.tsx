@@ -6,6 +6,8 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faCoffee,
 } from '@fortawesome/free-solid-svg-icons'
+import { ThemeProvider } from './utils/styledComponents'
+import { theme } from './utils/theme'
 import App from './components/App'
 import store from './store'
 import GlobalStyles from './utils/globalStyles'
@@ -14,16 +16,13 @@ library.add(
   faCoffee,
 )
 
-let basename = '/'
-if (window.location.hostname === 'localhost') {
-  basename = '/sandboxes/laravel-typescript-react/public/'
-}
-
 ReactDOM.render(
-  <BrowserRouter basename={basename}>
+  <BrowserRouter>
     <Provider store={store}>
       <GlobalStyles />
-      <App />
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
     </Provider>
   </BrowserRouter>,
   document.getElementById('root'),
