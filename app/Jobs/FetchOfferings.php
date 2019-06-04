@@ -77,7 +77,14 @@ class FetchOfferings implements ShouldQueue
       foreach($ais_class_tbl as $ais_class):
         // Look for the offering in our DB. If it exists already, we'll
         // update with the info that came back, otherwise we'll make a new one.
-        $offering = Offering::firstOrNew(['class_nbr' => $ais_class->CLASS_NBR]);
+        $offering = Offering::where([
+          ['term_code', '=', $this->term],
+          ['class_nbr', '=', $ais_class->CLASS_NBR],
+        ])->first();
+
+        if (!$offering) {
+          $offering = new Offering;
+        }
 
         // ids
         $offering->catalog_nbr = $ais_class->CATALOG_NBR;
