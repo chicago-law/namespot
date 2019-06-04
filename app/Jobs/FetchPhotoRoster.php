@@ -146,13 +146,10 @@ class FetchPhotoRoster implements ShouldQueue
       Log::error('FetchPhotoRoster error', $errors_array);
 
       // send an email with exceptions summary
-      $message = config('app.env') . ": FetchPhotoRoster for {$this->term} finished with " . count($errors_array) . " errors, out of " . count($offerings) . " offerings.";
-      Mail::to(config('app.admin_email'))->send(new JobException($message, array_slice($errors_array, 0, 3)));
-    else:
-      // Send an email with job results summary
-      // $results = config('app.env') . ": FetchPhotoRoster for {$this->term} completed without exceptions. {$empty_responses} out of " . count($offerings) . " offerings had no photo data.";
-      // Mail::to(config('app.admin_email'))->send(new JobResults($results));
+      if (config('app.env') === 'prod') {
+        $message =  "Prod: FetchPhotoRoster for {$this->term} finished with " . count($errors_array) . " errors, out of " . count($offerings) . " offerings.";
+        Mail::to(config('app.admin_email'))->send(new JobException($message, array_slice($errors_array, 0, 3)));
+      }
     endif;
-
   }
 }

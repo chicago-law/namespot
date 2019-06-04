@@ -19,60 +19,62 @@ use App\Setting;
 
 class FetchAppData implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+  use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $started;
+  protected $started;
 
-    /**
-     * Create a new job instance.
-     *
-     * @return void
-     */
-    public function __construct($started)
-    {
-        $this->started = $started;
-    }
+  /**
+   * Create a new job instance.
+   *
+   * @return void
+   */
+  public function __construct($started)
+  {
+      $this->started = $started;
+  }
 
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
-    public function handle()
-    {
-        // Grab the current academic year from the Settings table in DB.
-        // Fall back to 2018 if there is no academic year set.
-        $academic_year_setting = Setting::where('setting_name','academic_year')->first();
-        $year = $academic_year_setting ? $academic_year_setting->setting_value : '2018';
+  /**
+   * Execute the job.
+   *
+   * @return void
+   */
+  public function handle()
+  {
+      // Grab the current academic year from the Settings table in DB.
+      // Fall back to 2018 if there is no academic year set.
+      $academic_year_setting = Setting::where('setting_name','academic_year')->first();
+      $year = $academic_year_setting ? $academic_year_setting->setting_value : '2018';
 
-        // Convert the single year into an array of AIS term codes.
-        // Ie, 2018 becomes 2188, 2192, 2194.
-        $term_codes = getTermCodesFromYear($year);
+      // Convert the single year into an array of AIS term codes.
+      // Ie, 2018 becomes 2188, 2192, 2194.
+      $term_codes = getTermCodesFromYear($year);
 
-        foreach ($term_codes as $term) {
+      foreach ($term_codes as $term) {
 
-            // Get the offerings from AIS
-            FetchOfferings::dispatch($term);
+          // Get the offerings from AIS
+          FetchOfferings::dispatch($term);
 
-            // Get enrollments from Canvas
-            FetchCanvasEnrollment::dispatch($term);
+          // Get enrollments from Canvas
+          FetchCanvasEnrollment::dispatch($term);
 
-            // Get enrollments from AIS
-            FetchAisEnrollment::dispatch($term);
+          // Get enrollments from AIS
+          FetchAisEnrollment::dispatch($term);
 
-            // Wait a minute before calling AIS again
-            sleep(60);
+          // Wait a minute before calling AIS again
+          sleep(60);
 
-            // Get student photos from AIS
-            FetchPhotoRoster::dispatch($term);
+          // Get student photos from AIS
+          FetchPhotoRoster::dispatch($term);
 
-            // Wait a minute before calling AIS again
-            sleep(60);
+          // Wait a minute before calling AIS again
+          sleep(60);
 
-        } // end term loop
+      } // end term loop
 
-      // Send an email confirming that all jobs finished without errors.
-      $results = config('app.env') . ": FetchAppData started at {$this->started} and finished at " . date('h:i:s');
+    // Send an email confirming that all jobs finished without errors.
+    if (config('app.env') === 'prod') {
+      $results =  "Prod: FetchAppData started at {$this->started} and finished at " . date('h:i:s');
       Mail::to(config('app.admin_email'))->send(new JobResults($results));
     }
+  }
 }
