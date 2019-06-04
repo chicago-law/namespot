@@ -1,4 +1,4 @@
-# Namespot 🖨
+# Namespot 💺
 Generate classroom seating charts, rosters, flash cards, and name tents. Originally built for the University of Chicago Law School.
 
 ## Description
