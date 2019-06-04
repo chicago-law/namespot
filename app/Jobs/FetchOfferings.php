@@ -5,6 +5,7 @@ namespace App\Jobs;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use GuzzleHttp\Client;
@@ -211,13 +212,16 @@ class FetchOfferings implements ShouldQueue
     }
 
     if (count($errors_array)):
+
+      Log::error('FetchOfferings error', $errors_array);
+
       // send an email with exceptions summary
       $message = config('app.env') . ": FetchOfferings for {$this->term} finished with " . count($errors_array) . " errors.";
       Mail::to(config('app.admin_email'))->send(new JobException($message, $errors_array));
     else:
       // send summary email
-      $results = config('app.env') . ": FetchOfferings for {$this->term} found " . count($body->UC_CLASS_TBL) . " offerings, with no errors.";
-      Mail::to(config('app.admin_email'))->send(new JobResults($results));
+      // $results = config('app.env') . ": FetchOfferings for {$this->term} found " . count($body->UC_CLASS_TBL) . " offerings, with no errors.";
+      // Mail::to(config('app.admin_email'))->send(new JobResults($results));
     endif;
 
   }

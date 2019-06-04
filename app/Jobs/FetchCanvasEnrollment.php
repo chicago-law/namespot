@@ -7,6 +7,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7;
@@ -189,14 +190,17 @@ class FetchCanvasEnrollment implements ShouldQueue
 
   private function done_fetching()
   {
-    // if (count($this->errors)):
-    //   // send an email with exceptions summary
-    //   $message = config('app.env') . ": FetchCanvasEnrollment for {$this->term} finished with " . count($this->errors) . " error(s) out of " . count($this->offerings) . " offerings.";
-    //   Mail::to('dramus@uchicago.edu')->send(new JobException($message, $this->errors));
-    // else:
-    //   // send results summary
-    //   $results = config('app.env') . ": FetchCanvasEnrollment for {$this->term} finished " . count($this->offerings) . " offerings without any exceptions.";
-    //   Mail::to(config('app.admin_email'))->send(new JobResults($results));
-    // endif;
+    if (count($this->errors)):
+
+      Log::error('FetchCanvasEnrollment error!', $this->errors);
+
+      // send an email with exceptions summary
+      $message = config('app.env') . ": FetchCanvasEnrollment for {$this->term} finished with " . count($this->errors) . " error(s) out of " . count($this->offerings) . " offerings.";
+      Mail::to('dramus@uchicago.edu')->send(new JobException($message, $this->errors));
+    else:
+      // send results summary
+      // $results = config('app.env') . ": FetchCanvasEnrollment for {$this->term} finished " . count($this->offerings) . " offerings without any exceptions.";
+      // Mail::to(config('app.admin_email'))->send(new JobResults($results));
+    endif;
   }
 }
