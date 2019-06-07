@@ -12,25 +12,25 @@ class Workspace extends Component {
 
   componentDidMount() {
     const {
-      currentRoomID,
-      currentOfferingID,
+      currentRoomId,
+      currentOfferingId, // from the URL!
       requestRoom,
       findAndSetCurrentRoom,
-      findAndSetCurrentOffering,
       requestStudents,
       requestOffering,
     } = this.props
-    // do these if you have the currentRoomID
-    if (currentRoomID != null) {
-      requestRoom(currentRoomID)
-      findAndSetCurrentRoom(currentRoomID)
+
+    // do these if you have the currentRoomId
+    if (currentRoomId != null) {
+      requestRoom(currentRoomId)
+      findAndSetCurrentRoom(currentRoomId)
     }
 
-    // do these if you have the currentOfferingID
-    if (currentOfferingID != null) {
-      findAndSetCurrentOffering(currentOfferingID)
-      requestStudents(currentOfferingID)
-      requestOffering(currentOfferingID)
+    // If we have an offeringId from the URL, we'll grab the the data we need:
+    // the offering itself, and also the students for this offering.
+    if (currentOfferingId) {
+      requestOffering(currentOfferingId)
+      requestStudents(currentOfferingId)
     }
 
     // look at the URL and decide a default task based on that
@@ -44,20 +44,15 @@ class Workspace extends Component {
 
   componentDidUpdate(prevProps) {
     const {
-      currentRoomID,
+      currentRoomId,
       currentRoom,
       findAndSetCurrentRoom,
-      currentOffering,
-      currentOfferingID,
-      findAndSetCurrentOffering,
       requestRoom,
       fetchTables,
-      history,
-      view,
     } = this.props
     // fetch the room if need be
-    if (currentRoomID != null && prevProps.currentRoomID === null) {
-      requestRoom(currentRoomID)
+    if (currentRoomId != null && prevProps.currentRoomId === null) {
+      requestRoom(currentRoomId)
     }
 
     // Set current room if any IDs change
@@ -66,39 +61,19 @@ class Workspace extends Component {
     // in app / currentRoom. You must call findAndSetCurrentRoom at that point.
     // Same with findAndSetCurrentOffering.
     if (
-      currentRoomID != null
+      currentRoomId != null
       && (
-        currentRoomID != prevProps.currentRoomID
+        currentRoomId != prevProps.currentRoomId
         || currentRoom.id != prevProps.currentRoom.id
-        || currentRoomID != currentRoom.id
+        || currentRoomId != currentRoom.id
       )
     ) {
-      findAndSetCurrentRoom(currentRoomID)
-    }
-
-    // set current offering if any IDs change
-    if (
-      currentOfferingID != null
-      && (
-        currentOfferingID != prevProps.currentOfferingID
-        || currentOffering.id != prevProps.currentOffering.id
-        || currentOfferingID != currentOffering.id
-      )
-    ) {
-      findAndSetCurrentOffering(currentOfferingID)
+      findAndSetCurrentRoom(currentRoomId)
     }
 
     // get the tables when currentRoom is ready and it has changed
     if (currentRoom.id != null && prevProps.currentRoom.id != currentRoom.id) {
       fetchTables(currentRoom.id)
-    }
-
-    // this is checking for a very specific situation: if the room ID just
-    // changed, and the view is set to 'edit-room', that means we just created
-    // a new room and copied everything over to it, and now we want to edit it
-    if (prevProps.currentRoom.id != currentRoom.id && view === 'edit-room' && currentOffering.id != null) {
-      console.log('new custom room created, redirecting to edit it...') // eslint-disable-line
-      history.push(`/room/${currentRoom.id}/${currentOffering.id}`)
     }
   }
 
@@ -141,7 +116,19 @@ class Workspace extends Component {
   }
 
   render() {
-    const { loading } = this.props
+    const { loading, currentOfferingId } = this.props
+
+    // if there's an offering ID in the URL,
+    // we know we need to wait for offerings no matter what.
+    if (currentOfferingId
+      && (loading.offerings || !('offerings' in loading)
+    )) {
+      return (
+        <div style={{ marginTop: '10em' }}>
+          <Loading />
+        </div>
+      )
+    }
 
     if (loading.students || loading.rooms) {
       return (
@@ -155,14 +142,14 @@ class Workspace extends Component {
       <div className="room-workspace">
 
         <div className="room-workspace-left">
-          <Route path="/offering" component={PagePref} />
+          <Route path="/offering/:offeringId" component={PagePref} />
         </div>
 
         <Page />
 
         <div className="room-workspace-right">
-          <Route path="/room" component={WorkspaceMessage} />
-          <Route path="/offering" component={OfferingDetails} />
+          <Route path="/room/:roomId" component={WorkspaceMessage} />
+          <Route path="/offering/:offeringId" component={OfferingDetails} />
         </div>
 
       </div>

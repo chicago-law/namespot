@@ -142,8 +142,8 @@ class PagePref extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-    currentOffering: state.app.currentOffering,
-  })
+const mapStateToProps = ({ entities }, { match }) => ({
+  currentOffering: entities.offerings[match.params.offeringId],
+})
 
 export default connect(mapStateToProps)(PagePref)

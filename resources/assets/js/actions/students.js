@@ -6,7 +6,7 @@ import * as schema from './schema'
 import C from '../constants'
 import helpers from '../bootstrap'
 import {
-  setLoadingStatus, setCurrentSeatId, requestError, findAndSetCurrentOffering,
+  setLoadingStatus, setCurrentSeatId, requestError, // findAndSetCurrentOffering,
 } from './app'
 import { requestUpdateOffering, receiveOfferings } from './offerings'
 
@@ -31,22 +31,23 @@ export function fetchStudents(offering_id) {
       .then((response) => {
         // normalize data and load into state
         const normalizedData = normalize(response.data, schema.studentListSchema)
-        dispatch(receiveStudents(normalizedData.entities.students))
 
-        // Attach the students to the requested offering and load
-        // into state.
-        const offering = getState().entities.offerings[offering_id]
-        const studentIds = Object.keys(normalizedData.entities.students).map(id => parseInt(id))
-        const offeringWithStudents = {
-          [offering_id]: {
-            ...offering,
-            students: studentIds,
-          },
+        // If the offering has students, proceed with getting them into the store.
+        if (normalizedData.entities.students) {
+          dispatch(receiveStudents(normalizedData.entities.students))
+
+          // Attach the students to the requested offering and load
+          // into state.
+          const offering = getState().entities.offerings[offering_id]
+          const studentIds = Object.keys(normalizedData.entities.students).map(id => parseInt(id))
+          const offeringWithStudents = {
+            [offering_id]: {
+              ...offering,
+              students: studentIds,
+            },
+          }
+          dispatch(receiveOfferings(offeringWithStudents))
         }
-        dispatch(receiveOfferings(offeringWithStudents))
-        // Also "currentOffering" in "app" needs to be updated too.
-        // Todo... refactor that ish.
-        dispatch(findAndSetCurrentOffering(offering_id))
 
         // reset the loading status
         dispatch(setLoadingStatus('students', false))
@@ -60,7 +61,7 @@ export function fetchStudents(offering_id) {
 // Get students by offering, if not already in store
 export function requestStudents(offering_id) {
   // ok, for now, we won't have any check on whether or not we already have
-  // the students loaded. Just get the students for the given offeringID every
+  // the students loaded. Just get the students for the given offeringId every
   // time. May add one here in the future...
   return dispatch => dispatch(fetchStudents(offering_id))
 }
@@ -136,25 +137,28 @@ export function assignSeat(offering_id, student_id, seat_id) {
 }
 
 // update a student's attribute in the store
-export function updateStudent(student_id, attribute, value) {
+export function updateStudent(student_id, attribute, value, offering_id) {
   return {
     type: C.UPDATE_STUDENT,
     student_id,
+    offering_id,
     attribute,
     value,
   }
 }
-// update a student and save it in the DB
-export function updateAndSaveStudent(student_id, attribute, value) {
-  return (dispatch, getState) => {
+// update a student and save it in the DB. Optionally pass in an offering ID,
+// if it's an attribute that needs it.
+
+export function updateAndSaveStudent(student_id, attribute, value, offering_id = null) {
+  return (dispatch) => {
     // update in the store
-    dispatch(updateStudent(student_id, attribute, value))
+    dispatch(updateStudent(student_id, attribute, value, offering_id))
 
     // save to DB. include offering ID in case it's needed,
     // for example for is_namespot_addition.
     axios.post(`${helpers.rootUrl}api/student/update/${student_id}`, {
       [attribute]: value,
-      offering_id: getState().app.currentOffering.id,
+      offering_id,
     })
     .catch(response => dispatch(requestError('student-update', response.message)))
   }
@@ -163,19 +167,20 @@ export function updateAndSaveStudent(student_id, attribute, value) {
 export function unenrollStudent(studentId, offeringId) {
   return (dispatch, getState) => {
     // remove the offering in question from student's list of seats
-    // (affects both store and in DB)
+    // (affects the student in the store)
     const student = getState().entities.students[studentId]
     const enrollment = { ...student.enrollment }
     delete enrollment[`offering_${offeringId}`]
-    dispatch(updateAndSaveStudent(studentId, 'enrollment', enrollment))
+    dispatch(updateAndSaveStudent(studentId, 'enrollment', enrollment, offeringId))
 
     // remove student from offering's student list
-    // (affects both store and in DB)
+    // (affects the offering in store and in DB)
     const offering = getState().entities.offerings[offeringId]
     const filteredStudents = offering.students.filter(id => id != studentId)
     dispatch(requestUpdateOffering(offeringId, 'students', filteredStudents))
 
     // finally, send a request to detach in the DB
+    // (affects the student in the DB. Maybe this is redundant?)
     axios.post(`${helpers.rootUrl}api/student/unenroll`, {
       student_id: studentId,
       offering_id: offeringId,

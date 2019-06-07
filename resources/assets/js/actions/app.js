@@ -1,6 +1,14 @@
 import C from '../constants'
 import helpers from '../bootstrap'
 
+/**
+ * Record the height of the banner in state.
+ * @param {number} height the height of the banner
+ */
+export const setBannerHeight = height => ({
+  type: C.SET_BANNER_HEIGHT,
+  height,
+})
 
 /**
  * view
@@ -77,10 +85,10 @@ export function resetCurrentRoom() {
     type: C.RESET_CURRENT_ROOM,
   }
 }
-export function findAndSetCurrentRoom(roomID) {
+export function findAndSetCurrentRoom(roomId) {
   return (dispatch, getState) => {
-    if (getState().entities.rooms[roomID]) {
-      dispatch(setCurrentRoom(getState().entities.rooms[roomID]))
+    if (getState().entities.rooms[roomId]) {
+      dispatch(setCurrentRoom(getState().entities.rooms[roomId]))
     }
   }
 }
@@ -99,10 +107,10 @@ export function resetCurrentOffering() {
     type: C.RESET_CURRENT_OFFERING,
   }
 }
-export function findAndSetCurrentOffering(offeringID) {
+export function findAndSetCurrentOffering(offeringId) {
   return (dispatch, getState) => {
-    if (getState().entities.offerings[offeringID]) {
-      dispatch(setCurrentOffering(getState().entities.offerings[offeringID]))
+    if (getState().entities.offerings[offeringId]) {
+      dispatch(setCurrentOffering(getState().entities.offerings[offeringId]))
     }
   }
 }
@@ -138,11 +146,11 @@ export function newTable() {
   }
 }
 // load an existing table into tempTable in the store
-export function selectTable(tableID, roomID, seatCount, labelPosition, coords) {
+export function selectTable(tableID, roomId, seatCount, labelPosition, coords) {
   return {
     type: C.SELECT_TABLE,
     tableID,
-    roomID,
+    roomId,
     seatCount,
     labelPosition,
     coords,

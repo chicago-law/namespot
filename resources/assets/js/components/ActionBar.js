@@ -18,13 +18,11 @@ class ActionBar extends Component {
     }, 50)
     this.state = {
       isFloating: false,
-      bannerHeight: '',
     }
   }
 
   componentDidMount() {
     window.addEventListener('scroll', this.throttledOnScroll)
-    this.measureHeader()
   }
 
   componentWillUnmount() {
@@ -32,14 +30,8 @@ class ActionBar extends Component {
     window.removeEventListener('scroll', this.throttledOnScroll)
   }
 
-  measureHeader = () => {
-    const banner = document.querySelector('.banner-container')
-    const bannerHeight = parseFloat(window.getComputedStyle(banner).getPropertyValue('height'))
-    this.setState({ bannerHeight })
-  }
-
   onScroll = () => {
-    const { bannerHeight } = this.state
+    const { bannerHeight } = this.props
     const currentScroll = window.pageYOffset
     if (currentScroll >= bannerHeight) {
       this.setState({ isFloating: true })
@@ -48,33 +40,39 @@ class ActionBar extends Component {
     }
   }
 
-  render() {
-    const { isFloating } = this.state
-    const { task, currentOffering } = this.props
-
+  getActionBarContents = (routeProps) => {
+    const { task } = this.props
     let actionBarContents
+
     switch (task) {
       case 'edit-room':
-        actionBarContents = <AbRoomOverview />
+        actionBarContents = <AbRoomOverview {...routeProps} />
         break
       case 'edit-table':
-        actionBarContents = <AbEditTable />
+        actionBarContents = <AbEditTable {...routeProps} />
         break
       case 'delete-table':
-        actionBarContents = <AbDeleteTable />
+        actionBarContents = <AbDeleteTable {...routeProps} />
         break
       case 'offering-overview':
-        actionBarContents = <AbOfferingOverview />
+        actionBarContents = <AbOfferingOverview {...routeProps} />
         break
       case 'find-student':
-        actionBarContents = <AbFindStudent />
+        actionBarContents = <AbFindStudent {...routeProps} />
         break
       case 'student-details':
-        actionBarContents = <AbStudentDetails />
+        actionBarContents = <AbStudentDetails {...routeProps} />
         break
       default:
         actionBarContents = null
     }
+
+    return actionBarContents
+  }
+
+  render() {
+    const { isFloating } = this.state
+    const { currentOffering } = this.props
 
     const actionBarContainerClasses = classNames({
       'action-bar-container': true,
@@ -83,19 +81,20 @@ class ActionBar extends Component {
 
     return (
       <div className={actionBarContainerClasses}>
-        <Route path="/room/:roomID/" render={() => actionBarContents} />
-        {currentOffering.students && currentOffering.students.length > 0 && (
-          <Route path="/offering/:offeringID/" render={() => actionBarContents} />
+        <Route path="/room/:roomId/:offeringId?" render={routeProps => this.getActionBarContents(routeProps)} />
+        {currentOffering && currentOffering.students && currentOffering.students.length > 0 && (
+          <Route path="/offering/:offeringId/" render={routeProps => this.getActionBarContents(routeProps)} />
         )}
       </div>
     )
   }
 }
 
-function mapStateToProps({ app }) {
-  const { task, currentOffering } = app
+const mapStateToProps = ({ app, entities }, { match }) => {
+  const { task, bannerHeight } = app
   return {
-    currentOffering,
+    bannerHeight,
+    currentOffering: entities.offerings[match.params.offeringId] || null,
     task,
   }
 }

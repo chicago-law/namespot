@@ -24,12 +24,14 @@ module.exports = {
     ],
     "rules": {
         "camelcase": 0,
+        "import/no-cycle": 0,
         "indent": 0,
         "linebreak-style": [
             "error",
             "unix"
         ],
         "max-len": 0,
+        "new-cap": 0,
         "no-confusing-arrow": ["error", {"allowParens": true}],
         "no-console": "warn",
         "no-plusplus": 0,

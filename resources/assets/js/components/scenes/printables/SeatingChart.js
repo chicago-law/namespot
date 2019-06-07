@@ -1,3 +1,4 @@
+/* eslint-disable react/sort-comp */
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import queryString from 'query-string'
@@ -10,7 +11,6 @@ import {
   fetchTables,
   requestOffering,
   requestStudents,
-  findAndSetCurrentOffering,
   findAndSetCurrentRoom,
   setView,
  } from '../../../actions'
@@ -36,7 +36,6 @@ class SeatingChart extends Component {
     canvg(seatingChartCanvas, document.querySelector('.tables-container').outerHTML, canvgOptions)
 
     // Now use html2canvas to paint the rest of the page into the canvas
-    // const input = document.querySelector('.test')
     const input = document.querySelector('.outer-page-container')
     const h2cOptions = {
       logging: true,
@@ -98,21 +97,19 @@ class SeatingChart extends Component {
       dispatch(requestStudents(offeringId))
     }
 
-    // set store's currentRoom and currentOffering (if there is one)
+    // set store's currentRoom
     dispatch(findAndSetCurrentRoom(roomId))
-    if (offeringId) dispatch(findAndSetCurrentOffering(offeringId))
   }
 
   componentDidUpdate() {
     const { showLoading } = this.state
     const {
- dispatch, roomId, offeringId, loading,
-} = this.props
+      dispatch, roomId, loading,
+    } = this.props
 
-    // again, set currentRoom and currentOffering in app store in case we were
+    // again, set currentRoom in app store in case we were
     // waiting on room data from fetching.
     dispatch(findAndSetCurrentRoom(roomId))
-    if (offeringId) dispatch(findAndSetCurrentOffering(offeringId))
 
     // check if we're waiting on anything to finish loading. If not, go ahead
     // and make the PDF.
@@ -156,8 +153,8 @@ class SeatingChart extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   let currentOffering = {}
-  if (ownProps.match.params.offeringid != null && Object.keys(state.entities.offerings).length && state.entities.offerings[ownProps.match.params.offeringid]) {
-    currentOffering = state.entities.offerings[ownProps.match.params.offeringid]
+  if (ownProps.match.params.offeringId != null && Object.keys(state.entities.offerings).length && state.entities.offerings[ownProps.match.params.offeringId]) {
+    currentOffering = state.entities.offerings[ownProps.match.params.offeringId]
   }
 
   // parse any URL parameters
@@ -167,9 +164,9 @@ const mapStateToProps = (state, ownProps) => {
   return {
     currentOffering,
     loading: state.app.loading,
-    offeringId: ownProps.match.params.offeringid,
+    offeringId: ownProps.match.params.offeringId,
     offerings: state.entities.offerings,
-    roomId: ownProps.match.params.roomid,
+    roomId: ownProps.match.params.roomId,
     rooms: state.entities.rooms,
     seats: state.entities.seats,
     students: state.entities.students,

@@ -24,8 +24,8 @@ class AbStudentDetails extends Component {
   }
 
   saveStudentDetails = (nickname) => {
-    const { dispatch } = this.props
-    dispatch(updateAndSaveStudent(this.props.currentStudentId, 'nickname', nickname))
+    const { dispatch, currentStudentId, currentOffering } = this.props
+    dispatch(updateAndSaveStudent(currentStudentId, 'nickname', nickname, currentOffering.id))
   }
 
   handleUnseatClick = () => {
@@ -58,6 +58,9 @@ class AbStudentDetails extends Component {
           className="portrait"
           style={{ backgroundImage: `url('${helpers.rootUrl}storage/student_pictures/${student.picture}')` }}
           onClick={this.onPortraitClick}
+          onKeyPress={this.onPortraitClick}
+          role="button"
+          tabIndex={0}
         >
           <div className="change-portrait" title="Change picture">
             <FontAwesomeIcon icon="camera" />
@@ -113,7 +116,15 @@ class AbStudentDetails extends Component {
           {enrollment.is_namespot_addition === 1 && (
             <p>
               Added to class manually
-              <span className="ab-student-details__remove" onClick={() => this.onRemoveFromClass()}><FontAwesomeIcon icon={['far', 'sign-out']} />Remove?</span>
+              <button
+                type="button"
+                onClick={() => this.onRemoveFromClass()}
+              >
+                <span className="ab-student-details__remove">
+                  <FontAwesomeIcon icon={['far', 'sign-out']} />
+                  Remove?
+                </span>
+              </button>
             </p>
           )}
         </div>
@@ -121,7 +132,11 @@ class AbStudentDetails extends Component {
         <div style={{ marginLeft: 'auto' }}>
           { student.enrollment[`offering_${currentOffering.id}`].seat !== null
             ? (
-              <button className="big-button pull-right" onClick={() => this.handleUnseatClick()}>
+              <button
+                type="button"
+                className="big-button pull-right"
+                onClick={() => this.handleUnseatClick()}
+              >
                 <FontAwesomeIcon icon={['far', 'unlink']} />
                 <p>Remove Student<br />from Seat</p>
               </button>
@@ -134,10 +149,10 @@ class AbStudentDetails extends Component {
   }
 }
 
-const mapStateToProps = ({ entities, app }) => ({
+const mapStateToProps = ({ entities, app }, { match }) => ({
     students: entities.students,
     currentStudentId: app.currentStudentId,
-    currentOffering: app.currentOffering,
+    currentOffering: entities.offerings[match.params.offeringId],
   })
 
 export default connect(mapStateToProps)(AbStudentDetails)

@@ -1,5 +1,7 @@
+/* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Route } from 'react-router-dom'
 import classNames from 'classnames/bind'
 import { CSSTransition } from 'react-transition-group'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -22,7 +24,7 @@ class Modals extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.modals != this.props.modals) {
+    if (prevProps.modals !== this.props.modals) {
       this.setState({
         modalActive: Object.keys(this.props.modals).some(name => this.props.modals[name] === true),
       })
@@ -105,16 +107,37 @@ class Modals extends Component {
             <FontAwesomeIcon icon={['far', 'times']} onClick={this.handleCloseClick} />
             <div className="content">
 
-              {/* Print Offering */}
-              <CSSTransition
-                in={modals['print-room']}
-                mountOnEnter
-                timeout={300}
-                classNames="content"
-                unmountOnExit
-              >
-                <PrintOffering close={this.handleCloseClick} />
-              </CSSTransition>
+              {/* Print Room, from room */}
+              <Route
+                path="/room/:roomId/"
+                render={props => (
+                  <CSSTransition
+                    in={modals['print-room']}
+                    mountOnEnter
+                    timeout={300}
+                    classNames="content"
+                    unmountOnExit
+                  >
+                    <PrintOffering close={this.handleCloseClick} {...props} />
+                  </CSSTransition>
+                  )}
+              />
+
+              {/* Print Room, from offering */}
+              <Route
+                path="/offering/:offeringId/"
+                render={props => (
+                  <CSSTransition
+                    in={modals['print-room']}
+                    mountOnEnter
+                    timeout={300}
+                    classNames="content"
+                    unmountOnExit
+                  >
+                    <PrintOffering close={this.handleCloseClick} {...props} />
+                  </CSSTransition>
+                  )}
+              />
 
               {/* Change Room */}
               <CSSTransition
@@ -124,7 +147,12 @@ class Modals extends Component {
                 classNames="content"
                 unmountOnExit
               >
-                <ChangeRoom close={this.handleCloseClick} />
+                <Route
+                  path="/room/:roomId/:offeringId?"
+                  render={props => (
+                    <ChangeRoom close={this.handleCloseClick} {...props} />
+                  )}
+                />
               </CSSTransition>
 
               {/* Assign Room */}
@@ -135,7 +163,12 @@ class Modals extends Component {
                 classNames="content"
                 unmountOnExit
               >
-                <AssignRoom close={this.handleCloseClick} />
+                <Route
+                  path="/offering/:offeringId"
+                  render={props => (
+                    <AssignRoom close={this.handleCloseClick} {...props} />
+                  )}
+                />
               </CSSTransition>
 
               {/* Edit Enrollment */}
@@ -146,7 +179,13 @@ class Modals extends Component {
                 classNames="content"
                 unmountOnExit
               >
-                <EditEnrollment close={this.handleCloseClick} />
+                {/* If a modal needs URL variables, put it in a Route component */}
+                <Route
+                  path="/offering/:offeringId"
+                  render={props => (
+                    <EditEnrollment close={this.handleCloseClick} {...props} />
+                  )}
+                />
               </CSSTransition>
 
               {/* Label Position */}
@@ -185,7 +224,7 @@ class Modals extends Component {
             </div>
           </div>
 
-          <div className="modal-container__shader" onClick={this.handleCloseClick} />
+          <div className="modal-container__shader" onClick={this.handleCloseClick} aria-hidden />
 
         </div>
       </CSSTransition>

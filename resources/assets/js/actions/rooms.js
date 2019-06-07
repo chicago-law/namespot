@@ -15,19 +15,19 @@ export function receiveRooms(rooms) {
   }
 }
 
-export function updateRoom(roomID, key, value) {
+export function updateRoom(roomId, key, value) {
   return {
     type: C.UPDATE_ROOM,
-    roomID,
+    roomId,
     key,
     value,
   }
 }
 
-export function deleteRoom(roomID) {
+export function deleteRoom(roomId) {
   return {
     type: C.DELETE_ROOM,
-    roomID,
+    roomId,
   }
 }
 
@@ -37,7 +37,7 @@ export function deleteRoom(roomID) {
 
 // Fetch all rooms
 export function fetchRooms() {
-  return function (dispatch) {
+  return (dispatch) => {
     // set loading state
     dispatch(setLoadingStatus('rooms', true))
     // make API call
@@ -67,7 +67,7 @@ export function requestRooms() {
         dispatch(setLoadingStatus('rooms', false))
       }
     })
-    .catch((response) => {
+    .catch(() => {
       dispatch(requestError('rooms-fetch', 'Error getting room count from database', true))
       dispatch(fetchRooms())
     })
@@ -76,7 +76,7 @@ export function requestRooms() {
 
 // fetch a single room by its ID
 export function fetchRoom(room_id) {
-  return function (dispatch) {
+  return (dispatch) => {
     dispatch(setLoadingStatus('rooms', true))
     axios.get(`${helpers.rootUrl}api/room/${room_id}`)
     .then((response) => {
@@ -105,16 +105,16 @@ export function requestRoom(room_id) {
 }
 
 // update of room attribute, and sync w/ DB
-export function requestRoomUpdate(roomID, key, value) {
+export function requestRoomUpdate(roomId, key, value) {
   return (dispatch) => {
     // change the seat size in the room entity in store
-    dispatch(updateRoom(roomID, key, value))
+    dispatch(updateRoom(roomId, key, value))
 
     // update the app's currentRoom in the store
-    dispatch(findAndSetCurrentRoom(roomID))
+    dispatch(findAndSetCurrentRoom(roomId))
 
     // finally, make a background call to change it in the DB
-    axios.post(`${helpers.rootUrl}api/room/update/${roomID}`, {
+    axios.post(`${helpers.rootUrl}api/room/update/${roomId}`, {
       [key]: value,
     })
     .catch((response) => {
@@ -124,13 +124,13 @@ export function requestRoomUpdate(roomID, key, value) {
 }
 
 // Delete a room
-export function requestRoomDelete(roomID) {
+export function requestRoomDelete(roomId) {
   return (dispatch) => {
     // delete in store
-    dispatch(deleteRoom(roomID))
+    dispatch(deleteRoom(roomId))
 
     // delete in DB
-    axios.delete(`${helpers.rootUrl}api/room/${roomID}`)
+    axios.delete(`${helpers.rootUrl}api/room/${roomId}`)
     .catch((res) => {
       dispatch(requestError('delete-room', `Error deleting room: ${res.message}`))
     })

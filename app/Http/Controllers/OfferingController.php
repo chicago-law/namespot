@@ -16,14 +16,12 @@ class OfferingController extends Controller
     // Filter by term code
     $termCode = $request->input('termCode');
     if ($termCode && $termCode !== 'all') {
-      $offerings = Offering::with(['students', 'instructors'])
-        ->where('term_code', $request->input('termCode'))
-        ->get();
+      $offerings = Offering::where('term_code', $request->input('termCode'))->get();
       $offeringResources = OfferingResource::collection($offerings);
-      return response()->json($offerings);
+      return response()->json($offeringResources);
     }
 
-    $offerings = Offering::with(['students', 'instructors'])->get();
+    $offerings = Offering::all();
     $offeringResources = OfferingResource::collection($offerings);
 
     return response()->json($offeringResources);
@@ -89,11 +87,11 @@ class OfferingController extends Controller
     $old_room = $offering->room;
     $new_room = $old_room->replicate();
     $new_room->type = 'custom';
+    $new_room->db_match_name = null;
 
-    // Going to just keep the same room name. In places where it's relevant
+    // Note: Going to just keep the same room name. In places where it's relevant
     // for user to know that this is not the original template, just output
     // "(edited)" after the room name.
-    $new_room->db_match_name = null;
 
     $new_room->save();
 
@@ -143,7 +141,7 @@ class OfferingController extends Controller
     $offering->save();
 
     return response()->json([
-      'newRoomID' => $new_room->id,
+      'newRoomId' => $new_room->id,
       'seatChanges' => $seat_changes
     ], 200);
   }

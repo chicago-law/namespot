@@ -35,9 +35,6 @@ class FlashCardsDeck extends Component {
       dispatch(requestStudents(offeringId))
     }
     if (termCode) dispatch(fetchAllStudentsFromTerm(termCode))
-
-    // set store's currentRoom and currentOffering (if there is one)
-    if (offeringId) dispatch(findAndSetCurrentOffering(offeringId))
   }
 
   componentDidUpdate() {
@@ -232,8 +229,11 @@ class FlashCardsDeck extends Component {
 
 const mapStateToProps = ({ entities, app }, { match, location }) => {
   let currentOffering = {}
-  if (match.params.offeringid != null && Object.keys(entities.offerings).length && entities.offerings[match.params.offeringid]) {
-    currentOffering = entities.offerings[match.params.offeringid]
+  if (match.params.offeringId != null
+    && Object.keys(entities.offerings).length
+    && entities.offerings[match.params.offeringId]
+  ) {
+    currentOffering = entities.offerings[match.params.offeringId]
   }
 
   // parse URL parameters
@@ -244,7 +244,7 @@ const mapStateToProps = ({ entities, app }, { match, location }) => {
     namesOnReverse,
     currentOffering,
     students: entities.students,
-    offeringId: match.params.offeringid,
+    offeringId: match.params.offeringId,
     termCode: match.params.termCode,
     loading: app.loading,
   }

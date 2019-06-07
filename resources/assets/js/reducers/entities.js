@@ -74,15 +74,16 @@ const rooms = (state = { }, action) => {
     case C.UPDATE_ROOM:
       return {
         ...state,
-        [action.roomID]: {
-          ...state[action.roomID],
+        [action.roomId]: {
+          ...state[action.roomId],
           [action.key]: action.value,
         },
       }
-    case C.DELETE_ROOM:
-      var newState = { ...state }
-      delete newState[action.roomID]
+    case C.DELETE_ROOM: {
+      const newState = { ...state }
+      delete newState[action.roomId]
       return newState
+    }
     default:
       return state
   }
@@ -95,10 +96,11 @@ const tables = (state = { }, action) => {
   switch (action.type) {
     case C.RECEIVE_TABLES:
       return action.tables
-    case C.REMOVE_TABLE:
-      var newState = { ...state }
+    case C.REMOVE_TABLE: {
+      const newState = { ...state }
       delete newState[action.tableID]
       return newState
+    }
     default:
       return state
   }
@@ -109,23 +111,27 @@ const tables = (state = { }, action) => {
  */
 const seats = (state = { }, action) => {
   switch (action.type) {
-    case C.RECEIVE_SEATS:
-      // loop through the seats in the store for the incoming table
-      // if the action's seat batch does not include this seat from the store, delete it
-      // once we've cleared out the old seats, then set receive seats into store
-      Object.keys(state).filter(seatId => state[seatId].table_id === action.tableId).forEach((seatId) => {
-        !Object.keys(action.seats).includes(seatId) ? delete state[seatId] : false
+    case C.RECEIVE_SEATS: {
+      // loop through the seats in the store for the incoming table. If we find
+      // any that belong to the same table that's coming in, but are not present
+      // in this new batch, then delete them.
+      const existingSeats = { ...state }
+      Object.keys(existingSeats).filter(existingSeatId => existingSeats[existingSeatId].table_id === action.tableId).forEach((existingSeatId) => {
+        if (!Object.keys(action.seats).includes(existingSeatId)) delete existingSeats[existingSeatId]
       })
       return {
-        ...state,
+        ...existingSeats,
         ...action.seats,
       }
-    case C.DELETE_SEATS:
+    }
+    case C.DELETE_SEATS: {
       // we want to remove all the seats in state that have the provided table id
-      Object.keys(state).forEach((seatId) => {
-        state[seatId].table_id === action.tableId ? delete state[seatId] : false
+      const filteredSeats = { ...state }
+      Object.keys(filteredSeats).forEach((seatId) => {
+        if (filteredSeats[seatId].table_id === action.tableId) delete filteredSeats[seatId]
       })
-      return state
+      return filteredSeats
+    }
     default:
       return state
   }

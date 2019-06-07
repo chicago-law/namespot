@@ -58,34 +58,6 @@ const currentStudentId = (state = null, action) => {
 }
 
 /**
- * app / currentOffering
- */
-const currentOfferingDefault = {
-  catalog_nbr: null,
-  id: null,
-  instructors: [],
-  name: null,
-  room_id: null,
-  term_code: null,
-  students: [],
-  paper_size: 'tabloid',
-  flipped: false,
-  namesToShow: 'first_and_last',
-  useNicknames: true,
-}
-const currentOffering = (state = currentOfferingDefault, action) => {
-  switch (action.type) {
-    case C.SET_CURRENT_OFFERING:
-      return action.offering
-    case C.RESET_CURRENT_OFFERING:
-      return currentOfferingDefault
-    default:
-      return state
-  }
-}
-
-
-/**
  * App / task
  */
 const task = (state = '', action) => {
@@ -113,7 +85,7 @@ const tempTable = (state = { }, action) => {
     case C.SELECT_TABLE:
       return {
         id: action.tableID,
-        room_id: action.roomID,
+        room_id: action.roomId,
         seatCount: action.seatCount,
         labelPosition: action.labelPosition,
         coords: {
@@ -192,8 +164,26 @@ const academicYear = (state = helpers.academicYear, action) => {
   }
 }
 // App / years / future
+// You can use this as a setting for how many years ahead to look.
+// If it ever becomes changeable, add some actions for it.
 const futureYears = (state = 1, action) => {
   switch (action.type) {
+    default:
+      return state
+  }
+}
+
+/**
+ * App / bannerHeight. Stores the height of the banner.
+ * Used by floating action bar.
+ *
+ * @param {number} state
+ * @param {object} action
+ */
+const bannerHeight = (state = 0, action) => {
+  switch (action.type) {
+    case C.SET_BANNER_HEIGHT:
+      return action.height
     default:
       return state
   }
@@ -244,8 +234,10 @@ const errors = (state = [], action) => {
           message: action.message,
         },
       ]
-    case C.REMOVE_ERROR:
-      return state.filter(error => error.name != action.name)
+    case C.REMOVE_ERROR: {
+      const filteredState = { ...state }
+      return filteredState.filter(error => error.name !== action.name)
+    }
     default:
       return state
   }
@@ -255,7 +247,6 @@ const app = combineReducers({
   view,
   task,
   currentRoom,
-  currentOffering,
   currentSeatId,
   currentStudentId,
   tempTable,
@@ -265,6 +256,7 @@ const app = combineReducers({
     academicYear,
     futureYears,
   }),
+  bannerHeight,
   modals,
   loading,
   errors,

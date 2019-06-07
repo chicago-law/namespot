@@ -1,3 +1,5 @@
+/* eslint-disable no-nested-ternary */
+/* eslint-disable react/button-has-type */
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -22,13 +24,19 @@ class AbOfferingOverview extends Component {
       currentOffering,
       history,
     } = this.props
+
+    // If we need to redirect to a newly created room, we'll use this function.
+    function navigateToNewRoomEditPage(roomId) {
+      history.push(`/room/${roomId}/${currentOffering.id}`)
+    }
+
     // is the room already 'customized?
     if (currentRoom.type === 'template') {
+      // create a duplicate room, transfer over all the students to
+      // equivalent tables in the new room, and pass in our edit new room function.
       dispatch(setTask('edit-room'))
       dispatch(setView('edit-room'))
-      // create a duplicate room and tables, and attach to this offering
-      // (FYI, we do the url redirect from Room's componentDidMount)
-     dispatch(customizeOfferingRoom(currentOffering.id))
+      dispatch(customizeOfferingRoom(currentOffering.id, navigateToNewRoomEditPage))
     } else {
       dispatch(setTask('edit-room'))
       dispatch(setView('edit-room'))
@@ -96,18 +104,21 @@ class AbOfferingOverview extends Component {
   }
 }
 
-const mapStateToProps = ({ app, entities }) => {
+const mapStateToProps = ({ app, entities }, { match }) => {
+  const currentOffering = entities.offerings[match.params.offeringId] || null
   const currentStudents = []
-  Object.keys(entities.students).forEach((studentId) => {
-    if (app.currentOffering.students.includes(parseInt(studentId))) {
-      currentStudents.push(entities.students[studentId])
-    }
-  })
+  if (currentOffering) {
+    Object.keys(entities.students).forEach((studentId) => {
+      if (currentOffering.students.includes(parseInt(studentId))) {
+        currentStudents.push(entities.students[studentId])
+      }
+    })
+  }
 
   return {
+    currentOffering,
     currentStudents,
     currentRoom: app.currentRoom,
-    currentOffering: app.currentOffering,
     task: app.task,
     loading: app.loading,
     view: app.view,

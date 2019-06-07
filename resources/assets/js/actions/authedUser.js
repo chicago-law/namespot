@@ -1,22 +1,25 @@
 import C from '../constants'
 import helpers from '../bootstrap'
-import { requestError } from './app'
+import { setLoadingStatus, requestError } from './app'
 
 export function receiveUser(user) {
   return {
     type: C.RECEIVE_USER,
-    user
+    user,
   }
 }
 
 export function fetchUser(id) {
   return (dispatch) => {
+    dispatch(setLoadingStatus('authedUser', true))
     axios.get(`${helpers.rootUrl}api/users/${id}`)
-      .then(res => {
-        dispatch(receiveUser(res.data))
-      })
-      .catch(res => {
-        dispatch(requestError('auth', res.message))
-      })
+    .then((res) => {
+      dispatch(receiveUser(res.data))
+      dispatch(setLoadingStatus('authedUser', false))
+    })
+    .catch((res) => {
+      dispatch(requestError('auth', res.message))
+      dispatch(setLoadingStatus('authedUser', false))
+    })
   }
 }

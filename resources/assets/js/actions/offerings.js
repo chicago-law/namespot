@@ -10,7 +10,6 @@ import { markTermReceived } from './receivedOfferingsFor'
 import {
   setLoadingStatus,
   requestError,
-  findAndSetCurrentOffering,
 } from './app'
 
 /**
@@ -58,6 +57,7 @@ export function fetchOfferings(options = {}, callback) {
       dispatch(requestError('fetch-offerings', `Offerings fetch: ${response.message}`))
       dispatch(setLoadingStatus('offerings', false))
     })
+    return true
   }
 }
 
@@ -101,11 +101,10 @@ export function requestUpdateOffering(offering_id, attribute, value) {
     dispatch(updateOffering(offering_id, attribute, value))
 
     // since we updated an offering entity, we want to also update currentOffering
-    dispatch(findAndSetCurrentOffering(offering_id))
+    // dispatch(findAndSetCurrentOffering(offering_id))
 
     // send update to db
     axios.post(`${helpers.rootUrl}api/offering/update/${offering_id}`, {
-      // [_snakeCase(attribute)]: value
       [attribute]: value,
     })
     .catch(response => dispatch(requestError('update-offering', response.message)))
@@ -113,49 +112,41 @@ export function requestUpdateOffering(offering_id, attribute, value) {
 }
 
 // take an offering, duplicate its rooms and tables, and re-assign students
-// to the new tables
-export function customizeOfferingRoom(offeringID) {
+// to the new tables.
+export function customizeOfferingRoom(offeringId, callback) {
   return (dispatch) => {
-    // turn on loading
     dispatch(setLoadingStatus('rooms', true))
     dispatch(setLoadingStatus('students', true))
 
     // send out the request to make the new room
-    axios.get(`${helpers.rootUrl}api/create-room-for/${offeringID}`)
+    axios.get(`${helpers.rootUrl}api/create-room-for/${offeringId}`)
       .then((response) => {
         // duplicates the offering's room and re-assigns offering to the new one,
         // then do an action to update the offering's room ID in the store (rather
         // than re-downloading all offerings to get the update)
-        const newRoomID = response.data.newRoomID
-        dispatch(updateOffering(offeringID, 'room_id', newRoomID))
+        const newRoomId = response.data.newRoomId
+        dispatch(updateOffering(offeringId, 'room_id', newRoomId))
 
-        // now download the room data for the new room
-        axios.get(`${helpers.rootUrl}api/room/${newRoomID}`)
-          .then((response) => {
-            const normalizedRoom = {
-              [response.data.id]: {
-                ...response.data,
-              },
-            }
-            dispatch(receiveRooms(normalizedRoom))
+        axios.all([
+          axios.get(`${helpers.rootUrl}api/room/${newRoomId}`),
+          axios.get(`${helpers.rootUrl}api/enrollment/offering/${offeringId}`),
+        ])
+        .then(axios.spread((newRoomData, newEnrollmentData) => {
+          const normalizedRoom = {
+            [newRoomData.data.id]: {
+              ...newRoomData.data,
+            },
+          }
+          dispatch(receiveRooms(normalizedRoom))
+          dispatch(setLoadingStatus('rooms', false))
 
-            // turn off loading
-            dispatch(setLoadingStatus('rooms', false))
-          })
-          .catch(response => console.log(response))
+          const normalizedEnrollment = normalize(newEnrollmentData.data, schema.studentListSchema)
+          dispatch(receiveStudents(normalizedEnrollment.entities.students))
+          dispatch(setLoadingStatus('students', false))
 
-        // Also re-download the students for this offering, which will
-        // include their updated seat assignments.
-        axios.get(`${helpers.rootUrl}api/enrollment/offering/${offeringID}`)
-          .then((response) => {
-            const normalizedData = normalize(response.data, schema.studentListSchema)
-            dispatch(receiveStudents(normalizedData.entities.students))
-
-            // turn off loading
-            dispatch(setLoadingStatus('students', false))
-          })
-          .catch(response => console.log(response))
+          // Fire the callback function, passing in the newly created room's ID.
+          if (callback) callback(newRoomData.data.id)
+        }))
       })
-      .catch(response => console.log(response))
   }
 }

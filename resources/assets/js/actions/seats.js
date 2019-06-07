@@ -8,8 +8,9 @@ import C from '../constants'
  */
 export function receiveSeats(seats, tableId) {
   return {
-    type:C.RECEIVE_SEATS,
-    seats, tableId
+    type: C.RECEIVE_SEATS,
+    seats,
+    tableId,
   }
 }
 
@@ -18,7 +19,7 @@ export function receiveSeats(seats, tableId) {
  */
 export function deleteSeats(tableId) {
   return {
-    type:C.DELETE_SEATS,
-    tableId
+    type: C.DELETE_SEATS,
+    tableId,
   }
 }

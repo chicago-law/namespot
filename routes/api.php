@@ -129,7 +129,7 @@ Route::get('/tables/{room_id}', function($room_id) {
 /**
  * SETTINGS
  */
- // get all the settings
+    // get all the settings
 Route::get('/settings', 'SettingController@get');
 // update a setting
 Route::put('/settings', 'SettingController@update');
@@ -138,8 +138,8 @@ Route::put('/settings', 'SettingController@update');
 /**
  * USERS
  */
- // fetch a user by ID
- Route::get('/users/{user_id}', 'UserController@fetch');
+    // fetch a user by ID
+    Route::get('/users/{user_id}', 'UserController@fetch');
 
 
 /**

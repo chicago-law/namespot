@@ -4,7 +4,7 @@ import { setLoadingStatus, requestError } from './app'
 
 export function receiveSettings(settings) {
   return {
-    type:C.RECEIVE_SETTINGS,
+    type: C.RECEIVE_SETTINGS,
     settings,
   }
 }

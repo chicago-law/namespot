@@ -93,15 +93,20 @@ class Grid extends Component {
         style={{ transformOrigin: `${cx}px ${cy}px` }}
       />
     )
+
     return blip
   }
 
   makeBlipGrid() {
-    const { gridColumns, gridRows } = this.props
+    const {
+      gridColumns, gridRows, gridColumnWidth, gridRowHeight,
+    } = this.props
     const blips = []
-    for (let i = 0; i < gridColumns; i++) {
-      for (let j = 0; j < gridRows; j++) {
-        blips.push(this.drawBlip(i, j))
+    if (gridColumnWidth && gridRowHeight) {
+      for (let i = 0; i < gridColumns; i++) {
+        for (let j = 0; j < gridRows; j++) {
+          blips.push(this.drawBlip(i, j))
+        }
       }
     }
     return blips

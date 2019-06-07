@@ -21,10 +21,10 @@ class Offering extends JsonResource
         // By using currentStudents method on Offering, we're only getting
         // the students that are actually, actively enrolled.
         // Dropped and withdrawn are excluded.
-        // $student_ids = [];
-        // foreach($this->currentStudents as $student):
-        //     $student_ids[] = $student->id;
-        // endforeach;
+        $student_ids = [];
+        foreach ($this->currentStudents as $student):
+            $student_ids[] = $student->id;
+        endforeach;
 
         // instructors
         $instructors = [];
@@ -49,7 +49,7 @@ class Offering extends JsonResource
             'term_code' => $this->term_code,
             'instructors' => $instructors,
             'students' => [],
-            // 'students' => $student_ids,
+            'students' => $student_ids,
             'paper_size' => $this->paper_size,
             'font_size' => $this->font_size,
             'names_to_show' => $this->names_to_show,

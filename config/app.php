@@ -13,7 +13,7 @@ return [
     */
 
     'admin_email' => env('ADMIN_EMAIL'),
-    'authed_user' => env('AUTHED_USER', null),
+    'authed_user' => env('AUTHED_USER_CNET', null),
 
     /*
     |--------------------------------------------------------------------------

@@ -23,29 +23,13 @@ if (token) {
 }
 
 /**
- * Echo exposes an expressive API for subscribing to channels and listening
- * for events that are broadcast by Laravel. Echo and event broadcasting
- * allows your team to easily build robust real-time web applications.
- */
-
-// import Echo from 'laravel-echo'
-
-// window.Pusher = require('pusher-js');
-
-// window.Echo = new Echo({
-//   broadcaster: 'pusher',
-//   key: process.env.MIX_PUSHER_APP_KEY,
-//   cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-//   encrypted: true
-// });
-
-/**
  * Globally-scoped custom helpers!
  */
 const helpers = {
 
   // grab some essential data that we put into div#root as attributes
   rootUrl: document.getElementById('root').dataset.rootUrl,
+  // rootUrl: 'http://192.170.208.196/',
   academicYear: parseInt(document.getElementById('root').dataset.academicYear),
 
   // Paper is rendered in the browser with dimensions set in inches

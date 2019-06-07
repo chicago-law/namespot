@@ -13,8 +13,8 @@ const mapDispatchToProps = dispatch => ({
     setModal: (modal, status) => {
       dispatch(setModal(modal, status))
     },
-    updateAndSaveStudent: (studentId, attribute, value) => {
-      dispatch(updateAndSaveStudent(studentId, attribute, value))
+    updateAndSaveStudent: (studentId, attribute, value, offering_id) => {
+      dispatch(updateAndSaveStudent(studentId, attribute, value, offering_id))
     },
   })
 

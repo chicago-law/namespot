@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames/bind'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Loading from '../../../Loading'
@@ -15,7 +14,11 @@ export default class EditEnrollment extends Component {
 
   searchRef = React.createRef()
 
-  handleSearchInput(e) {
+  componentDidMount() {
+    this.searchRef.current.focus()
+  }
+
+  handleSearchInput = (e) => {
     this.setState({
       query: e.target.value,
       showingAllResults: false,
@@ -23,13 +26,17 @@ export default class EditEnrollment extends Component {
     this.searchStudents(e.target.value)
   }
 
-  handleShowAllResults() {
-    this.searchStudents(this.state.query, false)
+  handleShowAllResults = () => {
+    const { query } = this.state
+
+    this.searchStudents(query, false)
     this.setState({ showingAllResults: true })
   }
 
-  searchStudents(query, limited = true) {
-    this.props.setLoadingStatus('student-search', true)
+  searchStudents = (query, limited = true) => {
+    const { setLoadingStatus, requestError } = this.props
+
+    setLoadingStatus('student-search', true)
     const params = limited ? { limit: 10 } : {}
     axios.get(`${helpers.rootUrl}api/students/search`, {
       params: {
@@ -42,11 +49,11 @@ export default class EditEnrollment extends Component {
         studentResults: response.data.students,
         resultCount: response.data.count,
       })
-      this.props.setLoadingStatus('student-search', false)
+      setLoadingStatus('student-search', false)
     })
     .catch((response) => {
-      this.props.setLoadingStatus('student-search', false)
-      this.props.requestError('student-search', response.message, true)
+      setLoadingStatus('student-search', false)
+      requestError('student-search', response.message, true)
     })
   }
 
@@ -54,17 +61,27 @@ export default class EditEnrollment extends Component {
     this.setState({ query: '' })
   }
 
-  onStudentClick = (e) => {
-    const studentId = e.target.closest('.student').getAttribute('data-studentid')
+  onStudentClick = (studentId) => {
+    const { currentOffering } = this.props
+
     // Proceed only if the student is not already in the class roster
-    if (!this.props.currentOffering.students.includes(parseInt(studentId))) {
+    if (!currentOffering.students.includes(parseInt(studentId))) {
       this.addStudent(studentId)
     }
   }
 
   addStudent(studentId) {
-    const student = this.state.studentResults.find(student => String(student.id) === String(studentId))
-    this.props.setModal('edit-enrollment', false)
+    const {
+      currentOffering,
+      setModal,
+      receiveStudents,
+      updateAndSaveStudent,
+      updateOffering,
+    } = this.props
+    const { studentResults } = this.state
+
+    const student = studentResults.find(result => String(result.id) === String(studentId))
+    setModal('edit-enrollment', false)
 
     // add the student to the store
     const formattedStudent = {
@@ -72,12 +89,12 @@ export default class EditEnrollment extends Component {
         ...student,
       },
     }
-    this.props.receiveStudents(formattedStudent)
+    receiveStudents(formattedStudent)
 
     // update student with seat slot for this offering
     const enrollment = {
       ...student.enrollment,
-      [`offering_${this.props.currentOffering.id}`]: {
+      [`offering_${currentOffering.id}`]: {
         seat: null,
         is_namespot_addition: 1,
       },
@@ -86,48 +103,43 @@ export default class EditEnrollment extends Component {
     // The way things are now, we do need to do two separate calls for this,
     // because just the first will not actually save is_namespot_addition in the DB.
     // Soo that's why we're also doing the second.
-    this.props.updateAndSaveStudent(studentId, 'enrollment', enrollment)
-    this.props.updateAndSaveStudent(studentId, 'is_namespot_addition', 1)
+    updateAndSaveStudent(studentId, 'enrollment', enrollment, currentOffering.id)
+    updateAndSaveStudent(studentId, 'is_namespot_addition', 1, currentOffering.id)
 
     // update the offering's enrollment list in the store.
-    const students = [...this.props.currentOffering.students, parseInt(studentId)]
-    this.props.updateOffering(this.props.currentOffering.id, 'students', students)
-
-    // update the store's currentOffering
-    this.props.findAndSetCurrentOffering(this.props.currentOffering.id)
-  }
-
-  componentDidMount() {
-    this.searchRef.current.focus()
+    const students = [...currentOffering.students, parseInt(studentId)]
+    updateOffering(currentOffering.id, 'students', students)
   }
 
   render() {
+    const { loading, close, currentOffering } = this.props
     const {
- studentResults, query, resultCount, showingAllResults,
-} = this.state
-    const { loading, close } = this.props
+      studentResults,
+      query,
+      resultCount,
+      showingAllResults,
+    } = this.state
 
     const modalClasses = classNames({
       'is-loading': loading['student-search'],
     })
 
-
     const resultsList = studentResults.map((student) => {
-      const alreadyEnrolled = this.props.currentOffering.students.includes(parseInt(student.id))
+      const alreadyEnrolled = currentOffering.students.includes(parseInt(student.id))
       return (
-        <li
-          key={student.id}
-          className="student"
-          data-studentid={student.id}
-          onClick={this.onStudentClick}
-        >
-          {student.first_name} {student.nickname} {student.last_name}
-          <span>
-            { alreadyEnrolled
-              ? 'Already enrolled'
-              : <FontAwesomeIcon icon={['far', 'user-plus']} />
-            }
-          </span>
+        <li key={student.id} className="student">
+          <button
+            type="button"
+            onClick={() => this.onStudentClick(student.id)}
+          >
+            {student.first_name} {student.nickname} {student.last_name}
+            <span>
+              { alreadyEnrolled
+                ? 'Already enrolled'
+                : <FontAwesomeIcon icon={['far', 'user-plus']} />
+              }
+            </span>
+          </button>
         </li>
       )
     })
@@ -151,20 +163,24 @@ export default class EditEnrollment extends Component {
             <input type="text" ref={this.searchRef} placeholder="Search all Law students..." onChange={e => this.handleSearchInput(e)} value={query} />
           </div>
           <div className="results-status">
-            {query.length
-              ? showingAllResults
-                ? <p>Found {resultCount} results.</p>
-                : loading['student-search']
-                  ? <p>Searching...</p>
-                  : resultCount > 10
-                    ? <p>Showing first 10 of {resultCount} results. <span onClick={() => this.handleShowAllResults()}>Show all</span></p>
-                    : resultCount === 0
-                      ? <p>No results with "{query}"</p>
-                      : resultCount === 1
-                        ? <p>Found {resultCount} result</p>
-                        : <p>Found {resultCount} results</p>
-              : <p>&nbsp;</p>
-            }
+            {query.length > 0 && showingAllResults && (
+              <p>Found {resultCount} results.</p>
+            )}
+            {query.length > 0 && !loading['student-search'] && !showingAllResults && (
+              <p>
+                {resultCount > 10 && (
+                  <>
+                    Showing first 10 of {resultCount} results.
+                    <button type="button" onClick={() => this.handleShowAllResults()}>Show all</button>
+                  </>
+                )}
+                {resultCount <= 10 && (
+                  `Found ${resultCount} result${resultCount === 1 && 's'}`
+                )}
+                {resultCount === 0 && `No results with ${query}`}
+              </p>
+            )}
+            {!query.length === 0 && <p>&nbsp;</p>}
           </div>
           <div className="results-list-container">
             {query.length > 0 && (
@@ -176,23 +192,10 @@ export default class EditEnrollment extends Component {
         </main>
 
         <footer className="controls">
-          <button className="btn-clear" onClick={() => close()}>Cancel</button>
+          <button type="button" className="btn-clear" onClick={() => close()}>Cancel</button>
         </footer>
 
       </div>
     )
   }
-}
-
-EditEnrollment.propTypes = {
-  close: PropTypes.func.isRequired,
-  currentOffering: PropTypes.object.isRequired,
-  findAndSetCurrentOffering: PropTypes.func.isRequired,
-  loading: PropTypes.object.isRequired,
-  receiveStudents: PropTypes.func.isRequired,
-  requestError: PropTypes.func.isRequired,
-  setLoadingStatus: PropTypes.func.isRequired,
-  setModal: PropTypes.func.isRequired,
-  updateAndSaveStudent: PropTypes.func.isRequired,
-  updateOffering: PropTypes.func.isRequired,
 }

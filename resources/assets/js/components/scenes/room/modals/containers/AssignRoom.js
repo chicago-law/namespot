@@ -5,11 +5,11 @@ import {
  setModal, requestUpdateOffering, requestRooms, setView, setTask,
 } from '../../../../../actions'
 
-const mapStateToProps = state => ({
-    rooms: state.entities.rooms,
-    currentRoom: state.app.currentRoom,
-    currentOffering: state.app.currentOffering,
-    loading: state.app.loading,
+const mapStateToProps = ({ app, entities }, { match }) => ({
+    rooms: entities.rooms,
+    currentRoom: app.currentRoom,
+    currentOffering: entities.offerings[match.params.offeringId],
+    loading: app.loading,
   })
 
 const mapDispatchToProps = dispatch => ({

@@ -3,12 +3,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import classNames from 'classnames/bind'
 import {
- selectTable,
- setTask,
- removeTableRequest,
- receiveSeats,
+  selectTable,
+  setTask,
+  removeTableRequest,
+  receiveSeats,
 } from '../../../actions'
-
 
 class Table extends Component {
   tableGroupRef = React.createRef()
@@ -152,7 +151,6 @@ class Table extends Component {
 
 const mapStateToProps = ({ app, entities }) => ({
     currentRoom: app.currentRoom,
-    currentOffering: app.currentOffering,
     seats: entities.seats,
     task: app.task,
     view: app.view,

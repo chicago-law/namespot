@@ -14,7 +14,7 @@
 
 // Send all web requests through our Shib Auth middleware.
 // You probably want to comment this out if you're not UChicago.
-// Route::middleware(['uchicago-shibboleth'])->group(function () {
+Route::middleware(['uchicago-shibboleth'])->group(function () {
 
   // Logout
   Route::get('/logout', 'HomeController@logout');
@@ -25,4 +25,4 @@
   // all others go to regular react page
   Route::get('/{path?}', 'HomeController@react')->where('path', '.*');
 
-// });
+});

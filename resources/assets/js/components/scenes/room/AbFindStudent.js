@@ -13,16 +13,30 @@ class AbFindStudent extends Component {
 
   filterRef = React.createRef()
 
-  handleSearchInput(e) {
+  componentDidMount() {
+    // slide the input into place
+    this.setState({ showSearchInput: true })
+    // focus in the search box
+    this.filterRef.current.focus()
+    window.addEventListener('keydown', this.handleKeyDown)
+  }
+
+  componentWillUnmount() {
+    const { dispatch } = this.props
+    dispatch(setCurrentSeatId(null))
+    window.removeEventListener('keydown', this.handleKeyDown)
+  }
+
+  handleSearchInput = (e) => {
     this.setState({
       query: e.target.value,
     })
   }
 
-  handleStudentClick(e) {
+  handleStudentClick = (e) => {
     const {
- dispatch, currentOffering, currentSeatId, task,
-} = this.props
+      dispatch, currentOffering, currentSeatId, task,
+    } = this.props
     if (task === 'find-student') {
       dispatch(assignSeat(currentOffering.id, e.target.closest('[data-studentid]').dataset.studentid, currentSeatId))
       dispatch(setTask('offering-overview'))
@@ -34,7 +48,7 @@ class AbFindStudent extends Component {
     dispatch(setTask('offering-overview'))
   }
 
-  handleKeyDown(e) {
+  handleKeyDown = (e) => {
     if (e.which === 27) {
       this.handleCancelSearch()
     }
@@ -44,25 +58,24 @@ class AbFindStudent extends Component {
     this.setState({ query: '' })
   }
 
-  checkForMatch(student) {
+  checkForMatch = (student) => {
     const { query } = this.state
     const regex = new RegExp(query, 'gi')
     // concat together everything should be searchable
     if ((`${student.nickname} ${student.first_name} ${student.last_name} ${student.short_full_name} ${student.nickname} ${student.canvas_id}`).match(regex)) {
       return true
     }
+    return false
   }
 
-  componentDidMount() {
-    // slide the input into place
-    this.setState({ showSearchInput: true })
-    // focus in the search box
-    this.filterRef.current.focus()
-  }
-
-  componentWillUnmount() {
-    const { dispatch } = this.props
-    dispatch(setCurrentSeatId(null))
+  getNoStudentsMessage = (filteredStudents, unseatedStudents, query) => {
+    if (filteredStudents.length === 0) {
+      if (unseatedStudents.length === 0) {
+        return <li className="no-results">No unseated students.</li>
+      }
+      return <li className="no-results">No unseated students found with "{query}"</li>
+    }
+    return ''
   }
 
   render() {
@@ -75,7 +88,7 @@ class AbFindStudent extends Component {
     const filteredStudents = unseatedStudents.filter(student => this.checkForMatch(student))
 
     return (
-      <div className="action-bar action-bar-find-student" onKeyDown={e => this.handleKeyDown(e)}>
+      <div className="action-bar action-bar-find-student">
         <FontAwesomeIcon icon={['far', 'arrow-left']} onClick={this.handleCancelSearch} />
         <CSSTransition
           in={showSearchInput}
@@ -92,19 +105,19 @@ class AbFindStudent extends Component {
         </CSSTransition>
         <div className="roster-container">
           <ul>{filteredStudents.map(student => (
-            <li key={student.id} data-studentid={student.id} onClick={e => this.handleStudentClick(e)}>
-              <div className="picture" style={{ backgroundImage: `url('${helpers.rootUrl}storage/student_pictures/${student.picture}')` }} />
-              <p data-email={student.email}>
-                {student.short_first_name ? student.short_first_name : student.first_name} {student.last_name}
-              </p>
+            <li key={student.id} data-studentid={student.id}>
+              <button
+                type="button"
+                onClick={e => this.handleStudentClick(e)}
+              >
+                <div className="picture" style={{ backgroundImage: `url('${helpers.rootUrl}storage/student_pictures/${student.picture}')` }} />
+                <p data-email={student.email}>
+                  {student.short_first_name ? student.short_first_name : student.first_name} {student.last_name}
+                </p>
+              </button>
             </li>
-))}
-            { filteredStudents.length == 0
-              ? unseatedStudents.length == 0
-                ? <li className="no-results">No unseated students.</li>
-                : <li className="no-results">No unseated students found with "{query}"</li>
-              : false
-            }
+          ))}
+            {this.getNoStudentsMessage(filteredStudents, unseatedStudents, query)}
           </ul>
         </div>
       </div>
@@ -112,18 +125,18 @@ class AbFindStudent extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  // Students enrolled in this class
-  const currentStudents = Object.keys(state.entities.students)
-    .filter(id => state.app.currentOffering.students.includes(parseInt(id)))
-    .map(id => state.entities.students[id])
+const mapStateToProps = ({ app, entities }, { match }) => {
+  const currentOffering = entities.offerings[match.params.offeringId]
+  const currentStudents = Object.keys(entities.students)
+    .filter(id => currentOffering.students.includes(parseInt(id)))
+    .map(id => entities.students[id])
     .sort((a, b) => (b.last_name.toUpperCase() < a.last_name.toUpperCase() ? 1 : -1))
 
   return {
     currentStudents,
-    currentOffering: state.app.currentOffering,
-    currentSeatId: state.app.currentSeatId,
-    task: state.app.task,
+    currentOffering,
+    currentSeatId: app.currentSeatId,
+    task: app.task,
   }
 }
 

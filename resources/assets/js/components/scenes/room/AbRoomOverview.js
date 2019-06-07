@@ -128,7 +128,7 @@ class AbRoomOverview extends Component {
           </div>
 
           <Route
-            path="/room/:roomID/:offeringID"
+            path="/room/:roomId/:offeringId"
             render={() => (
               <div className="flex-container">
                 <button type="button" className="big-button" onClick={this.handleRoomChangeClick}>
@@ -140,7 +140,7 @@ class AbRoomOverview extends Component {
           />
 
           <Route
-            path="/room/:roomID/:offeringID"
+            path="/room/:roomId/:offeringId"
             render={() => (
               <Fragment>
                 <AbDivider />
@@ -160,7 +160,8 @@ class AbRoomOverview extends Component {
   }
 }
 
-const mapStateToProps = ({ app, entities }) => {
+const mapStateToProps = ({ app, entities }, { match }) => {
+  const currentOffering = entities.offerings[match.params.offeringId] || null
   const tablesIdArray = Object.keys(entities.tables).filter(id => (
     parseInt(entities.tables[id].room_id) === parseInt(app.currentRoom.id)
   ))
@@ -169,7 +170,7 @@ const mapStateToProps = ({ app, entities }) => {
 
   return {
     currentRoom: app.currentRoom,
-    currentOffering: app.currentOffering,
+    currentOffering,
     rooms: entities.rooms,
     seatCount,
   }

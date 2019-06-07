@@ -127,7 +127,7 @@ class AbEditTable extends React.Component {
       // && tempTable.coords.hasOwnProperty('end')
       && tempTable.coords.end !== null
     ) {
-      dispatch(saveNewTable(tempTable.id, match.params.roomID, tempTable.coords, tempTable.seatCount, tempTable.labelPosition))
+      dispatch(saveNewTable(tempTable.id, match.params.roomId, tempTable.coords, tempTable.seatCount, tempTable.labelPosition))
       dispatch(clearTempTable())
       dispatch(setTask('edit-room'))
       dispatch(setPointSelection(null))

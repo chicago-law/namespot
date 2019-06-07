@@ -3,10 +3,11 @@
   align-items:center;
   justify-content:center;
   color:$middle-gray;
+  opacity: 0.25;
   .fa-spinner-third {
     position:absolute;
-    @include ms4;
-    animation: spinFast .35s infinite linear;
+    @include ms2;
+    animation: spinFast .5s infinite linear;
   }
 }
 

@@ -156,9 +156,13 @@
       height:100%;
       overflow:auto;
       li {
+        display: block;
         position: relative;
-        padding:.5em .75em;
-        cursor:pointer;
+        button {
+          padding:.5em .75em;
+          width: 100%;
+          text-align: left;
+        }
         span {
           display:none;
           @include ms-1;

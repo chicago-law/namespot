@@ -93,18 +93,22 @@ class OfferingDetails extends Component {
   }
 }
 
-const mapStateToProps = ({ app, entities }) => {
-  const { tables, students } = entities
+const mapStateToProps = ({ app, entities }, { match }) => {
+  const { params } = match
+  const { tables, students, offerings } = entities
+
+  // get current offering
+  const currentOffering = offerings[params.offeringId] || null
 
   // get the students enrolled in this class
   const currentStudents = Object.keys(students)
-    .filter(id => app.currentOffering.students.includes(parseInt(id)))
+    .filter(id => currentOffering.students.includes(parseInt(id)))
     .map(id => students[id])
     .sort((a, b) => (b.last_name.toUpperCase() < a.last_name.toUpperCase() ? 1 : -1))
 
   // get the tables for the current room
   const currentTables = Object.keys(tables)
-    .filter(id => parseFloat(tables[id].room_id) === parseFloat(app.currentOffering.room_id))
+    .filter(id => parseFloat(tables[id].room_id) === parseFloat(currentOffering.room_id))
     .map(id => tables[id])
 
   // make an array of all the seat IDs at the tables
@@ -116,7 +120,7 @@ const mapStateToProps = ({ app, entities }) => {
   })
 
   return {
-    currentOffering: app.currentOffering,
+    currentOffering,
     currentRoom: app.currentRoom,
     currentSeats,
     currentStudents,

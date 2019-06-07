@@ -312,12 +312,20 @@ $ab-height-short: 7em;
       margin:0;
       height: 100%;
       li {
-        display:inline-flex;
-        flex-direction:column;
-        justify-content:flex-start;
-        align-items:center;
-        padding:.75em;
-        cursor:pointer;
+        display: inline-block;
+        button {
+          display: inline-flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          align-items: center;
+          height: 100%;
+          padding: .75em;
+          font-weight: normal;
+          color: inherit;
+          &:hover {
+            color: inherit;
+          }
+        }
         .picture {
           height:3em;
           width:3em;
@@ -406,7 +414,6 @@ $ab-height-short: 7em;
   }
   .ab-student-details__remove {
     display: inline-block;
-    margin-left: 1em;
     @include ms-1;
     font-weight: bold;
     cursor: pointer;

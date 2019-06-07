@@ -26,68 +26,73 @@ class Page extends Component {
   }
 
   componentDidMount() {
-    const { gridColumns, gridRows } = this.state
     const { currentOffering } = this.props
 
     // we want to store in state the width of the page element in the browser
     this.measurePageInBrowser()
 
-    // set the dimensions of the grid rows and columns
-    if (currentOffering.paper_size === 'letter') {
-      const gridColumnWidth = parseFloat((helpers.letterPxWidth / gridColumns).toFixed(3))
-      const gridRowHeight = parseFloat((helpers.letterPxHeight / gridRows).toFixed(3))
-      this.setState({
-        realPageWidth: helpers.letterPxWidth,
-        realPageHeight: helpers.letterPxHeight,
-        gridColumnWidth,
-        gridRowHeight,
-      })
+    if (currentOffering) {
+      this.calcGridDimensions(currentOffering.paper_size)
     } else {
-      const gridColumnWidth = parseFloat((helpers.tabloidPxWidth / gridColumns).toFixed(3))
-      const gridRowHeight = parseFloat((helpers.tabloidPxHeight / gridRows).toFixed(3))
-      this.setState({
-        gridColumnWidth,
-        gridRowHeight,
-      })
+      this.calcGridDimensions('tabloid')
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { gridColumns, gridRows } = this.state
     const { currentOffering } = this.props
+    const prevOffering = prevProps.currentOffering
 
     // are any students seated at non-existing seats?
-    this.checkForBadSeats()
+    if (currentOffering) {
+      this.checkForBadSeats()
+    }
+
+    // Does paper size need to be updated?
+    if (currentOffering) {
+      if (currentOffering.paper_size === 'letter'
+        && (!prevOffering || prevOffering.paper_size !== 'letter')
+      ) {
+        this.calcGridDimensions('letter')
+      }
+      if (currentOffering.paper_size === 'tabloid'
+        && (!prevOffering || prevOffering.paper_size !== 'tabloid')
+      ) {
+        this.calcGridDimensions('tabloid')
+      }
+    }
 
     // keep state updated with inner-page-container's width
     const browserPageWidth = parseInt(window.getComputedStyle(this.pageContRef.current).width)
     if (prevState.browserPageWidth !== browserPageWidth) {
       this.setState({ browserPageWidth })
     }
+  }
 
-    // If the paper size changed, we need to do a few things manually here:
-    // Changing TO letter...
-    if (prevProps.currentOffering.paper_size !== 'letter' && currentOffering.paper_size === 'letter') {
-      const gridColumnWidth = parseFloat(parseFloat(helpers.letterPxWidth / gridColumns).toFixed(3))
-      const gridRowHeight = parseFloat(parseFloat(helpers.letterPxHeight / gridRows).toFixed(3))
-      this.setState({
-        realPageWidth: helpers.letterPxWidth,
-        realPageHeight: helpers.letterPxHeight,
-        gridRowHeight,
-        gridColumnWidth,
-      })
+  calcGridDimensions = (paperSize) => {
+    const { gridColumns, gridRows } = this.state
+    let pxWidth
+    let pxHeight
+
+    switch (paperSize) {
+      case 'letter':
+        pxWidth = helpers.letterPxWidth
+        pxHeight = helpers.letterPxHeight
+        break
+      case 'tabloid':
+      default:
+        pxWidth = helpers.tabloidPxWidth
+        pxHeight = helpers.tabloidPxHeight
     }
-    // Changing TO tabloid...
-    if (prevProps.currentOffering.paper_size !== 'tabloid' && currentOffering.paper_size === 'tabloid') {
-      const gridColumnWidth = parseFloat((helpers.tabloidPxWidth / gridColumns).toFixed(3))
-      const gridRowHeight = parseFloat((helpers.tabloidPxHeight / gridRows).toFixed(3))
-      this.setState({
-        realPageWidth: helpers.tabloidPxWidth,
-        realPageHeight: helpers.tabloidPxHeight,
-        gridRowHeight,
-        gridColumnWidth,
-      })
-    }
+
+    const gridColumnWidth = parseFloat(parseFloat(pxWidth / gridColumns).toFixed(3))
+    const gridRowHeight = parseFloat(parseFloat(pxHeight / gridRows).toFixed(3))
+
+    this.setState({
+      realPageWidth: pxWidth,
+      realPageHeight: pxHeight,
+      gridRowHeight,
+      gridColumnWidth,
+    })
   }
 
   measurePageInBrowser = () => {
@@ -142,6 +147,7 @@ class Page extends Component {
     } = this.state
     const {
       currentOffering,
+      currentOfferingId,
       currentSeats,
       currentTables,
       loading,
@@ -184,9 +190,9 @@ class Page extends Component {
       'student-details': task === 'student-details',
       'choosing-a-point': pointSelection,
       'is-loading': loading.rooms || loading.tables || loading.offerings || loading.students,
-      'flip-perspective': currentOffering.flipped,
-      'paper-tabloid': currentOffering.paper_size === 'tabloid' || currentOffering.paper_size === null || currentOffering === null,
-      'paper-letter': currentOffering.paper_size === 'letter',
+      'flip-perspective': currentOffering && currentOffering.flipped,
+      'paper-tabloid': (currentOffering && (currentOffering.paper_size === 'tabloid' || currentOffering.paper_size === null)) || !currentOffering,
+      'paper-letter': currentOffering && currentOffering.paper_size === 'letter',
     })
 
     const innerPageContainerClasses = classNames({
@@ -238,6 +244,7 @@ class Page extends Component {
                         top={seat.y}
                         labelPosition={seat.labelPosition}
                         withStudents={withStudents}
+                        currentOfferingId={currentOfferingId}
                       />
                     ))}
                   </div>
@@ -331,23 +338,29 @@ class Page extends Component {
 
 const mapStateToProps = ({ app, entities, settings }, { match, withStudents = true }) => {
   const { params } = match
+  const { currentRoom } = app
   const {
     tables,
     offerings,
     students,
     seats,
   } = entities
-  const { currentOffering, currentRoom } = app
+  // const { currentOffering, currentRoom } = app
 
-  // find current room ID either from URL or from currentOffering
-  const currentOfferingID = params.offeringID ? params.offeringID : null
-  let currentRoomID = null
-  if (params.roomID) {
-    currentRoomID = params.roomID
-  } else if (offerings[currentOfferingID]) {
-    currentRoomID = offerings[currentOfferingID.room_id] === null
+  // Do we have a current offering ID from the URL?
+  const currentOfferingId = params.offeringId ? params.offeringId : null
+
+  // Get the current offering if we can
+  const currentOffering = currentOfferingId ? offerings[currentOfferingId] : null
+
+  // Get the current Room ID
+  let currentRoomId = null
+  if (params.roomId) {
+    currentRoomId = params.roomId
+  } else if (offerings[currentOfferingId]) {
+    currentRoomId = offerings[currentOfferingId.room_id] === null
       ? null
-      : String(offerings[currentOfferingID.room_id])
+      : String(offerings[currentOfferingId].room_id)
   }
 
   // find all tables that belong to this room
@@ -363,16 +376,19 @@ const mapStateToProps = ({ app, entities, settings }, { match, withStudents = tr
 
   // make an array of all the students in the current offering
   // Needed for checking bad seats.
-  const currentStudents = Object.keys(students)
-    .filter(id => app.currentOffering.students.includes(parseInt(id)))
-    .map(id => students[id])
-    .sort((a, b) => (b.last_name.toUpperCase() < a.last_name.toUpperCase() ? 1 : -1))
+  let currentStudents = []
+  if (currentOffering) {
+    currentStudents = Object.keys(students)
+      .filter(id => currentOffering.students.includes(parseInt(id)))
+      .map(id => students[id])
+      .sort((a, b) => (b.last_name.toUpperCase() < a.last_name.toUpperCase() ? 1 : -1))
+  }
 
   return {
-    currentRoomID,
+    currentRoomId,
     currentRoom,
     currentOffering,
-    currentOfferingID,
+    currentOfferingId,
     currentSeats,
     currentStudents,
     currentTables,

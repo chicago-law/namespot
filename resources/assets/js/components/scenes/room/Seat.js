@@ -74,7 +74,8 @@ class Seat extends Component {
     // Then we'll shrink them a little bit to compensate if page size is set to letter.
     // If you add more pages sizes in the future, you can make more here as necessary
     const size = currentRoom.seat_size
-    switch (currentOffering.paper_size) {
+    const paper_size = (currentOffering && currentOffering.paper_size) || 'tabloid'
+    switch (paper_size) {
       case 'tabloid':
         return size * 2
       case 'letter':
@@ -94,9 +95,14 @@ class Seat extends Component {
     }
 
     let theSeat
-    const occupantId = Object.keys(students).find(studentId => students[studentId].enrollment[`offering_${currentOffering.id}`]
-      && students[studentId].enrollment[`offering_${currentOffering.id}`].seat
-      && students[studentId].enrollment[`offering_${currentOffering.id}`].seat === id)
+    let occupantId
+    if (currentOffering) {
+      occupantId = Object.keys(students).find(studentId => (
+        students[studentId].enrollment[`offering_${currentOffering.id}`]
+        && students[studentId].enrollment[`offering_${currentOffering.id}`].seat
+        && students[studentId].enrollment[`offering_${currentOffering.id}`].seat === id
+      ))
+    }
 
     // check if we are in a view where you want to see occupants if they're there
     if (
@@ -203,14 +209,23 @@ class Seat extends Component {
       currentOffering, currentSeatId, id, labelPosition, left, top,
     } = this.props
 
-    const seatContClasses = classNames({
-      'seat-container': true,
-      'is-active': currentSeatId === id,
-      'label-below': (labelPosition === 'below' && currentOffering.flipped !== 1) || (labelPosition === 'above' && currentOffering.flipped === 1),
-      'label-above': (labelPosition === 'above' && currentOffering.flipped !== 1) || (labelPosition === 'below' && currentOffering.flipped === 1),
-      'label-left': (labelPosition === 'left' && currentOffering.flipped !== 1) || (labelPosition === 'right' && currentOffering.flipped === 1),
-      'label-right': (labelPosition === 'right' && currentOffering.flipped !== 1) || (labelPosition === 'left' && currentOffering.flipped === 1),
-    })
+    let seatContClasses
+    if (currentOffering) {
+      seatContClasses = classNames({
+        'seat-container': true,
+        'is-active': currentSeatId === id,
+        'label-below': (labelPosition === 'below' && currentOffering.flipped !== 1) || (labelPosition === 'above' && currentOffering.flipped === 1),
+        'label-above': (labelPosition === 'above' && currentOffering.flipped !== 1) || (labelPosition === 'below' && currentOffering.flipped === 1),
+        'label-left': (labelPosition === 'left' && currentOffering.flipped !== 1) || (labelPosition === 'right' && currentOffering.flipped === 1),
+        'label-right': (labelPosition === 'right' && currentOffering.flipped !== 1) || (labelPosition === 'left' && currentOffering.flipped === 1),
+      })
+    } else {
+      seatContClasses = classNames({
+        'seat-container': true,
+        'is-active': currentSeatId === id,
+      })
+    }
+
 
     return (
       <div
@@ -233,7 +248,7 @@ class Seat extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
     currentRoom: state.app.currentRoom,
-    currentOffering: state.app.currentOffering,
+    currentOffering: state.entities.offerings[ownProps.currentOfferingId],
     currentSeatId: state.app.currentSeatId,
     currentStudentId: state.app.currentStudentId,
     seats: state.entities.seats,

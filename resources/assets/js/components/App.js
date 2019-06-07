@@ -16,18 +16,22 @@ import NameTents from './scenes/printables/NameTents'
 import Roster from './scenes/printables/Roster'
 import Footer from './Footer'
 import Loading from './Loading'
-import { requestSettings } from '../actions'
+import { requestSettings, fetchUser } from '../actions'
 
 class App extends Component {
   componentDidMount() {
     const { dispatch } = this.props
+    const authedUserId = document.getElementById('root').dataset.authedUser
+
+    // Make initial requests necessary for whole app.
     dispatch(requestSettings())
+    if (authedUserId) dispatch(fetchUser(authedUserId))
   }
 
   render() {
     const { location, loading } = this.props
 
-    if (!Object.keys(loading).includes('settings') || loading.settings) {
+    if (!('settings' in loading) || !('authedUser' in loading) || loading.settings || loading.authedUser) {
       return (
         <div style={{ marginTop: '5em' }}>
           <Loading />
@@ -38,15 +42,15 @@ class App extends Component {
     return (
       <Switch>
 
-        {/* Print these printables */}
-        <Route path="/print/seating-chart/room/:roomid/offering/:offeringid" component={SeatingChart} />
-        <Route path="/print/seating-chart/room/:roomid/" component={SeatingChart} />
+        {/* Print these printables? */}
+        <Route path="/print/seating-chart/room/:roomId/offering/:offeringId" component={SeatingChart} />
+        <Route path="/print/seating-chart/room/:roomId/" component={SeatingChart} />
         <Route path="/print/flash-cards/term/:termCode/" component={FlashCardsDeck} />
-        <Route path="/print/flash-cards/offering/:offeringid" component={FlashCardsDeck} />
-        <Route path="/print/name-tents/offering/:offeringid" component={NameTents} />
+        <Route path="/print/flash-cards/offering/:offeringId" component={FlashCardsDeck} />
+        <Route path="/print/name-tents/offering/:offeringId" component={NameTents} />
         <Route path="/print/roster/" component={Roster} />
 
-        {/* Redirect home to Class selector */}
+        {/* Redirect home to Class selector? */}
         <Route
           exact
           path="/"

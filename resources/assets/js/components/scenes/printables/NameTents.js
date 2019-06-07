@@ -29,17 +29,11 @@ class NameTents extends Component {
       dispatch(requestOffering(offeringId))
       dispatch(requestStudents(offeringId))
     }
-
-    // set store's currentOffering (if there is one)
-    if (offeringId) dispatch(findAndSetCurrentOffering(offeringId))
   }
 
   componentDidUpdate() {
     const { showLoading } = this.state
-    const { dispatch, offeringId, loading } = this.props
-
-    // again, set currentOffering in app store in case we were waiting on data from fetching.
-    if (offeringId) dispatch(findAndSetCurrentOffering(offeringId))
+    const { loading } = this.props
 
     // check if we're waiting on anything to finish loading. If not, go ahead
     // and make the PDF.
@@ -179,8 +173,11 @@ class NameTents extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   let currentOffering = {}
-  if (ownProps.match.params.offeringid != null && Object.keys(state.entities.offerings).length && state.entities.offerings[ownProps.match.params.offeringid]) {
-    currentOffering = state.entities.offerings[ownProps.match.params.offeringid]
+  if (ownProps.match.params.offeringId != null
+    && Object.keys(state.entities.offerings).length
+    && state.entities.offerings[ownProps.match.params.offeringId]
+  ) {
+    currentOffering = state.entities.offerings[ownProps.match.params.offeringId]
   }
 
   const currentStudents = Object.keys(state.entities.students)
@@ -191,7 +188,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     currentOffering,
     currentStudents,
-    offeringId: ownProps.match.params.offeringid,
+    offeringId: ownProps.match.params.offeringId,
     students: state.entities.students,
     loading: state.app.loading,
   }

@@ -18,11 +18,14 @@ class StudentController extends Controller
 
   public function update($student_id, Request $request)
   {
-    // find the student
+    // Find the student.
     $student = Student::findOrFail($student_id);
 
-    // loop through and make the updates
-    // handle each one as needed through the switch
+    // Get offering ID.
+    $offering_id = $request->input('offering_id');
+
+    // Loop through and make the updates.
+    // Handle each one as needed through the switch.
     foreach ($request->input() as $key => $value):
       switch ($key) {
         case 'email':
@@ -31,16 +34,22 @@ class StudentController extends Controller
           $student->$key = $value;
           break;
         case 'assigned_seat':
-          $student->offerings()->updateExistingPivot($request->input('offering_id'),['assigned_seat' => $request->input('assigned_seat')]);
-          $offering = $student->offerings()->find($request->input('offering_id'));
-          $offering->updated_at = new Carbon();
-          $offering->save();
+          if ($offering_id) {
+            $student->offerings()->updateExistingPivot($offering_id, ['assigned_seat' => $request->input('assigned_seat')]);
+            $offering = Offering::find($offering_id);
+            $offering->updated_at = new Carbon();
+            $offering->save();
+          }
           break;
         case 'is_namespot_addition':
-          $student->offerings()->sync([ $request->input('offering_id') => ['is_namespot_addition' => true] ]);
-          $offering = $student->offerings()->find($request->input('offering_id'));
-          $offering->updated_at = new Carbon();
-          $offering->save();
+          if ($offering_id) {
+            $student->offerings()->sync([ $offering_id => ['is_namespot_addition' => true] ]);
+            $offering = Offering::find($offering_id);
+            $offering->updated_at = new Carbon();
+            $offering->save();
+          }
+          break;
+        default:
           break;
       }
     endforeach;

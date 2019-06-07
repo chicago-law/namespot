@@ -5,7 +5,6 @@ import Workspace from './Workspace'
 import {
   clearModals,
   fetchTables,
-  findAndSetCurrentOffering,
   findAndSetCurrentRoom,
   resetCurrentOffering,
   resetCurrentRoom,
@@ -28,19 +27,19 @@ const mapStateToProps = (state, ownProps) => {
   const { entities, app } = state
   const { offerings, tables } = entities
   const {
-    loading, currentRoom, currentOffering, view,
+    loading, currentRoom, view,
   } = app
   const { match } = ownProps
   const { params } = match
 
   // find current room ID either from URL or from currentOffering
-  const currentOfferingID = params.offeringID ? params.offeringID : null
-  const currentRoomID = params.roomID
-    ? params.roomID
-    : currentOfferingID
-      ? offerings[currentOfferingID]
-        ? offerings[currentOfferingID].room_id != null
-          ? String(offerings[currentOfferingID].room_id)
+  const currentOfferingId = params.offeringId ? params.offeringId : null
+  const currentRoomId = params.roomId
+    ? params.roomId
+    : currentOfferingId
+      ? offerings[currentOfferingId]
+        ? offerings[currentOfferingId].room_id != null
+          ? String(offerings[currentOfferingId].room_id)
           : null
         : null
       : null
@@ -52,10 +51,10 @@ const mapStateToProps = (state, ownProps) => {
   return {
     loading,
     currentTables,
-    currentRoomID,
-    currentOfferingID,
+    currentRoomId,
+    currentOfferingId: params.offeringId,
     currentRoom,
-    currentOffering,
+    currentOffering: offerings[params.offeringId],
     view,
   }
 }
@@ -64,14 +63,11 @@ const mapDispatchToProps = dispatch => ({
     clearModals: () => {
       dispatch(clearModals())
     },
-    fetchTables: (roomID) => {
-      dispatch(fetchTables(roomID))
+    fetchTables: (roomId) => {
+      dispatch(fetchTables(roomId))
     },
-    findAndSetCurrentRoom: (roomID) => {
-      dispatch(findAndSetCurrentRoom(roomID))
-    },
-    findAndSetCurrentOffering: (offeringID) => {
-      dispatch(findAndSetCurrentOffering(offeringID))
+    findAndSetCurrentRoom: (roomId) => {
+      dispatch(findAndSetCurrentRoom(roomId))
     },
     setView: (view) => {
       dispatch(setView(view))
@@ -85,14 +81,14 @@ const mapDispatchToProps = dispatch => ({
     resetCurrentRoom: () => {
       dispatch(resetCurrentRoom())
     },
-    requestOffering: (offeringID) => {
-      dispatch(requestOffering(offeringID))
+    requestOffering: (offeringId) => {
+      dispatch(requestOffering(offeringId))
     },
     requestRoom: (room_id) => {
       dispatch(requestRoom(room_id))
     },
-    requestStudents: (offeringID) => {
-      dispatch(requestStudents(offeringID))
+    requestStudents: (offeringId) => {
+      dispatch(requestStudents(offeringId))
     },
     setCurrentStudentId: (id) => {
       dispatch(setCurrentStudentId(id))

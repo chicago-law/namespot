@@ -9,15 +9,10 @@ import Students from './scenes/studentbody/Students'
 import NotFound404 from './NotFound404'
 import ImportExport from './scenes/import/ImportExport'
 import Settings from './scenes/settings/Settings'
-import { setTask, fetchUser } from '../actions'
+import { setTask } from '../actions'
 
 class Main extends Component {
-  componentDidMount() {
-    const { dispatch } = this.props
-    const authedUserId = document.getElementById('root').dataset.authedUser
-    if (authedUserId) dispatch(fetchUser(authedUserId))
-  }
-
+  // This click handler seems weird. Refactor?
   handleBgClick() {
     const { dispatch, task, view } = this.props
     if (view === 'assign-seats' && task !== 'offering-overview') {
@@ -30,9 +25,9 @@ class Main extends Component {
       <div className="main" onClick={() => this.handleBgClick()}>
         <Switch>
           <Route path="/select" component={Select} />
-          <Route path="/offering/:offeringID" component={WorkspaceContainer} />
-          <Route path="/room/:roomID/:offeringID" component={WorkspaceContainer} />
-          <Route path="/room/:roomID" component={WorkspaceContainer} />
+          <Route path="/offering/:offeringId" component={WorkspaceContainer} />
+          <Route path="/room/:roomId/:offeringId" component={WorkspaceContainer} />
+          <Route path="/room/:roomId" component={WorkspaceContainer} />
           <Route path="/students/" component={Students} />
           <Route path="/import/" component={ImportExport} />
           <Route path="/settings/" component={Settings} />

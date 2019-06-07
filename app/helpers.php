@@ -1,6 +1,14 @@
 <?php
 
 /**
+ * Uncomment to allow CORS.
+ * For use when developing locally off-campus with cVPN.
+ */
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+header('Access-Control-Allow-Headers: x-csrf-token, x-requested-with, content-type');
+
+/**
  * Does just what the name says. Nifty. Credit: user Anne on Stack Overflow
  */
 function UniqueRandomNumbersWithinRange($min, $max, $quantity) {

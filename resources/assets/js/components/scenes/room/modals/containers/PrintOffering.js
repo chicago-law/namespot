@@ -3,9 +3,9 @@ import { withRouter } from 'react-router-dom'
 import PrintOffering from '../PrintOffering'
 import { setView, setModal } from '../../../../../actions'
 
-const mapStateToProps = state => ({
-    currentRoom: state.app.currentRoom,
-    currentOffering: state.app.currentOffering,
+const mapStateToProps = ({ app, entities }, { match }) => ({
+    currentRoom: app.currentRoom,
+    currentOffering: entities.offerings[match.params.offeringId],
   })
 
 const mapDispatchToProps = dispatch => ({

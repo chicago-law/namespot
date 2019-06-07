@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import EditEnrollment from '../EditEnrollment'
 import {
  setModal,
@@ -13,11 +14,11 @@ import {
  updateAndSaveStudent,
 } from '../../../../../actions'
 
-const mapStateToProps = state => ({
-    rooms: state.entities.rooms,
-    currentRoom: state.app.currentRoom,
-    currentOffering: state.app.currentOffering,
-    loading: state.app.loading,
+const mapStateToProps = ({ app, entities }, { match }) => ({
+    rooms: entities.rooms,
+    currentRoom: app.currentRoom,
+    currentOffering: entities.offerings[match.params.offeringId] || null,
+    loading: app.loading,
   })
 
 const mapDispatchToProps = dispatch => ({
@@ -45,17 +46,17 @@ const mapDispatchToProps = dispatch => ({
     receiveStudents: (students) => {
       dispatch(receiveStudents(students))
     },
-    updateAndSaveStudent: (student_id, attribute, value) => {
-      dispatch(updateAndSaveStudent(student_id, attribute, value))
+    updateAndSaveStudent: (student_id, attribute, value, offering_id) => {
+      dispatch(updateAndSaveStudent(student_id, attribute, value, offering_id))
     },
     updateOffering: (offeringId, attribute, value) => {
       dispatch(updateOffering(offeringId, attribute, value))
     },
   })
 
-const EditEnrollmentContainer = connect(
+const EditEnrollmentContainer = withRouter(connect(
   mapStateToProps,
   mapDispatchToProps,
-)(EditEnrollment)
+)(EditEnrollment))
 
 export default EditEnrollmentContainer
