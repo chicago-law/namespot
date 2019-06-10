@@ -69,7 +69,7 @@ class AbOfferingOverview extends Component {
             <p>{currentStudents.length
               ? unseatedStudents.length
                 ? 'Click an empty seat to place a student'
-                : 'Great, all students have been seated!'
+                : 'All students have been seated'
               : 'Doesn\'t look like anyone is enrolled right now'}
             </p>
           </div>

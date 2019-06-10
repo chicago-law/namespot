@@ -163,10 +163,10 @@ export default class EditEnrollment extends Component {
             <input type="text" ref={this.searchRef} placeholder="Search all Law students..." onChange={e => this.handleSearchInput(e)} value={query} />
           </div>
           <div className="results-status">
-            {query.length > 0 && showingAllResults && (
+            {(query.length > 0 && showingAllResults) && (
               <p>Found {resultCount} results.</p>
             )}
-            {query.length > 0 && !loading['student-search'] && !showingAllResults && (
+            {(query.length > 0 && !loading['student-search'] && !showingAllResults) && (
               <p>
                 {resultCount > 10 && (
                   <>
@@ -174,8 +174,8 @@ export default class EditEnrollment extends Component {
                     <button type="button" onClick={() => this.handleShowAllResults()}>Show all</button>
                   </>
                 )}
-                {resultCount <= 10 && (
-                  `Found ${resultCount} result${resultCount === 1 && 's'}`
+                {(resultCount <= 10 && resultCount > 0) && (
+                  `Found ${resultCount} result${resultCount === 1 ? '' : 's'}`
                 )}
                 {resultCount === 0 && `No results with ${query}`}
               </p>

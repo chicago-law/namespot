@@ -235,7 +235,7 @@ const errors = (state = [], action) => {
         },
       ]
     case C.REMOVE_ERROR: {
-      const filteredState = { ...state }
+      const filteredState = [...state]
       return filteredState.filter(error => error.name !== action.name)
     }
     default:

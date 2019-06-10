@@ -82,7 +82,7 @@ class ActionBar extends Component {
     return (
       <div className={actionBarContainerClasses}>
         <Route path="/room/:roomId/:offeringId?" render={routeProps => this.getActionBarContents(routeProps)} />
-        {currentOffering && currentOffering.students && currentOffering.students.length > 0 && (
+        {currentOffering && currentOffering.students && (
           <Route path="/offering/:offeringId/" render={routeProps => this.getActionBarContents(routeProps)} />
         )}
       </div>

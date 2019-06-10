@@ -228,10 +228,9 @@ class ImportController extends Controller
       if (empty($entity_props['catalog_nbr']) || empty($entity_props['long_title'])) {
         abort(500, "Catalog number and title are required for new offerings. Failed at row {$this->row}.");
       }
-      $offering = Offering::create([
-        'catalog_nbr' => $entity_props['catalog_nbr'],
-        'long_title' => $entity_props['long_title'],
-      ]);
+      $offering = new Offering;
+      $offering->catalog_nbr = $entity_props['catalog_nbr'];
+      $offering->long_title = $entity_props['long_title'];
       $offering->save();
       $this->created_entities++;
     } else {
