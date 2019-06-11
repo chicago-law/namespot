@@ -29,6 +29,8 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 0,
     '@typescript-eslint/semi': 0,
     'import/prefer-default-export': 0,
+    'jsx-a11y/label-has-for': 0,
+    'no-shadow': 0,
     'react/jsx-filename-extension': 'off',
     'react/jsx-one-expression-per-line': 'off',
     'react/no-unescaped-entities': 0,
