@@ -13,6 +13,7 @@ use App\Table;
 use App\Jobs\FetchOfferings;
 use App\Jobs\FetchCanvasEnrollment;
 use App\Jobs\FetchAisEnrollment;
+use App\Jobs\FetchLawStudents;
 use App\Jobs\FetchPhotoRoster;
 use App\Jobs\FetchAppData;
 use App\Jobs\SetAcademicYear;
@@ -33,6 +34,7 @@ use App\Jobs\TestJob;
  * TEST: RUN A TEST JOB
  */
 Route::get('/test', function(Request $request) {
+    // FetchLawStudents::dispatch();
     // FetchOfferings::dispatch('2192');
     // FetchCanvasEnrollment::dispatch('2182');
     // FetchPhotoRoster::dispatch('2188');

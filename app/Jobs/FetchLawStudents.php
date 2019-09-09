@@ -66,36 +66,36 @@ class FetchLawStudents implements ShouldQueue
         $ais_students = $body->UC_STUDENT_CAREER_TBL;
 
         if (is_array($ais_students) && count($ais_students) > 0) {
-          $cnet_id = safeString($ais_student, 'CNET_ID');
-          if ($cnet_id) {
-            $student = Student::firstOrNew(['cnet_id' => $cnet_id]);
-          }
+          foreach ($ais_students as $ais_student) {
+            $cnet_id = safeString($ais_student, 'CNET_ID');
+            if ($cnet_id) {
+              $student = Student::firstOrNew(['cnet_id' => $cnet_id]);
+            }
 
-          // If we found a student, or successfully create a new one, go ahead with sync.
-          if ($student) {
-            // IDs
-            $student->emplid = $ais_student->EMPLID;
+            // If we found a student, or successfully create a new one, go ahead with sync.
+            if ($student) {
+              // IDs
+              $student->emplid = $ais_student->EMPLID;
 
-            // Names
-            $student->first_name = $ais_student->FIRST_NAME;
-            $middle_name = safeString($ais_student, 'MIDDLE_NAME');
-            if ($middle_name) $student->middle_name = $middle_name;
-            $student->last_name = $ais_student->LAST_NAME;
-            $short_first_name = safeString($ais_student, 'PREF_FIRST_NAME');
-            if ($short_first_name) $student->short_first_name = $short_first_name;
+              // Names
+              $student->first_name = $ais_student->FIRST_NAME;
+              $middle_name = safeString($ais_student, 'MIDDLE_NAME');
+              if ($middle_name) $student->middle_name = $middle_name;
+              $student->last_name = $ais_student->LAST_NAME;
+              $short_first_name = safeString($ais_student, 'PREF_FIRST_NAME');
+              if ($short_first_name) $student->short_first_name = $short_first_name;
 
-            // Academics
-            $student->academic_career = safeString($ais_student, 'ACAD_CAREER');
-            $student->academic_prog = safeString($ais_student, 'ACAD_PROG');
-            $student->academic_prog_descr = safeString($ais_student, 'ACAD_PROG_DESCR');
-            $student->exp_grad_term = safeString($ais_student, 'EXP_GRAD_TERM');
+              // Academics
+              $student->academic_career = safeString($ais_student, 'ACAD_CAREER');
+              $student->academic_prog = safeString($ais_student, 'ACAD_PROG');
+              $student->academic_prog_descr = safeString($ais_student, 'ACAD_PROG_DESCR');
+              $student->exp_grad_term = safeString($ais_student, 'EXP_GRAD_TERM');
 
-            // Save!
-            $student->save();
-          }
-
+              // Save!
+              $student->save();
+            }
+          } // End AIS students loops
         } // end if is is_array($ais_students)
-
       } // end if is_object($body)
     } catch (RequestException $e) {
       if ($e->hasResponse()) {
