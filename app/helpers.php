@@ -52,4 +52,16 @@ function quarterFromTermCode($term_code) {
   }
 }
 
+/**
+ * Safely ask for something you expect to be a string from an object.
+ * Get back null if it's not a string or doesn't exist.
+ */
+function safeString($haystack, $needle) {
+  if (property_exists($haystack, $needle)) {
+    $item = $haystack->{$needle};
+    if (is_string($item)) return $item;
+  }
+  return null;
+}
+
 ?>

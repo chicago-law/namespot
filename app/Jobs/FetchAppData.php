@@ -10,6 +10,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\JobException;
 use App\Mail\JobResults;
+use App\Jobs\FetchLawStudents;
 use App\Jobs\FetchOfferings;
 use App\Jobs\FetchCanvasEnrollment;
 use App\Jobs\FetchAisEnrollment;
@@ -40,6 +41,13 @@ class FetchAppData implements ShouldQueue
    */
   public function handle()
   {
+      // Fist we fetch all currently active Law students from AIS, getting
+      // everyone regardless of whether or not they're currently registered
+      // for any classes.
+      FetchLawStudents::dispatch();
+
+      sleep(1);
+
       // Grab the current academic year from the Settings table in DB.
       // Fall back to 2018 if there is no academic year set.
       $academic_year_setting = Setting::where('setting_name','academic_year')->first();
@@ -50,24 +58,23 @@ class FetchAppData implements ShouldQueue
       $term_codes = getTermCodesFromYear($year);
 
       foreach ($term_codes as $term) {
-
-          // Get the offerings from AIS
+          // Get the offerings from AIS.
           FetchOfferings::dispatch($term);
 
-          // Get enrollments from Canvas
+          // Get enrollments from Canvas.
           FetchCanvasEnrollment::dispatch($term);
 
-          // Get enrollments from AIS
+          // Get enrollments from AIS.
           FetchAisEnrollment::dispatch($term);
 
-          // Wait a minute before calling AIS again
-          sleep(60);
+          // Wait a little bit before calling AIS again.
+          sleep(30);
 
           // Get student photos from AIS
           FetchPhotoRoster::dispatch($term);
 
-          // Wait a minute before calling AIS again
-          sleep(60);
+          // Wait a little bit before calling AIS again.
+          sleep(30);
 
       } // end term loop
 

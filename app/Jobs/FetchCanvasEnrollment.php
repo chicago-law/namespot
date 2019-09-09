@@ -124,12 +124,13 @@ class FetchCanvasEnrollment implements ShouldQueue
               // Names. Some of these will get blown away by AIS, because they actually
               // break names down into first, m, last. Full name and full short name are kept though.
               $student->full_name = $canvas_student->user->name;
-              $student->first_name = explode(' ', $canvas_student->user->name)[0];
-              $student->last_name = substr($canvas_student->user->name, strpos($canvas_student->user->name, ' ') + 1);
               $student->short_full_name = $canvas_student->user->short_name;
-              $student->short_first_name = explode(' ', $canvas_student->user->short_name)[0];
-              $student->short_last_name = substr($canvas_student->user->short_name, strpos($canvas_student->user->short_name, ' ') + 1);
+              if (is_null($student->first_name)) $student->first_name = explode(' ', $canvas_student->user->name)[0];
+              if (is_null($student->last_name)) $student->last_name = substr($canvas_student->user->name, strpos($canvas_student->user->name, ' ') + 1);
               $student->sortable_name = $canvas_student->user->sortable_name;
+              // Defer to AIS's "preferred first name" field for short_first_name, if it's set.
+              if (is_null($student->short_first_name)) $student->short_first_name = explode(' ', $canvas_student->user->short_name)[0];
+              $student->short_last_name = substr($canvas_student->user->sortable_name, 0, strpos($canvas_student->user->sortable_name, ', '));
 
               // save in DB
               $student->save();
