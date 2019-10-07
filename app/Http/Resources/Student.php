@@ -37,7 +37,7 @@ class Student extends JsonResource
             'last_name' => $this->last_name,
             'short_first_name' => $this->short_first_name,
             'short_last_name' => $this->short_last_name,
-            // 'short_full_name' => $this->short_full_name,
+            'email' => $this->email,
             'nickname' => $this->nickname,
             'picture' => $this->picture === null ? 'no-face.png' : $this->picture,
             'academic_prog_descr' => $this->academic_prog_descr,

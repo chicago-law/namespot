@@ -93,10 +93,9 @@ class FetchAisEnrollment implements ShouldQueue
             // Proceed only if we were able to find/make a student with cnet or emplid.
             if ($student) {
 
-              // IDs
+              // Basic info
               $student->emplid = $ais_student->EMPLID;
-
-              // Names
+              $student->email = safeString($ais_student, 'EMAIL_ADDR');
               $student->first_name = $ais_student->FIRST_NAME;
               $student->middle_name = is_string($ais_student->MIDDLE_NAME) ? $ais_student->MIDDLE_NAME : null;
               $student->last_name = $ais_student->LAST_NAME;

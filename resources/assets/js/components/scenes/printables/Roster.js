@@ -242,7 +242,10 @@ class Roster extends Component {
                 <div className="roster-row__info">
                   <span>{this.formatStudentName(student)}</span>
                   <span className="details">{this.formatStudentDegree(student)}</span>
-                  <span className="details">{`CNet ID: ${student.cnet_id}`}</span>
+                  {student.email
+                    ? <span className="details">{`Email: ${student.email}`}</span>
+                    : <span className="details">{`CNet ID: ${student.cnet_id}`}</span>
+                  }
                 </div>
               </li>
             ))}
