@@ -74,16 +74,15 @@ class FetchLawStudents implements ShouldQueue
 
             // If we found a student, or successfully create a new one, go ahead with sync.
             if ($student) {
-              // IDs
+              // The basics
               $student->emplid = $ais_student->EMPLID;
-
-              // Names
               $student->first_name = $ais_student->FIRST_NAME;
               $middle_name = safeString($ais_student, 'MIDDLE_NAME');
               if ($middle_name) $student->middle_name = $middle_name;
               $student->last_name = $ais_student->LAST_NAME;
               $short_first_name = safeString($ais_student, 'PREF_FIRST_NAME');
               if ($short_first_name) $student->short_first_name = $short_first_name;
+              $email = safeString($ais_student, 'EMAIL_ADDR');
 
               // Academics
               $student->academic_career = safeString($ais_student, 'ACAD_CAREER');
