@@ -28,14 +28,14 @@ class UchicagoShibboleth
         $cnet_id = $request->server('uid');
       }
 
-      // abort if couldn't find CNet
-      abort_if(!isset($cnet_id), 401);
+      // abort if couldn't find CNet.
+      abort_if(!$cnet_id, 401, 'CNet ID not found.');
 
       // otherwise, assume success and look for a user in our table with the CNEt
       $user = User::where('cnet_id', $cnet_id)->first();
 
-      // abort if the user isn't in our DB's list of approved CNets
-      abort_if(is_null($user), 401);
+      // abort if the user isn't in our DB's list of approved CNets.
+      abort_if(is_null($user), 401, "CNet ID not authorized: {$cnet_id}");
 
       // Fill in some user details from the server
       if ($request->server('uid') !== null):
