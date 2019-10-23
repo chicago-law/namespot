@@ -30,135 +30,128 @@ use App\Jobs\TestJob;
 |
 */
 
-/**
- * TEST: RUN A TEST JOB
- */
-Route::get('/test', function(Request $request) {
-    // FetchLawStudents::dispatch();
-    // FetchOfferings::dispatch('2192');
-    // FetchCanvasEnrollment::dispatch('2182');
-    // FetchPhotoRoster::dispatch('2188');
-    // FetchAisEnrollment::dispatch('2188');
-    // SetAcademicYear::dispatch();
+// All routes go through shib.
+Route::middleware(['uchicago-shibboleth'])->group(function () {
+    /**
+     * TEST: RUN A TEST JOB
+     */
+    Route::get('/test', function(Request $request) {
+        //
+        return response()->json('Yeah', 200);
+    });
 
-    // $started = date('h:i:s');
-    // FetchAppData::dispatch($started);
 
-    // TestJob::dispatch();
-    return response()->json('Yeah', 200);
+    /**
+     * OFFERINGS
+     */
+    // fetch single offering by ID
+    Route::get('/offering/{offering_id}', function ($offering_id) {
+        return new OfferingResource(Offering::find($offering_id));
+    });
+    // fetch offerings, with optional filters
+    Route::get('/offerings', 'OfferingController@offerings');
+    // update an offering attribute
+    Route::post('/offering/update/{offering_id}', 'OfferingController@update');
+    // take an offering, duplicate its room, assign it to the new room
+    Route::get('create-room-for/{offering_id}','OfferingController@createRoomFor');
+
+
+    /**
+     * ENROLLMENT
+     */
+    // fetch all students for a given offering ID
+    Route::get('/enrollment/offering/{offering_id}', 'StudentController@offering');
+    // fetch all students for a given term code
+    Route::get('/enrollment/term/{term_code}', 'StudentController@term');
+    // Fetch the whole student body
+    Route::get('/enrollment/student-body', 'StudentController@studentBody');
+
+
+    /**
+     * STUDENTS
+     */
+    // update a student
+    Route::post('/student/update/{student_id}', 'StudentController@update');
+    // remove a student from a class
+    Route::post('/student/unenroll', 'StudentController@unenroll');
+    // search for a student by name
+    Route::get('/students/search', 'StudentController@search');
+    // upload a new picture file for a student
+    Route::post('/student/upload-picture', 'StudentController@upload_picture');
+
+
+    /**
+     * ROOMS
+     */
+    // fetch all rooms. Only return actual room templates though, ignore the ones
+    // customized for a specific offering.
+    Route::get('/rooms', function () {
+        return RoomResource::collection(Room::where('type','template')->get());
+    });
+    // fetch single room by id
+    Route::get('/room/{room_id}', function ($room_id) {
+        return new RoomResource(Room::find($room_id));
+    });
+    // update a room
+    Route::post('/room/update/{room_id}','RoomController@update');
+    // delete a room
+    Route::delete('/room/{room_id}','RoomController@delete');
+    // create a new room
+    Route::put('/room','RoomController@new');
+    // get a count of the rooms in the DB
+    Route::get('/rooms/count', 'RoomController@count');
+    // check if a supplied name to a room is already in use. checks both the
+    // regular name and the db_match_name.
+    Route::post('/rooms/checkname', 'RoomController@checkname');
+    // Nudge a room's tables down by 1
+    Route::post('/nudge/down', 'RoomController@nudgedown');
+
+
+    /**
+     * TABLES
+     */
+    // update (or create new) table
+    Route::post('/table/update','TableController@update');
+    // delete a table
+    Route::delete('/table/{table_id}','TableController@delete');
+    // fetch all tables for a given room
+    Route::get('/tables/{room_id}', function($room_id) {
+        return TableResource::collection(Table::where('room_id',$room_id)->get());
+    });
+
+
+    /**
+     * SETTINGS
+     */
+        // get all the settings
+    Route::get('/settings', 'SettingController@get');
+    // update a setting
+    Route::put('/settings', 'SettingController@update');
+
+
+    /**
+     * USERS
+     */
+        // fetch a user by ID
+        Route::get('/users/{user_id}', 'UserController@fetch');
+
+
+    /**
+     * DATA IMPORT
+     */
+    // Import students from CSV
+    Route::post('/import/{type}', 'ImportController@import');
+
+
+    /**
+     * DATA EXPORT
+     */
+    // Export students from DB
+    Route::get('/export/students', 'StudentController@export');
+    // Export offerings from DB
+    Route::get('/export/offerings', 'OfferingController@export');
+    // Export enrollments from DB
+    Route::get('/export/enrollments', 'EnrollmentController@export');
+    // Export instructors from DB
+    Route::get('/export/instructors', 'InstructorController@export');
 });
-
-
-/**
- * OFFERINGS
- */
-// fetch single offering by ID
-Route::get('/offering/{offering_id}', function ($offering_id) {
-    return new OfferingResource(Offering::find($offering_id));
-});
-// fetch offerings, with optional filters
-Route::get('/offerings', 'OfferingController@offerings');
-// update an offering attribute
-Route::post('/offering/update/{offering_id}', 'OfferingController@update');
-// take an offering, duplicate its room, assign it to the new room
-Route::get('create-room-for/{offering_id}','OfferingController@createRoomFor');
-
-
-/**
- * ENROLLMENT
- */
-// fetch all students for a given offering ID
-Route::get('/enrollment/offering/{offering_id}', 'StudentController@offering');
-// fetch all students for a given term code
-Route::get('/enrollment/term/{term_code}', 'StudentController@term');
-// Fetch the whole student body
-Route::get('/enrollment/student-body', 'StudentController@studentBody');
-
-
-/**
- * STUDENTS
- */
-// update a student
-Route::post('/student/update/{student_id}', 'StudentController@update');
-// remove a student from a class
-Route::post('/student/unenroll', 'StudentController@unenroll');
-// search for a student by name
-Route::get('/students/search', 'StudentController@search');
-// upload a new picture file for a student
-Route::post('/student/upload-picture', 'StudentController@upload_picture');
-
-
-/**
- * ROOMS
- */
-// fetch all rooms. Only return actual room templates though, ignore the ones
-// customized for a specific offering.
-Route::get('/rooms', function () {
-    return RoomResource::collection(Room::where('type','template')->get());
-});
-// fetch single room by id
-Route::get('/room/{room_id}', function ($room_id) {
-    return new RoomResource(Room::find($room_id));
-});
-// update a room
-Route::post('/room/update/{room_id}','RoomController@update');
-// delete a room
-Route::delete('/room/{room_id}','RoomController@delete');
-// create a new room
-Route::put('/room','RoomController@new');
-// get a count of the rooms in the DB
-Route::get('/rooms/count', 'RoomController@count');
-// check if a supplied name to a room is already in use. checks both the
-// regular name and the db_match_name.
-Route::post('/rooms/checkname', 'RoomController@checkname');
-// Nudge a room's tables down by 1
-Route::post('/nudge/down', 'RoomController@nudgedown');
-
-
-/**
- * TABLES
- */
-// update (or create new) table
-Route::post('/table/update','TableController@update');
-// delete a table
-Route::delete('/table/{table_id}','TableController@delete');
-// fetch all tables for a given room
-Route::get('/tables/{room_id}', function($room_id) {
-    return TableResource::collection(Table::where('room_id',$room_id)->get());
-});
-
-
-/**
- * SETTINGS
- */
-    // get all the settings
-Route::get('/settings', 'SettingController@get');
-// update a setting
-Route::put('/settings', 'SettingController@update');
-
-
-/**
- * USERS
- */
-    // fetch a user by ID
-    Route::get('/users/{user_id}', 'UserController@fetch');
-
-
-/**
- * DATA IMPORT
- */
-// Import students from CSV
-Route::post('/import/{type}', 'ImportController@import');
-
-
-/**
- * DATA EXPORT
- */
-// Export students from DB
-Route::get('/export/students', 'StudentController@export');
-// Export offerings from DB
-Route::get('/export/offerings', 'OfferingController@export');
-// Export enrollments from DB
-Route::get('/export/enrollments', 'EnrollmentController@export');
-// Export instructors from DB
-Route::get('/export/instructors', 'InstructorController@export');
