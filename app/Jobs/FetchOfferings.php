@@ -87,16 +87,16 @@ class FetchOfferings implements ShouldQueue
         }
 
         // ids
-        $offering->catalog_nbr = $ais_class->CATALOG_NBR;
-        $offering->crse_id = $ais_class->CRSE_ID;
-        $offering->class_nbr = $ais_class->CLASS_NBR;
-        $offering->section = $ais_class->SECTION;
+        $offering->catalog_nbr = safeString($ais_class, 'CATALOG_NBR');
+        $offering->crse_id = safeString($ais_class, 'CRSE_ID');
+        $offering->class_nbr = safeString($ais_class, 'CLASS_NBR');
+        $offering->section = safeString($ais_class, 'SECTION');
 
         // names
-        $offering->title = $ais_class->TITLE;
-        $offering->long_title = $ais_class->LONG_TITLE;
-        $offering->component = $ais_class->COMPONENT;
-        $offering->component_descr = $ais_class->COMPONENT_DESCR;
+        $offering->title = safeString($ais_class, 'TITLE');
+        $offering->long_title = safeString($ais_class, 'LONG_TITLE');
+        $offering->component = safeString($ais_class, 'COMPONENT');
+        $offering->component_descr = safeString($ais_class, 'COMPONENT_DESCR');
 
         // location
         $offering->ais_location = is_string($ais_class->LOCATION) ? $ais_class->LOCATION : null;

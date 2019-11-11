@@ -90,4 +90,10 @@ class Offering extends Model
     {
         return $this->students()->where('is_namespot_addition',1);
     }
+
+    public function title() {
+        if ($this->long_title) return $this->long_title;
+        if ($this->title) return $this->title;
+        return '';
+    }
 }
