@@ -80,8 +80,7 @@ class FetchLawStudents implements ShouldQueue
               $middle_name = safeString($ais_student, 'MIDDLE_NAME');
               if ($middle_name) $student->middle_name = $middle_name;
               $student->last_name = $ais_student->LAST_NAME;
-              $short_first_name = safeString($ais_student, 'PREF_FIRST_NAME');
-              if ($short_first_name) $student->short_first_name = $short_first_name;
+              $student->short_first_name = safeString($ais_student, 'PREF_FIRST_NAME');
               $email = safeString($ais_student, 'EMAIL_ADDR');
 
               // Academics
