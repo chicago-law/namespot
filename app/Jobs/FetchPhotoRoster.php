@@ -70,8 +70,10 @@ class FetchPhotoRoster implements ShouldQueue
         $body = json_decode($json_body);
 
         if (
-          isset($body->ROW_COUNT)
+          property_exists($body, 'ROW_COUNT')
+          && isset($body->ROW_COUNT)
           && $body->ROW_COUNT > 0
+          && property_exists($body, 'PHOTO_ROSTER')
           && isset($body->PHOTO_ROSTER)
         ) {
 
