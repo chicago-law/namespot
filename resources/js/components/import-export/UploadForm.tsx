@@ -50,7 +50,7 @@ const UploadForm = ({ type }: OwnProps) => {
   function fileImportHandler() {
     if (file) {
       const fd = new FormData()
-      fd.append('namespotData', file, file.name)
+      fd.append('namespotData', file)
 
       setIsFetching(true)
 

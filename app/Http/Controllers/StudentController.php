@@ -44,8 +44,8 @@ class StudentController extends Controller
   {
     $student = Student::findOrFail($student_id);
 
-    // Let's try using the fill method to do them all at once.
-    // We can break it out into specific properties if need be.
+    // Use the fill method to do them all at once.
+    // Can break it out into specific properties if need be.
     $student->fill($request->input());
     $student->save();
 
@@ -59,12 +59,12 @@ class StudentController extends Controller
     $new_picture = $request->newPicture;
 
     if ($new_picture->isValid()):
-    $fileName = 'uploaded_' . $new_picture->getBasename() . '.' . $new_picture->guessExtension();
-    Storage::disk('public')->put("student_pictures/{$fileName}", file_get_contents($new_picture));
-    $success = Storage::disk('public')->exists("student_pictures/{$fileName}");
+      $fileName = 'uploaded_' . $new_picture->getBasename() . '.' . $new_picture->guessExtension();
+      Storage::disk('public')->put("student_pictures/{$fileName}", file_get_contents($new_picture));
+      $success = Storage::disk('public')->exists("student_pictures/{$fileName}");
     else:
-    $success = false;
-    $fileName = null;
+      $success = false;
+      $fileName = null;
     endif;
 
     return response()->json([

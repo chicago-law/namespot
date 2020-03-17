@@ -27,7 +27,7 @@ const ChangePicture = ({
     const pic = e.target.files && e.target.files[0]
     if (pic) {
       const formData = new FormData()
-      formData.append('newPicture', pic, pic.name)
+      formData.append('newPicture', pic)
       api.uploadPicture(formData)
         .then(({ data }) => {
           if (data.success) setNewPicturePath(data.fileName)
