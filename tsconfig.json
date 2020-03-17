@@ -24,9 +24,7 @@
       "es6",
       "es7",
       "dom"
-    ],
-    "rootDir": "./",
-    "baseUrl": "./"
+    ]
   },
   "exclude": [
     "public",

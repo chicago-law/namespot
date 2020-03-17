@@ -14,7 +14,10 @@ const mix = require('laravel-mix') //eslint-disable-line
 mix.ts('resources/js/index.js', 'public/js')
   .sass('resources/sass/main.scss', 'public/css')
   .copyDirectory('resources/images', 'public/images')
+  .copyDirectory('resources/js/vendor', 'public/js')
+  .copyDirectory('resources/templates', 'public/templates')
   .sourceMaps()
   .browserSync({
-    proxy: 'laravel-typescript-react.localhost',
+    proxy: 'namespot2.localhost',
   })
+  .version()

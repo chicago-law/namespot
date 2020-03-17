@@ -4,6 +4,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Custom additions
+    |--------------------------------------------------------------------------
+    |
+    | Admin email: Email address to send messages about job results, errors, etc.
+    | Authed user: Default user to be authed in as if in local or dev environments.
+    |
+    */
+
+    'dev_email' => env('DEV_EMAIL'),
+    'authed_user' => env('AUTHED_USER_CNET', null),
+    'default_user' => env('DEFAULT_USER'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Name
     |--------------------------------------------------------------------------
     |

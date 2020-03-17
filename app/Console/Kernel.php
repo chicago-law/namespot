@@ -4,6 +4,8 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Jobs\FetchAppData;
+use App\Jobs\SetAcademicYear;
 
 class Kernel extends ConsoleKernel
 {
@@ -24,8 +26,25 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        // record the start time
+        $started = date('h:i:s');
+
+        if (config('app.env') === 'prod') {
+            // At 6am, fire off the job to grab all the data for that year.
+            $schedule->job(new FetchAppData($started))->dailyAt('06:00');
+
+            // And once again at 6pm for redundancy, just in case.
+            $schedule->job(new FetchAppData($started))->dailyAt('18:00');
+        }
+
+        if (config('app.env') === 'dev') {
+            // Do it once in the middle of the night also for the dev DB.
+            $schedule->job(new FetchAppData($started))->dailyAt('01:00');
+        }
+
+        // Once a year on August 1st at 12:00am, move the current academic year
+        // setting to whatever the current year is.
+        $schedule->job(new SetAcademicYear())->cron('0 0 1 8 *');
     }
 
     /**
