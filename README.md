@@ -1,35 +1,32 @@
-# Laravel + TypeScript + React 🚜
-Boilerplate code featuring all the awesomeness of [Laravel 5.8](https://github.com/laravel/laravel), [TypeScript 3.3](https://github.com/Microsoft/TypeScript), [React 16.8](https://github.com/facebook/react).
+# Namespot 💺
+Generate classroom seating charts, rosters, flash cards, and name tents. Originally built for the University of Chicago Law School.
 
-## Also Starring:
-- Redux (with Thunk and DevTools)
-- React Router DOM
-- React Transition Group
-- FontAwesome 5
-- Styled Components
-- normalize.css
-- Axios
-- ESLint (extending AirBNB and @typescript-eslint)
+## Description
+Web app tool for creating seating charts, flash cards, and name tents as downloadable PDFs. The app is built with the [Laravel](https://github.com/laravel/laravel) PHP framework and with [React](https://github.com/facebook/react) + [Redux](https://github.com/reduxjs/redux) on the front-end. It uses [html2canvas](https://github.com/niklasvh/html2canvas) and [jsPDF](https://github.com/MrRio/jsPDF) to generate the PDF deliverables.
+
+Flash cards are built for Avery template #5388, and name tents are built for Avery template #5309.
 
 ## Installation
-Prereqs: Install [node, npm](https://nodejs.org/en/), and [Composer](https://getcomposer.org/). Check that your server meets [Laravel's requirements](https://laravel.com/docs/5.8).
+The site uses Laravel, so first head over to www.laravel.com and make sure your server meets the installation requirements.
 
-`git clone https://github.com/elramus/laravel-typescript-react-boilerplate.git`\
-`cd laravel-typescript-react-boilerplate`\
-`composer install`\
-`npm install`
+Download this repository and put to into your project's folder. Then ```cd``` into it and run:
 
-Next, you'll want to rename `.env.example` to just `.env` and fill out any basic settings you want, like `APP_NAME`.
+```composer install```
 
-Now run `php artisan key:generate`. That will populate the `APP_KEY` field in the env file we just made.
+Note: Depending on how you have Composer installed, this may instead be ```php composer.phar install```
 
-To fire up the dev server, use `npm run watch`. However, you'll probably need to do some additional configuration with BrowserSync in `webpack.mix.js` depending on how you have your project files setup. For example, I have to specify localhost and the specific directory of this project like so:
-```
-  .browserSync({
-    proxy: 'laravel-typescript-react.localhost',
-  })
-```
+Next, make sure you have Node and NPM installed, and then run:
 
-Laravel's [installation page](https://laravel.com/docs/5.8/installation) is pretty helpful when setting up, so check it out first if you have any issues.
+```npm install```
 
-<strong>Happy developing!! 🚜</strong>
+Finally, set up Laravel's .ENV file with your database's credentials, and then run ```php artisan migrate```. This should setup all required tables and columns. Voila!
+
+## Using Namespot
+
+### Rooms
+You'll probably want to make rooms first. Go to Rooms from the menu and create/edit them from there. A "room" is basically just a grid of coordinates laid out over a rectangle. A "table" is just a line with start and end coordinates, and optionally a middle coordinate for it to bend towards. A table will then distribute its seats evenly along its line. That's pretty much it.
+
+### Class and Student Data
+For all the data related to classes and students, it's up to you to populate your database. We have our own Namespot instance dispatching nightly Jobs to grab data from our university's database with [Guzzle](https://github.com/guzzle/guzzle). For inspiration for your own jobs, feel free to checkout ours in ```apps\Jobs```.
+
+You can also import CSV spreadsheets into Namespot to bring in new or updated data. See the Import/Export Data page for more information.
