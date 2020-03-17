@@ -73,9 +73,9 @@ class FetchAisEnrollment implements ShouldQueue
         $json_body = $response->getBody()->getContents();
         $body = json_decode($json_body);
 
-        if (isset($body->ROW_COUNT) && $body->ROW_COUNT > 0) {
-          $ais_student_array = safeArray($body, 'UC_CLASS_ROSTER_TBL');
+        if (property_exists($body, 'ROW_COUNT') && $body->ROW_COUNT > 0) {
 
+          $ais_student_array = safeArray($body, 'UC_CLASS_ROSTER_TBL');
           foreach ($ais_student_array as $ais_student):
             // Find this student in the DB, or make a new one with cnet, or emplid
             if (is_string($ais_student->CNET_ID)) {

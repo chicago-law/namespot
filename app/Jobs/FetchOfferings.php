@@ -43,7 +43,6 @@ class FetchOfferings implements ShouldQueue
    */
   public function handle()
   {
-
     // record errors here
     $errors_array = [];
 
@@ -79,7 +78,7 @@ class FetchOfferings implements ShouldQueue
         }
 
         // ids
-        $offering->catalog_nbr = $ais_class->CATALOG_NBR;
+        $offering->catalog_nbr = safeStringOrNull($ais_class, 'CATALOG_NBR');
         $offering->crse_id = safeStringOrNull($ais_class, 'CRSE_ID');
         $offering->class_nbr = safeStringOrNull($ais_class, 'CLASS_NBR');
         $offering->section = safeStringOrNull($ais_class, 'SECTION');
@@ -148,12 +147,11 @@ class FetchOfferings implements ShouldQueue
         $ais_inst_array = [];
         $db_inst_array = [];
 
-        if (isset($meeting_time) && isset($meeting_time->UC_INSTRUCTOR_TBL)):
-
+        if (isset($meeting_time) && property_exists($meeting_time, 'UC_INSTRUCTOR_TBL')):
           $ais_inst_array = safeArray($meeting_time, 'UC_INSTRUCTOR_TBL');
 
           // First, we loop through the instructors to update or create their
-          // basic info.Z
+          // basic info.
           foreach($ais_inst_array as $ais_inst) {
 
             // Try and find the instructor in the db already.

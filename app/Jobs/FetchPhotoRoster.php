@@ -70,9 +70,9 @@ class FetchPhotoRoster implements ShouldQueue
         $body = json_decode($json_body);
 
         if (
-          property_exists($body->ROW_COUNT)
+          property_exists($body, 'ROW_COUNT')
           && $body->ROW_COUNT > 0
-          && property_exists($body->PHOTO_ROSTER)
+          && property_exists($body, 'PHOTO_ROSTER')
         ) {
           $ais_student_array = safeArray($body, 'PHOTO_ROSTER');
 
