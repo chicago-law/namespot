@@ -23,7 +23,7 @@ const seats = (
       // Delete existing seats at table before adding in our new ones.
       const currentSeatsInRoom = { ...state[action.roomId] }
       Object.keys(currentSeatsInRoom).forEach((seatId) => {
-        if (currentSeatsInRoom[seatId].tableId === action.tableId) {
+        if (currentSeatsInRoom[seatId]?.tableId === action.tableId) {
           delete currentSeatsInRoom[seatId]
         }
       })
