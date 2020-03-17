@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styled from '../utils/styledComponents'
 import Loading from './Loading'
 
-const Container = styled('button')<{ loading: boolean }>`
+const Container = styled('button')<{ isLoading: boolean }>`
   position: relative;
   display: inline-block;
   padding: 0.8em 1.5em;
@@ -12,10 +12,10 @@ const Container = styled('button')<{ loading: boolean }>`
   border-radius: 5px;
   font-size: ${(props) => props.theme.ms(-1)};
   .content {
-    opacity: ${(props) => (props.loading ? '0' : '1')};
+    opacity: ${(props) => (props.isLoading ? '0' : '1')};
   }
   .loading {
-    display: ${(props) => (props.loading ? 'block' : 'none')};
+    display: ${(props) => (props.isLoading ? 'block' : 'none')};
     position: absolute;
     top: 50%;
     left: 50%;
@@ -80,7 +80,7 @@ const TextButton = ({
       className={`text-button ${variant}`}
       disabled={disabled}
       style={style}
-      loading={loading}
+      isLoading={loading}
     >
       <div className="content">
         {leftIcon && (
