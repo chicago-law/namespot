@@ -92,7 +92,6 @@ const OfferingDefault = ({
   function handleChangeRoom() {
     setModal<ChangeRoomModalData>(ModalTypes.changeRoom, {
       offeringId: offering.id,
-      onConfirm: () => {},
     })
   }
 

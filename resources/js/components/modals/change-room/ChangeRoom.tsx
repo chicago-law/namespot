@@ -12,7 +12,7 @@ import { SessionState } from '../../../store/session/types'
 
 export interface ChangeRoomModalData {
   offeringId: string;
-  onConfirm: Function;
+  onConfirm?: () => void;
 }
 interface StoreProps {
   offerings: OfferingsState;

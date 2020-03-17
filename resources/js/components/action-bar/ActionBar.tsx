@@ -27,14 +27,11 @@ const Container = styled('div')<{ hasEntered: boolean }>`
     }
   }
   &.is-floating {
-    /* animation: none; */
-    /* transform: none; */
     .inner-container {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      /* transform: translateY(100%); */
       box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
     }
   }
@@ -52,7 +49,6 @@ const ActionBar = ({ session }: StoreProps) => {
   // action bar container should have the CSS animation on it or not.
   // Otherwise, it interferes with making the bar floating. So this way
   // we remove the animation when we go to make the bar floating.
-
   const [hasEntered, setHasEntered] = useState(false)
 
   function positionActionBar() {
