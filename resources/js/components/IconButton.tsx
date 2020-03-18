@@ -30,7 +30,6 @@ const Button = styled('button')<StyledButtonProps>`
       color: ${(props) => props.iconHoverColor};
     }
     background: ${(props) => props.backgroundHoverColor};
-    ${(props) => (props.boxShadow ? 'box-shadow: 2px 1px 2px rgba(0, 0, 0, 0.1)' : '')};
   }
 `
 

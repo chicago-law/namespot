@@ -76,7 +76,7 @@ const Settings = ({ settings, setModal, updateSettings }: StoreProps) => {
     setModal<EditSelectModalData>(ModalTypes.editSelect, {
       title: 'Edit Academic Year',
       options,
-      p: 'Every night this site does a sync with the University\'s systems to keep itself up-to-date. The academic year that is set here controls which terms it will sync.',
+      p: 'Every night this site does a sync with the University\'s systems to keep student enrollment up-to-date. The academic year that is set here controls which terms it will sync.',
       previousValue: settings.academic_year || '',
       onConfirm: (text) => saveSetting('academic_year', text),
     })

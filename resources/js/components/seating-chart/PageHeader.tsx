@@ -12,7 +12,7 @@ const Container = styled('div')`
   justify-content: space-between;
   margin-bottom: 1em;
   .left, .right {
-    max-width: 50%;
+    max-width: 46%;
   }
   .right {
     padding-left: 0.5em;
@@ -50,23 +50,23 @@ const PageHeader = ({
   const offering = offeringId ? offerings[offeringId] : null
 
   function buildLeftText() {
-    let text = room.name || '(Untitled Room)'
-    if (settings.school_name) text += ` - ${settings.school_name}`
-    if (offering) text += ` - ${termCodeToString(offering.term_code)}`
-    return text
+    const text = []
+    if (offering) {
+      if (offering.subject) text.push(`${offering.subject}`)
+      if (offering.catalog_nbr && offering.section) text.push(`${offering.catalog_nbr}-${offering.section}`)
+      text.push(offering.title)
+    }
+    return text.join(' - ')
   }
 
   function buildRightText() {
-    let text = ''
-    if (offering) {
-      if (offering.subject) text += `${offering.subject} `
-      if (offering.catalog_nbr && offering.section) text += `${offering.catalog_nbr}-${offering.section} `
-      text += offering.title
-      if (offering.instructors.length) {
-        text += ` - ${offering.instructors.map((inst) => inst.last_name).join(', ')}`
-      }
+    const text = []
+    if (offering?.instructors.length) {
+      text.push(`${offering.instructors.map((inst) => inst.last_name).join(', ')}`)
     }
-    return text
+    if (offering) text.push(`${termCodeToString(offering.term_code)}`)
+    text.push(room.name || '(Untitled Room)')
+    return text.join(' - ')
   }
 
   return (

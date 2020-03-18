@@ -47,6 +47,7 @@ const Container = styled('div')`
           background-position: center;
           background-size: cover;
           border-radius: 5px;
+          transition: opacity 100ms ease-out;
         }
         p {
           display: block;
@@ -54,8 +55,10 @@ const Container = styled('div')`
           font-size: ${(props) => props.theme.ms(-1)};
         }
         &:hover {
-          color: white;
-          background-color: ${(props) => props.theme.red};
+          background-color: ${(props) => props.theme.lightGray};
+          .student-thumbnail {
+            opacity: 0.5;
+          }
         }
       }
     }
