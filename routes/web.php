@@ -11,5 +11,6 @@
 |
 */
 
-// Route everything to our React view
+Route::get('/logout', 'HomeController@logout');
+// Route everything else to our React view
 Route::get('/{path?}', 'HomeController@react')->where('path', '.*');

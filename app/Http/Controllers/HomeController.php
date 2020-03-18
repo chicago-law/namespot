@@ -10,4 +10,9 @@ class HomeController extends Controller
     {
         return view('react');
     }
+
+    public function logout()
+    {
+        return view('logout');
+    }
 }

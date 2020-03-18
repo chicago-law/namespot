@@ -117,6 +117,10 @@ const Menu = ({ authedUser }: StoreProps) => {
               <FontAwesomeIcon icon={['far', 'cog']} fixedWidth />
               <p>Settings</p>
             </Link>
+            <a href="/logout" onClick={() => setOpen(false)}>
+              <FontAwesomeIcon icon={['far', 'sign-out-alt']} fixedWidth />
+              <p>Log Out</p>
+            </a>
           </section>
         )}
         <section className="logo-container">
