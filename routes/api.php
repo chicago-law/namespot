@@ -4,7 +4,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\RoomResource;
-use App\Jobs\FetchOfferings;
 use App\Room;
 use App\Offering;
 use Maatwebsite\Excel\Facades\Excel;
