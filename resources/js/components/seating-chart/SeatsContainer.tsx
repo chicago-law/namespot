@@ -259,7 +259,6 @@ const SeatsContainer = ({
             useNicknames={offering && offering.use_nicknames !== null ? !!offering.use_nicknames : true}
             usePrefixes={offering && offering.use_prefixes !== null ? !!offering.use_prefixes : false}
             isFocused={false}
-            seatClickTaskRouter={() => {}}
             printing={printing}
           />
         ))

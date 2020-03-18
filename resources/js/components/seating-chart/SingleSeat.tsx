@@ -14,7 +14,7 @@ interface OwnProps {
   usePrefixes: boolean;
   isFocused: boolean;
   printing: PrintingState;
-  seatClickTaskRouter: (taskType: Tasks, seatId: string, studentId: string | null) => void;
+  seatClickTaskRouter?: (taskType: Tasks, seatId: string, studentId: string | null) => void;
 }
 
 const SingleSeat = ({
@@ -31,10 +31,8 @@ const SingleSeat = ({
   function handleClick(e: React.BaseSyntheticEvent) {
     e.stopPropagation()
     if (occupant) {
-      seatClickTaskRouter('student-details', seat.id, occupant.id)
-    } else {
-      seatClickTaskRouter('seat-student', seat.id, null)
-    }
+      if (seatClickTaskRouter) seatClickTaskRouter('student-details', seat.id, occupant.id)
+    } else if (seatClickTaskRouter) seatClickTaskRouter('seat-student', seat.id, null)
   }
 
   function getSeatClasses() {
