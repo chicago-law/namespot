@@ -8,6 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 use App\Mail\JobException;
 use App\Mail\JobResults;
 use App\Jobs\FetchOfferings;
@@ -31,7 +32,7 @@ class FetchAppData implements ShouldQueue
    */
   public function __construct($started)
   {
-      $this->started = $started;
+    $this->started = $started;
   }
 
   /**
@@ -41,6 +42,8 @@ class FetchAppData implements ShouldQueue
    */
   public function handle()
   {
+      Log::error('FetchAppData started...');
+
       // Fist we fetch all currently active Law students from AIS, getting
       // everyone regardless of whether or not they're currently registered
       // for any classes.
@@ -82,5 +85,7 @@ class FetchAppData implements ShouldQueue
       $results =  "Prod: FetchAppData started at {$this->started} and finished at " . date('h:i:s');
       Mail::to(config('app.dev_email'))->send(new JobResults($results));
     }
+
+    Log::error('FetchAppData finished.');
   }
 }
