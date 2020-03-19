@@ -131,7 +131,7 @@ const RoomDefault = ({
 
   function handleContinueSeating() {
     if (match.params.offeringId) {
-      history.push(`/offerings/${match.params.offeringId}`)
+      history.replace(`/offerings/${match.params.offeringId}`)
     }
   }
 
