@@ -13,7 +13,7 @@ const RoomSidebarLeft = () => {
         <SidebarToolTip
           heading="Select Table Section"
           text={[
-            'Click a table section in the seating chart to add/remove seats or change its location.',
+            <>Click a table section in the seating chart to <strong>add or remove seats</strong> or change its location.</>,
             'You can also create a new section by clicking the New Table button above.',
           ]}
         />
@@ -22,8 +22,9 @@ const RoomSidebarLeft = () => {
         <SidebarToolTip
           heading="Edit Table Section"
           text={[
-            'Use the controls above to change the number of seats at a table section or adjust its location.',
+            <>Use the controls above to change the <strong>number of seats</strong> at a table section or adjust its location.</>,
             'You can lengthen, shorten, and move the table around the room.',
+            <>Click <strong>Save Table</strong> when finished.</>,
           ]}
         />
       )}
