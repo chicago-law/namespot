@@ -5,6 +5,7 @@
 /public/templates
 /public/hot
 /public/storage
+mix-manifest.json
 /storage/*.key
 /vendor
 .env
