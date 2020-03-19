@@ -41,7 +41,7 @@ interface RouteParams {
   offeringId: string;
 }
 
-const OfferingOptions = ({ offering, updateOffering }: StoreProps) => {
+const OfferingSidebarLeft = ({ offering, updateOffering }: StoreProps) => {
   const [paperSize, setPaperSize] = useState(offering.paper_size || 'tabloid')
   const [fontSize, setFontSize] = useState(offering.font_size || 'default')
   const [namesToShow, setNamesToShow] = useState(offering.names_to_show || 'first_and_last')
@@ -197,4 +197,4 @@ const mapState = ({ offerings }: AppState, { match }: RouteComponentProps<RouteP
 
 export default connect(mapState, {
   updateOffering,
-})(OfferingOptions)
+})(OfferingSidebarLeft)

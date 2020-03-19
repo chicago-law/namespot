@@ -65,7 +65,7 @@ interface RouteParams {
   offeringId: string;
 }
 
-const OfferingRoster = ({
+const OfferingSidebarRight = ({
   offering,
   students,
   enrollments,
@@ -179,4 +179,4 @@ export default withRouter(connect(mapState, {
   setTask,
   selectStudent,
   selectSeat,
-})(React.memo(OfferingRoster)))
+})(React.memo(OfferingSidebarRight)))

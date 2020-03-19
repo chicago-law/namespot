@@ -2,9 +2,9 @@ import React, { useEffect } from 'react'
 import { Route, withRouter, RouteComponentProps } from 'react-router-dom'
 import PageContainer from './PageContainer'
 import styled from '../../utils/styledComponents'
-import OfferingInfo from './OfferingRoster'
 import useUnmountModalCloser from '../../hooks/useUnmountModalCloser'
-import OfferingOptions from './OfferingOptions'
+import OfferingSidebarLeft from './OfferingSidebarLeft'
+import OfferingSidebarRight from './OfferingSidebarRight'
 import RoomSidebarLeft from './RoomSidebarLeft'
 
 /**
@@ -52,9 +52,9 @@ const SeatingChart = ({
         path="/offerings/:offeringId"
         render={(props) => (
           <>
-            <OfferingOptions {...props} />
+            <OfferingSidebarLeft {...props} />
             <PageContainer {...props} />
-            <OfferingInfo {...props} />
+            <OfferingSidebarRight {...props} />
           </>
         )}
       />
@@ -65,7 +65,7 @@ const SeatingChart = ({
           <>
             <RoomSidebarLeft />
             <PageContainer {...props} />
-            <div />
+            <div /> {/* Empty right sidebar */}
           </>
         )}
       />
