@@ -27,7 +27,7 @@ const Container = styled('div')`
 interface OwnProps {
   image?: React.ReactNode;
   heading: string;
-  text: (string | React.ReactNode)[];
+  text: string[];
 }
 
 const SidebarToolTip = ({
@@ -42,7 +42,7 @@ const SidebarToolTip = ({
         <h4>{heading}</h4>
       </header>
       {text.map((t) => (
-        <p key={`${t}`}>{t}</p>
+        <p key={t}>{t}</p>
       ))}
     </div>
   </Container>
