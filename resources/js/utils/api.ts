@@ -164,11 +164,11 @@ interface CreateRoomsResponse {
   rooms: {
     [roomId: string]: Room;
   };
-  offerings?: {
-    [offeringId: string]: Offering;
-  };
   enrollments: {
     [offeringId: string]: Enrollments;
+  };
+  offerings?: {
+    [offeringId: string]: Offering;
   };
 }
 interface FetchTablesResponse {

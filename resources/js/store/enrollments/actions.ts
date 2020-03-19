@@ -53,6 +53,8 @@ export const assignSeat = (
   dispatch(updateEnrollment(offeringId, studentId, { seat: seatId }))
   api.updateEnrollment(offeringId, studentId, { seat: seatId })
     .then(({ data }) => {
+      // This has already been done optimistically, but we can do it again
+      // just to make sure everything's in sync.
       dispatch(receiveEnrollments(data.enrollments))
     })
     .catch((response) => dispatch(reportAxiosError(response)))

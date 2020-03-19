@@ -79,78 +79,99 @@ const Editor = ({
   const [, addRecentOffering] = useRecentOfferings()
   const { roomId = null, offeringId = null } = match.params
   const offering = (offeringId && offerings[offeringId]) || null
+  const {
+    roomTemplatesReceived,
+    roomTablesReceived,
+    offeringStudentsReceived,
+  } = session
 
   // There aren't a lot of rooms, so we're just going to grab them all now.
-  // This simplifies things elsewhere.
+  // This simplifies things elsewhere. Note that this just gets the template rooms.
   useEffect(() => {
-    if (!session.roomTemplatesReceived) {
-      getAllRooms()
-    }
-  }, [])
+    if (!roomTemplatesReceived) getAllRooms()
+  }, [getAllRooms, roomTemplatesReceived])
 
-  // If we have a room ID, fetch the room and its tables if we need them.
+  // If we have a room ID, fetch its tables.
   useEffect(() => {
-    if (roomId && !session.roomTablesReceived.includes(roomId)) {
+    if (roomId && !roomTablesReceived.includes(roomId) // Do we need it?
+      && (!('tables' in loading) || !loading.tables) // Are we already fetching?
+    ) {
       getTablesForRoom(roomId)
     }
-  }, [])
+  }, [getTablesForRoom, loading, roomId, roomTablesReceived])
 
-  // If we have an offering ID, fetch the offering if we need it. When it's
-  // loaded, we'll be able to then fetch its student, room, and table data.
+  // If we have an offering ID, fetch the offering if we need it.
   useEffect(() => {
-    // The offering itself.
-    if (offeringId && !offerings[offeringId]) {
+    if (offeringId && !offerings[offeringId]
+      && (!('offerings' in loading) || !loading.offerings)
+    ) {
       getOfferingById(offeringId)
     }
-    // The things the offering needs.
+  }, [getOfferingById, loading, offeringId, offerings])
+
+  // The things the offering needs.
+  useEffect(() => {
     if (offering) {
-      // The Room.
-      if (offering.room_id && !rooms[offering.room_id]) {
+      // The room (necessary if this offering has a custom room)
+      if (offering.room_id && !rooms[offering.room_id]
+        && (!('rooms' in loading) || !loading.rooms)
+      ) {
         getRoomById(offering.room_id)
       }
-      // The students and the enrollments.
-      if (offering && !enrollments[offering.id]) {
+      // The tables.
+      if (offering.room_id && !roomTablesReceived.includes(offering.room_id)
+        && (!('tables' in loading) || !loading.tables)
+      ) {
+        getTablesForRoom(offering.room_id)
+      }
+      // The students.
+      if (!offeringStudentsReceived.includes(offering.id)
+        && (!('students' in loading) || !loading.students)
+      ) {
         getStudentsForOffering(offering.id)
+      }
+      // The enrollments.
+      if (!enrollments[offering.id]
+        && (!('enrollments' in loading) || !loading.enrollments)
+      ) {
         getEnrollments(offering.id)
       }
     }
-  }, [offering])
+  }, [enrollments, getEnrollments, getRoomById, getStudentsForOffering, getTablesForRoom, loading, offering, offeringStudentsReceived, roomTablesReceived, rooms, tables])
 
   // If we have an offering, store it in our Recent Offerings in local store.
   useEffect(() => {
-    if (offering) {
-      addRecentOffering(offering)
-    }
-  }, [])
+    if (offering) addRecentOffering(offering)
+  }, [addRecentOffering, offering])
 
-  // Depending on what we're waiting to load, show loading until
-  // it's ready...
+  /* Depending on what we're waiting to load, show loading until it's ready... */
+
+  // Only a room, not an offering.
   if (roomId) {
-    if (!('rooms' in loading)
-      || loading.rooms
-      || !rooms[roomId]
-      || !tables[roomId]
-    ) {
+    if (!('rooms' in loading) || loading.rooms || !rooms[roomId] || !tables[roomId]) {
       return tallLoading
     }
   }
 
+  // An offering
   if (offeringId) {
     // Wait for the offering itself to load...
     if (loading.offerings || !('offerings' in loading) || !offerings[offeringId]) {
       return tallLoading
     }
-    // Now the things we need once offering is here...
+    // Now the things we need once offering is here:
+    // First, the students...
+    if (!('students' in loading) || loading.students
+      || !('enrollments' in loading) || loading.enrollments || !(offeringId in enrollments)
+    ) {
+      return tallLoading
+    }
+    // Second, the room stuff if it has a room...
     const offeringRoomId = offerings[offeringId].room_id
     if (offeringRoomId) {
       if (!('rooms' in loading) || loading.rooms || !rooms[offeringRoomId]) {
         return tallLoading
       }
-    }
-    if (!('students' in loading) || loading.students
-      || !('enrollments' in loading) || loading.enrollments || !(offeringId in enrollments)
-    ) {
-      return tallLoading
     }
   }
 

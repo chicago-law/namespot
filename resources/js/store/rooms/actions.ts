@@ -23,6 +23,7 @@ export const removeRoom = (
   roomId,
 })
 
+/* Gets all the TEMPLATE rooms. Custom rooms are not returned in this. */
 export const getAllRooms = () => (
   dispatch: ThunkDispatch<{}, {}, AnyAction>,
 ) => {
@@ -82,6 +83,7 @@ export const createRoom = (
   dispatch: ThunkDispatch<AppState, {}, AnyAction>,
 ): Promise<string> => {
   dispatch(setLoadingStatus('rooms', true))
+  dispatch(setLoadingStatus('enrollments', true))
   const { data } = await api.createRoom(offeringId)
   dispatch(receiveRooms(data.rooms))
   if (offeringId && data.offerings && data.enrollments) {
@@ -89,6 +91,8 @@ export const createRoom = (
     dispatch(receiveEnrollments(data.enrollments))
   }
   dispatch(setLoadingStatus('rooms', false))
+  dispatch(setLoadingStatus('enrollments', false))
+  // Return the ID of the newly created room.
   return Object.keys(data.rooms)[0]
 }
 

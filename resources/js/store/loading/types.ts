@@ -1,11 +1,3 @@
-export type LoadingNames =
-  | 'offerings'
-  | 'enrollments'
-  | 'rooms'
-  | 'students'
-  | 'tables'
-  | 'settings'
-
 export interface LoadingState {
   offerings?: boolean;
   enrollments?: boolean;
@@ -19,7 +11,7 @@ export const SET_LOADING_STATUS = 'SET_LOADING_STATUS'
 
 export interface SetLoadingStatus {
   type: typeof SET_LOADING_STATUS;
-  name: LoadingNames;
+  name: keyof LoadingState;
   status: boolean;
 }
 
