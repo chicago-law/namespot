@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { connect } from 'react-redux'
 import { Route } from 'react-router-dom'
 import styled from '../../utils/styledComponents'
@@ -12,27 +12,19 @@ import EditTable from './EditTable'
 import animateEntrance from '../../utils/animateEntrance'
 
 const Container = styled('div')<{ hasEntered: boolean }>`
-  position: relative;
+  position: sticky;
   height: 7em; /* must be same as .inner-container */
+  top: 0;
   z-index: 1;
   ${(props) => (!props.hasEntered ? animateEntrance('slideDown') : '')};
   .inner-container {
     padding: 0 1em;
     background: white;
-    box-shadow: ${(props) => props.theme.boxShadow};
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
     height: inherit; /* must be same as parent */
     transition: box-shadow 200ms ease-out;
     >div {
       height: inherit;
-    }
-  }
-  &.is-floating {
-    .inner-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
     }
   }
 `
@@ -54,6 +46,7 @@ const ActionBar = ({ session }: StoreProps) => {
   function positionActionBar() {
     const { siteHeader } = session.measuredElements
     const { scrolledFromTop } = session
+
     if (siteHeader && siteHeader.height) {
       if (scrolledFromTop > siteHeader.height) {
         setFloating(true)
@@ -63,10 +56,6 @@ const ActionBar = ({ session }: StoreProps) => {
       }
     }
   }
-
-  useEffect(() => {
-    positionActionBar()
-  }, [session.scrolledFromTop])
 
   return (
     <Container ref={actionBarRef} className={isFloating ? 'is-floating' : ''} hasEntered={hasEntered}>

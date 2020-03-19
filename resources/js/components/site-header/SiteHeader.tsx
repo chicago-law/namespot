@@ -1,4 +1,4 @@
-import React, { memo, useRef, useLayoutEffect } from 'react'
+import React, { memo, useRef } from 'react'
 import { connect } from 'react-redux'
 import styled from '../../utils/styledComponents'
 import Menu from './Menu'
@@ -7,12 +7,13 @@ import Logo from './Logo'
 import { measureElement } from '../../store/session/actions'
 import { MeasuredElements } from '../../store/session/types'
 import Errors from './Errors'
+import useMountEffect from '../../hooks/useMountEffect'
 
 const Container = styled('div')`
   position: relative;
   z-index: 10;
   background: white;
-  box-shadow: ${(props) => props.theme.boxShadow};
+  border-bottom: 1px solid ${(props) => props.theme.lightGray};
   .SiteHeader__flex-row {
     padding: 0.5em 1em;
     display: flex;
@@ -33,11 +34,11 @@ const SiteHeader = ({ measureElement }: StoreProps) => {
     }
   }
 
-  useLayoutEffect(() => {
+  useMountEffect(() => {
     handleMeasuring()
     window.addEventListener('resize', handleMeasuring)
     return () => window.removeEventListener('resize', handleMeasuring)
-  }, [])
+  })
 
   return (
     <Container ref={header}>

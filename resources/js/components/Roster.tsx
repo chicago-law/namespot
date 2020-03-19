@@ -1,4 +1,4 @@
-import React, { useRef, useLayoutEffect, useMemo } from 'react'
+import React, { useRef, useMemo } from 'react'
 import { connect } from 'react-redux'
 import styled from '../utils/styledComponents'
 import { OfferingsState } from '../store/offerings/types'
@@ -10,6 +10,7 @@ import { EnrollmentsState } from '../store/enrollments/types'
 import StudentThumbnail from './seating-chart/StudentThumbnail'
 import assembleRoster from '../utils/assembleRoster'
 import { PrintingState } from '../store/printing/types'
+import useMountEffect from '../hooks/useMountEffect'
 
 // 8.5 x 11 piece of paper. 3 columns, 8 rows.
 // 8.5in wide - 0.5in on each side, divided by 3 columns.
@@ -114,7 +115,7 @@ const Roster = ({
       : Object.keys(students)
         .map((studentId) => students[studentId])
         .sort((a, b) => (a.last_name > b.last_name ? 1 : -1))
-  ), [offering, students])
+  ), [enrollments, offering, printing.options.aisOnly, students])
 
   function updateProgress(progress: string) {
     updatePrintProgress(progress)
@@ -133,12 +134,12 @@ const Roster = ({
     }
   }
 
-  useLayoutEffect(() => {
+  useMountEffect(() => {
     createPdf()
     return () => {
       exitPrint()
     }
-  }, [])
+  })
 
   return (
     <Container ref={pageRef}>

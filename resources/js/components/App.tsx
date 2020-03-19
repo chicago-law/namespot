@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { useDebouncedCallback } from 'use-debounce'
@@ -15,12 +15,13 @@ import { fetchSettings } from '../store/settings/actions'
 import { LoadingState } from '../store/loading/types'
 import Loading from './Loading'
 import { AuthedUserState } from '../store/authedUser/types'
+import useMountEffect from '../hooks/useMountEffect'
 
 const Container = styled('div')<{ isPrinting: boolean }>`
   position: relative;
-  overflow: hidden;
   /* html2canvas doesn't like transitions */
   ${(props) => props.isPrinting && `
+    overflow: hidden;
     * {
       transition: unset !important;
     }
@@ -48,12 +49,12 @@ const App = ({
     reportScrollPos(window.pageYOffset)
   }, 50, { leading: true })
 
-  useEffect(() => {
+  useMountEffect(() => {
     getAuthedUser()
     fetchSettings()
     window.addEventListener('scroll', debouncedScroll)
     return () => window.removeEventListener('scroll', debouncedScroll)
-  }, [])
+  })
 
   // Don't load the app until Settings and Authed User have come back from
   // the server.
