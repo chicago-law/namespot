@@ -30,13 +30,13 @@
 
       {{-- If you hit tab, we'll add a class that'll undo our 'outline: none' above --}}
       <script>
-      function handleFirstTab(e) {
+        function handleFirstTab(e) {
           if (e.keyCode === 9) {
-          document.body.classList.add('user-is-tabbing');
-          window.removeEventListener('keydown', handleFirstTab);
+            document.body.classList.add('user-is-tabbing');
+            window.removeEventListener('keydown', handleFirstTab);
           }
-      }
-      window.addEventListener('keydown', handleFirstTab);
+        }
+        window.addEventListener('keydown', handleFirstTab);
       </script>
     </body>
 </html>

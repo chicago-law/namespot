@@ -25,7 +25,7 @@ class Shibboleth
       if (app()->environment() === 'local' || app()->environment() === 'dev') {
         $cnet_id = config('app.default_user');
       } else {
-        // Otherwise look for Cnet ID from server
+        // Otherwise look for Cnet ID from server. Shib refers to 'cnet' as 'uid'.
         $cnet_id = $request->server('uid');
       }
 
@@ -63,7 +63,7 @@ class Shibboleth
         $user->first_name = $first_name;
         $user->last_name = $last_name;
         $user->email = $email;
-        $user->role === 'inst';
+        $user->role = 'inst';
 
         // Save!
         $user->save();

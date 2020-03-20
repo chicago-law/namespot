@@ -31,8 +31,6 @@ const Content = styled('div')`
     top: 0;
     right: 0;
     display: inline-block;
-    padding: 0.85em 1em 0.65em 1em;
-    background: ${(props) => props.theme.lightGray};
     button {
       display: inline-flex;
       align-items: center;
@@ -80,6 +78,7 @@ const EditOffering: React.FC<StoreProps & OwnProps & RouteComponentProps> = ({
   const [catalog_nbr, setCatalog] = useState(modalData.catalog_nbr || '')
   const [section, setSection] = useState(modalData.section || '')
   const [isLoading, setIsLoading] = useState(false)
+  const [isConfirmingDelete, setIsConfirmingDelete] = useState(false)
   const termList = useMemo(() => getTermCodeRange(), [])
   const [, addRecentOffering, removeRecentOffering] = useRecentOfferings()
 
@@ -112,10 +111,14 @@ const EditOffering: React.FC<StoreProps & OwnProps & RouteComponentProps> = ({
     }
   }
 
+  function handleDeleteRequest() {
+    setIsConfirmingDelete(true)
+  }
+
   function handleDelete(offeringId: string) {
     deleteOffering(offeringId)
     removeRecentOffering(offeringId)
-    history.push('/offerings')
+    history.replace('/offerings')
   }
 
   return (
@@ -168,9 +171,22 @@ const EditOffering: React.FC<StoreProps & OwnProps & RouteComponentProps> = ({
           </label>
           {offeringId && (
             <div className="delete-container">
-              <button type="button" onClick={() => handleDelete(offeringId)}>
-                <FontAwesomeIcon icon={['far', 'trash-alt']} /> Permanently delete this class?
-              </button>
+              {!isConfirmingDelete && (
+                <button
+                  type="button"
+                  onClick={handleDeleteRequest}
+                >
+                  <FontAwesomeIcon icon={['far', 'trash-alt']} /> Delete this class?
+                </button>
+              )}
+              {isConfirmingDelete && (
+                <button
+                  type="button"
+                  onClick={() => handleDelete(offeringId)}
+                >
+                  <FontAwesomeIcon icon={['far', 'trash-alt']} /> <strong>Confirm: Permanently delete this class?</strong>
+                </button>
+              )}
             </div>
           )}
         </>

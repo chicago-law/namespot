@@ -12,6 +12,9 @@ import { User } from '../../store/authedUser/types'
 
 const Sidebar = styled('div')<{ isOpen: boolean }>`
   position: fixed;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  overflow-y: auto;
   z-index: 1;
   top: 0;
   bottom: 0;
@@ -33,6 +36,7 @@ const Sidebar = styled('div')<{ isOpen: boolean }>`
     }
     &.logo-container {
       padding: 0 1em 0.25em 1em;
+      border: 0;
     }
     img {
       margin: 1em 0;
@@ -107,22 +111,24 @@ const Menu = ({ authedUser }: StoreProps) => {
             </>
           )}
         </section>
-        {(authedUser.role === 'staff' || authedUser.role === 'dev') && (
-          <section>
-            <Link to="/import-export" onClick={() => setOpen(false)}>
-              <FontAwesomeIcon icon={['far', 'upload']} fixedWidth />
-              <p>Import / Export Data</p>
-            </Link>
-            <Link to="/settings" onClick={() => setOpen(false)}>
-              <FontAwesomeIcon icon={['far', 'cog']} fixedWidth />
-              <p>Settings</p>
-            </Link>
-            <a href="/logout" onClick={() => setOpen(false)}>
-              <FontAwesomeIcon icon={['far', 'sign-out-alt']} fixedWidth />
-              <p>Log Out</p>
-            </a>
-          </section>
-        )}
+        <section>
+          {(authedUser.role === 'staff' || authedUser.role === 'dev') && (
+            <>
+              <Link to="/import-export" onClick={() => setOpen(false)}>
+                <FontAwesomeIcon icon={['far', 'upload']} fixedWidth />
+                <p>Import / Export Data</p>
+              </Link>
+              <Link to="/settings" onClick={() => setOpen(false)}>
+                <FontAwesomeIcon icon={['far', 'cog']} fixedWidth />
+                <p>Settings</p>
+              </Link>
+            </>
+          )}
+          <a href="/logout" onClick={() => setOpen(false)}>
+            <FontAwesomeIcon icon={['far', 'sign-out-alt']} fixedWidth />
+            <p>Log Out</p>
+          </a>
+        </section>
         <section className="logo-container">
           <img src={ucLogo} alt="" />
         </section>

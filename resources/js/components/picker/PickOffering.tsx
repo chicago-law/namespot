@@ -52,6 +52,11 @@ const Container = styled('div')`
       }
     }
   }
+  .no-offerings-found {
+    padding: 1em 0 0 2.1em;
+    color: ${(props) => props.theme.middleGray};
+    font-style: italic;
+  }
 `
 
 interface StoreProps {
@@ -160,13 +165,21 @@ const PickOffering = ({
             <h3><FontAwesomeIcon icon={['far', 'plus-circle']} style={{ marginRight: '0.5em' }} />Create New Class</h3>
           </button>
         </li>
-        {(loading.offerings) && (
+        {loading.offerings && (
           <Loading />
         )}
         {queriedOfferings.map((offering) => (
           <OfferingRow key={offering.id} offeringId={offering.id} />
         ))}
       </ul>
+      {queriedOfferings.length === 0 && !loading.offerings && (
+        <p className="no-offerings-found">
+          No applicable classes found for {termCodeToString(term)}
+          {query.length > 0 && (
+            <> with query "{query}"</>
+          )}
+        </p>
+      )}
     </Container>
   )
 }
