@@ -41,8 +41,11 @@ export const getOfferingById = (
   dispatch(setLoadingStatus('offerings', true))
   api.fetchOfferings({ id: offeringId })
     .then(({ data }) => {
-      dispatch(receiveOfferings(data.offerings))
+      if (Object.keys(data.offerings).length === 0) {
+        throw new Error(`No offering returned from server id ${offeringId}`)
+      }
       dispatch(setLoadingStatus('offerings', false))
+      dispatch(receiveOfferings(data.offerings))
     })
     .catch((response) => dispatch(reportAxiosError(response)))
 }
