@@ -67,7 +67,8 @@ class Shibboleth
 
         // Save!
         $user->save();
-      }
+
+      } // End if no matching user in DB
 
       if ($user) {
         auth()->login($user);

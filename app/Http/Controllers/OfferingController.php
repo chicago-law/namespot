@@ -39,9 +39,9 @@ class OfferingController extends Controller
       $query = $query->where(function($subQ) {
         $subQ->whereNull('manually_created_by');
         $subQ->orWhere(function($subSubQ) {
-              $subSubQ->whereNotNull('manually_created_by');
-              $subSubQ->where('manually_created_by', '=', Auth::user()->id);
-            });
+            $subSubQ->whereNotNull('manually_created_by');
+            $subSubQ->where('manually_created_by', '=', Auth::user()->id);
+          });
       });
     }
 

@@ -146,7 +146,7 @@ const AddStudent = ({
 
       <ModalContent>
         <ContentContainer>
-          <p>If for some reason a student is not enrolled in this class through Canvas, then they will not show up automatically here in the class's seating chart roster.</p>
+          <p>If for some reason a student is not enrolled in this class through Canvas or AIS, then they will not show up here in the class.</p>
           <p>In this case, you can manually add a student to a class when necessary by searching all Law students below.</p>
           <SearchInputContainer>
             <input

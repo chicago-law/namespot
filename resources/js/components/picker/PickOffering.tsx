@@ -85,7 +85,7 @@ const PickOffering = ({
     if (!session.termOfferingsReceived.includes(parseInt(term))) {
       getOfferingsByTerm(parseInt(term))
     }
-  }, [term])
+  }, [getOfferingsByTerm, session.termOfferingsReceived, term])
 
   function handleCreate() {
     setModal<EditOfferingModalData>(ModalTypes.editOffering, {

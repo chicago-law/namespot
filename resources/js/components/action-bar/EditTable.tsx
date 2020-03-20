@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { setTask, selectTable, setChoosingPoint, loadTempTable, updateTempTable, saveTempTable } from '../../store/session/actions'
@@ -105,7 +105,7 @@ const EditTable = ({
   const { tempTable } = session
   const [seatCount, setSeatCount] = useState((table && table.seat_count) || 0)
 
-  function exit() {
+  function resetAndExit() {
     setTask(null)
     selectTable(null)
     setChoosingPoint(null)
@@ -146,7 +146,7 @@ const EditTable = ({
   function handleSave() {
     if (session.tempTable) {
       saveTempTable(session.tempTable, () => {
-        exit()
+        resetAndExit()
         removeBadSeating()
       })
     }
@@ -165,16 +165,12 @@ const EditTable = ({
       setModal<DeleteTableModalData>(ModalTypes.deleteTable, {
         tableId: tempTable.id,
         roomId: tempTable.room_id,
-        onConfirm: exit,
+        onConfirm: resetAndExit,
       })
     } else {
-      exit()
+      resetAndExit()
     }
   }
-
-  useEffect(() => () => {
-    exit()
-  }, [])
 
   useReturnKeyListener(handleSave)
 
@@ -230,7 +226,7 @@ const EditTable = ({
       <section>
         <TextButton
           text="Cancel"
-          clickHandler={exit}
+          clickHandler={resetAndExit}
           variant="clear"
         />
         <TextButton

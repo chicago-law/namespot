@@ -44,7 +44,7 @@ const Container = styled('div')<{ isActive: boolean }>`
     padding: 3em 3em 0 3em;
     background: white;
     margin: auto;
-    box-shadow: 0 10px 25px rgba(0,0,0, .15);
+    box-shadow: 0 10px 35px rgba(0,0,0, .15);
   }
   .close-button {
     position: absolute;
