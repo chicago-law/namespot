@@ -58,7 +58,7 @@ const App = ({
 
   // Don't load the app until Settings and Authed User have come back from
   // the server.
-  if (!('settings' in loading) || loading.settings || authedUser === null) {
+  if (loading.settings || authedUser === null) {
     return <Loading />
   }
 

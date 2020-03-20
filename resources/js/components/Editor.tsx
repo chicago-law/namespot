@@ -93,18 +93,14 @@ const Editor = ({
 
   // If we have a room ID, fetch its tables.
   useEffect(() => {
-    if (roomId && !roomTablesReceived.includes(roomId) // Do we need it?
-      && (!('tables' in loading) || !loading.tables) // Are we already fetching?
-    ) {
+    if (roomId && !roomTablesReceived.includes(roomId) && !loading.tables) {
       getTablesForRoom(roomId)
     }
   }, [getTablesForRoom, loading, roomId, roomTablesReceived])
 
   // If we have an offering ID, fetch the offering if we need it.
   useEffect(() => {
-    if (offeringId && !offerings[offeringId]
-      && (!('offerings' in loading) || !loading.offerings)
-    ) {
+    if (offeringId && !offerings[offeringId] && !loading.offerings) {
       getOfferingById(offeringId)
     }
   }, [getOfferingById, loading, offeringId, offerings])
@@ -113,31 +109,23 @@ const Editor = ({
   useEffect(() => {
     if (offering) {
       // The room (necessary if this offering has a custom room)
-      if (offering.room_id && !rooms[offering.room_id]
-        && (!('rooms' in loading) || !loading.rooms)
-      ) {
+      if (offering.room_id && !rooms[offering.room_id] && !loading.rooms) {
         getRoomById(offering.room_id)
       }
       // The tables.
-      if (offering.room_id && !roomTablesReceived.includes(offering.room_id)
-        && (!('tables' in loading) || !loading.tables)
-      ) {
+      if (offering.room_id && !roomTablesReceived.includes(offering.room_id) && !loading.tables) {
         getTablesForRoom(offering.room_id)
       }
       // The students.
-      if (!offeringStudentsReceived.includes(offering.id)
-        && (!('students' in loading) || !loading.students)
-      ) {
+      if (!offeringStudentsReceived.includes(offering.id) && !loading.students) {
         getStudentsForOffering(offering.id)
       }
       // The enrollments.
-      if (!enrollments[offering.id]
-        && (!('enrollments' in loading) || !loading.enrollments)
-      ) {
+      if (!enrollments[offering.id] && !loading.enrollments) {
         getEnrollments(offering.id)
       }
     }
-  }, [enrollments, getEnrollments, getRoomById, getStudentsForOffering, getTablesForRoom, loading, offering, offeringStudentsReceived, roomTablesReceived, rooms, tables])
+  }, [enrollments, getEnrollments, getRoomById, getStudentsForOffering, getTablesForRoom, loading.enrollments, loading.rooms, loading.students, loading.tables, offering, offeringStudentsReceived, roomTablesReceived, rooms])
 
   // If we have an offering, store it in our Recent Offerings in local store.
   useEffect(() => {
@@ -148,7 +136,7 @@ const Editor = ({
 
   // Only a room, not an offering.
   if (roomId) {
-    if (!('rooms' in loading) || loading.rooms || !rooms[roomId] || !tables[roomId]) {
+    if (loading.rooms || !rooms[roomId] || !tables[roomId]) {
       return tallLoading
     }
   }
@@ -156,20 +144,18 @@ const Editor = ({
   // An offering
   if (offeringId) {
     // Wait for the offering itself to load...
-    if (loading.offerings || !('offerings' in loading) || !offerings[offeringId]) {
+    if (loading.offerings || !offerings[offeringId]) {
       return tallLoading
     }
     // Now the things we need once offering is here:
     // First, the students...
-    if (!('students' in loading) || loading.students
-      || !('enrollments' in loading) || loading.enrollments || !(offeringId in enrollments)
-    ) {
+    if (loading.students || loading.enrollments || !(offeringId in enrollments)) {
       return tallLoading
     }
     // Second, the room stuff if it has a room...
     const offeringRoomId = offerings[offeringId].room_id
     if (offeringRoomId) {
-      if (!('rooms' in loading) || loading.rooms || !rooms[offeringRoomId]) {
+      if (loading.rooms || !rooms[offeringRoomId]) {
         return tallLoading
       }
     }
