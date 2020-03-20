@@ -107,8 +107,9 @@ const PickOffering = ({
 
   const queriedOfferings = termOfferings.filter((offering) => {
     const searchable = offering.title.toUpperCase()
-      + (offering.subject ? `${offering.subject.toUpperCase()} ` : '')
+      + offering.id
       + offering.catalog_nbr
+      + (offering.subject ? `${offering.subject.toUpperCase()} ` : '')
       + offering.instructors
         .map((inst) => `${inst.first_name.toUpperCase()} ${inst.last_name.toUpperCase()}`)
         .join('')
