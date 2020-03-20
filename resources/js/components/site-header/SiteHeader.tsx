@@ -1,5 +1,6 @@
 import React, { memo, useRef } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import styled from '../../utils/styledComponents'
 import Menu from './Menu'
 import PageTitles from './PageTitles'
@@ -15,9 +16,10 @@ const Container = styled('div')`
   background: white;
   border-bottom: 1px solid ${(props) => props.theme.lightGray};
   .SiteHeader__flex-row {
-    padding: 0.5em 1em;
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
+    padding: 0.5em 1em;
   }
 `
 
@@ -46,7 +48,9 @@ const SiteHeader = ({ measureElement }: StoreProps) => {
       <div className="SiteHeader__flex-row">
         <Menu />
         <PageTitles />
-        <Logo />
+        <Link to="/">
+          <Logo />
+        </Link>
       </div>
     </Container>
   )
