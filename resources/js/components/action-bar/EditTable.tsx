@@ -25,6 +25,7 @@ import { Enrollments } from '../../store/enrollments/types'
 import { Seat } from '../../store/seats/types'
 import { assignSeat } from '../../store/enrollments/actions'
 import { validateTempTable } from '../../utils/validateTempTable'
+import useEscapeKeyListener from '../../hooks/useEscapeKeyListener'
 
 const Container = styled('div')`
   display: flex;
@@ -172,6 +173,7 @@ const EditTable = ({
     }
   }
 
+  useEscapeKeyListener(resetAndExit)
   useReturnKeyListener(handleSave)
 
   return (

@@ -23,10 +23,11 @@ Finally, set up Laravel's .ENV file with your database's credentials, and then r
 
 ## Using Namespot
 
+### Adding new staff users
+At the moment there is no UI functionality for CRUDing staff. Faculty members are created automatically as instructors when they log in, but that works by checking if they're attached to any classes first. A new staff member trying this will be turned away. So, first you'll need to add them to the DB. Do a SQL insert on the users table with their info and make their role 'staff'. The role of 'dev' is a superuser.
+
 ### Rooms
-You'll probably want to make rooms first. Go to Rooms from the menu and create/edit them from there. A "room" is basically just a grid of coordinates laid out over a rectangle. A "table" is just a line with start and end coordinates, and optionally a middle coordinate for it to bend towards. A table will then distribute its seats evenly along its line. That's pretty much it.
+To CRUD rooms, go to the Rooms page from the menu. A "room" is basically just a grid of coordinates laid out over a rectangle. A "table" is just a line with start and end coordinates, and optionally a middle coordinate for it to bend towards. A table will then distribute its seats evenly along its line. That's pretty much it.
 
 ### Class and Student Data
-For all the data related to classes and students, it's up to you to populate your database. We have our own Namespot instance dispatching nightly Jobs to grab data from our university's database with [Guzzle](https://github.com/guzzle/guzzle). For inspiration for your own jobs, feel free to checkout ours in ```apps\Jobs```.
-
-You can also import CSV spreadsheets into Namespot to bring in new or updated data. See the Import/Export Data page for more information.
+For all the data related to classes and students, it's up to you to populate your database. We have our own Namespot instance dispatching nightly Jobs to grab data from our university's database with [Guzzle](https://github.com/guzzle/guzzle). For inspiration for your own jobs, check out ours in ```apps\Jobs```.
