@@ -30,6 +30,8 @@ const Container = styled('div')<ContainerProps>`
     pointer-events: none;
     z-index: -1;
   `};
+  /* We'll do all the styling for single seats here so that we don't have
+  Styled Components creating extra components for every single seat. */
   .seat {
     position: absolute;
     height: ${(props) => (props.paperSize === 'letter' ? props.seatSize * 0.65 : props.seatSize)}px;
@@ -84,8 +86,8 @@ const Container = styled('div')<ContainerProps>`
       }
       &.below {
         top: 100%;
-        left: -25%;
-        right: -25%;
+        left: -30%;
+        right: -30%;
         text-align: center;
         transform: translateY(0.25em);
         ${(props) => props.offering && !!props.offering.flipped && `
@@ -96,8 +98,8 @@ const Container = styled('div')<ContainerProps>`
       }
       &.above {
         bottom: 100%;
-        left: -25%;
-        right: -25%;
+        left: -30%;
+        right: -30%;
         text-align: center;
         transform: translateY(-0.25em);
         ${(props) => props.offering && !!props.offering.flipped && `

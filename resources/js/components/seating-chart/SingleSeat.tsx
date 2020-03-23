@@ -53,13 +53,13 @@ const SingleSeat = ({
           ]
         case 'first_only':
           return [
-            `${usePrefixes && occupant.prefix && `${occupant.prefix} `}${useNicknames && occupant.nickname ? occupant.nickname : occupant.short_first_name}`,
+            `${usePrefixes && occupant.prefix ? `${occupant.prefix} ` : ''}${useNicknames && occupant.nickname ? occupant.nickname : occupant.short_first_name}`,
             '',
           ]
         case 'last_only':
           return [
             '',
-            `${usePrefixes && occupant.prefix && `${occupant.prefix} `}${occupant.short_last_name}`,
+            `${usePrefixes && occupant.prefix ? `${occupant.prefix} ` : ''}${occupant.short_last_name}`,
           ]
         case 'first_and_last_initial':
           return [
