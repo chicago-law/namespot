@@ -16,7 +16,8 @@ import RoomSidebarLeft from './RoomSidebarLeft'
 
 const Container = styled('div')`
   display: grid;
-  grid-template-columns: 15em auto 15em;
+  grid-template-columns: 15em minmax(auto, 70em) 15em;
+  justify-content: center;
   padding: 0 1.5em;
   overflow: visible;
   >div {
