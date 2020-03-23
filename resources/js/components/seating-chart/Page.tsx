@@ -113,15 +113,18 @@ const Page = ({
 
   useEffect(() => {
     if (printing.isPrinting && printing.format === 'seating-chart') {
-      if (pageRef.current) {
-        assembleSeatingChart(
-          pageRef.current,
-          offering || undefined,
-          exitPrint,
-        )
-      }
+      // Give it a second to finish dispatching before assembling.
+      setTimeout(() => {
+        if (pageRef.current) {
+          assembleSeatingChart(
+            pageRef.current,
+            offering || undefined,
+            exitPrint,
+          )
+        }
+      }, 500)
     }
-  }, [printing.isPrinting])
+  }, [exitPrint, offering, printing.format, printing.isPrinting])
 
   return (
     <Container

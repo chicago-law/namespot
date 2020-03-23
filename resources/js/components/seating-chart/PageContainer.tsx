@@ -29,7 +29,7 @@ interface RouteParams {
   roomId?: string;
 }
 
-const PageContainer = ({ offering, room }: StoreProps & RouteComponentProps<RouteParams>) => {
+const PageContainer = ({ offering }: StoreProps & RouteComponentProps<RouteParams>) => {
   const [dimensions, setDimensions] = useState({
     height: 0,
     width: 0,

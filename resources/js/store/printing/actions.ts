@@ -50,6 +50,7 @@ export const initiatePrint = (
   dispatch(setShowCurtain(true))
   dispatch(setPrintingFormat(format, options))
   setTimeout(() => {
+    // Give it a second to dispatch.
     dispatch(setIsPrinting(true))
   }, 500)
 }
