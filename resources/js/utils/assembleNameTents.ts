@@ -1,6 +1,7 @@
 import html2canvas from 'html2canvas'
 import jsPDF from 'jspdf'
 import { Offering } from '../store/offerings/types'
+import C from './constants'
 
 const assembleNameTents = async (
   tents: HTMLDivElement[],
@@ -8,13 +9,6 @@ const assembleNameTents = async (
   updateProgress: (progress: string) => void,
   callback?: () => void,
 ) => {
-  // const [html2canvasModule, jsPdfModule] = await Promise.all([
-  //   import('html2canvas'),
-  //   import('jspdf'),
-  // ])
-  // const html2canvas = html2canvasModule.default
-  // const jsPDF = jsPdfModule.default
-
   // We're going to loop through all the name tents and html2canvas and attach
   // to the pdf one by one. Except it's not really a loop, because that gets
   // troublesome with async operations, like html2canvas is. So we use a
@@ -39,10 +33,10 @@ const assembleNameTents = async (
 
     html2canvas(tents[i], {
       logging: false,
-      scale: 1,
+      scale: 2,
     })
       .then((canvas) => {
-        pdf.addImage(canvas, 'jpeg', 0, 0)
+        pdf.addImage(canvas, 'jpeg', 0, 0, C.letterWidth, C.letterHeight)
 
         // Increment tents and check if we need to go again.
         i += 1
@@ -63,6 +57,8 @@ const assembleNameTents = async (
         }
       })
   }
+
+  // Start!
   addToPdf()
 }
 

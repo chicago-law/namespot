@@ -12,6 +12,9 @@ import assembleRoster from '../utils/assembleRoster'
 import { PrintingState } from '../store/printing/types'
 import useMountEffect from '../hooks/useMountEffect'
 
+// How much do you want to scale things up for clarity?
+const rosterScale = 4
+
 // 8.5 x 11 piece of paper. 3 columns, 8 rows.
 // 8.5in wide - 0.5in on each side, divided by 3 columns.
 const columnWidth = 2.5
@@ -48,7 +51,6 @@ const Container = styled('div')`
     border: 1px solid ${(props) => props.theme.lightGray};
     width: ${columnWidth}in;
     height: ${rowHeight}in;
-    height: 7em;
     span {
       display: block;
       flex: auto;
@@ -60,9 +62,22 @@ const Container = styled('div')`
         word-break: break-all
       }
     }
-    .student-thumbnail {
-      flex: 0 0 40%;
+    /* We're using this as a container to blow up the thumbnail
+    and then scale it back down, allowing for higher res exports. */
+    .thumbnail-container {
+      position: relative;
+      flex: 0 0 50%;
       height: 100%;
+    }
+    .student-thumbnail {
+      /* Twice as big, then scaled to half. */
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: ${100 * rosterScale}%;
+      width: ${100 * rosterScale}%;
+      transform-origin: top left;
+      transform: scale(${1 / rosterScale});
       img {
         max-height: 100%;
         width: auto;
@@ -170,7 +185,9 @@ const Roster = ({
 
       {currentStudents.map((student) => (
         <div key={student.id} className="roster-row" ref={(ref) => { if (ref && !rowsRef.current.includes(ref)) rowsRef.current.push(ref) }}>
-          <StudentThumbnail student={student} />
+          <div className="thumbnail-container">
+            <StudentThumbnail student={student} />
+          </div>
           <div className="roster-row__info">
             <span>{student.short_first_name} {student.short_last_name}</span>
             <span className="details">{student.academic_prog_descr}</span>

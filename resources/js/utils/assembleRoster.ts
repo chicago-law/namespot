@@ -57,7 +57,7 @@ const assembleRoster = async (
     if (elHeight + pagePadding < remainingSpace) {
       // It will fit! Proceed with adding to the PDF.
       html2canvas(elements[i], {
-        scale: 3,
+        scale: 4,
       }).then((canvas) => {
         pdf.addImage(
           canvas,

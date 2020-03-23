@@ -14,6 +14,8 @@ import { EnrollmentsState } from '../../store/enrollments/types'
 import { PrintingState } from '../../store/printing/types'
 import calcSeatFontSize from '../../utils/calcSeatFontSize'
 
+const seatScale = 4
+
 interface ContainerProps {
   seatSize: number;
   editingRoom: boolean;
@@ -34,14 +36,18 @@ const Container = styled('div')<ContainerProps>`
   Styled Components creating extra components for every single seat. */
   .seat {
     position: absolute;
-    height: ${(props) => (props.paperSize === 'letter' ? props.seatSize * 0.65 : props.seatSize)}px;
-    width: ${(props) => (props.paperSize === 'letter' ? props.seatSize * 0.65 : props.seatSize)}px;
-    transform: translate(-50%, -50%) ${(props) => props.offering && !!props.offering.flipped && ' rotate(180deg)'};
+    height: ${(props) => (props.paperSize === 'letter' ? props.seatSize * 0.65 : props.seatSize) * seatScale}px;
+    width: ${(props) => (props.paperSize === 'letter' ? props.seatSize * 0.65 : props.seatSize) * seatScale}px;
+    transform-origin: top left;
+    transform: scale(${(props) => 1 / seatScale}) translate(-50%, -50%) ${(props) => props.offering && !!props.offering.flipped && ' rotate(180deg)'};
+    ${(props) => props.offering && !!props.offering.flipped && `
+      transform-origin: 20% 20%;
+    `}
     .pic-container {
       position: relative;
       height: 100%;
       width: 100%;
-      border-radius: 5px;
+      border-radius: ${(props) => seatScale * 7}px;
       background: #fff;
       overflow: hidden;
       text-align: center;
@@ -61,7 +67,7 @@ const Container = styled('div')<ContainerProps>`
       background: white;
       border-style: solid;
       border-color: ${(props) => props.theme.middleGray};
-      border-width: ${(props) => (props.paperSize === 'letter' ? '3px' : '4px')};
+      border-width: ${(props) => (props.paperSize === 'letter' ? `${seatScale * 3}px` : `${seatScale * 4}px`)};
     }
     svg {
       border-radius: 5px;
@@ -89,11 +95,13 @@ const Container = styled('div')<ContainerProps>`
         left: -30%;
         right: -30%;
         text-align: center;
-        transform: translateY(0.25em);
+        transform-origin: top;
+        transform: scale(${(props) => seatScale}) translateY(0.25em);
         ${(props) => props.offering && !!props.offering.flipped && `
           top: auto;
           bottom: 100%;
-          transform: translateY(-0.25em);
+          transform-origin: bottom;
+          transform: scale(${seatScale}) translateY(-0.25em);
         `}
       }
       &.above {
@@ -101,34 +109,40 @@ const Container = styled('div')<ContainerProps>`
         left: -30%;
         right: -30%;
         text-align: center;
-        transform: translateY(-0.25em);
+        transform-origin: below;
+        transform: scale(${(props) => seatScale}) translateY(-0.25em);
         ${(props) => props.offering && !!props.offering.flipped && `
           bottom: auto;
           top: 100%;
-          transform: translateY(0.25em);
+          transform-origin: top;
+          transform: scale(${seatScale}) translateY(0.25em);
         `}
       }
       &.right {
         top: 50%;
         left: 100%;
-        transform: translate(0.5em, -50%);
+        transform-origin: top left;
+        transform: scale(${(props) => seatScale}) translate(0.5em, -50%);
         ${(props) => props.offering && !!props.offering.flipped && `
           left: auto;
           right: 100%;
           text-align: right;
-          transform: translate(-0.5em, -50%);
+          transform-origin: top right;
+          transform: scale(${seatScale}) translate(-0.5em, -50%);
         `}
       }
       &.left {
         top: 50%;
         right: 100%;
         text-align: right;
-        transform: translate(-0.5em, -50%);
+        transform-origin: top right;
+        transform: scale(${(props) => seatScale}) translate(-0.5em, -50%);
         ${(props) => props.offering && !!props.offering.flipped && `
           left: 100%;
           right: auto;
           text-align: left;
-          transform: translate(0.5em, -50%);
+          transform-origin: top left;
+          transform: scale(${seatScale}) translate(0.5em, -50%);
         `}
       }
     }

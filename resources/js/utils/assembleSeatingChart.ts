@@ -1,6 +1,5 @@
 import html2canvas from 'html2canvas'
 import jsPDF from 'jspdf'
-// import changedpi from 'changedpi'
 import { Offering } from '../store/offerings/types'
 import C from './constants'
 
@@ -9,15 +8,6 @@ const assembleSeatingChart = async (
   offering?: Offering,
   callback?: () => void,
 ) => {
-  // const [html2canvasModule, jsPdfModule, changedpiModule] = await Promise.all([
-  //   import('html2canvas'),
-  //   import('jspdf'),
-  //   import('changedpi'),
-  // ])
-  // const html2canvas = html2canvasModule.default
-  // const jsPDF = jsPdfModule.default
-  // const changedpi = changedpiModule
-
   const paperDimensions = offering && offering.paper_size && offering.paper_size === 'letter'
     ? {
       width: C.letterWidth,
@@ -33,7 +23,7 @@ const assembleSeatingChart = async (
 
   html2canvas(chartPage, {
     logging: false,
-    scale: 1, // Cranking up scale to increase clarity.
+    scale: 4, // Cranking up scale to increase clarity.
   })
     .then((canvas) => {
       const pdf = new jsPDF({

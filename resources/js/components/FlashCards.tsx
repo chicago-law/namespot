@@ -1,4 +1,4 @@
-import React, { useRef, useLayoutEffect, Fragment } from 'react'
+import React, { useRef, useLayoutEffect, Fragment, useCallback } from 'react'
 import { connect } from 'react-redux'
 import styled from '../utils/styledComponents'
 import { AppState } from '../store'
@@ -10,6 +10,8 @@ import { termCodeToString } from '../utils/helpers'
 import { PrintingState } from '../store/printing/types'
 import assembleFlashCards from '../utils/assembleFlashCards'
 import { exitPrint, updatePrintProgress } from '../store/printing/actions'
+
+const flashCardScale = 2
 
 const Container = styled('div')`
   position: absolute;
@@ -25,16 +27,27 @@ const Container = styled('div')`
     background: white;
     &.same-side {
       >div {
+        position: relative;
         flex: 0 0 50%;
       }
     }
   }
   .picture-container {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     height: inherit;
     width: 50%;
+    .student-thumbnail {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: ${100 * flashCardScale}%;
+      width: ${100 * flashCardScale}%;
+      transform-origin: top left;
+      transform: scale(${1 / flashCardScale});
+    }
   }
   .info-container {
     text-align: center;
@@ -68,25 +81,25 @@ const FlashCards = ({
     .map((studentId) => students[studentId])
     .sort((a, b) => (a.last_name > b.last_name ? 1 : -1))
 
-  function updateProgress(progress: string) {
-    updatePrintProgress(progress)
-  }
+  const updateProgress = useCallback((progress: string) => {
+    return updatePrintProgress(progress)
+  }, [updatePrintProgress])
 
-  function createPdf() {
-    assembleFlashCards(
+  const createPdf = useCallback(() => {
+    return assembleFlashCards(
       cardsRef.current,
       offering,
       printing.options.namesOnReverse || false,
       updateProgress,
       exitPrint,
     )
-  }
+  }, [exitPrint, offering, printing.options.namesOnReverse, updateProgress])
 
   useLayoutEffect(() => {
     setTimeout(() => {
       createPdf()
     }, 100)
-  }, [])
+  }, [createPdf])
 
   return (
     <Container>
