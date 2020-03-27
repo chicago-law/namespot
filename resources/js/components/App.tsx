@@ -16,6 +16,7 @@ import { LoadingState } from '../store/loading/types'
 import Loading from './Loading'
 import { AuthedUserState } from '../store/authedUser/types'
 import useMountEffect from '../hooks/useMountEffect'
+import SiteFooter from './SiteFooter'
 
 const Container = styled('div')<{ isPrinting: boolean }>`
   position: relative;
@@ -66,6 +67,7 @@ const App = ({
     <Container isPrinting={printing.isPrinting}>
       <SiteHeader />
       <MainContentRouter />
+      <SiteFooter />
       <Modals />
       {printing.showCurtain && (
         <PrintingCurtain />
