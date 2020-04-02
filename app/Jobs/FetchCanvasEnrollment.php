@@ -110,9 +110,13 @@ class FetchCanvasEnrollment implements ShouldQueue
 
             // Find this student in the DB, or make a new one with cnet, or canvas id.
             if (isset($canvas_student->user->login_id) && !is_null($canvas_student->user->login_id)) {
-              $student = Student::firstOrNew(['cnet_id' => $canvas_student->user->login_id]);
+              $student = Student::firstOrNew([
+                'cnet_id' => $canvas_student->user->login_id
+              ]);
             } else if (isset($canvas_student->user->id) && !is_null($canvas_student->user->id)) {
-              $student = Student::firstOrNew(['canvas_id' => $canvas_student->user->id]);
+              $student = Student::firstOrNew([
+                'canvas_id' => strval($canvas_student->user->id)
+              ]);
             }
 
             // Proceed only if we were able to make a student with cnet or canvas id.
