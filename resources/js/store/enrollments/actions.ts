@@ -31,7 +31,7 @@ export const getEnrollments = (
       dispatch(receiveEnrollments(data.enrollments))
       dispatch(setLoadingStatus('enrollments', false))
     })
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .catch(response => dispatch(reportAxiosError(response)))
 }
 
 export const updateEnrollment = (
@@ -57,19 +57,21 @@ export const assignSeat = (
       // just to make sure everything's in sync.
       dispatch(receiveEnrollments(data.enrollments))
     })
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .catch(response => dispatch(reportAxiosError(response)))
 }
 
 export const createEnrollment = (
   offeringId: string,
   studentId: string,
-) => (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
+) => (
+  dispatch: ThunkDispatch<{}, {}, AnyAction>,
+) => {
   api.createEnrollment(offeringId, studentId)
     .then(({ data }) => {
       dispatch(receiveEnrollments(data.enrollments))
       dispatch(receiveStudents(data.students))
     })
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .catch(response => dispatch(reportAxiosError(response)))
 }
 
 export const deleteEnrollment = (
@@ -78,5 +80,5 @@ export const deleteEnrollment = (
 ) => (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
   dispatch(removeEnrollment(offeringId, studentId))
   api.deleteEnrollment(offeringId, studentId)
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .catch(response => dispatch(reportAxiosError(response)))
 }

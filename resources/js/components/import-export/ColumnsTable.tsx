@@ -22,10 +22,10 @@ const Table = styled('table')`
     padding-right: 2em;
   }
   tr:nth-child(odd) {
-    background: ${(props) => props.theme.offWhite};
+    background: ${props => props.theme.offWhite};
   }
   code {
-    background: ${(props) => props.theme.lightGray};
+    background: ${props => props.theme.lightGray};
     border-radius: 4px;
     padding: 0.25em;
   }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import ModalControls from '../ModalControls'
 import ModalHeader from '../ModalHeader'
 import { deleteTable } from '../../../store/tables/actions'
@@ -10,20 +10,18 @@ export interface DeleteTableModalData {
   roomId: string;
   onConfirm: Function;
 }
-interface StoreProps {
-  deleteTable: typeof deleteTable;
-}
-interface OwnProps {
+interface Props {
   modalData: DeleteTableModalData;
 }
 
 const DeleteTable = ({
-  deleteTable, modalData,
-}: StoreProps & OwnProps) => {
+  modalData,
+}: Props) => {
+  const dispatch = useDispatch()
   const { tableId, roomId, onConfirm } = modalData
 
   function handleConfirm() {
-    deleteTable(tableId, roomId)
+    dispatch(deleteTable(tableId, roomId))
     if (onConfirm) onConfirm()
   }
 
@@ -43,6 +41,4 @@ const DeleteTable = ({
   )
 }
 
-export default connect(null, {
-  deleteTable,
-})(DeleteTable)
+export default DeleteTable

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { RouteComponentProps } from 'react-router-dom'
 import { getOfferingById } from '../store/offerings/actions'
 import { AppState } from '../store/index'
@@ -47,12 +47,6 @@ interface StoreProps {
   session: SessionState;
   printing: PrintingState;
   loading: LoadingState;
-  getOfferingById: typeof getOfferingById;
-  getStudentsForOffering: typeof getStudentsForOffering;
-  getEnrollments: typeof getEnrollments;
-  getRoomById: typeof getRoomById;
-  getTablesForRoom: typeof getTablesForRoom;
-  getAllRooms: typeof getAllRooms;
 }
 interface UrlParams {
   offeringId?: string;
@@ -68,14 +62,9 @@ const Editor = ({
   session,
   printing,
   loading,
-  getOfferingById,
-  getStudentsForOffering,
-  getEnrollments,
-  getRoomById,
-  getTablesForRoom,
-  getAllRooms,
   match,
 }: Props) => {
+  const dispatch = useDispatch()
   const [, addRecentOffering] = useRecentOfferings()
   const { roomId = null, offeringId = null } = match.params
   const offering = (offeringId && offerings[offeringId]) || null
@@ -88,44 +77,44 @@ const Editor = ({
   // There aren't a lot of rooms, so we're just going to grab them all now.
   // This simplifies things elsewhere. Note that this just gets the template rooms.
   useEffect(() => {
-    if (!roomTemplatesReceived) getAllRooms()
-  }, [getAllRooms, roomTemplatesReceived])
+    if (!roomTemplatesReceived) dispatch(getAllRooms())
+  }, [dispatch, roomTemplatesReceived])
 
   // If we have a room ID, fetch its tables.
   useEffect(() => {
     if (roomId && !roomTablesReceived.includes(roomId) && !loading.tables) {
-      getTablesForRoom(roomId)
+      dispatch(getTablesForRoom(roomId))
     }
-  }, [getTablesForRoom, loading, roomId, roomTablesReceived])
+  }, [dispatch, loading, roomId, roomTablesReceived])
 
   // If we have an offering ID, fetch the offering if we need it.
   useEffect(() => {
     if (offeringId && !offerings[offeringId] && !loading.offerings) {
-      getOfferingById(offeringId)
+      dispatch(getOfferingById(offeringId))
     }
-  }, [getOfferingById, loading, offeringId, offerings])
+  }, [dispatch, loading, offeringId, offerings])
 
   // The things the offering needs.
   useEffect(() => {
     if (offering) {
       // The room (necessary if this offering has a custom room)
       if (offering.room_id && !rooms[offering.room_id] && !loading.rooms) {
-        getRoomById(offering.room_id)
+        dispatch(getRoomById(offering.room_id))
       }
       // The tables.
       if (offering.room_id && !roomTablesReceived.includes(offering.room_id) && !loading.tables) {
-        getTablesForRoom(offering.room_id)
+        dispatch(getTablesForRoom(offering.room_id))
       }
       // The students.
       if (!offeringStudentsReceived.includes(offering.id) && !loading.students) {
-        getStudentsForOffering(offering.id)
+        dispatch(getStudentsForOffering(offering.id))
       }
       // The enrollments.
       if (!enrollments[offering.id] && !loading.enrollments) {
-        getEnrollments(offering.id)
+        dispatch(getEnrollments(offering.id))
       }
     }
-  }, [enrollments, getEnrollments, getRoomById, getStudentsForOffering, getTablesForRoom, loading.enrollments, loading.rooms, loading.students, loading.tables, offering, offeringStudentsReceived, roomTablesReceived, rooms])
+  }, [dispatch, enrollments, loading.enrollments, loading.rooms, loading.students, loading.tables, offering, offeringStudentsReceived, roomTablesReceived, rooms])
 
   // If we have an offering, store it in our Recent Offerings in local store.
   useEffect(() => {
@@ -197,11 +186,4 @@ const mapState = ({
   loading,
 })
 
-export default connect(mapState, {
-  getOfferingById,
-  getStudentsForOffering,
-  getEnrollments,
-  getRoomById,
-  getTablesForRoom,
-  getAllRooms,
-})(Editor)
+export default connect(mapState)(Editor)

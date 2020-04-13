@@ -22,10 +22,10 @@ const Sidebar = styled('div')<{ isOpen: boolean }>`
   padding: 1em;
   width: 16em;
   color: white;
-  transform: translateX(${(props) => (props.isOpen ? '0' : '-20em')});
-  background: ${(props) => props.theme.black};
+  transform: translateX(${props => (props.isOpen ? '0' : '-20em')});
+  background: ${props => props.theme.black};
   box-shadow: 0 0 15px rgba(0,0,0, 0.25);
-  transition: transform 500ms ${(props) => props.theme.fastEaseOut};
+  transition: transform 500ms ${props => props.theme.fastEaseOut};
   section {
     padding-bottom: 1em;
     margin-bottom: 1em;
@@ -48,12 +48,12 @@ const Sidebar = styled('div')<{ isOpen: boolean }>`
     color: white;
     text-decoration: none;
     svg {
-      font-size: ${(props) => props.theme.ms(1)};
+      font-size: ${props => props.theme.ms(1)};
       padding: 1em;
       box-sizing: content-box; /* FontAwesome fixedWidth doesn't like border-box for some reason */
     }
     &:hover {
-      color: ${(props) => props.theme.red};
+      color: ${props => props.theme.red};
     }
   }
 `
@@ -67,11 +67,13 @@ const Shader = styled('div')`
 `
 
 interface StoreProps {
-  authedUser: User;
+  authedUser: User | null;
 }
 
 const Menu = ({ authedUser }: StoreProps) => {
   const [isOpen, setOpen] = useState(false)
+
+  if (!authedUser) return <div />
 
   return (
     <>

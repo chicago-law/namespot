@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { RouteComponentProps } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styled from '../../utils/styledComponents'
@@ -27,13 +27,13 @@ const Container = styled('div')`
       opacity: 0.5;
     }
     .fa-check-circle {
-      font-size: ${(props) => props.theme.ms(2)};
-      color: ${(props) => props.theme.middleGray};
+      font-size: ${props => props.theme.ms(2)};
+      color: ${props => props.theme.middleGray};
     }
     p {
       margin-left: 1em;
       font-style: italic;
-      color: ${(props) => props.theme.middleGray};
+      color: ${props => props.theme.middleGray};
     }
   }
   .right {
@@ -50,49 +50,46 @@ interface StoreProps {
   offering: Offering;
   enrollments: Enrollments;
   rooms: RoomsState;
-  createRoom: (offeringId?: string) => Promise<string>;
-  setModal: typeof setModal;
 }
 
 const OfferingDefault = ({
   offering,
   enrollments,
   rooms,
-  createRoom,
-  setModal,
   match,
   history,
 }: StoreProps & RouteComponentProps<{ offeringId: string }>) => {
+  const dispatch = useDispatch()
   const room = (offering.room_id && rooms[offering.room_id]) || null
   const allSeated = useMemo(() => Object.values(enrollments)
-    .every((enrollment) => enrollment.seat !== null), [enrollments])
+    .every(enrollment => enrollment.seat !== null), [enrollments])
 
   async function handleEditTables() {
     if (room && room.type === 'custom') {
       history.push(`/rooms/${offering.room_id}/${match.params.offeringId}`)
     } else {
       // We need to create a new custom room before directing to it.
-      const newRoomId = await createRoom(offering.id)
+      const newRoomId = await dispatch(createRoom(offering.id))
       history.push(`/rooms/${newRoomId}/${match.params.offeringId}`)
     }
   }
 
   async function handleAddStudent() {
-    setModal<AddStudentModalData>(ModalTypes.addStudent, {
+    dispatch(setModal<AddStudentModalData>(ModalTypes.addStudent, {
       offeringId: offering.id,
-    })
+    }))
   }
 
   async function handlePrint() {
-    setModal<PrintOfferingModalData>(ModalTypes.printOffering, {
+    dispatch(setModal<PrintOfferingModalData>(ModalTypes.printOffering, {
       offeringId: offering.id,
-    })
+    }))
   }
 
   function handleChangeRoom() {
-    setModal<ChangeRoomModalData>(ModalTypes.changeRoom, {
+    dispatch(setModal<ChangeRoomModalData>(ModalTypes.changeRoom, {
       offeringId: offering.id,
-    })
+    }))
   }
 
   return (
@@ -156,7 +153,4 @@ const mapState = ({
   }
 }
 
-export default connect(mapState, {
-  createRoom,
-  setModal,
-})(OfferingDefault)
+export default connect(mapState)(OfferingDefault)

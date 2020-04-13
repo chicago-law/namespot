@@ -40,7 +40,7 @@ const ActionBar = ({ session }: StoreProps) => {
       <div className="inner-container">
         <Route
           path="/rooms/:roomId/:offeringId?"
-          render={(props) => (
+          render={props => (
             <>
               {session.task === null && (
                 <RoomDefault {...props} />
@@ -53,7 +53,7 @@ const ActionBar = ({ session }: StoreProps) => {
         />
         <Route
           path="/offerings/:offeringId"
-          render={(props) => (
+          render={props => (
             <>
               {session.task === null && (
                 <OfferingDefault {...props} />

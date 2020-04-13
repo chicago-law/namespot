@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { RouteComponentProps } from 'react-router-dom'
 import { useDebouncedCallback } from 'use-debounce'
 import styled from '../../utils/styledComponents'
@@ -35,14 +35,14 @@ const Container = styled('div')`
     padding: 1em;
     text-align: center;
     p {
-      font-size: ${(props) => props.theme.ms(-1)};
+      font-size: ${props => props.theme.ms(-1)};
     }
     .row {
       display: inline-flex;
       align-items: center;
     }
     .smaller, .larger {
-      border: 2px solid ${(props) => props.theme.darkGray};
+      border: 2px solid ${props => props.theme.darkGray};
       border-radius: 4px;
     }
     .smaller {
@@ -64,37 +64,26 @@ const Container = styled('div')`
 interface StoreProps {
   room: Room;
   seats: SeatsState;
-  setTask: typeof setTask;
-  loadTempTable: typeof loadTempTable;
-  setChoosingPoint: typeof setChoosingPoint;
-  updateRoom: typeof updateRoom;
-  initiatePrint: typeof initiatePrint;
-  setModal: typeof setModal;
 }
 
 const RoomDefault = ({
   room,
   seats,
-  setTask,
-  loadTempTable,
-  setChoosingPoint,
-  updateRoom,
-  initiatePrint,
-  setModal,
   history,
   match,
 }: StoreProps & RouteComponentProps<{ roomId: string; offeringId?: string }>) => {
+  const dispatch = useDispatch()
   const currentSeats = seats[room.id]
   const isCustom = !!match.params.roomId && !!match.params.offeringId
 
   function handleEditName() {
-    setModal<EditTextInputModalData>(ModalTypes.editTextInput, {
+    dispatch(setModal<EditTextInputModalData>(ModalTypes.editTextInput, {
       title: 'Edit Room Name',
       previousValue: room.name ? room.name : '',
-      onConfirm: (text: string) => updateRoom(room.id, {
+      onConfirm: (text: string) => dispatch(updateRoom(room.id, {
         name: text,
-      }),
-    })
+      })),
+    }))
   }
 
   function handleAddTable() {
@@ -110,15 +99,15 @@ const RoomDefault = ({
       seat_count: 0,
       label_position: 'below',
     }
-    setTask('choose-point')
-    setChoosingPoint('start')
-    loadTempTable(defaultTempTable)
+    dispatch(setTask('choose-point'))
+    dispatch(setChoosingPoint('start'))
+    dispatch(loadTempTable(defaultTempTable))
   }
 
   function handleSeatSize(seatSize: number) {
-    updateRoom(room.id, {
+    dispatch(updateRoom(room.id, {
       seat_size: seatSize,
-    })
+    }))
   }
 
   const [throttledSeatSlide] = useDebouncedCallback((seatSize: number) => {
@@ -126,7 +115,7 @@ const RoomDefault = ({
   }, 100)
 
   function handlePrint() {
-    initiatePrint('seating-chart', {})
+    dispatch(initiatePrint('seating-chart', {}))
   }
 
   function handleContinueSeating() {
@@ -137,10 +126,10 @@ const RoomDefault = ({
 
   function handleChangeRoom() {
     if (match.params.offeringId) {
-      setModal<ChangeRoomModalData>(ModalTypes.changeRoom, {
+      dispatch(setModal<ChangeRoomModalData>(ModalTypes.changeRoom, {
         offeringId: match.params.offeringId,
         onConfirm: handleContinueSeating,
-      })
+      }))
     }
   }
 
@@ -183,7 +172,7 @@ const RoomDefault = ({
               max="115"
               step="3"
               defaultValue={`${room.seat_size}`}
-              onChange={(e) => throttledSeatSlide(parseInt(e.target.value))}
+              onChange={e => throttledSeatSlide(parseInt(e.target.value))}
             />
             <div className="larger" />
           </div>
@@ -225,11 +214,4 @@ const mapState = (
   seats,
 })
 
-export default connect(mapState, {
-  setTask,
-  loadTempTable,
-  setChoosingPoint,
-  updateRoom,
-  initiatePrint,
-  setModal,
-})(RoomDefault)
+export default connect(mapState)(RoomDefault)

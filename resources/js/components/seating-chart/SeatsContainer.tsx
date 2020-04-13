@@ -28,7 +28,7 @@ const Container = styled('div')<ContainerProps>`
   right: 0;
   left: 0;
   bottom: 0;
-  ${(props) => props.editingRoom && `
+  ${props => props.editingRoom && `
     pointer-events: none;
     z-index: -1;
   `};
@@ -36,18 +36,18 @@ const Container = styled('div')<ContainerProps>`
   Styled Components creating extra components for every single seat. */
   .seat {
     position: absolute;
-    height: ${(props) => (props.paperSize === 'letter' ? props.seatSize * 0.65 : props.seatSize) * seatScale}px;
-    width: ${(props) => (props.paperSize === 'letter' ? props.seatSize * 0.65 : props.seatSize) * seatScale}px;
+    height: ${props => (props.paperSize === 'letter' ? props.seatSize * 0.65 : props.seatSize) * seatScale}px;
+    width: ${props => (props.paperSize === 'letter' ? props.seatSize * 0.65 : props.seatSize) * seatScale}px;
     transform-origin: top left;
-    transform: scale(${(props) => 1 / seatScale}) translate(-50%, -50%) ${(props) => props.offering && !!props.offering.flipped && ' rotate(180deg)'};
-    ${(props) => props.offering && !!props.offering.flipped && `
+    transform: scale(${1 / seatScale}) translate(-50%, -50%) ${props => props.offering && !!props.offering.flipped && ' rotate(180deg)'};
+    ${props => props.offering && !!props.offering.flipped && `
       transform-origin: 20% 20%;
     `}
     .pic-container {
       position: relative;
       height: 100%;
       width: 100%;
-      border-radius: ${(props) => seatScale * 7}px;
+      border-radius: ${seatScale * 7}px;
       background: #fff;
       overflow: hidden;
       text-align: center;
@@ -61,13 +61,13 @@ const Container = styled('div')<ContainerProps>`
       }
     }
     &.background .pic-container {
-      background: ${(props) => props.theme.lightGray};
+      background: ${props => props.theme.lightGray};
     }
     &.border-only .pic-container {
       background: white;
       border-style: solid;
-      border-color: ${(props) => props.theme.middleGray};
-      border-width: ${(props) => (props.paperSize === 'letter' ? `${seatScale * 3}px` : `${seatScale * 4}px`)};
+      border-color: ${props => props.theme.middleGray};
+      border-width: ${props => (props.paperSize === 'letter' ? `${seatScale * 3}px` : `${seatScale * 4}px`)};
     }
     svg {
       border-radius: 5px;
@@ -78,7 +78,7 @@ const Container = styled('div')<ContainerProps>`
       }
       .plus-person {
         transform: translate(9px, 9px);
-        fill: ${(props) => props.theme.black};
+        fill: ${props => props.theme.black};
         transition: fill 100ms ease-out;
       }
     }
@@ -86,7 +86,7 @@ const Container = styled('div')<ContainerProps>`
       position: absolute;
       margin: 0;
       line-height: 1em;
-      font-size: ${(props) => calcSeatFontSize(props.offering)};
+      font-size: ${props => calcSeatFontSize(props.offering)};
       span {
         display: block;
       }
@@ -96,8 +96,8 @@ const Container = styled('div')<ContainerProps>`
         right: -30%;
         text-align: center;
         transform-origin: top;
-        transform: scale(${(props) => seatScale}) translateY(0.25em);
-        ${(props) => props.offering && !!props.offering.flipped && `
+        transform: scale(${seatScale}) translateY(0.25em);
+        ${props => props.offering && !!props.offering.flipped && `
           top: auto;
           bottom: 100%;
           transform-origin: bottom;
@@ -110,8 +110,8 @@ const Container = styled('div')<ContainerProps>`
         right: -30%;
         text-align: center;
         transform-origin: below;
-        transform: scale(${(props) => seatScale}) translateY(-0.25em);
-        ${(props) => props.offering && !!props.offering.flipped && `
+        transform: scale(${seatScale}) translateY(-0.25em);
+        ${props => props.offering && !!props.offering.flipped && `
           bottom: auto;
           top: 100%;
           transform-origin: top;
@@ -122,8 +122,8 @@ const Container = styled('div')<ContainerProps>`
         top: 50%;
         left: 100%;
         transform-origin: top left;
-        transform: scale(${(props) => seatScale}) translate(0.5em, -50%);
-        ${(props) => props.offering && !!props.offering.flipped && `
+        transform: scale(${seatScale}) translate(0.5em, -50%);
+        ${props => props.offering && !!props.offering.flipped && `
           left: auto;
           right: 100%;
           text-align: right;
@@ -136,8 +136,8 @@ const Container = styled('div')<ContainerProps>`
         right: 100%;
         text-align: right;
         transform-origin: top right;
-        transform: scale(${(props) => seatScale}) translate(-0.5em, -50%);
-        ${(props) => props.offering && !!props.offering.flipped && `
+        transform: scale(${seatScale}) translate(-0.5em, -50%);
+        ${props => props.offering && !!props.offering.flipped && `
           left: 100%;
           right: auto;
           text-align: left;
@@ -150,7 +150,7 @@ const Container = styled('div')<ContainerProps>`
       z-index: 999;
       svg {
         rect {
-          fill: ${(props) => props.theme.red};
+          fill: ${props => props.theme.red};
         }
         .plus-person {
           fill: white !important;
@@ -165,7 +165,7 @@ const Container = styled('div')<ContainerProps>`
     &:hover {
       svg {
         .plus-person {
-          fill: ${(props) => props.theme.red};
+          fill: ${props => props.theme.red};
         }
       }
     }
@@ -173,7 +173,7 @@ const Container = styled('div')<ContainerProps>`
 `
 
 interface StoreProps {
-  seats: { [seatId: string]: Seat };
+  seats: { [seatId: string]: Seat | undefined };
   room: Room;
   offerings: OfferingsState;
   students: StudentsState;
@@ -210,7 +210,7 @@ const SeatsContainer = ({
   function findOccupant(seatId: string) {
     if (offering && enrollments[offering.id]) {
       const matchedStudentId = Object.keys(enrollments[offering.id])
-        .find((studentId) => offering
+        .find(studentId => offering
           && enrollments[offering.id][studentId]
           && enrollments[offering.id][studentId].seat === seatId)
       if (matchedStudentId && students[matchedStudentId]) {
@@ -249,35 +249,47 @@ const SeatsContainer = ({
         printing but all seats blank is off.
       */}
       {(isOffering && (!printing.isPrinting || (printing.isPrinting && !printing.options.allSeatsBlank))) && (
-        Object.keys(seats).map((seatId) => (
-          <SingleSeat
-            key={seatId}
-            seat={seats[seatId]}
-            occupant={offering ? findOccupant(seatId) : null}
-            isOffering={isOffering}
-            namesToShow={(offering && offering.names_to_show) || 'first_and_last'}
-            useNicknames={offering && offering.use_nicknames !== null ? !!offering.use_nicknames : true}
-            usePrefixes={offering && offering.use_prefixes !== null ? !!offering.use_prefixes : false}
-            isFocused={session.selectedSeat === seatId}
-            seatClickTaskRouter={seatClickTaskRouter}
-            printing={printing}
-          />
-        ))
+        Object.keys(seats).map(seatId => {
+          const seat = seats[seatId]
+          if (seat) {
+            return (
+              <SingleSeat
+                key={seatId}
+                seat={seat}
+                occupant={offering ? findOccupant(seatId) : null}
+                isOffering={isOffering}
+                namesToShow={(offering && offering.names_to_show) || 'first_and_last'}
+                useNicknames={offering && offering.use_nicknames !== null ? !!offering.use_nicknames : true}
+                usePrefixes={offering && offering.use_prefixes !== null ? !!offering.use_prefixes : false}
+                isFocused={session.selectedSeat === seatId}
+                seatClickTaskRouter={seatClickTaskRouter}
+                printing={printing}
+              />
+            )
+          }
+          return false
+        })
       )}
       {(isRoom || (printing.isPrinting && printing.options.allSeatsBlank)) && (
-        Object.keys(seats).map((seatId) => (
-          <SingleSeat
-            key={seatId}
-            seat={seats[seatId]}
-            occupant={null}
-            isOffering={isOffering}
-            namesToShow={(offering && offering.names_to_show) || 'first_and_last'}
-            useNicknames={offering && offering.use_nicknames !== null ? !!offering.use_nicknames : true}
-            usePrefixes={offering && offering.use_prefixes !== null ? !!offering.use_prefixes : false}
-            isFocused={false}
-            printing={printing}
-          />
-        ))
+        Object.keys(seats).map(seatId => {
+          const seat = seats[seatId]
+          if (seat) {
+            return (
+              <SingleSeat
+                key={seatId}
+                seat={seat}
+                occupant={null}
+                isOffering={isOffering}
+                namesToShow={(offering && offering.names_to_show) || 'first_and_last'}
+                useNicknames={offering && offering.use_nicknames !== null ? !!offering.use_nicknames : true}
+                usePrefixes={offering && offering.use_prefixes !== null ? !!offering.use_prefixes : false}
+                isFocused={false}
+                printing={printing}
+              />
+            )
+          }
+          return false
+        })
       )}
     </Container>
   )

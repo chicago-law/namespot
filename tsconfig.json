@@ -5,7 +5,7 @@
     "target": "es5",
     "jsx": "react",
     "types": [
-      "react",
+      "react"
     ],
     "module": "esnext",
     "moduleResolution": "node",
@@ -17,9 +17,6 @@
     "allowSyntheticDefaultImports": true,
     "removeComments": true,
     "forceConsistentCasingInFileNames": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noImplicitAny": true,
     "strict": true,
     "noUnusedLocals": true,
     "outDir": "/public/",

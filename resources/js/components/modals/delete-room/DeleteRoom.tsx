@@ -1,27 +1,25 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import ModalControls from '../ModalControls'
 import ModalHeader from '../ModalHeader'
-import { deleteRoom } from '../../../store/rooms/actions'
 import ModalContent from '../ModalContent'
+import { deleteRoom } from '../../../store/rooms/actions'
 
 export interface DeleteRoomModalData {
   roomId: string;
-}
-interface StoreProps {
-  deleteRoom: typeof deleteRoom;
 }
 interface OwnProps {
   modalData: DeleteRoomModalData;
 }
 
 const DeleteRoom = ({
-  deleteRoom, modalData,
-}: StoreProps & OwnProps) => {
+  modalData,
+}: OwnProps) => {
   const { roomId } = modalData
+  const dispatch = useDispatch()
 
   function handleConfirm() {
-    deleteRoom(roomId)
+    dispatch(deleteRoom(roomId))
   }
 
   return (
@@ -40,6 +38,4 @@ const DeleteRoom = ({
   )
 }
 
-export default connect(null, {
-  deleteRoom,
-})(DeleteRoom)
+export default DeleteRoom

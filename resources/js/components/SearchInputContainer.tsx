@@ -9,7 +9,7 @@ const Container = styled('div')`
     left: 0.7em;
     top: 50%;
     transform: translateY(-50%);
-    color: ${(props) => props.theme.middleGray};
+    color: ${props => props.theme.middleGray};
   }
   input {
     padding-left: 2em;

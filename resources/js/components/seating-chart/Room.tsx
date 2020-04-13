@@ -27,7 +27,7 @@ const Container = styled('div')<{ flipped: boolean }>`
   &.loading {
     opacity: 0.5;
   }
-  ${(props) => props.flipped && `
+  ${props => props.flipped && `
     transform: rotate(180deg);
   `}
 `

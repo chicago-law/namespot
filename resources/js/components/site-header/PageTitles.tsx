@@ -14,15 +14,15 @@ const Container = styled('div')`
     svg {
       position: relative;
       top: 2px;
-      font-size: ${(props) => props.theme.ms(2)};
-      color: ${(props) => props.theme.darkGray};
+      font-size: ${props => props.theme.ms(2)};
+      color: ${props => props.theme.darkGray};
     }
   }
   h2, p {
     margin: 0;
   }
   p {
-    font-size: ${(props) => props.theme.ms(-1)};
+    font-size: ${props => props.theme.ms(-1)};
   }
 `
 

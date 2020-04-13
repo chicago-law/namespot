@@ -5,7 +5,6 @@ import { Room } from '../../store/rooms/types'
 import { AppState } from '../../store'
 import { OfferingsState } from '../../store/offerings/types'
 import { termCodeToString } from '../../utils/helpers'
-import { SettingsState } from '../../store/settings/types'
 
 const Container = styled('div')`
   display: flex;
@@ -34,7 +33,6 @@ const Container = styled('div')`
 interface StoreProps {
   room: Room;
   offerings: OfferingsState;
-  settings: SettingsState;
 }
 interface OwnProps {
   roomId: string;
@@ -45,7 +43,6 @@ const PageHeader = ({
   room,
   offerings,
   offeringId,
-  settings,
 }: StoreProps & OwnProps) => {
   const offering = offeringId ? offerings[offeringId] : null
 
@@ -62,7 +59,7 @@ const PageHeader = ({
   function buildRightText() {
     const text = []
     if (offering?.instructors.length) {
-      text.push(`${offering.instructors.map((inst) => inst.last_name).join(', ')}`)
+      text.push(`${offering.instructors.map(inst => inst.last_name).join(', ')}`)
     }
     if (offering) text.push(`${termCodeToString(offering.term_code)}`)
     text.push(room.name || '(Untitled Room)')
@@ -84,10 +81,9 @@ const PageHeader = ({
   )
 }
 
-const mapState = ({ rooms, offerings, settings }: AppState, { roomId }: OwnProps) => ({
+const mapState = ({ rooms, offerings }: AppState, { roomId }: OwnProps) => ({
   room: rooms[roomId],
   offerings,
-  settings,
 })
 
 export default connect(mapState)(PageHeader)

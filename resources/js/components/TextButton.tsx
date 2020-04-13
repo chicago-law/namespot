@@ -10,12 +10,12 @@ const Container = styled('button')<{ isLoading: boolean }>`
   padding: 0.8em 1.5em;
   font-weight: bold;
   border-radius: 5px;
-  font-size: ${(props) => props.theme.ms(-1)};
+  font-size: ${props => props.theme.ms(-1)};
   .content {
-    opacity: ${(props) => (props.isLoading ? '0' : '1')};
+    opacity: ${props => (props.isLoading ? '0' : '1')};
   }
   .loading {
-    display: ${(props) => (props.isLoading ? 'block' : 'none')};
+    display: ${props => (props.isLoading ? 'block' : 'none')};
     position: absolute;
     top: 50%;
     left: 50%;
@@ -26,22 +26,22 @@ const Container = styled('button')<{ isLoading: boolean }>`
   }
   &.red {
     color: white;
-    background: ${(props) => props.theme.red};
+    background: ${props => props.theme.red};
     transition: opacity 100ms ease-out, background 100ms ease-out;
     &:hover {
       opacity: 0.75;
     }
   }
   &.clear {
-    color: ${(props) => props.theme.black};
+    color: ${props => props.theme.black};
     &:hover {
-      color: ${(props) => props.theme.red};
-      background: ${(props) => props.theme.lightGray};
+      color: ${props => props.theme.red};
+      background: ${props => props.theme.lightGray};
     }
   }
   &:disabled {
     color: white !important;
-    background: ${(props) => props.theme.middleGray} !important;
+    background: ${props => props.theme.middleGray} !important;
     opacity: 1 !important;
   }
 `

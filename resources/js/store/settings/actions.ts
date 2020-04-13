@@ -21,7 +21,7 @@ export const fetchSettings = () => (
       dispatch(receiveSettings(data.settings))
       dispatch(setLoadingStatus('settings', false))
     })
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .catch(response => dispatch(reportAxiosError(response)))
 }
 
 export const updateSettings = (
@@ -34,5 +34,5 @@ export const updateSettings = (
     .then(({ data }) => {
       dispatch(receiveSettings(data.settings))
     })
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .catch(response => dispatch(reportAxiosError(response)))
 }

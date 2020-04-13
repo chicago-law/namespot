@@ -24,7 +24,7 @@ export const getStudentsForOffering = (
       dispatch(markOfferingStudentsReceived(offeringId))
       dispatch(setLoadingStatus('students', false))
     })
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .catch(response => dispatch(reportAxiosError(response)))
 }
 
 export const getStudentsForRoster = (
@@ -38,7 +38,7 @@ export const getStudentsForRoster = (
       dispatch(setLoadingStatus('students', false))
       if (callback) callback()
     })
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .catch(response => dispatch(reportAxiosError(response)))
 }
 
 
@@ -57,5 +57,5 @@ export const updateStudent = (
     [studentId]: updatedStudent,
   }))
   api.updateStudent(studentId, updates)
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .catch(response => dispatch(reportAxiosError(response)))
 }

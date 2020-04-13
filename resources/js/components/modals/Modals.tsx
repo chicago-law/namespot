@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { CSSTransition } from 'react-transition-group'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styled from '../../utils/styledComponents'
@@ -24,7 +24,7 @@ const Container = styled('div')<{ isActive: boolean }>`
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: ${(props) => (props.isActive ? '999999' : '-1')};
+  z-index: ${props => (props.isActive ? '999999' : '-1')};
   .shader {
     position: absolute;
     top: 0;
@@ -55,25 +55,29 @@ const Container = styled('div')<{ isActive: boolean }>`
     width: 2.5em;
     height: 2.5em;
     border-radius: 100%;
-    color: ${(props) => props.theme.middleGray};
+    color: ${props => props.theme.middleGray};
     background: none;
     &:hover {
-      background: ${(props) => props.theme.offWhite};
-      color: ${(props) => props.theme.red};
+      background: ${props => props.theme.offWhite};
+      color: ${props => props.theme.red};
     }
   }
 `
 
 interface StoreProps {
   modal: ModalState;
-  dismissModal: typeof dismissModal;
 }
 
-const Modals = ({ dismissModal, modal }: StoreProps) => {
+const Modals = ({ modal }: StoreProps) => {
+  const dispatch = useDispatch()
   // Stop any clicks from inside the modal ecosystem from bubbling up to
   // anything else.
   function handleClick(e: React.MouseEvent) {
     e.stopPropagation()
+  }
+
+  function handleDismiss() {
+    dispatch(dismissModal())
   }
 
   return (
@@ -85,7 +89,7 @@ const Modals = ({ dismissModal, modal }: StoreProps) => {
         classNames="fade"
         unmountOnExit
       >
-        <div className="shader" onClick={dismissModal} aria-hidden="true" />
+        <div className="shader" onClick={handleDismiss} aria-hidden="true" />
       </CSSTransition>
 
       <CSSTransition
@@ -96,7 +100,7 @@ const Modals = ({ dismissModal, modal }: StoreProps) => {
         unmountOnExit
       >
         <div className="modal-window" aria-modal="true" role="dialog">
-          <button type="button" className="close-button" onClick={dismissModal}>
+          <button type="button" className="close-button" onClick={handleDismiss}>
             <FontAwesomeIcon icon={['far', 'times']} title="Close Modal" />
           </button>
           {modal.modalType === ModalTypes.labelPosition && (
@@ -139,6 +143,4 @@ const mapState = ({ modal }: AppState) => ({
   modal,
 })
 
-export default connect(mapState, {
-  dismissModal,
-})(Modals)
+export default connect(mapState)(Modals)

@@ -23,7 +23,7 @@ const Container = styled('div')`
   >div {
     margin-top: 2em;
   }
-  @media (max-width: ${(props) => props.theme.break.medium}) {
+  @media (max-width: ${props => props.theme.break.medium}) {
     grid-template-columns: 10em auto 10em;
     padding: 0 1em;
   }
@@ -51,7 +51,7 @@ const SeatingChart = ({
     <Container className="page-workspace">
       <Route
         path="/offerings/:offeringId"
-        render={(props) => (
+        render={props => (
           <>
             <OfferingSidebarLeft {...props} />
             <PageContainer {...props} />
@@ -62,7 +62,7 @@ const SeatingChart = ({
 
       <Route
         path="/rooms/:roomId/:offeringId?"
-        render={(props) => (
+        render={props => (
           <>
             <RoomSidebarLeft />
             <PageContainer {...props} />

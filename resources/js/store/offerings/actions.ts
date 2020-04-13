@@ -32,7 +32,7 @@ export const getOfferingsByTerm = (
       dispatch(markTermOfferingsReceived(termCode))
       dispatch(setLoadingStatus('offerings', false))
     })
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .catch(response => dispatch(reportAxiosError(response)))
 }
 
 export const getOfferingById = (
@@ -47,7 +47,7 @@ export const getOfferingById = (
       dispatch(setLoadingStatus('offerings', false))
       dispatch(receiveOfferings(data.offerings))
     })
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .catch(response => dispatch(reportAxiosError(response)))
 }
 
 export const updateOffering = (
@@ -56,7 +56,7 @@ export const updateOffering = (
   optimistic = false,
   callback?: (offering: Offering) => void,
 ) => (
-  dispatch: ThunkDispatch<{}, {}, AnyAction>,
+  dispatch: ThunkDispatch<AppState, {}, AnyAction>,
   getState: () => AppState,
 ) => {
   if (optimistic) {
@@ -77,7 +77,7 @@ export const updateOffering = (
       dispatch(receiveEnrollments(data.enrollments))
       dispatch(setLoadingStatus('offerings', false))
     })
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .catch(response => dispatch(reportAxiosError(response)))
 }
 
 export const createOffering = (
@@ -105,5 +105,5 @@ export const deleteOffering = (
       if (callback) callback()
       if (!optimistic) dispatch(removeOffering(offeringId))
     })
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .catch(response => dispatch(reportAxiosError(response)))
 }

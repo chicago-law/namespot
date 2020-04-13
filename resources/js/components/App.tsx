@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { useDebouncedCallback } from 'use-debounce'
 import styled from '../utils/styledComponents'
@@ -21,7 +21,7 @@ import SiteFooter from './SiteFooter'
 const Container = styled('div')<{ isPrinting: boolean }>`
   position: relative;
   /* html2canvas doesn't like transitions */
-  ${(props) => props.isPrinting && `
+  ${props => props.isPrinting && `
     overflow: hidden;
     * {
       transition: unset !important;
@@ -33,26 +33,21 @@ interface StoreProps {
   authedUser: AuthedUserState;
   loading: LoadingState;
   printing: PrintingState;
-  getAuthedUser: typeof getAuthedUser;
-  reportScrollPos: typeof reportScrollPos;
-  fetchSettings: typeof fetchSettings;
 }
 
 const App = ({
   authedUser,
   loading,
   printing,
-  getAuthedUser,
-  reportScrollPos,
-  fetchSettings,
 }: StoreProps & RouteComponentProps) => {
+  const dispatch = useDispatch()
   const [debouncedScroll] = useDebouncedCallback(() => {
-    reportScrollPos(window.pageYOffset)
+    dispatch(reportScrollPos(window.pageYOffset))
   }, 50, { leading: true })
 
   useMountEffect(() => {
-    getAuthedUser()
-    fetchSettings()
+    dispatch(getAuthedUser())
+    dispatch(fetchSettings())
     window.addEventListener('scroll', debouncedScroll)
     return () => window.removeEventListener('scroll', debouncedScroll)
   })
@@ -82,8 +77,4 @@ const mapState = ({ authedUser, printing, loading }: AppState) => ({
   printing,
 })
 
-export default withRouter(connect(mapState, {
-  getAuthedUser,
-  reportScrollPos,
-  fetchSettings,
-})(App))
+export default withRouter(connect(mapState)(App))

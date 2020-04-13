@@ -21,17 +21,17 @@ const Container = styled('svg')<{ editingRoom: boolean }>`
   path {
     stroke-width: 15;
     stroke-linecap: round;
-    stroke: ${(props) => (props.editingRoom ? props.theme.middleGray : props.theme.lightGray)};
+    stroke: ${props => (props.editingRoom ? props.theme.middleGray : props.theme.lightGray)};
     fill: none;
     transition: stroke 200ms ease-out, opacity 200ms ease-out;
     &.selected {
-      stroke: ${(props) => props.theme.darkBlue};
+      stroke: ${props => props.theme.darkBlue};
     }
     &.not-selected {
       opacity: 0.35;
     }
     &:hover:not(.not-selected) {
-      stroke: ${(props) => props.theme.blue};
+      stroke: ${props => props.theme.blue};
       cursor: pointer;
     }
   }
@@ -44,7 +44,7 @@ interface StoreProps {
   offering: Offering | null;
   session: SessionState;
   tables: {
-    [key: string]: Table;
+    [key: string]: Table | undefined;
   };
   setTask: typeof setTask;
   selectTable: typeof selectTable;
@@ -78,17 +78,17 @@ const TablesContainer = ({
   const { tempTable } = session
 
   function handleTableClick(id: string) {
-    if (session.task !== 'edit-table') {
+    const table = tables[id]
+    if (table && session.task !== 'edit-table') {
       setTask('edit-table')
       selectTable(id)
-      loadTempTable(tables[id])
+      loadTempTable(table)
     }
   }
 
   return (
     <Container
       xmlns="http://www.w3.org/2000/svg"
-      // xlinkHref="http://www.w3.org/1999/xlink"
       xmlnsXlink="http://www.w3.org/1999/xlink"
       id="tables-container"
       height="100%"
@@ -97,16 +97,22 @@ const TablesContainer = ({
       className="tables-container"
       editingRoom={!!match.params.roomId}
     >
-      {Object.keys(tables).map((tableId) => (
-        <SingleTable
-          key={tableId}
-          table={tables[tableId]}
-          rowHeight={rowHeight}
-          columnWidth={columnWidth}
-          clickHandler={() => handleTableClick(tableId)}
-          isBeingTemped={!!tempTable && tempTable.id === tableId}
-        />
-      ))}
+      {Object.keys(tables).map(tableId => {
+        const table = tables[tableId]
+        if (table) {
+          return (
+            <SingleTable
+              key={tableId}
+              table={table}
+              rowHeight={rowHeight}
+              columnWidth={columnWidth}
+              clickHandler={() => handleTableClick(tableId)}
+              isBeingTemped={!!tempTable && tempTable.id === tableId}
+            />
+          )
+        }
+        return false
+      })}
       {/* We'll try and draw the temp table if required points are there */}
       {tempTable && !validateTempTable(tempTable).length && (
         <SingleTable

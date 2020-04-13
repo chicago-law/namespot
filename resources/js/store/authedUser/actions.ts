@@ -16,5 +16,5 @@ export const getAuthedUser = () => (dispatch: ThunkDispatch<{}, {}, AnyAction>) 
     .then(({ data }) => {
       dispatch(setAuthedUser(data))
     })
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .catch(response => dispatch(reportAxiosError(response)))
 }

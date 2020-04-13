@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styled from '../utils/styledComponents'
 import { AppState } from '../store'
@@ -16,7 +16,7 @@ const Container = styled('div')`
   margin: 5em auto;
   background: white;
   padding: 2em 0;
-  box-shadow: ${(props) => props.theme.boxShadow};
+  box-shadow: ${props => props.theme.boxShadow};
   h4 {
     text-align: center;
   }
@@ -25,12 +25,12 @@ const Container = styled('div')`
     padding: 0 2em 1em 2em;
     padding: 1em 2em;
     margin-bottom: 1em;
-    border-bottom: 1px solid ${(props) => props.theme.lightGray};
+    border-bottom: 1px solid ${props => props.theme.lightGray};
     .left {
       padding-right: 1em;
       svg {
-        font-size: ${(props) => props.theme.ms(2)};
-        color: ${(props) => props.theme.darkGray};
+        font-size: ${props => props.theme.ms(2)};
+        color: ${props => props.theme.darkGray};
       }
     }
     .right {
@@ -39,47 +39,47 @@ const Container = styled('div')`
       }
       h2 {
         button {
-          font-size: ${(props) => props.theme.ms(-1)};
+          font-size: ${props => props.theme.ms(-1)};
           font-style: italic;
-          color: ${(props) => props.theme.red};
+          color: ${props => props.theme.red};
         }
       }
     }
   }
 `
 
-interface StoreProps {
+interface Props {
   settings: SettingsState;
-  setModal: typeof setModal;
-  updateSettings: typeof updateSettings;
 }
 
-const Settings = ({ settings, setModal, updateSettings }: StoreProps) => {
+const Settings = ({ settings }: Props) => {
+  const dispatch = useDispatch()
+
   function saveSetting(settingName: string, settingValue: string) {
-    updateSettings({ [settingName]: settingValue })
+    dispatch(updateSettings({ [settingName]: settingValue }))
   }
 
   function editSchoolName() {
-    setModal<EditTextInputModalData>(ModalTypes.editTextInput, {
+    dispatch(setModal<EditTextInputModalData>(ModalTypes.editTextInput, {
       title: 'Edit School Name',
       p: 'The name of your school or institution. Shown on seating charts, rosters, etc.',
       previousValue: settings.school_name || '',
-      onConfirm: (text) => saveSetting('school_name', text),
-    })
+      onConfirm: (text: string) => saveSetting('school_name', text),
+    }))
   }
 
   function editYear() {
-    const options = getYears().map((year) => ({
+    const options = getYears().map(year => ({
       value: `${year}`,
       label: `${year}-${year + 1}`,
     }))
-    setModal<EditSelectModalData>(ModalTypes.editSelect, {
+    dispatch(setModal<EditSelectModalData>(ModalTypes.editSelect, {
       title: 'Edit Academic Year',
       options,
       p: 'Every night this site does a sync with the University\'s systems to keep student enrollment up-to-date. The academic year that is set here controls which terms it will sync.',
       previousValue: settings.academic_year || '',
-      onConfirm: (text) => saveSetting('academic_year', text),
-    })
+      onConfirm: (text: string) => saveSetting('academic_year', text),
+    }))
   }
 
   return (
@@ -124,7 +124,4 @@ const mapState = ({ settings }: AppState) => ({
   settings,
 })
 
-export default connect(mapState, {
-  setModal,
-  updateSettings,
-})(Settings)
+export default connect(mapState)(Settings)

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { RouteComponentProps } from 'react-router-dom'
 import { AppState } from '../../store'
@@ -11,25 +11,23 @@ import RoomRow from './RoomRow'
 interface StoreProps {
   rooms: RoomsState;
   session: SessionState;
-  getAllRooms: typeof getAllRooms;
-  createRoom: () => Promise<string>;
 }
 
 const PickRoom = ({
   rooms,
   session,
-  getAllRooms,
-  createRoom,
   history,
 }: StoreProps & RouteComponentProps) => {
+  const dispatch = useDispatch()
+
   useEffect(() => {
     if (!session.roomTemplatesReceived) {
-      getAllRooms()
+      dispatch(getAllRooms())
     }
-  }, [])
+  }, [dispatch, session.roomTemplatesReceived])
 
   async function handleCreateRoom() {
-    const newRoomId = await createRoom()
+    const newRoomId = await dispatch(createRoom())
     history.push(`/rooms/${newRoomId}`)
   }
 
@@ -43,7 +41,7 @@ const PickRoom = ({
           </button>
         </li>
         {Object.keys(rooms)
-          .filter((roomId) => {
+          .filter(roomId => {
             const room = rooms[roomId]
             return room && room.type === 'template'
           })
@@ -54,7 +52,7 @@ const PickRoom = ({
             const roomBName = (roomB && roomB.name && roomB.name.toUpperCase()) || ''
             return roomAName > roomBName ? 1 : -1
           })
-          .map((roomId) => (
+          .map(roomId => (
             <RoomRow key={roomId} roomId={roomId} />
           ))}
       </ul>
@@ -62,12 +60,9 @@ const PickRoom = ({
   )
 }
 
-const mapState = ({ rooms, session, loading }: AppState) => ({
+const mapState = ({ rooms, session }: AppState) => ({
   rooms,
   session,
 })
 
-export default connect(mapState, {
-  getAllRooms,
-  createRoom,
-})(PickRoom)
+export default connect(mapState)(PickRoom)

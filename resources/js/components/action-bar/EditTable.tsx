@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { setTask, selectTable, setChoosingPoint, loadTempTable, updateTempTable, saveTempTable } from '../../store/session/actions'
 import { AppState } from '../../store'
@@ -44,10 +44,10 @@ const Container = styled('div')`
       width: 3.25em;
       margin-bottom: 0.25em;
       text-align: center;
-      font-size: ${(props) => props.theme.ms(1)};
+      font-size: ${props => props.theme.ms(1)};
     }
     span {
-      font-size: ${(props) => props.theme.ms(-1)};
+      font-size: ${props => props.theme.ms(-1)};
       line-height: 1.15;
     }
   }
@@ -60,17 +60,8 @@ interface StoreProps {
   offering: Offering | null;
   enrollments: Enrollments | null;
   tables: TablesState;
-  seats: { [seatId: string]: Seat };
+  seats: { [seatId: string]: Seat | undefined };
   session: SessionState;
-  setTask: typeof setTask;
-  selectTable: typeof selectTable;
-  loadTempTable: typeof loadTempTable;
-  setChoosingPoint: typeof setChoosingPoint;
-  updateTempTable: typeof updateTempTable;
-  saveTempTable: typeof saveTempTable;
-  deleteTableSeats: typeof deleteTableSeats;
-  setModal: typeof setModal;
-  assignSeat: typeof assignSeat;
 }
 interface OwnProps {
   actionBarRef: HTMLDivElement | null;
@@ -86,18 +77,10 @@ const EditTable = ({
   tables,
   seats,
   session,
-  setTask,
-  selectTable,
-  loadTempTable,
-  setChoosingPoint,
-  updateTempTable,
-  saveTempTable,
-  deleteTableSeats,
-  setModal,
-  assignSeat,
   actionBarRef,
   match,
 }: StoreProps & OwnProps & RouteComponentProps<RouteParams>) => {
+  const dispatch = useDispatch()
   const { params } = match
   const roomTables = tables[params.roomId]
   const table = session.selectedTable && roomTables
@@ -107,38 +90,38 @@ const EditTable = ({
   const [seatCount, setSeatCount] = useState((table && table.seat_count) || 0)
 
   function resetAndExit() {
-    setTask(null)
-    selectTable(null)
-    setChoosingPoint(null)
-    loadTempTable(null)
-    deleteTableSeats('temp')
+    dispatch(setTask(null))
+    dispatch(selectTable(null))
+    dispatch(setChoosingPoint(null))
+    dispatch(loadTempTable(null))
+    dispatch(deleteTableSeats('temp'))
   }
 
   function handleSelectPoint(pointType: 'start' | 'curve' | 'end') {
     if (pointType !== session.choosingPoint) {
-      setChoosingPoint(pointType)
-      setTask('choose-point')
-      if (table && !tempTable) loadTempTable(table)
+      dispatch(setChoosingPoint(pointType))
+      dispatch(setTask('choose-point'))
+      if (table && !tempTable) dispatch(loadTempTable(table))
     } else {
-      setChoosingPoint(null)
-      setTask('edit-table')
+      dispatch(setChoosingPoint(null))
+      dispatch(setTask('edit-table'))
     }
   }
 
   function handleSeatCountChange(e: React.ChangeEvent<HTMLInputElement>) {
     setSeatCount(parseInt(e.target.value))
-    updateTempTable({
+    dispatch(updateTempTable({
       seat_count: parseInt(e.target.value),
-    })
+    }))
   }
 
   function removeBadSeating() {
     if (offering && enrollments && Object.keys(seats).length) {
-      Object.values(enrollments).forEach((enrollment) => {
+      Object.values(enrollments).forEach(enrollment => {
         if (enrollment.seat && !(enrollment.seat in seats)) {
           // eslint-disable-next-line
           console.log(`deleting seat ${enrollment.seat} for student ID ${enrollment.student_id}`)
-          assignSeat(offering.id, enrollment.student_id, null)
+          dispatch(assignSeat(offering.id, enrollment.student_id, null))
         }
       })
     }
@@ -146,28 +129,28 @@ const EditTable = ({
 
   function handleSave() {
     if (session.tempTable) {
-      saveTempTable(session.tempTable, () => {
+      dispatch(saveTempTable(session.tempTable, () => {
         resetAndExit()
         removeBadSeating()
-      })
+      }))
     }
   }
 
   function handleLabelPosition() {
     if (table) {
-      setModal<LabelPositionModalData>(ModalTypes.labelPosition, {
+      dispatch(setModal<LabelPositionModalData>(ModalTypes.labelPosition, {
         tableId: table.id,
-      })
+      }))
     }
   }
 
   function handleRemoveTable() {
     if (tempTable && tempTable.id !== 'temp') {
-      setModal<DeleteTableModalData>(ModalTypes.deleteTable, {
+      dispatch(setModal<DeleteTableModalData>(ModalTypes.deleteTable, {
         tableId: tempTable.id,
         roomId: tempTable.room_id,
         onConfirm: resetAndExit,
-      })
+      }))
     } else {
       resetAndExit()
     }
@@ -261,14 +244,4 @@ const mapState = ({
   }
 }
 
-export default withRouter(connect(mapState, {
-  setTask,
-  selectTable,
-  loadTempTable,
-  setChoosingPoint,
-  updateTempTable,
-  saveTempTable,
-  deleteTableSeats,
-  setModal,
-  assignSeat,
-})(EditTable))
+export default withRouter(connect(mapState)(EditTable))

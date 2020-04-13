@@ -1,5 +1,5 @@
-import React, { useLayoutEffect, useRef } from 'react'
-import { connect } from 'react-redux'
+import React, { useLayoutEffect, useRef, useCallback } from 'react'
+import { connect, useDispatch } from 'react-redux'
 import styled from '../utils/styledComponents'
 import { AppState } from '../store'
 import { Enrollments } from '../store/enrollments/types'
@@ -39,20 +39,17 @@ interface StoreProps {
   offering: Offering;
   students: StudentsState;
   enrollments: Enrollments;
-  updatePrintProgress: typeof updatePrintProgress;
-  exitPrint: typeof exitPrint;
 }
 
 const NameTents = ({
   offering,
   students,
   enrollments,
-  updatePrintProgress,
-  exitPrint,
 }: StoreProps) => {
   const tentRefs = useRef<(HTMLDivElement | null)[]>([])
+  const dispatch = useDispatch()
 
-  function checkNameSize(tent: HTMLDivElement) {
+  const checkNameSize = useCallback((tent: HTMLDivElement) => {
     // The max distance a name element can be from top of page is the page's halfway point,
     // plus a little more since the text doesn't start right at the point that offsetTop
     // measures from (line height and such).
@@ -71,31 +68,31 @@ const NameTents = ({
     }
 
     return true
-  }
-
-  function updateProgress(progress: string) {
-    updatePrintProgress(progress)
-  }
-
-  function createPdf() {
-    const tents = tentRefs.current.filter((tent) => tent !== null)
-    assembleNameTents(
-      tents as HTMLDivElement[],
-      offering,
-      updateProgress,
-      exitPrint,
-    )
-  }
+  }, [])
 
   useLayoutEffect(() => {
-    tentRefs.current.forEach((tent) => (tent ? checkNameSize(tent) : false))
+    function updateProgress(progress: string) {
+      dispatch(updatePrintProgress(progress))
+    }
+
+    function createPdf() {
+      const tents = tentRefs.current.filter(tent => tent !== null)
+      assembleNameTents(
+        tents as HTMLDivElement[],
+        offering,
+        updateProgress,
+        () => dispatch(exitPrint()),
+      )
+    }
+
+    tentRefs.current.forEach(tent => (tent ? checkNameSize(tent) : false))
     createPdf()
-  }, [])
+  }, [checkNameSize, dispatch, offering])
 
   return (
     <Container id="name-tents-container">
-      {Object.keys(enrollments).map((studentId) => (
-        <div className="name-tent" key={studentId} ref={(ref) => { if (!tentRefs.current.includes(ref)) tentRefs.current.push(ref) }}>
+      {Object.keys(enrollments).map(studentId => (
+        <div className="name-tent" key={studentId} ref={ref => { if (!tentRefs.current.includes(ref)) tentRefs.current.push(ref) }}>
           <div className="name">
             <span>
               {students[studentId].short_first_name} {students[studentId].short_last_name}
@@ -117,7 +114,4 @@ const mapState = ({
   enrollments: enrollments[offeringId] || {},
 })
 
-export default connect(mapState, {
-  updatePrintProgress,
-  exitPrint,
-})(React.memo(NameTents))
+export default connect(mapState)(NameTents)

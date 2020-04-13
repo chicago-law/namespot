@@ -1,5 +1,5 @@
-import React, { memo, useRef } from 'react'
-import { connect } from 'react-redux'
+import React, { useRef } from 'react'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import styled from '../../utils/styledComponents'
 import Menu from './Menu'
@@ -14,7 +14,7 @@ const Container = styled('div')`
   position: relative;
   z-index: 10;
   background: white;
-  border-bottom: 1px solid ${(props) => props.theme.lightGray};
+  border-bottom: 1px solid ${props => props.theme.lightGray};
   .SiteHeader__flex-row {
     display: grid;
     grid-template-columns: auto 1fr auto;
@@ -23,16 +23,13 @@ const Container = styled('div')`
   }
 `
 
-interface StoreProps {
-  measureElement: typeof measureElement;
-}
-
-const SiteHeader = ({ measureElement }: StoreProps) => {
+const SiteHeader = () => {
+  const dispatch = useDispatch()
   const header = useRef<HTMLDivElement>(null)
 
   function handleMeasuring() {
     if (header.current) {
-      measureElement(MeasuredElements.siteHeader, header.current)
+      dispatch(measureElement(MeasuredElements.siteHeader, header.current))
     }
   }
 
@@ -56,6 +53,4 @@ const SiteHeader = ({ measureElement }: StoreProps) => {
   )
 }
 
-export default memo(connect(null, {
-  measureElement,
-})(SiteHeader))
+export default SiteHeader

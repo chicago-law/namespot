@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import styled from '../utils/styledComponents'
 import { AppState } from '../store'
 import { termCodeToString, getTermCodeRange } from '../utils/helpers'
@@ -16,7 +16,7 @@ const Container = styled('div')`
   margin: 5em auto;
   background: white;
   padding: 2em;
-  box-shadow: ${(props) => props.theme.boxShadow};
+  box-shadow: ${props => props.theme.boxShadow};
   h4 {
     text-align: center;
   }
@@ -31,31 +31,26 @@ const Container = styled('div')`
 interface StoreProps {
   printing: PrintingState;
   loading: LoadingState;
-  initiatePrint: typeof initiatePrint;
-  getStudentsForRoster: typeof getStudentsForRoster;
-  setLoadingStatus: typeof setLoadingStatus;
 }
 
 const Students = ({
   printing,
   loading,
-  initiatePrint,
-  getStudentsForRoster,
-  setLoadingStatus,
 }: StoreProps) => {
+  const dispatch = useDispatch()
   const [plan, setPlan] = useState('')
   const [term, setTerm] = useState('')
 
   function handleDownload() {
     if (plan && term) {
-      setLoadingStatus('students', true)
-      getStudentsForRoster(plan, term, () => {
-        setLoadingStatus('students', false)
-        initiatePrint('roster', {
+      dispatch(setLoadingStatus('students', true))
+      dispatch(getStudentsForRoster(plan, term, () => {
+        dispatch(setLoadingStatus('students', false))
+        dispatch(initiatePrint('roster', {
           academicPlan: plan,
           gradTerm: term,
-        })
-      })
+        }))
+      }))
     }
   }
 
@@ -75,7 +70,7 @@ const Students = ({
             <select
               id="academic-plan"
               value={plan}
-              onChange={(e) => setPlan(e.target.value)}
+              onChange={e => setPlan(e.target.value)}
             >
               <option value="">- Select Plan -</option>
               {/* Values for plans come from AIS */}
@@ -92,10 +87,10 @@ const Students = ({
             <select
               id="term"
               value={term}
-              onChange={(e) => setTerm(e.target.value)}
+              onChange={e => setTerm(e.target.value)}
             >
               <option value="">- Select Term -</option>
-              {getTermCodeRange(undefined, new Date().getFullYear() + 4).map((code) => (
+              {getTermCodeRange(undefined, new Date().getFullYear() + 4).map(code => (
                 <option key={code} value={code}>{termCodeToString(code)}</option>
               ))}
             </select>
@@ -119,8 +114,4 @@ const mapState = ({ students, printing, loading }: AppState) => ({
   loading,
 })
 
-export default connect(mapState, {
-  initiatePrint,
-  getStudentsForRoster,
-  setLoadingStatus,
-})(Students)
+export default connect(mapState)(Students)

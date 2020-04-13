@@ -34,7 +34,7 @@ export const getAllRooms = () => (
       dispatch(markRoomTemplatesReceived())
       dispatch(setLoadingStatus('rooms', false))
     })
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .catch(response => dispatch(reportAxiosError(response)))
 }
 
 export const getRoomById = (
@@ -48,7 +48,7 @@ export const getRoomById = (
       dispatch(receiveRooms(data.rooms))
       dispatch(setLoadingStatus('rooms', false))
     })
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .catch(response => dispatch(reportAxiosError(response)))
 }
 
 export const updateRoom = (
@@ -74,7 +74,7 @@ export const updateRoom = (
         dispatch(setLoadingStatus('rooms', false))
       }
     })
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .catch(response => dispatch(reportAxiosError(response)))
 }
 
 export const createRoom = (

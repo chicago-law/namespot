@@ -24,14 +24,14 @@ const Container = styled('div')`
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    color: ${(props) => props.theme.middleGray};
+    color: ${props => props.theme.middleGray};
     h5 {
       margin: 0.5em 0;
     }
     svg {
       margin-left: 0.5em;
-      font-size: ${(props) => props.theme.ms(2)};
-      @media(max-width: ${(props) => props.theme.break.medium}) {
+      font-size: ${props => props.theme.ms(2)};
+      @media(max-width: ${props => props.theme.break.medium}) {
         display: none;
       }
     }
@@ -46,7 +46,7 @@ const Container = styled('div')`
       height: 2em;
       overflow: hidden;
       border-radius: 10px;
-      border: 3px solid ${(props) => props.theme.offWhite};
+      border: 3px solid ${props => props.theme.offWhite};
     }
   }
 `
@@ -85,8 +85,8 @@ const OfferingSidebarRight = ({
     seatedStudents.current = []
     notSeatedStudents.current = []
     Object.keys(students)
-      .filter((studentId) => enrollments[studentId])
-      .forEach((studentId) => {
+      .filter(studentId => enrollments[studentId])
+      .forEach(studentId => {
         const enrollment = enrollments[studentId]
         if (enrollment.seat !== null) {
           seatedStudents.current.push(studentId)
@@ -136,7 +136,7 @@ const OfferingSidebarRight = ({
           <li>
             <div>
               <h5>Seated:</h5>
-              {seatedStudents.current.map((studentId) => (
+              {seatedStudents.current.map(studentId => (
                 <div className="thumbnail-container" key={studentId}>
                   <StudentThumbnail
                     student={students[studentId]}
@@ -152,12 +152,12 @@ const OfferingSidebarRight = ({
           <li>
             <div>
               <h5>Not Seated:</h5>
-              {notSeatedStudents.current.map((studentId) => (
+              {notSeatedStudents.current.map(studentId => (
                 <div className="thumbnail-container" key={studentId}>
                   <StudentThumbnail
                     key={studentId}
                     student={students[studentId]}
-                    onClick={(e) => handleStudentClick(e, studentId)}
+                    onClick={e => handleStudentClick(e, studentId)}
                   />
                 </div>
               ))}

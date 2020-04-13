@@ -21,7 +21,7 @@ const Container = styled('div')`
   z-index: 99999999;
   ${animateEntrance('fadeExpand')};
   .fa-arrow-to-bottom {
-    font-size: ${(props) => props.theme.ms(5)};
+    font-size: ${props => props.theme.ms(5)};
   }
 `
 

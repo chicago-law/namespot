@@ -6,9 +6,9 @@ const Container = styled('div')`
   margin-bottom: 2em;
   text-align: center;
   p {
-    font-size: ${(props) => props.theme.ms(-1)};
+    font-size: ${props => props.theme.ms(-1)};
     font-weight: bold;
-    color: ${(props) => props.theme.middleGray};
+    color: ${props => props.theme.middleGray};
   }
 `
 

@@ -36,7 +36,7 @@ export const getTablesForRoom = (
       dispatch(markRoomTablesReceived(roomId))
       dispatch(setLoadingStatus('tables', false))
     })
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .catch(response => dispatch(reportAxiosError(response)))
 }
 
 export const updateTable = (
@@ -53,7 +53,7 @@ export const updateTable = (
       // day we'll make receiveTables smarter.
       dispatch(receiveTables(data.tables[Object.keys(data.tables)[0]].room_id, data.tables))
     })
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .catch(response => dispatch(reportAxiosError(response)))
 }
 
 export const createTable = (
@@ -67,7 +67,7 @@ export const createTable = (
         [data.id]: data,
       }))
     })
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .catch(response => dispatch(reportAxiosError(response)))
 }
 
 export const deleteTable = (
@@ -77,5 +77,5 @@ export const deleteTable = (
   dispatch(removeTable(tableId, roomId))
   dispatch(deleteTableSeats(tableId))
   api.deleteTable(tableId)
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .catch(response => dispatch(reportAxiosError(response)))
 }

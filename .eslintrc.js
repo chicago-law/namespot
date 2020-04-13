@@ -33,6 +33,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 0,
     '@typescript-eslint/semi': 0,
     'arrow-body-style': 0,
+    'arrow-parens': ['error', 'as-needed'],
     "indent": 0,
     "import/extensions": [
       "error",

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import ModalHeader from '../ModalHeader'
 import ModalControls from '../ModalControls'
 import ModalContent from '../ModalContent'
@@ -9,17 +9,14 @@ import { updateStudent } from '../../../store/students/actions'
 export interface ChangePictureModalData {
   studentId: string;
 }
-interface StoreProps {
-  updateStudent: typeof updateStudent;
-}
-interface OwnProps {
+interface Props {
   modalData: ChangePictureModalData;
 }
 
 const ChangePicture = ({
-  updateStudent,
   modalData,
-}: StoreProps & OwnProps) => {
+}: Props) => {
+  const dispatch = useDispatch()
   const { studentId } = modalData
   const [newPicturePath, setNewPicturePath] = useState<string | null>(null)
 
@@ -37,9 +34,9 @@ const ChangePicture = ({
 
   function onConfirm() {
     if (newPicturePath) {
-      updateStudent(studentId, {
+      dispatch(updateStudent(studentId, {
         picture: newPicturePath,
-      })
+      }))
     }
   }
 
@@ -67,6 +64,4 @@ const ChangePicture = ({
   )
 }
 
-export default connect(null, {
-  updateStudent,
-})(ChangePicture)
+export default ChangePicture

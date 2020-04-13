@@ -15,7 +15,7 @@ const useRecentOfferings = (): [
   (offeringId: string) => void,
 ] => {
   const [recentOfferingsString, setRecentOfferingsString] = useLocalStorage('namespot_recentOfferings', JSON.stringify([]))
-  const recentOfferings: OfferingPreview[] = useMemo(() => JSON.parse(recentOfferingsString), [])
+  const recentOfferings: OfferingPreview[] = useMemo(() => JSON.parse(recentOfferingsString), [recentOfferingsString])
 
   const addRecentOffering = (offering: Offering) => {
     let newOffs = [...recentOfferings]
@@ -27,8 +27,8 @@ const useRecentOfferings = (): [
     }
 
     // If it's already in there, move it to the front.
-    if (newOffs.some((off) => off.id === offering.id)) {
-      newOffs = newOffs.filter((off) => off.id !== offering.id)
+    if (newOffs.some(off => off.id === offering.id)) {
+      newOffs = newOffs.filter(off => off.id !== offering.id)
       newOffs.unshift(newEntry)
     // If it's short enough, just add to front.
     } else if (newOffs.length < 5) {
@@ -47,7 +47,7 @@ const useRecentOfferings = (): [
     let newOffs = [...recentOfferings]
 
     // Remove the passed in offering.
-    newOffs = newOffs.filter((off) => off.id !== offeringId)
+    newOffs = newOffs.filter(off => off.id !== offeringId)
 
     // Set to storage.
     setRecentOfferingsString(JSON.stringify(newOffs))

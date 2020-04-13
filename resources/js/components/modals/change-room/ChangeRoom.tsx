@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import ModalControls from '../ModalControls'
 import ModalHeader from '../ModalHeader'
 import { updateOffering } from '../../../store/offerings/actions'
@@ -18,30 +18,29 @@ interface StoreProps {
   offerings: OfferingsState;
   rooms: RoomsState;
   session: SessionState;
-  updateOffering: typeof updateOffering;
-  getAllRooms: typeof getAllRooms;
 }
 interface OwnProps {
   modalData: ChangeRoomModalData;
 }
 
 const ChangeRoom = ({
-  offerings, rooms, session, updateOffering, getAllRooms, modalData,
+  offerings, rooms, session, modalData,
 }: StoreProps & OwnProps) => {
+  const dispatch = useDispatch()
   const { offeringId, onConfirm } = modalData
   const offering = offerings[offeringId]
   const [selectedRoom, selectRoom] = useState((offering && offering.room_id) || '')
 
   function handleConfirm() {
-    updateOffering(offeringId, {
+    dispatch(updateOffering(offeringId, {
       room_id: selectedRoom,
-    })
+    }))
     if (onConfirm) onConfirm()
   }
 
   useEffect(() => {
-    if (!session.roomTemplatesReceived) getAllRooms()
-  }, [])
+    if (!session.roomTemplatesReceived) dispatch(getAllRooms())
+  }, [dispatch, session.roomTemplatesReceived])
 
   return (
     <>
@@ -52,10 +51,10 @@ const ChangeRoom = ({
           <p>Change this class's room assignment to:</p>
           <select
             defaultValue={selectedRoom}
-            onChange={(e) => selectRoom(e.target.value)}
+            onChange={e => selectRoom(e.target.value)}
           >
             <option value="">--</option>
-            {Object.keys(rooms).map((roomId) => {
+            {Object.keys(rooms).map(roomId => {
               const room = rooms[roomId]
               if (room && room.type === 'template') {
                 return (
@@ -85,7 +84,4 @@ const mapState = ({ offerings, rooms, session }: AppState) => ({
   session,
 })
 
-export default connect(mapState, {
-  updateOffering,
-  getAllRooms,
-})(ChangeRoom)
+export default connect(mapState)(ChangeRoom)

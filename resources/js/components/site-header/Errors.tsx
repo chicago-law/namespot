@@ -10,8 +10,8 @@ import { theme } from '../../utils/theme'
 import { SessionState } from '../../store/session/types'
 
 const Container = styled('div')`
-  border: 2px solid ${(props) => props.theme.darkBlue};
-  background: ${(props) => props.theme.lightGray};
+  border: 2px solid ${props => props.theme.darkBlue};
+  background: ${props => props.theme.lightGray};
   >div {
     display: flex;
     align-items: center;
@@ -21,8 +21,8 @@ const Container = styled('div')`
     }
     .fa-robot {
       margin-right: 0.5em;
-      font-size: ${(props) => props.theme.ms(2)};
-      color: ${(props) => props.theme.darkGray};
+      font-size: ${props => props.theme.ms(2)};
+      color: ${props => props.theme.darkGray};
     }
     .icon-button {
       flex: 0 0 auto;
@@ -44,10 +44,10 @@ const Errors = ({ session, errors, removeError }: StoreProps) => {
 
   return (
     <Container style={{ transform: `translateY(${session.scrolledFromTop}px)` }}>
-      {Object.keys(errors).map((id) => (
+      {Object.keys(errors).map(id => (
         <div key={id}>
           <FontAwesomeIcon icon={['far', 'robot']} />
-          <p>Bzzzz! We ran into an error. It might help to refresh the page and try again. Here's what the server had to say for itself: <strong>{errors[id]}</strong></p>
+          <p>Bzzzz! We ran into an error. It might help to refresh the page and try again. Here's what the server had to say for itself: <strong>{errors[parseInt(id)]}</strong></p>
           <IconButton
             icon={['far', 'times']}
             handler={() => removeError(parseInt(id))}

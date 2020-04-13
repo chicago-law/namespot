@@ -1,5 +1,5 @@
 import React, { useRef, useLayoutEffect, Fragment, useCallback } from 'react'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import styled from '../utils/styledComponents'
 import { AppState } from '../store'
 import { Offering } from '../store/offerings/types'
@@ -60,8 +60,6 @@ interface StoreProps {
   students: StudentsState;
   enrollments: EnrollmentsState;
   printing: PrintingState;
-  updatePrintProgress: typeof updatePrintProgress;
-  exitPrint: typeof exitPrint;
 }
 interface OwnProps {
   offeringId: string;
@@ -72,18 +70,17 @@ const FlashCards = ({
   students,
   enrollments,
   printing,
-  updatePrintProgress,
-  exitPrint,
 }: StoreProps) => {
+  const dispatch = useDispatch()
   const cardsRef = useRef<HTMLDivElement[]>([])
   const currentStudents = Object.keys(students)
-    .filter((studentId) => studentId in enrollments[offering.id])
-    .map((studentId) => students[studentId])
+    .filter(studentId => studentId in enrollments[offering.id])
+    .map(studentId => students[studentId])
     .sort((a, b) => (a.last_name > b.last_name ? 1 : -1))
 
   const updateProgress = useCallback((progress: string) => {
-    return updatePrintProgress(progress)
-  }, [updatePrintProgress])
+    return dispatch(updatePrintProgress(progress))
+  }, [dispatch])
 
   const createPdf = useCallback(() => {
     return assembleFlashCards(
@@ -91,9 +88,9 @@ const FlashCards = ({
       offering,
       printing.options.namesOnReverse || false,
       updateProgress,
-      exitPrint,
+      () => dispatch(exitPrint()),
     )
-  }, [exitPrint, offering, printing.options.namesOnReverse, updateProgress])
+  }, [dispatch, offering, printing.options.namesOnReverse, updateProgress])
 
   useLayoutEffect(() => {
     setTimeout(() => {
@@ -104,11 +101,11 @@ const FlashCards = ({
   return (
     <Container>
       {!printing.options.namesOnReverse && (
-        currentStudents.map((student) => (
+        currentStudents.map(student => (
           <div
             className="card same-side"
             key={student.id}
-            ref={(ref) => { if (ref && !cardsRef.current.includes(ref)) cardsRef.current.push(ref) }}
+            ref={ref => { if (ref && !cardsRef.current.includes(ref)) cardsRef.current.push(ref) }}
           >
             <div className="picture-container">
               <StudentThumbnail student={student} />
@@ -122,11 +119,11 @@ const FlashCards = ({
         ))
       )}
       {printing.options.namesOnReverse && (
-        currentStudents.map((student) => (
+        currentStudents.map(student => (
           <Fragment key={student.id}>
             <div
               className="card"
-              ref={(ref) => { if (ref && !cardsRef.current.includes(ref)) cardsRef.current.push(ref) }}
+              ref={ref => { if (ref && !cardsRef.current.includes(ref)) cardsRef.current.push(ref) }}
             >
               <div className="picture-container">
                 <StudentThumbnail student={student} />
@@ -134,7 +131,7 @@ const FlashCards = ({
             </div>
             <div
               className="card"
-              ref={(ref) => { if (ref && !cardsRef.current.includes(ref)) cardsRef.current.push(ref) }}
+              ref={ref => { if (ref && !cardsRef.current.includes(ref)) cardsRef.current.push(ref) }}
             >
               <div className="info-container">
                 <h1>{`${student.short_first_name} ${student.short_last_name}`}</h1>

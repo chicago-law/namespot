@@ -20,7 +20,7 @@ interface OwnProps {
 
 const StudentThumbnail = ({
   student,
-  onClick = () => {},
+  onClick,
 }: OwnProps) => {
   function handleImageError(target: HTMLImageElement) {
     const container = target.parentElement
@@ -35,7 +35,7 @@ const StudentThumbnail = ({
   return (
     <Container
       className="student-thumbnail"
-      onClick={(e: React.MouseEvent) => onClick(e)}
+      onClick={(e: React.MouseEvent) => (onClick ? onClick(e) : false)}
       aria-hidden="true"
       style={{ backgroundImage: `url(${`${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}/storage/student_pictures/${student.picture}`})` }}
     >
@@ -43,7 +43,7 @@ const StudentThumbnail = ({
         src={`${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}/storage/student_pictures/${student.picture}`}
         aria-hidden="true"
         alt=""
-        onError={(e) => handleImageError(e.target as HTMLImageElement)}
+        onError={e => handleImageError(e.target as HTMLImageElement)}
       />
     </Container>
   )

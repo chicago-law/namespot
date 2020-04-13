@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import ModalHeader from '../ModalHeader'
@@ -10,7 +10,7 @@ import { createOffering, updateOffering, deleteOffering } from '../../../store/o
 import { dismissModal } from '../../../store/modal/actions'
 import useRecentOfferings from '../../../hooks/useRecentOfferings'
 import { AppState } from '../../../store'
-import { OfferingsState } from '../../../store/offerings/types'
+import { OfferingsState, Offering } from '../../../store/offerings/types'
 
 const Content = styled('div')`
   position: relative;
@@ -23,7 +23,7 @@ const Content = styled('div')`
   .required {
     :after {
       content: ' *';
-      color: ${(props) => props.theme.red};
+      color: ${props => props.theme.red};
     }
   }
   .delete-container {
@@ -34,11 +34,11 @@ const Content = styled('div')`
     button {
       display: inline-flex;
       align-items: center;
-      color: ${(props) => props.theme.red};
-      font-size: ${(props) => props.theme.ms(-1)};
+      color: ${props => props.theme.red};
+      font-size: ${props => props.theme.ms(-1)};
       svg {
         margin-right: 0.5em;
-        font-size: ${(props) => props.theme.ms(1)};
+        font-size: ${props => props.theme.ms(1)};
       }
     }
   }
@@ -53,10 +53,6 @@ export interface EditOfferingModalData {
 }
 interface StoreProps {
   offerings: OfferingsState;
-  updateOffering: typeof updateOffering;
-  createOffering: typeof createOffering;
-  deleteOffering: typeof deleteOffering;
-  dismissModal: typeof dismissModal;
 }
 interface OwnProps {
   modalData: EditOfferingModalData;
@@ -64,13 +60,10 @@ interface OwnProps {
 
 const EditOffering: React.FC<StoreProps & OwnProps & RouteComponentProps> = ({
   offerings,
-  updateOffering,
-  createOffering,
-  deleteOffering,
-  dismissModal,
   modalData,
   history,
 }) => {
+  const dispatch = useDispatch()
   const { offeringId } = modalData
   const offering = offeringId ? offerings[offeringId] || null : null
   const [title, setTitle] = useState(modalData.title || '')
@@ -85,29 +78,29 @@ const EditOffering: React.FC<StoreProps & OwnProps & RouteComponentProps> = ({
   function handleConfirm() {
     // Update an offering.
     if (offeringId && offering && title && term_code) {
-      updateOffering(offeringId, {
+      dispatch(updateOffering(offeringId, {
         title,
         term_code,
         catalog_nbr,
         section,
-      }, true, (offering) => {
+      }, true, (offering: Offering) => {
         // We also need to update our entry for this offering in local storage.
         addRecentOffering(offering)
-      })
-      dismissModal()
+      }))
+      dispatch(dismissModal())
     } else {
       // Make a new offering.
       setIsLoading(true)
-      createOffering({
+      dispatch(createOffering({
         title,
         catalog_nbr,
         section,
         term_code,
       }, (offeringId: string) => {
-        dismissModal()
+        dispatch(dismissModal())
         setIsLoading(false)
         history.push(`/offerings/${offeringId}`)
-      })
+      }))
     }
   }
 
@@ -116,7 +109,7 @@ const EditOffering: React.FC<StoreProps & OwnProps & RouteComponentProps> = ({
   }
 
   function handleDelete(offeringId: string) {
-    deleteOffering(offeringId)
+    dispatch(deleteOffering(offeringId))
     removeRecentOffering(offeringId)
     history.replace('/offerings')
   }
@@ -134,7 +127,7 @@ const EditOffering: React.FC<StoreProps & OwnProps & RouteComponentProps> = ({
               type="text"
               value={title}
               placeholder="Title..."
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={e => setTitle(e.target.value)}
             />
           </label>
           <label htmlFor="term">
@@ -142,9 +135,9 @@ const EditOffering: React.FC<StoreProps & OwnProps & RouteComponentProps> = ({
             <select
               id="term"
               value={term_code}
-              onChange={(e) => setTerm(parseInt(e.target.value))}
+              onChange={e => setTerm(parseInt(e.target.value))}
             >
-              {termList.map((term) => (
+              {termList.map(term => (
                 <option key={term} value={term}>{termCodeToString(term)}</option>
               ))}
             </select>
@@ -156,7 +149,7 @@ const EditOffering: React.FC<StoreProps & OwnProps & RouteComponentProps> = ({
               type="text"
               value={catalog_nbr}
               placeholder="Catalog number (optional)..."
-              onChange={(e) => setCatalog(e.target.value)}
+              onChange={e => setCatalog(e.target.value)}
             />
           </label>
           <label htmlFor="section">
@@ -166,7 +159,7 @@ const EditOffering: React.FC<StoreProps & OwnProps & RouteComponentProps> = ({
               type="text"
               value={section}
               placeholder="Section number (optional)..."
-              onChange={(e) => setSection(e.target.value)}
+              onChange={e => setSection(e.target.value)}
             />
           </label>
           {offeringId && (
@@ -207,9 +200,4 @@ const mapState = ({ offerings }: AppState) => ({
   offerings,
 })
 
-export default withRouter(connect(mapState, {
-  updateOffering,
-  createOffering,
-  deleteOffering,
-  dismissModal,
-})(EditOffering))
+export default withRouter(connect(mapState)(EditOffering))

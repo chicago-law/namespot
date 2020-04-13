@@ -17,7 +17,7 @@ const Container = styled('div')`
     position: absolute;
     top: 50%;
     right: 0;
-    font-size: ${(props) => props.theme.ms(-2)};
+    font-size: ${props => props.theme.ms(-2)};
     transform: translate(100%, -50%);
   }
 `

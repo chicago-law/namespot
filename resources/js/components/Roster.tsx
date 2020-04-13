@@ -1,5 +1,5 @@
 import React, { useRef, useMemo } from 'react'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import styled from '../utils/styledComponents'
 import { OfferingsState } from '../store/offerings/types'
 import { AppState } from '../store'
@@ -33,13 +33,13 @@ const Container = styled('div')`
     width: ${columnWidth}in;
     h1 {
       margin: 0;
-      font-size: ${(props) => props.theme.ms(0)};
+      font-size: ${props => props.theme.ms(0)};
     }
     span {
       display: block;
-      font-size: ${(props) => props.theme.ms(-1.5)};
+      font-size: ${props => props.theme.ms(-1.5)};
       &.date {
-        font-size: ${(props) => props.theme.ms(-2)};
+        font-size: ${props => props.theme.ms(-2)};
         font-style: italic;
         margin-top: 1em;
       }
@@ -48,16 +48,16 @@ const Container = styled('div')`
   .roster-row {
     display: flex;
     align-items: center;
-    border: 1px solid ${(props) => props.theme.lightGray};
+    border: 1px solid ${props => props.theme.lightGray};
     width: ${columnWidth}in;
     height: ${rowHeight}in;
     span {
       display: block;
       flex: auto;
       padding: 0 .5em;
-      font-size: ${(props) => props.theme.ms(-1)};
+      font-size: ${props => props.theme.ms(-1)};
       &.details {
-        font-size: ${(props) => props.theme.ms(-2)};
+        font-size: ${props => props.theme.ms(-2)};
         overflow-wrap: break-word;
         word-break: break-all
       }
@@ -92,8 +92,6 @@ interface StoreProps {
   students: StudentsState;
   enrollments: EnrollmentsState;
   printing: PrintingState;
-  updatePrintProgress: typeof updatePrintProgress;
-  exitPrint: typeof exitPrint;
 }
 interface OwnProps {
   offeringId?: string;
@@ -104,17 +102,17 @@ const Roster = ({
   students,
   enrollments,
   printing,
-  updatePrintProgress,
-  exitPrint,
   offeringId,
 }: StoreProps & OwnProps) => {
   const pageRef = useRef<HTMLDivElement>(null)
   const rowsRef = useRef<HTMLElement[]>([])
   const offering = (offeringId && offerings[offeringId]) || null
+  const dispatch = useDispatch()
+
   const currentStudents = useMemo(() => (
     offering
       ? Object.keys(students)
-        .filter((studentId) => {
+        .filter(studentId => {
           if (enrollments[offering.id]) {
             // If student isn't in class, return false.
             if (!(studentId in enrollments[offering.id])) return false
@@ -125,15 +123,15 @@ const Roster = ({
           }
           return false
         })
-        .map((studentId) => students[studentId])
+        .map(studentId => students[studentId])
         .sort((a, b) => (a.last_name > b.last_name ? 1 : -1))
       : Object.keys(students)
-        .map((studentId) => students[studentId])
+        .map(studentId => students[studentId])
         .sort((a, b) => (a.last_name > b.last_name ? 1 : -1))
   ), [enrollments, offering, printing.options.aisOnly, students])
 
   function updateProgress(progress: string) {
-    updatePrintProgress(progress)
+    dispatch(updatePrintProgress(progress))
   }
 
   function createPdf() {
@@ -144,7 +142,7 @@ const Roster = ({
         offering,
         undefined,
         updateProgress,
-        exitPrint,
+        () => dispatch(exitPrint()),
       )
     }
   }
@@ -152,13 +150,13 @@ const Roster = ({
   useMountEffect(() => {
     createPdf()
     return () => {
-      exitPrint()
+      dispatch(exitPrint())
     }
   })
 
   return (
     <Container ref={pageRef}>
-      <header ref={(ref) => { if (ref && !rowsRef.current.includes(ref)) rowsRef.current.push(ref) }}>
+      <header ref={ref => { if (ref && !rowsRef.current.includes(ref)) rowsRef.current.push(ref) }}>
         <h1>
           {offering && offering.title}
           {printing.options.academicPlan && `${printing.options.academicPlan.substr(2).toUpperCase()} students`}
@@ -171,7 +169,7 @@ const Roster = ({
             <span>
               Instructors:&nbsp;
               <strong>
-                {offering.instructors.map((inst) => `${inst.first_name} ${inst.last_name}`).join(', ')}
+                {offering.instructors.map(inst => `${inst.first_name} ${inst.last_name}`).join(', ')}
               </strong>
             </span>
           </>
@@ -183,8 +181,8 @@ const Roster = ({
         <span className="date">Printed {new Date().toLocaleDateString()}</span>
       </header>
 
-      {currentStudents.map((student) => (
-        <div key={student.id} className="roster-row" ref={(ref) => { if (ref && !rowsRef.current.includes(ref)) rowsRef.current.push(ref) }}>
+      {currentStudents.map(student => (
+        <div key={student.id} className="roster-row" ref={ref => { if (ref && !rowsRef.current.includes(ref)) rowsRef.current.push(ref) }}>
           <div className="thumbnail-container">
             <StudentThumbnail student={student} />
           </div>
@@ -212,7 +210,4 @@ const mapState = ({
   printing,
 })
 
-export default connect(mapState, {
-  updatePrintProgress,
-  exitPrint,
-})(Roster)
+export default connect(mapState)(Roster)

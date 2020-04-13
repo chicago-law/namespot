@@ -1,6 +1,6 @@
 import React from 'react'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { AppState } from '../../store'
 import { StudentsState } from '../../store/students/types'
@@ -45,8 +45,8 @@ const Container = styled('div')`
       transition: opacity 150ms ease-out, transform 150ms ease-out;
       .fa-camera {
         position: absolute;
-        color: ${(props) => props.theme.red};
-        font-size: ${(props) => props.theme.ms(2)};
+        color: ${props => props.theme.red};
+        font-size: ${props => props.theme.ms(2)};
       }
     }
     .student-thumbnail {
@@ -73,13 +73,6 @@ interface StoreProps {
   students: StudentsState;
   enrollments: EnrollmentsState;
   session: SessionState;
-  assignSeat: typeof assignSeat;
-  setTask: typeof setTask;
-  selectStudent: typeof selectStudent;
-  selectSeat: typeof selectSeat;
-  deleteEnrollment: typeof deleteEnrollment;
-  setModal: typeof setModal;
-  updateStudent: typeof updateStudent;
 }
 interface OwnProps {
   actionBarRef: HTMLDivElement | null;
@@ -89,64 +82,58 @@ const StudentDetails = ({
   students,
   enrollments,
   session,
-  assignSeat,
-  setTask,
-  selectStudent,
-  selectSeat,
-  deleteEnrollment,
-  setModal,
-  updateStudent,
   actionBarRef,
   match,
 }: StoreProps & OwnProps & RouteComponentProps<{ offeringId: string }>) => {
+  const dispatch = useDispatch()
   const { offeringId } = match.params
   const student = (session.selectedStudent && students[session.selectedStudent]) || null
   const enrollment = (student && enrollments[offeringId] && enrollments[offeringId][student.id]) || null
 
   function closeAndReset() {
-    setTask(null)
-    selectStudent(null)
-    selectSeat(null)
+    dispatch(setTask(null))
+    dispatch(selectStudent(null))
+    dispatch(selectSeat(null))
   }
 
   function handleUnseat() {
-    if (student) assignSeat(offeringId, student.id, null)
+    if (student) dispatch(assignSeat(offeringId, student.id, null))
     closeAndReset()
   }
 
   function handleRemoveFromClass() {
-    if (student) deleteEnrollment(offeringId, student.id)
+    if (student) dispatch(deleteEnrollment(offeringId, student.id))
     closeAndReset()
   }
 
   function handleEditNickname() {
     if (student) {
-      setModal<EditTextInputModalData>(ModalTypes.editTextInput, {
+      dispatch(setModal<EditTextInputModalData>(ModalTypes.editTextInput, {
         title: 'Edit Seating Chart Nickname',
         previousValue: student.nickname ? student.nickname : '',
-        onConfirm: (text: string) => updateStudent(student.id, {
+        onConfirm: (text: string) => dispatch(updateStudent(student.id, {
           nickname: text,
-        }),
-      })
+        })),
+      }))
     }
   }
 
   function handleEditPrefix() {
     if (student) {
-      setModal<EditTextInputModalData>(ModalTypes.editTextInput, {
+      dispatch(setModal<EditTextInputModalData>(ModalTypes.editTextInput, {
         title: 'Edit Name Prefix',
         previousValue: student.prefix ? student.prefix : '',
-        onConfirm: (text: string) => updateStudent(student.id, {
+        onConfirm: (text: string) => dispatch(updateStudent(student.id, {
           prefix: text,
-        }),
-      })
+        })),
+      }))
     }
   }
 
   function handleChangePicture(studentId: string) {
-    setModal<ChangePictureModalData>(ModalTypes.changePicture, {
+    dispatch(setModal<ChangePictureModalData>(ModalTypes.changePicture, {
       studentId,
-    })
+    }))
   }
 
   useOutsideClickDetector(actionBarRef, () => {
@@ -240,12 +227,4 @@ const mapState = ({ students, enrollments, session }: AppState) => ({
   session,
 })
 
-export default withRouter(connect(mapState, {
-  assignSeat,
-  setTask,
-  selectStudent,
-  selectSeat,
-  deleteEnrollment,
-  setModal,
-  updateStudent,
-})(StudentDetails))
+export default withRouter(connect(mapState)(StudentDetails))

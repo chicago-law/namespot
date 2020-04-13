@@ -22,27 +22,27 @@ const Container = styled('div')`
     transform-origin: center;
     border-radius: 100%;
     background: #d9d9d9;
-    transition: transform 100ms ${(props) => props.theme.bounce}, background 100ms ease-out;
+    transition: transform 100ms ${props => props.theme.bounce}, background 100ms ease-out;
   }
   &.choosing-point {
     .blip {
       cursor: pointer;
       &.in-inactive-table {
-        background: ${(props) => props.theme.middleGray};
+        background: ${props => props.theme.middleGray};
         transform: translate(-50%, -50%) scale(1.25);
       }
       &.in-temp-table {
-        background: ${(props) => props.theme.blue};
+        background: ${props => props.theme.blue};
         transform: translate(-50%, -50%) scale(1.5);
       }
       &.selected, &:hover {
         transform: translate(-50%, -50%) scale(2);
       }
       &:hover {
-        background: ${(props) => props.theme.middleGray};
+        background: ${props => props.theme.middleGray};
       }
       &.selected {
-        background: ${(props) => props.theme.red};
+        background: ${props => props.theme.red};
       }
     }
   }
@@ -50,7 +50,7 @@ const Container = styled('div')`
 
 interface StoreProps {
   session: SessionState;
-  tables: Tables;
+  tables: Tables | undefined;
   updateTempTable: typeof updateTempTable;
 }
 interface OwnProps {
@@ -74,12 +74,14 @@ const BlipGrid = ({
   const tempCurve = (tempTable && tempTable.qX) ? `${tempTable.qX}_${tempTable.qY}` : null
   const tempEnd = tempTable ? `${tempTable.eX}_${tempTable.eY}` : null
   const otherTableCoords: string[] = []
-  Object.keys(tables).forEach((tableId) => {
-    const table = tables[tableId] as Table
-    otherTableCoords.push(`${table.sX}_${table.sY}`)
-    otherTableCoords.push(`${table.eX}_${table.eY}`)
-    if (table.qX !== null && table.qY !== null) otherTableCoords.push(`${table.qX}_${table.qY}`)
-  })
+  if (tables) {
+    Object.keys(tables).forEach(tableId => {
+      const table = tables[tableId] as Table
+      otherTableCoords.push(`${table.sX}_${table.sY}`)
+      otherTableCoords.push(`${table.eX}_${table.eY}`)
+      if (table.qX !== null && table.qY !== null) otherTableCoords.push(`${table.qX}_${table.qY}`)
+    })
+  }
 
   function getBlipClass(coord: string) {
     let result = 'blip'
@@ -168,7 +170,7 @@ const BlipGrid = ({
     <Container
       id="blip-grid-container"
       className={session.task === 'choose-point' ? 'choosing-point' : ''}
-      onClick={(e) => handleClick(e)}
+      onClick={e => handleClick(e)}
     >
       {createGrid()}
     </Container>

@@ -1,18 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import ModalControls from '../ModalControls'
 import ModalHeader from '../ModalHeader'
-import { createEnrollment } from '../../../store/enrollments/actions'
 import ModalContent from '../ModalContent'
 import { AppState } from '../../../store'
-import { SessionState } from '../../../store/session/types'
-import { StudentsState, Student } from '../../../store/students/types'
+import { Student } from '../../../store/students/types'
 import { EnrollmentsState } from '../../../store/enrollments/types'
 import SearchInputContainer from '../../SearchInputContainer'
 import styled from '../../../utils/styledComponents'
 import api from '../../../utils/api'
 import TextButton from '../../TextButton'
+import { createEnrollment } from '../../../store/enrollments/actions'
 import { dismissModal } from '../../../store/modal/actions'
 
 const ContentContainer = styled('div')`
@@ -24,7 +23,7 @@ const ContentContainer = styled('div')`
     align-items: center;
     margin-top: 1em;
     height: 3em;
-    font-size: ${(props) => props.theme.ms(-1)};
+    font-size: ${props => props.theme.ms(-1)};
     button {
       margin-left: 1em;
     }
@@ -47,13 +46,13 @@ const ContentContainer = styled('div')`
         .already-enrolled {
           display: inline-block;
           margin-left: 1em;
-          color: ${(props) => props.theme.darkGray};
-          font-size: ${(props) => props.theme.ms(-1)};
+          color: ${props => props.theme.darkGray};
+          font-size: ${props => props.theme.ms(-1)};
           font-style: italic;
         }
         &:hover {
           color: white;
-          background: ${(props) => props.theme.red};
+          background: ${props => props.theme.red};
         }
         &:disabled {
           opacity: 0.35;
@@ -69,24 +68,17 @@ export interface AddStudentModalData {
   offeringId: string;
 }
 interface StoreProps {
-  students: StudentsState;
   enrollments: EnrollmentsState;
-  session: SessionState;
-  createEnrollment: typeof createEnrollment;
-  dismissModal: typeof dismissModal;
 }
 interface OwnProps {
   modalData: AddStudentModalData;
 }
 
 const AddStudent = ({
-  students,
   enrollments,
-  session,
-  createEnrollment,
-  dismissModal,
   modalData,
 }: StoreProps & OwnProps) => {
+  const dispatch = useDispatch()
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<{
     students: Student[];
@@ -132,8 +124,8 @@ const AddStudent = ({
   }
 
   function handleSelect(studentId: string) {
-    createEnrollment(offeringId, studentId)
-    dismissModal()
+    dispatch(createEnrollment(offeringId, studentId))
+    dispatch(dismissModal())
   }
 
   useEffect(() => {
@@ -183,7 +175,7 @@ const AddStudent = ({
             )}
           </div>
           <ul className="results">
-            {results.students.map((student) => (
+            {results.students.map(student => (
               <li key={student.id}>
                 <button
                   type="button"
@@ -213,16 +205,9 @@ const AddStudent = ({
 }
 
 const mapState = ({
-  students,
   enrollments,
-  session,
 }: AppState) => ({
-  students,
   enrollments,
-  session,
 })
 
-export default connect(mapState, {
-  createEnrollment,
-  dismissModal,
-})(AddStudent)
+export default connect(mapState)(AddStudent)

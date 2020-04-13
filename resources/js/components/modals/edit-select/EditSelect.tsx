@@ -54,10 +54,10 @@ const EditSelect = ({
           )}
           <select
             value={text}
-            onChange={(e) => setText(e.target.value)}
+            onChange={e => setText(e.target.value)}
           >
             <option value="">--</option>
-            {options.map((option) => (
+            {options.map(option => (
               <option key={option.label} value={option.value}>
                 {option.label}
               </option>

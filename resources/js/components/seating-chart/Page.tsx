@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import styled from '../../utils/styledComponents'
 import { AppState } from '../../store'
@@ -32,17 +32,17 @@ const Container = styled('div')<ContainerProps>`
   position: relative;
   display: grid;
   grid-template-rows: auto 1fr auto;
-  height: ${(props) => props.height}in;
-  width: ${(props) => props.width}in;
+  height: ${props => props.height}in;
+  width: ${props => props.width}in;
   margin: 0 auto;
   padding: 2em 3em;
   transform-origin: top left;
   background: white;
   box-shadow: 0 1px 5px rgba(0,0,0, 0.1);
-  border: 1px solid ${(props) => props.theme.offWhite};
+  border: 1px solid ${props => props.theme.offWhite};
   /* Apparently html2Canvas doesn't like it if the element is not in the top
   left corner. */
-  ${(props) => props.isPrintingChart && `
+  ${props => props.isPrintingChart && `
     position: absolute;
     top: 0;
     left: 0;
@@ -56,7 +56,6 @@ interface OwnProps {
 interface StoreProps {
   offerings: OfferingsState;
   printing: PrintingState;
-  exitPrint: typeof exitPrint;
 }
 interface RouteParams {
   offeringId?: string;
@@ -67,10 +66,10 @@ type Props = OwnProps & StoreProps & RouteComponentProps<RouteParams>
 const Page = ({
   offerings,
   printing,
-  exitPrint,
   match,
   containerWidth,
 }: Props) => {
+  const dispatch = useDispatch()
   const pageRef = useRef<HTMLDivElement>(null)
   const { params } = match
 
@@ -119,12 +118,12 @@ const Page = ({
           assembleSeatingChart(
             pageRef.current,
             offering || undefined,
-            exitPrint,
+            () => dispatch(exitPrint()),
           )
         }
       }, 500)
     }
-  }, [exitPrint, offering, printing.format, printing.isPrinting])
+  }, [dispatch, offering, printing.format, printing.isPrinting])
 
   return (
     <Container
@@ -154,6 +153,4 @@ const mapState = ({ offerings, printing }: AppState) => ({
   printing,
 })
 
-export default withRouter(connect(mapState, {
-  exitPrint,
-})(Page))
+export default withRouter(connect(mapState)(Page))
