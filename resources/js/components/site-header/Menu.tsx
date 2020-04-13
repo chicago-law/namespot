@@ -114,10 +114,11 @@ const Menu = ({ authedUser }: StoreProps) => {
         <section>
           {(authedUser.role === 'staff' || authedUser.role === 'dev') && (
             <>
-              <Link to="/import-export" onClick={() => setOpen(false)}>
+              {/* Removing the import/export functionality for now. */}
+              {/* <Link to="/import-export" onClick={() => setOpen(false)}>
                 <FontAwesomeIcon icon={['far', 'upload']} fixedWidth />
                 <p>Import / Export Data</p>
-              </Link>
+              </Link> */}
               <Link to="/settings" onClick={() => setOpen(false)}>
                 <FontAwesomeIcon icon={['far', 'cog']} fixedWidth />
                 <p>Settings</p>
