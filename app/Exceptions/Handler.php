@@ -7,6 +7,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\Debug\ExceptionHandler as SymfonyExceptionHandler;
 use Symfony\Component\Debug\Exception\FlattenException;
 use App\Mail\ExceptionOccurred;
+use Illuminate\Support\Facades\Mail;
 
 class Handler extends ExceptionHandler
 {

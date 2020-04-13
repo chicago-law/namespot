@@ -50,7 +50,7 @@ class Shibboleth
 
         // Next check if there are classes with this user as an instructor.
         // If we can't find any, then you can't get in.
-        $relevant_offerings = Offering::whereHas('instructors', function($inst) {
+        $relevant_offerings = Offering::whereHas('instructors', function($inst) use ($cnet_id) {
           $inst->where('cnet_id', $cnet_id);
         })->count();
         if (!$relevant_offerings) {

@@ -4,8 +4,12 @@
     "sourceMap": true,
     "target": "es5",
     "jsx": "react",
+    "types": [
+      "react",
+    ],
     "module": "esnext",
     "moduleResolution": "node",
+    "esModuleInterop": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "declaration": false,
@@ -16,15 +20,9 @@
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
-    "strictNullChecks": true,
-    "suppressImplicitAnyIndexErrors": true,
+    "strict": true,
     "noUnusedLocals": true,
     "outDir": "/public/",
-    "lib": [
-      "es6",
-      "es7",
-      "dom"
-    ]
   },
   "exclude": [
     "public",

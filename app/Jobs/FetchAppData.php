@@ -42,43 +42,45 @@ class FetchAppData implements ShouldQueue
    */
   public function handle()
   {
-      Log::error('FetchAppData started...');
+    // Log that we're starting.
+    $env = config('app.env');
+    Log::info($env . ' data fetch started at ' . $this->started);
 
-      // Fist we fetch all currently active Law students from AIS, getting
-      // everyone regardless of whether or not they're currently registered
-      // for any classes.
-      FetchLawStudents::dispatch();
+    // Fist we fetch all currently active Law students from AIS, getting
+    // everyone regardless of whether or not they're currently registered
+    // for any classes.
+    FetchLawStudents::dispatch();
 
-      sleep(1);
+    sleep(1);
 
-      // Grab the current academic year from the Settings table in DB.
-      // Fall back to 2018 if there is no academic year set.
-      $academic_year_setting = Setting::where('setting_name','academic_year')->first();
-      $year = $academic_year_setting ? $academic_year_setting->setting_value : '2018';
+    // Grab the current academic year from the Settings table in DB.
+    // Fall back to 2018 if there is no academic year set.
+    $academic_year_setting = Setting::where('setting_name','academic_year')->first();
+    $year = $academic_year_setting ? $academic_year_setting->setting_value : '2018';
 
-      // Convert the single year into an array of AIS term codes.
-      // Ie, 2018 becomes 2188, 2192, 2194.
-      $term_codes = getTermCodesFromYear($year);
+    // Convert the single year into an array of AIS term codes.
+    // Ie, 2018 becomes 2188, 2192, 2194.
+    $term_codes = getTermCodesFromYear($year);
 
-      foreach ($term_codes as $term) {
-          // Get the offerings from AIS
-          FetchOfferings::dispatch($term);
+    foreach ($term_codes as $term) {
+      // Get the offerings from AIS
+      FetchOfferings::dispatch($term);
 
-          // Get enrollments from Canvas
-          FetchCanvasEnrollment::dispatch($term);
+      // Get enrollments from Canvas
+      FetchCanvasEnrollment::dispatch($term);
 
-          // Get enrollments from AIS
-          FetchAisEnrollment::dispatch($term);
+      // Get enrollments from AIS
+      FetchAisEnrollment::dispatch($term);
 
-          // Wait a minute before calling AIS again
-          sleep(15);
+      // Wait a minute before calling AIS again
+      sleep(15);
 
-          // Get student photos from AIS
-          FetchPhotoRoster::dispatch($term);
+      // Get student photos from AIS
+      FetchPhotoRoster::dispatch($term);
 
-          // Wait a minute before calling AIS again
-          sleep(15);
-      } // end term loop
+      // Wait a minute before calling AIS again
+      sleep(15);
+    } // end term loop
 
     // Send an email confirming that all jobs finished without errors.
     if (config('app.env') === 'prod') {
@@ -86,6 +88,8 @@ class FetchAppData implements ShouldQueue
       Mail::to(config('app.dev_email'))->send(new JobResults($results));
     }
 
-    Log::error('FetchAppData finished.');
+    // Log that we finished.
+    $finished = date('h:i:s');
+    Log::info($env . ' data fetch finished at ' . $finished);
   }
 }
