@@ -79,16 +79,18 @@ const SingleSeat = ({
     <div
       className={getSeatClasses()}
       data-seat-id={seat.id}
-      onClick={(e: React.BaseSyntheticEvent) => handleClick(e)}
-      onKeyPress={(e: React.BaseSyntheticEvent) => handleClick(e)}
-      role="button"
-      tabIndex={0}
       style={{
         top: seat.y,
         left: seat.x,
       }}
     >
-      <div className="pic-container">
+      <div
+        className="pic-container"
+        onClick={(e: React.BaseSyntheticEvent) => handleClick(e)}
+        onKeyPress={(e: React.BaseSyntheticEvent) => handleClick(e)}
+        role="button"
+        tabIndex={0}
+      >
         {/* If there's no occupant and we're not printing, show the Add User image */}
         {!occupant && !printing.isPrinting && isOffering && (
           <svg

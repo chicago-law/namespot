@@ -88,6 +88,7 @@ const Container = styled('div')<ContainerProps>`
       margin: 0;
       line-height: 1em;
       font-size: ${props => calcSeatFontSize(props.offering)};
+      pointer-events: none;
       span {
         display: block;
       }
