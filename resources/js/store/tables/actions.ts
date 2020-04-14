@@ -36,12 +36,13 @@ export const getTablesForRoom = (
       dispatch(markRoomTablesReceived(roomId))
       dispatch(setLoadingStatus('tables', false))
     })
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .catch(response => dispatch(reportAxiosError(response)))
 }
 
 export const updateTable = (
   tableId: string,
   updates: Partial<Table>,
+  callback?: () => void,
 ) => (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
   dispatch(setLoadingStatus('tables', true))
   api.updateTable(tableId, updates)
@@ -52,12 +53,14 @@ export const updateTable = (
       // they should all be from the same room. Maybe one
       // day we'll make receiveTables smarter.
       dispatch(receiveTables(data.tables[Object.keys(data.tables)[0]].room_id, data.tables))
+      if (callback) callback()
     })
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .catch(response => dispatch(reportAxiosError(response)))
 }
 
 export const createTable = (
   newTable: TempTable,
+  callback?: () => void,
 ) => (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
   dispatch(setLoadingStatus('tables', true))
   api.createTable(newTable)
@@ -66,16 +69,21 @@ export const createTable = (
       dispatch(receiveTables(data.room_id, {
         [data.id]: data,
       }))
+      if (callback) callback()
     })
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .catch(response => dispatch(reportAxiosError(response)))
 }
 
 export const deleteTable = (
   tableId: string,
   roomId: string,
+  callback?: () => void,
 ) => (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
   dispatch(removeTable(tableId, roomId))
   dispatch(deleteTableSeats(tableId))
   api.deleteTable(tableId)
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .then(() => {
+      if (callback) callback()
+    })
+    .catch(response => dispatch(reportAxiosError(response)))
 }

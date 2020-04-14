@@ -9,7 +9,7 @@ const Container = styled('div')`
   margin: 5em auto;
   background: white;
   padding: 2em 0;
-  box-shadow: ${(props) => props.theme.boxShadow};
+  box-shadow: ${props => props.theme.boxShadow};
   h4 {
     text-align: center;
   }
@@ -19,16 +19,16 @@ const Container = styled('div')`
     li {
       position: relative;
       list-style-type: none;
-      border-color: ${(props) => props.theme.lightGray};
+      border-color: ${props => props.theme.lightGray};
       border-style: solid;
       border-width: 0 1px 1px 1px;
       >a, >button {
         display: block;
-        color: ${(props) => props.theme.black};
+        color: ${props => props.theme.black};
         padding: 1em 2em;
         text-decoration: none;
         &:hover {
-          color: ${(props) => props.theme.red};
+          color: ${props => props.theme.red};
         }
       }
       >button {
@@ -40,7 +40,7 @@ const Container = styled('div')`
         top: 50%;
         right: 1em;
         transform: translateY(-50%);
-        color: ${(props) => props.theme.middleGray};
+        color: ${props => props.theme.middleGray};
       }
       .delete  {
         position: absolute;
@@ -49,7 +49,7 @@ const Container = styled('div')`
         transform: translateY(-50%);
         opacity: 0;
         pointer-events: none;
-        font-size: ${(props) => props.theme.ms(-1)};
+        font-size: ${props => props.theme.ms(-1)};
         transition: opacity 200ms ease-out;
       }
       h3 {
@@ -57,12 +57,12 @@ const Container = styled('div')`
       }
       p {
         margin: 0;
-        font-size: ${(props) => props.theme.ms(-1)};
+        font-size: ${props => props.theme.ms(-1)};
       }
       span {
         display: block;
         margin-top: 0.5em;
-        font-size: ${(props) => props.theme.ms(-1)};
+        font-size: ${props => props.theme.ms(-1)};
         font-style: italic;
         opacity: 0.5;
       }
@@ -71,7 +71,7 @@ const Container = styled('div')`
       }
       &:hover {
         .fa-chevron-right {
-          color: ${(props) => props.theme.red};
+          color: ${props => props.theme.red};
         }
         .delete {
           opacity: 1;

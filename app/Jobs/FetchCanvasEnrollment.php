@@ -112,7 +112,11 @@ class FetchCanvasEnrollment implements ShouldQueue
             if (property_exists($canvas_student->user, 'login_id') && !is_null($canvas_student->user->login_id)) {
               $student = Student::firstOrNew(['cnet_id' => $canvas_student->user->login_id]);
             } else if (property_exists($canvas_student->user, 'id') && !is_null($canvas_student->user->id)) {
-              $student = Student::firstOrNew(['canvas_id' => $canvas_student->user->id]);
+              // There is a student who's canvas ID has a letter in it for some reason. It looks
+              // like a Chicago ID. Anyway, if you try to compare it with something that SQL thinks
+              // is an integer, it'll try to turn it into an integer and fail. So, we'll first
+              // coerce the canvas user id into a string.
+              $student = Student::firstOrNew(['canvas_id' => strval($canvas_student->user->id)]);
             }
 
             // Proceed only if we were able to make a student with cnet or canvas id.

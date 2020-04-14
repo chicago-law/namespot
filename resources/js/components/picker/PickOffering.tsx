@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { getOfferingsByTerm } from '../../store/offerings/actions'
@@ -36,7 +36,7 @@ const Container = styled('div')`
     margin-left: 2.5em;
     margin-bottom: 0.5em;
     text-transform: uppercase;
-    color: ${(props) => props.theme.middleGray};
+    color: ${props => props.theme.middleGray};
   }
   .recent {
     margin: 0 2em 2em 2em;
@@ -46,21 +46,24 @@ const Container = styled('div')`
       a {
         display: inline-block;
         padding: 0;
-        font-size: ${(props) => props.theme.ms(-1)};
+        font-size: ${props => props.theme.ms(-1)};
         font-weight: bold;
         text-decoration: none;
       }
     }
   }
+  .no-offerings-found {
+    padding: 1em 0 0 2.1em;
+    color: ${props => props.theme.middleGray};
+    font-style: italic;
+  }
 `
 
-interface StoreProps {
-  authedUser: User;
+interface Props {
+  authedUser: User | null;
   offerings: OfferingsState;
   session: SessionState;
   loading: LoadingState;
-  getOfferingsByTerm: typeof getOfferingsByTerm;
-  setModal: typeof setModal;
 }
 
 const PickOffering = ({
@@ -68,9 +71,8 @@ const PickOffering = ({
   offerings,
   session,
   loading,
-  getOfferingsByTerm,
-  setModal,
-}: StoreProps) => {
+}: Props) => {
+  const dispatch = useDispatch()
   const searchQueryRef = useRef<HTMLInputElement>(null)
   const [term, setTerm] = useLocalStorage('namespot_term', guessCurrentTerm().toString())
   const [query, setQuery] = useState('')
@@ -83,32 +85,37 @@ const PickOffering = ({
   useEffect(() => {
     // Fetch the offerings for this term.
     if (!session.termOfferingsReceived.includes(parseInt(term))) {
-      getOfferingsByTerm(parseInt(term))
+      dispatch(getOfferingsByTerm(parseInt(term)))
     }
-  }, [term])
+  }, [dispatch, session.termOfferingsReceived, term])
 
   function handleCreate() {
-    setModal<EditOfferingModalData>(ModalTypes.editOffering, {
+    dispatch(setModal<EditOfferingModalData>(ModalTypes.editOffering, {
       term_code: parseInt(term),
-    })
+    }))
   }
 
   const termList = useMemo(() => getTermCodeRange(), [])
 
   const termOfferings = useMemo(() => (Object.values(offerings)
-    .filter((offering) => offering.term_code === parseInt(term))
+    .filter(offering => offering.term_code === parseInt(term))
     .sort((a, b) => (a.title.toUpperCase() > b.title.toUpperCase() ? 1 : -1))
   ), [term, offerings])
 
-  const queriedOfferings = termOfferings.filter((offering) => {
-    const searchable = offering.title.toUpperCase()
-      + (offering.subject ? `${offering.subject.toUpperCase()} ` : '')
+  const queriedOfferings = useMemo(() => (
+    termOfferings.filter(offering => {
+      const searchable = offering.title.toUpperCase()
+      + offering.id
       + offering.catalog_nbr
+      + (offering.subject ? `${offering.subject.toUpperCase()} ` : '')
       + offering.instructors
-        .map((inst) => `${inst.first_name.toUpperCase()} ${inst.last_name.toUpperCase()}`)
+        .map(inst => `${inst.first_name.toUpperCase()} ${inst.last_name.toUpperCase()}`)
         .join('')
-    return searchable.includes(query.toUpperCase())
-  })
+      return searchable.includes(query.toUpperCase())
+    })
+  ), [query, termOfferings])
+
+  if (!authedUser) return <div />
 
   return (
     <Container>
@@ -124,13 +131,13 @@ const PickOffering = ({
             type="text"
             value={query}
             placeholder="Name, instructor, catalog number..."
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={e => setQuery(e.target.value)}
             style={{ width: '19em' }}
             ref={searchQueryRef}
           />
         </SearchInputContainer>
-        <select id="term" value={term} onChange={(e) => setTerm(e.target.value)}>
-          {termList.map((term) => (
+        <select id="term" value={term} onChange={e => setTerm(e.target.value)}>
+          {termList.map(term => (
             <option key={term} value={term}>
               {termCodeToString(term)}
             </option>
@@ -141,7 +148,7 @@ const PickOffering = ({
         <>
           <h5>RECENT</h5>
           <ul className="recent">
-            {recentOfferings.map((offering) => {
+            {recentOfferings.map(offering => {
               if (offering) {
                 return (
                   <li key={offering.id}>
@@ -160,13 +167,21 @@ const PickOffering = ({
             <h3><FontAwesomeIcon icon={['far', 'plus-circle']} style={{ marginRight: '0.5em' }} />Create New Class</h3>
           </button>
         </li>
-        {(loading.offerings) && (
+        {loading.offerings && (
           <Loading />
         )}
-        {queriedOfferings.map((offering) => (
+        {queriedOfferings.map(offering => (
           <OfferingRow key={offering.id} offeringId={offering.id} />
         ))}
       </ul>
+      {queriedOfferings.length === 0 && !loading.offerings && (
+        <p className="no-offerings-found">
+          No applicable classes found for {termCodeToString(term)}
+          {query.length > 0 && (
+            <> with query "{query}"</>
+          )}
+        </p>
+      )}
     </Container>
   )
 }
@@ -183,7 +198,4 @@ const mapState = ({
   loading,
 })
 
-export default connect(mapState, {
-  getOfferingsByTerm,
-  setModal,
-})(PickOffering)
+export default connect(mapState)(PickOffering)

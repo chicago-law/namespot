@@ -1,5 +1,5 @@
-import React, { useRef, useLayoutEffect, useMemo } from 'react'
-import { connect } from 'react-redux'
+import React, { useRef, useMemo } from 'react'
+import { connect, useDispatch } from 'react-redux'
 import styled from '../utils/styledComponents'
 import { OfferingsState } from '../store/offerings/types'
 import { AppState } from '../store'
@@ -10,6 +10,10 @@ import { EnrollmentsState } from '../store/enrollments/types'
 import StudentThumbnail from './seating-chart/StudentThumbnail'
 import assembleRoster from '../utils/assembleRoster'
 import { PrintingState } from '../store/printing/types'
+import useMountEffect from '../hooks/useMountEffect'
+
+// How much do you want to scale things up for clarity?
+const rosterScale = 4
 
 // 8.5 x 11 piece of paper. 3 columns, 8 rows.
 // 8.5in wide - 0.5in on each side, divided by 3 columns.
@@ -29,13 +33,13 @@ const Container = styled('div')`
     width: ${columnWidth}in;
     h1 {
       margin: 0;
-      font-size: ${(props) => props.theme.ms(0)};
+      font-size: ${props => props.theme.ms(0)};
     }
     span {
       display: block;
-      font-size: ${(props) => props.theme.ms(-1.5)};
+      font-size: ${props => props.theme.ms(-1.5)};
       &.date {
-        font-size: ${(props) => props.theme.ms(-2)};
+        font-size: ${props => props.theme.ms(-2)};
         font-style: italic;
         margin-top: 1em;
       }
@@ -44,24 +48,36 @@ const Container = styled('div')`
   .roster-row {
     display: flex;
     align-items: center;
-    border: 1px solid ${(props) => props.theme.lightGray};
+    border: 1px solid ${props => props.theme.lightGray};
     width: ${columnWidth}in;
     height: ${rowHeight}in;
-    height: 7em;
     span {
       display: block;
       flex: auto;
       padding: 0 .5em;
-      font-size: ${(props) => props.theme.ms(-1)};
+      font-size: ${props => props.theme.ms(-1)};
       &.details {
-        font-size: ${(props) => props.theme.ms(-2)};
+        font-size: ${props => props.theme.ms(-2)};
         overflow-wrap: break-word;
         word-break: break-all
       }
     }
-    .student-thumbnail {
-      flex: 0 0 40%;
+    /* We're using this as a container to blow up the thumbnail
+    and then scale it back down, allowing for higher res exports. */
+    .thumbnail-container {
+      position: relative;
+      flex: 0 0 50%;
       height: 100%;
+    }
+    .student-thumbnail {
+      /* Twice as big, then scaled to half. */
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: ${100 * rosterScale}%;
+      width: ${100 * rosterScale}%;
+      transform-origin: top left;
+      transform: scale(${1 / rosterScale});
       img {
         max-height: 100%;
         width: auto;
@@ -76,8 +92,6 @@ interface StoreProps {
   students: StudentsState;
   enrollments: EnrollmentsState;
   printing: PrintingState;
-  updatePrintProgress: typeof updatePrintProgress;
-  exitPrint: typeof exitPrint;
 }
 interface OwnProps {
   offeringId?: string;
@@ -88,17 +102,17 @@ const Roster = ({
   students,
   enrollments,
   printing,
-  updatePrintProgress,
-  exitPrint,
   offeringId,
 }: StoreProps & OwnProps) => {
   const pageRef = useRef<HTMLDivElement>(null)
   const rowsRef = useRef<HTMLElement[]>([])
   const offering = (offeringId && offerings[offeringId]) || null
+  const dispatch = useDispatch()
+
   const currentStudents = useMemo(() => (
     offering
       ? Object.keys(students)
-        .filter((studentId) => {
+        .filter(studentId => {
           if (enrollments[offering.id]) {
             // If student isn't in class, return false.
             if (!(studentId in enrollments[offering.id])) return false
@@ -109,15 +123,15 @@ const Roster = ({
           }
           return false
         })
-        .map((studentId) => students[studentId])
+        .map(studentId => students[studentId])
         .sort((a, b) => (a.last_name > b.last_name ? 1 : -1))
       : Object.keys(students)
-        .map((studentId) => students[studentId])
+        .map(studentId => students[studentId])
         .sort((a, b) => (a.last_name > b.last_name ? 1 : -1))
-  ), [offering, students])
+  ), [enrollments, offering, printing.options.aisOnly, students])
 
   function updateProgress(progress: string) {
-    updatePrintProgress(progress)
+    dispatch(updatePrintProgress(progress))
   }
 
   function createPdf() {
@@ -128,21 +142,21 @@ const Roster = ({
         offering,
         undefined,
         updateProgress,
-        exitPrint,
+        () => dispatch(exitPrint()),
       )
     }
   }
 
-  useLayoutEffect(() => {
+  useMountEffect(() => {
     createPdf()
     return () => {
-      exitPrint()
+      dispatch(exitPrint())
     }
-  }, [])
+  })
 
   return (
     <Container ref={pageRef}>
-      <header ref={(ref) => { if (ref && !rowsRef.current.includes(ref)) rowsRef.current.push(ref) }}>
+      <header ref={ref => { if (ref && !rowsRef.current.includes(ref)) rowsRef.current.push(ref) }}>
         <h1>
           {offering && offering.title}
           {printing.options.academicPlan && `${printing.options.academicPlan.substr(2).toUpperCase()} students`}
@@ -155,7 +169,7 @@ const Roster = ({
             <span>
               Instructors:&nbsp;
               <strong>
-                {offering.instructors.map((inst) => `${inst.first_name} ${inst.last_name}`).join(', ')}
+                {offering.instructors.map(inst => `${inst.first_name} ${inst.last_name}`).join(', ')}
               </strong>
             </span>
           </>
@@ -167,9 +181,11 @@ const Roster = ({
         <span className="date">Printed {new Date().toLocaleDateString()}</span>
       </header>
 
-      {currentStudents.map((student) => (
-        <div key={student.id} className="roster-row" ref={(ref) => { if (ref && !rowsRef.current.includes(ref)) rowsRef.current.push(ref) }}>
-          <StudentThumbnail student={student} />
+      {currentStudents.map(student => (
+        <div key={student.id} className="roster-row" ref={ref => { if (ref && !rowsRef.current.includes(ref)) rowsRef.current.push(ref) }}>
+          <div className="thumbnail-container">
+            <StudentThumbnail student={student} />
+          </div>
           <div className="roster-row__info">
             <span>{student.short_first_name} {student.short_last_name}</span>
             <span className="details">{student.academic_prog_descr}</span>
@@ -194,7 +210,4 @@ const mapState = ({
   printing,
 })
 
-export default connect(mapState, {
-  updatePrintProgress,
-  exitPrint,
-})(Roster)
+export default connect(mapState)(Roster)

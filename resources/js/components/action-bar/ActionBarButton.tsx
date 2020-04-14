@@ -18,26 +18,26 @@ const Button = styled('button')`
     }
   }
   .svg-inline--fa {
-    font-size: ${(props) => props.theme.ms(2)};
-    color: ${(props) => props.theme.black};
+    font-size: ${props => props.theme.ms(2)};
+    color: ${props => props.theme.black};
     opacity: 0.75;
     margin-bottom: 0.5em;
     transition: color 150ms ease-out;
   }
   .button-text {
     display: block;
-    font-size: ${(props) => props.theme.ms(-1)};
+    font-size: ${props => props.theme.ms(-1)};
     margin: 0;
     text-transform: capitalize;
   }
   &.active {
-    background: ${(props) => props.theme.lightGray};
-    color: ${(props) => props.theme.red};
+    background: ${props => props.theme.lightGray};
+    color: ${props => props.theme.red};
   }
   &:hover {
-    background: ${(props) => props.theme.lightGray};
+    background: ${props => props.theme.lightGray};
     svg {
-      color: ${(props) => props.theme.red};
+      color: ${props => props.theme.red};
     }
   }
 `
@@ -57,7 +57,7 @@ const ActionBarButton = ({
   icon,
   image,
 }: OwnProps) => (
-  <Button type="button" className={isActive ? 'active' : ''} onClick={(e) => handler(e)}>
+  <Button type="button" className={isActive ? 'active' : ''} onClick={e => handler(e)}>
     <div className="picture">
       {icon && (
         <FontAwesomeIcon icon={icon} />

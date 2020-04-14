@@ -23,6 +23,7 @@ export const removeRoom = (
   roomId,
 })
 
+/* Gets all the TEMPLATE rooms. Custom rooms are not returned in this. */
 export const getAllRooms = () => (
   dispatch: ThunkDispatch<{}, {}, AnyAction>,
 ) => {
@@ -33,7 +34,7 @@ export const getAllRooms = () => (
       dispatch(markRoomTemplatesReceived())
       dispatch(setLoadingStatus('rooms', false))
     })
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .catch(response => dispatch(reportAxiosError(response)))
 }
 
 export const getRoomById = (
@@ -47,7 +48,7 @@ export const getRoomById = (
       dispatch(receiveRooms(data.rooms))
       dispatch(setLoadingStatus('rooms', false))
     })
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .catch(response => dispatch(reportAxiosError(response)))
 }
 
 export const updateRoom = (
@@ -73,7 +74,7 @@ export const updateRoom = (
         dispatch(setLoadingStatus('rooms', false))
       }
     })
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .catch(response => dispatch(reportAxiosError(response)))
 }
 
 export const createRoom = (
@@ -82,6 +83,7 @@ export const createRoom = (
   dispatch: ThunkDispatch<AppState, {}, AnyAction>,
 ): Promise<string> => {
   dispatch(setLoadingStatus('rooms', true))
+  dispatch(setLoadingStatus('enrollments', true))
   const { data } = await api.createRoom(offeringId)
   dispatch(receiveRooms(data.rooms))
   if (offeringId && data.offerings && data.enrollments) {
@@ -89,6 +91,8 @@ export const createRoom = (
     dispatch(receiveEnrollments(data.enrollments))
   }
   dispatch(setLoadingStatus('rooms', false))
+  dispatch(setLoadingStatus('enrollments', false))
+  // Return the ID of the newly created room.
   return Object.keys(data.rooms)[0]
 }
 

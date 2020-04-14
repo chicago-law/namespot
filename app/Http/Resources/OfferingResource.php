@@ -38,7 +38,8 @@ class OfferingResource extends JsonResource
             'title' => $this->title(),
             'class_nbr' => $this->class_nbr,
             'catalog_nbr' => $this->catalog_nbr,
-            'section' => $this->section,
+            // Temporarily, we'll fall back to "LAWS" if this is null.
+            'section' => !is_null($this->section) ? $this->section : 'LAWS',
             'term_code' => intOrNull($this->term_code),
             'subject' => $this->subject,
             'instructors' => $instructors,

@@ -1,5 +1,6 @@
-import React, { memo, useRef, useLayoutEffect } from 'react'
-import { connect } from 'react-redux'
+import React, { useRef } from 'react'
+import { useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
 import styled from '../../utils/styledComponents'
 import Menu from './Menu'
 import PageTitles from './PageTitles'
@@ -7,37 +8,36 @@ import Logo from './Logo'
 import { measureElement } from '../../store/session/actions'
 import { MeasuredElements } from '../../store/session/types'
 import Errors from './Errors'
+import useMountEffect from '../../hooks/useMountEffect'
 
 const Container = styled('div')`
   position: relative;
   z-index: 10;
   background: white;
-  box-shadow: ${(props) => props.theme.boxShadow};
+  border-bottom: 1px solid ${props => props.theme.lightGray};
   .SiteHeader__flex-row {
-    padding: 0.5em 1em;
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
+    padding: 0.5em 1em;
   }
 `
 
-interface StoreProps {
-  measureElement: typeof measureElement;
-}
-
-const SiteHeader = ({ measureElement }: StoreProps) => {
+const SiteHeader = () => {
+  const dispatch = useDispatch()
   const header = useRef<HTMLDivElement>(null)
 
   function handleMeasuring() {
     if (header.current) {
-      measureElement(MeasuredElements.siteHeader, header.current)
+      dispatch(measureElement(MeasuredElements.siteHeader, header.current))
     }
   }
 
-  useLayoutEffect(() => {
+  useMountEffect(() => {
     handleMeasuring()
     window.addEventListener('resize', handleMeasuring)
     return () => window.removeEventListener('resize', handleMeasuring)
-  }, [])
+  })
 
   return (
     <Container ref={header}>
@@ -45,12 +45,12 @@ const SiteHeader = ({ measureElement }: StoreProps) => {
       <div className="SiteHeader__flex-row">
         <Menu />
         <PageTitles />
-        <Logo />
+        <Link to="/">
+          <Logo />
+        </Link>
       </div>
     </Container>
   )
 }
 
-export default memo(connect(null, {
-  measureElement,
-})(SiteHeader))
+export default SiteHeader

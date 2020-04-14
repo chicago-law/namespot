@@ -5,11 +5,12 @@ import ActionBarButton from './ActionBarButton'
 
 interface OwnProps {
   tempTable: TempTable | null;
-  updateTempTable: Function;
+  updateTempTable: (updates: Partial<TempTable>) => void;
 }
 
 const NudgeControls = ({
-  tempTable, updateTempTable,
+  tempTable,
+  updateTempTable,
 }: OwnProps) => {
   function handleNudge(direction: 'up' | 'down' | 'left' | 'right') {
     if (tempTable

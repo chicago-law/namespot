@@ -25,7 +25,7 @@ class Shibboleth
       if (app()->environment() === 'local' || app()->environment() === 'dev') {
         $cnet_id = config('app.default_user');
       } else {
-        // Otherwise look for Cnet ID from server
+        // Otherwise look for Cnet ID from server. Shib refers to 'cnet' as 'uid'.
         $cnet_id = $request->server('uid');
       }
 
@@ -50,7 +50,7 @@ class Shibboleth
 
         // Next check if there are classes with this user as an instructor.
         // If we can't find any, then you can't get in.
-        $relevant_offerings = Offering::whereHas('instructors', function($inst) {
+        $relevant_offerings = Offering::whereHas('instructors', function($inst) use ($cnet_id) {
           $inst->where('cnet_id', $cnet_id);
         })->count();
         if (!$relevant_offerings) {
@@ -63,11 +63,12 @@ class Shibboleth
         $user->first_name = $first_name;
         $user->last_name = $last_name;
         $user->email = $email;
-        $user->role === 'inst';
+        $user->role = 'inst';
 
         // Save!
         $user->save();
-      }
+
+      } // End if no matching user in DB
 
       if ($user) {
         auth()->login($user);

@@ -20,16 +20,16 @@ const Button = styled('button')<StyledButtonProps>`
   border-radius: 100%;
   transition: background-color 150ms ease-out;
   svg {
-    font-size: ${(props) => props.theme.ms(props.iconSize)};
+    font-size: ${props => props.theme.ms(props.iconSize)};
     margin: auto;
-    color: ${(props) => props.iconColor};
+    color: ${props => props.iconColor};
     transition: color 150ms ease-out;
   }
   &:hover {
     svg {
-      color: ${(props) => props.iconHoverColor};
+      color: ${props => props.iconHoverColor};
     }
-    background: ${(props) => props.backgroundHoverColor};
+    background: ${props => props.backgroundHoverColor};
   }
 `
 

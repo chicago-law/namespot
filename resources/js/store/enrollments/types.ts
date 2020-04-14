@@ -38,7 +38,13 @@ export interface RemoveEnrollment {
   studentId: string;
 }
 
+export const REMOVE_ALL_ENROLLMENTS = 'REMOVE_ALL_ENROLLMENTS'
+export interface RemoveAllEnrollments {
+  type: typeof REMOVE_ALL_ENROLLMENTS;
+}
+
 export type EnrollmentsActionTypes =
   | ReceiveEnrollments
   | UpdateEnrollment
-  | RemoveEnrollment;
+  | RemoveEnrollment
+  | RemoveAllEnrollments;

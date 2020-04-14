@@ -4,7 +4,14 @@ import {
   SET_LOADING_STATUS,
 } from './types'
 
-export const initialState: LoadingState = {}
+export const initialState: LoadingState = {
+  offerings: false,
+  enrollments: false,
+  rooms: false,
+  students: false,
+  tables: false,
+  settings: false,
+}
 
 const loading = (
   state: LoadingState = initialState,

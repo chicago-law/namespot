@@ -11,25 +11,6 @@ const assembleFlashCards = async (
   updateProgress?: (progress: string) => void,
   callback?: () => void,
 ) => {
-  // type myImports = [
-  //   typeof import("/Users/dramus/Sites/namespot2/node_modules/html2canvas/dist/types/index"),
-  //   typeof import("/Users/dramus/Sites/namespot2/node_modules/jspdf/dist/types/index"),
-  //   typeof jsPdfModule,
-  // ]
-  // const test: [
-  //   Promise<typeof import('html2canvas')>,
-  //   Promise<typeof import('jspdf')>,
-  // ] = [
-  //   import('html2canvas'),
-  //   import('jspdf'),
-  // ]
-  // const [html2canvasModule, jsPdfModule] = await Promise.all<Promise<any>[]>([
-  //   import('html2canvas'),
-  //   import('jspdf'),
-  // ])
-  // const html2canvas = html2canvasModule.default
-  // const jsPDF = jsPdfModule.default
-
   const pdf = new jsPDF({
     format: 'letter',
     unit: 'in',
@@ -58,7 +39,7 @@ const assembleFlashCards = async (
   }
 
   function addToPdf() {
-    if (updateProgress) updateProgress(`${Math.floor(i / cards.length * 100)}%`)
+    if (updateProgress) updateProgress(`${Math.floor((i / cards.length) * 100)}%`)
 
     let even = false
 
@@ -144,6 +125,8 @@ const assembleFlashCards = async (
       }
     })
   }
+
+  // Start!
   addToPdf()
 }
 

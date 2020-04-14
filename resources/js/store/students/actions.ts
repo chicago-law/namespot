@@ -5,6 +5,7 @@ import api from '../../utils/api'
 import { setLoadingStatus } from '../loading/actions'
 import { AppState } from '..'
 import { reportAxiosError } from '../errors/actions'
+import { markOfferingStudentsReceived } from '../session/actions'
 
 export const receiveStudents = (
   students: { [studentId: string]: Student },
@@ -20,9 +21,10 @@ export const getStudentsForOffering = (
   api.fetchStudents({ offeringId })
     .then(({ data }) => {
       dispatch(receiveStudents(data.students))
+      dispatch(markOfferingStudentsReceived(offeringId))
       dispatch(setLoadingStatus('students', false))
     })
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .catch(response => dispatch(reportAxiosError(response)))
 }
 
 export const getStudentsForRoster = (
@@ -36,7 +38,7 @@ export const getStudentsForRoster = (
       dispatch(setLoadingStatus('students', false))
       if (callback) callback()
     })
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .catch(response => dispatch(reportAxiosError(response)))
 }
 
 
@@ -55,5 +57,5 @@ export const updateStudent = (
     [studentId]: updatedStudent,
   }))
   api.updateStudent(studentId, updates)
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .catch(response => dispatch(reportAxiosError(response)))
 }

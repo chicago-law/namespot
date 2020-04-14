@@ -4,6 +4,7 @@ type AnimationNames =
   | 'fadeSlideUp'
   | 'fadeSlideDown'
   | 'slideRight'
+  | 'fadeSlideRight'
   | 'slideLeft'
   | 'slideDown'
   | 'fadeExpand'
@@ -30,6 +31,12 @@ const animateEntrance = (
     case 'slideRight': return css`
       animation: moveToPosition ${duration || '500'}ms ease-in-out forwards;
       animation-delay: ${delay || '100'}ms;
+      transform: translateX(-100%);
+    `
+    case 'fadeSlideRight': return css`
+      animation: moveToPosition ${duration || '500'}ms ease-in-out forwards;
+      animation-delay: ${delay || '100'}ms;
+      opacity: 0;
       transform: translateX(-100%);
     `
     case 'slideLeft': return css`

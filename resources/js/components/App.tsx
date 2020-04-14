@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
+import React from 'react'
+import { connect, useDispatch } from 'react-redux'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { useDebouncedCallback } from 'use-debounce'
 import styled from '../utils/styledComponents'
@@ -15,12 +15,14 @@ import { fetchSettings } from '../store/settings/actions'
 import { LoadingState } from '../store/loading/types'
 import Loading from './Loading'
 import { AuthedUserState } from '../store/authedUser/types'
+import useMountEffect from '../hooks/useMountEffect'
+import SiteFooter from './SiteFooter'
 
 const Container = styled('div')<{ isPrinting: boolean }>`
   position: relative;
-  overflow: hidden;
   /* html2canvas doesn't like transitions */
-  ${(props) => props.isPrinting && `
+  ${props => props.isPrinting && `
+    overflow: hidden;
     * {
       transition: unset !important;
     }
@@ -31,33 +33,28 @@ interface StoreProps {
   authedUser: AuthedUserState;
   loading: LoadingState;
   printing: PrintingState;
-  getAuthedUser: typeof getAuthedUser;
-  reportScrollPos: typeof reportScrollPos;
-  fetchSettings: typeof fetchSettings;
 }
 
 const App = ({
   authedUser,
   loading,
   printing,
-  getAuthedUser,
-  reportScrollPos,
-  fetchSettings,
 }: StoreProps & RouteComponentProps) => {
+  const dispatch = useDispatch()
   const [debouncedScroll] = useDebouncedCallback(() => {
-    reportScrollPos(window.pageYOffset)
+    dispatch(reportScrollPos(window.pageYOffset))
   }, 50, { leading: true })
 
-  useEffect(() => {
-    getAuthedUser()
-    fetchSettings()
+  useMountEffect(() => {
+    dispatch(getAuthedUser())
+    dispatch(fetchSettings())
     window.addEventListener('scroll', debouncedScroll)
     return () => window.removeEventListener('scroll', debouncedScroll)
-  }, [])
+  })
 
   // Don't load the app until Settings and Authed User have come back from
   // the server.
-  if (!('settings' in loading) || loading.settings || authedUser === null) {
+  if (loading.settings || authedUser === null) {
     return <Loading />
   }
 
@@ -65,6 +62,7 @@ const App = ({
     <Container isPrinting={printing.isPrinting}>
       <SiteHeader />
       <MainContentRouter />
+      <SiteFooter />
       <Modals />
       {printing.showCurtain && (
         <PrintingCurtain />
@@ -79,8 +77,4 @@ const mapState = ({ authedUser, printing, loading }: AppState) => ({
   printing,
 })
 
-export default withRouter(connect(mapState, {
-  getAuthedUser,
-  reportScrollPos,
-  fetchSettings,
-})(App))
+export default withRouter(connect(mapState)(App))

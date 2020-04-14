@@ -2,9 +2,9 @@ import React, { useEffect } from 'react'
 import { Route, withRouter, RouteComponentProps } from 'react-router-dom'
 import PageContainer from './PageContainer'
 import styled from '../../utils/styledComponents'
-import OfferingInfo from './OfferingRoster'
 import useUnmountModalCloser from '../../hooks/useUnmountModalCloser'
-import OfferingOptions from './OfferingOptions'
+import OfferingSidebarLeft from './OfferingSidebarLeft'
+import OfferingSidebarRight from './OfferingSidebarRight'
 import RoomSidebarLeft from './RoomSidebarLeft'
 
 /**
@@ -16,13 +16,14 @@ import RoomSidebarLeft from './RoomSidebarLeft'
 
 const Container = styled('div')`
   display: grid;
-  grid-template-columns: 15em auto 15em;
+  grid-template-columns: 15em minmax(auto, 70em) 15em;
+  justify-content: center;
   padding: 0 1.5em;
-  overflow: visible;
+  overflow: hidden;
   >div {
     margin-top: 2em;
   }
-  @media (max-width: ${(props) => props.theme.break.medium}) {
+  @media (max-width: ${props => props.theme.break.medium}) {
     grid-template-columns: 10em auto 10em;
     padding: 0 1em;
   }
@@ -50,22 +51,22 @@ const SeatingChart = ({
     <Container className="page-workspace">
       <Route
         path="/offerings/:offeringId"
-        render={(props) => (
+        render={props => (
           <>
-            <OfferingOptions {...props} />
+            <OfferingSidebarLeft {...props} />
             <PageContainer {...props} />
-            <OfferingInfo {...props} />
+            <OfferingSidebarRight {...props} />
           </>
         )}
       />
 
       <Route
         path="/rooms/:roomId/:offeringId?"
-        render={(props) => (
+        render={props => (
           <>
             <RoomSidebarLeft />
             <PageContainer {...props} />
-            <div />
+            <div /> {/* Empty right sidebar */}
           </>
         )}
       />

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { connect } from 'react-redux'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -24,14 +24,14 @@ const Container = styled('div')`
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    color: ${(props) => props.theme.middleGray};
+    color: ${props => props.theme.middleGray};
     h5 {
       margin: 0.5em 0;
     }
     svg {
       margin-left: 0.5em;
-      font-size: ${(props) => props.theme.ms(2)};
-      @media(max-width: ${(props) => props.theme.break.medium}) {
+      font-size: ${props => props.theme.ms(2)};
+      @media(max-width: ${props => props.theme.break.medium}) {
         display: none;
       }
     }
@@ -46,7 +46,7 @@ const Container = styled('div')`
       height: 2em;
       overflow: hidden;
       border-radius: 10px;
-      border: 3px solid ${(props) => props.theme.offWhite};
+      border: 3px solid ${props => props.theme.offWhite};
     }
   }
 `
@@ -65,7 +65,7 @@ interface RouteParams {
   offeringId: string;
 }
 
-const OfferingRoster = ({
+const OfferingSidebarRight = ({
   offering,
   students,
   enrollments,
@@ -78,19 +78,24 @@ const OfferingRoster = ({
   const room = offering.room_id ? rooms[offering.room_id] : null
   const currentSeats = room ? seats[room.id] : null
   const seatCount = (room && currentSeats) ? Object.keys(currentSeats).length : null
-  const seatedStudents: string[] = []
-  const notSeatedStudents: string[] = []
+  const seatedStudents = useRef<string[]>([])
+  const notSeatedStudents = useRef<string[]>([])
 
-  Object.keys(students)
-    .filter((studentId) => enrollments[studentId])
-    .forEach((studentId) => {
-      const enrollment = enrollments[studentId]
-      if (enrollment.seat !== null) {
-        seatedStudents.push(studentId)
-      } else {
-        notSeatedStudents.push(studentId)
-      }
-    })
+  useEffect(() => {
+    seatedStudents.current = []
+    notSeatedStudents.current = []
+    Object.keys(students)
+      .filter(studentId => enrollments[studentId])
+      .forEach(studentId => {
+        const enrollment = enrollments[studentId]
+        if (enrollment.seat !== null) {
+          seatedStudents.current.push(studentId)
+        } else {
+          notSeatedStudents.current.push(studentId)
+        }
+      })
+  }, [enrollments, notSeatedStudents, seatedStudents, students])
+
 
   function handleStudentClick(e: React.MouseEvent, studentId: string) {
     e.stopPropagation()
@@ -100,33 +105,38 @@ const OfferingRoster = ({
     if (enrollment && enrollment.seat !== null) selectSeat(enrollment.seat)
   }
 
+  function getRoomName() {
+    let name = 'No Room Assigned'
+    if (room) {
+      if (room.name !== null) {
+        name = room.name
+      } else {
+        name = '(untitled room)'
+      }
+      if (room.type === 'custom') name += ' (edited)'
+    }
+    return name
+  }
+
   return (
     <Container>
       <ul>
         <li>
-          <h5>
-            {room && (room.name !== null
-              ? room.name
-              : '(untitled room)')}
-            {room && room.type === 'custom' && ' (edited)'}
-            {!room && 'No Room Assigned'}
-          </h5>
+          <h5>{getRoomName()}{seatCount ? <><br />{seatCount} seats</> : ''}</h5>
           <FontAwesomeIcon icon={['far', 'map-marker-alt']} fixedWidth />
         </li>
         {seatCount !== null && (
           <li>
-            <h5>
-              {Object.keys(enrollments).length} students enrolled, with {seatCount} seats in room.
-            </h5>
+            <h5>{Object.keys(enrollments).length} students enrolled</h5>
             <FontAwesomeIcon icon={['far', 'users']} fixedWidth />
           </li>
         )}
 
-        {seatedStudents.length > 0 && (
+        {seatedStudents.current.length > 0 && (
           <li>
             <div>
               <h5>Seated:</h5>
-              {seatedStudents.map((studentId) => (
+              {seatedStudents.current.map(studentId => (
                 <div className="thumbnail-container" key={studentId}>
                   <StudentThumbnail
                     student={students[studentId]}
@@ -138,16 +148,16 @@ const OfferingRoster = ({
           </li>
         )}
 
-        {notSeatedStudents.length > 0 && (
+        {notSeatedStudents.current.length > 0 && (
           <li>
             <div>
               <h5>Not Seated:</h5>
-              {notSeatedStudents.map((studentId) => (
+              {notSeatedStudents.current.map(studentId => (
                 <div className="thumbnail-container" key={studentId}>
                   <StudentThumbnail
                     key={studentId}
                     student={students[studentId]}
-                    onClick={(e) => handleStudentClick(e, studentId)}
+                    onClick={e => handleStudentClick(e, studentId)}
                   />
                 </div>
               ))}
@@ -179,4 +189,4 @@ export default withRouter(connect(mapState, {
   setTask,
   selectStudent,
   selectSeat,
-})(React.memo(OfferingRoster)))
+})(React.memo(OfferingSidebarRight)))

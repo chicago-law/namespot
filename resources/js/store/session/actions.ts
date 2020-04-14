@@ -111,15 +111,14 @@ export const saveTempTable = (
   const errors = validateTempTable(tempTable)
   if (!errors.length) {
     // Update or create new depending on if tempTable is new or not.
-    // A brew new table is given an id of 'temp', instead of a real one
+    // A brand new table is given an id of 'temp', instead of a real one
     // assigned by the database.
     if (tempTable.id !== 'temp') {
       // Safe to coerce temp to real table because it has no errors and it has an ID.
-      dispatch(updateTable(tempTable.id, tempTable as Table))
+      dispatch(updateTable(tempTable.id, tempTable as Table, successCallback))
     } else {
-      dispatch(createTable(tempTable))
+      dispatch(createTable(tempTable, successCallback))
     }
-    if (successCallback) successCallback()
   } else if (errorCallback) {
     errorCallback(errors)
   }

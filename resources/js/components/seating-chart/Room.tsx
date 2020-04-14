@@ -1,4 +1,4 @@
-import React, { useRef, useLayoutEffect, useEffect, useState } from 'react'
+import React, { useRef, useLayoutEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import styled from '../../utils/styledComponents'
 import TablesContainer from './TablesContainer'
@@ -6,7 +6,6 @@ import SeatsContainer from './SeatsContainer'
 import BlipGrid from './BlipGrid'
 import { AppState } from '../../store'
 import { SessionState } from '../../store/session/types'
-import { getTablesForRoom } from '../../store/tables/actions'
 import { TablesState } from '../../store/tables/types'
 import { LoadingState } from '../../store/loading/types'
 import { Offering } from '../../store/offerings/types'
@@ -20,8 +19,6 @@ import GuideLines from './GuideLines'
  * Room ID is passed down manually because it could be based on the URL or based
  * on the offering from the URL. So, extra logic is required to do that,
  * so we do it up in Page, which needs it also, and then pass it down to here.
- *
- * Tables are fetched and gated here.
  */
 
 const Container = styled('div')<{ flipped: boolean }>`
@@ -30,7 +27,7 @@ const Container = styled('div')<{ flipped: boolean }>`
   &.loading {
     opacity: 0.5;
   }
-  ${(props) => props.flipped && `
+  ${props => props.flipped && `
     transform: rotate(180deg);
   `}
 `
@@ -41,7 +38,6 @@ interface StoreProps {
   session: SessionState;
   tables: TablesState;
   printing: PrintingState;
-  getTablesForRoom: typeof getTablesForRoom;
 }
 interface OwnProps {
   roomId: string;
@@ -54,7 +50,6 @@ const Room = ({
   session,
   tables,
   printing,
-  getTablesForRoom,
   roomId,
 }: StoreProps & OwnProps) => {
   const roomRef = useRef<HTMLDivElement>(null)
@@ -65,12 +60,6 @@ const Room = ({
     height: 0,
     width: 0,
   })
-
-  useEffect(() => {
-    if (!session.roomTablesReceived.includes(roomId)) {
-      getTablesForRoom(roomId)
-    }
-  }, [])
 
   useLayoutEffect(() => {
     if (roomRef.current) {
@@ -118,6 +107,4 @@ const mapState = ({
   printing,
 })
 
-export default connect(mapState, {
-  getTablesForRoom,
-})(Room)
+export default connect(mapState)(Room)

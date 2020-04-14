@@ -39,9 +39,9 @@ class OfferingController extends Controller
       $query = $query->where(function($subQ) {
         $subQ->whereNull('manually_created_by');
         $subQ->orWhere(function($subSubQ) {
-              $subSubQ->whereNotNull('manually_created_by');
-              $subSubQ->where('manually_created_by', '=', Auth::user()->id);
-            });
+          $subSubQ->whereNotNull('manually_created_by');
+          $subSubQ->where('manually_created_by', '=', Auth::user()->id);
+        });
       });
     }
 
@@ -51,7 +51,7 @@ class OfferingController extends Controller
       $query = $query->where('term_code', $term_code);
     }
 
-    // Eager load the instructors.
+    // Get the results, eager loaded with the instructors.
     $query = $query->with('instructors')->get();
 
     $offerings = OfferingResource::collection($query)->keyBy->id;

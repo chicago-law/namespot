@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
 import { CSSTransition } from 'react-transition-group'
+import { useDispatch } from 'react-redux'
 import ModalControls from '../ModalControls'
 import ModalHeader from '../ModalHeader'
 import ModalContent from '../ModalContent'
@@ -10,17 +10,14 @@ import { PrintableFormats, PrintingOptions } from '../../../store/printing/types
 export interface PrintOfferingModalData {
   offeringId: string;
 }
-interface StoreProps {
-  initiatePrint: typeof initiatePrint;
-}
 interface OwnProps {
   modalData: PrintOfferingModalData;
 }
 
 const PrintOffering = ({
-  initiatePrint,
   modalData,
-}: StoreProps & OwnProps) => {
+}: OwnProps) => {
+  const dispatch = useDispatch()
   const [format, setFormat] = useState<PrintableFormats>('seating-chart')
   const [options, setOptions] = useState<PrintingOptions>({
     aisOnly: true,
@@ -29,7 +26,7 @@ const PrintOffering = ({
   })
 
   function handleConfirm() {
-    initiatePrint(format, options)
+    dispatch(initiatePrint(format, options))
   }
 
   return (
@@ -112,7 +109,7 @@ const PrintOffering = ({
                   id="all-seats-blank"
                   name="all-seats-blank"
                   checked={options.allSeatsBlank}
-                  onChange={() => setOptions((options) => ({
+                  onChange={() => setOptions(options => ({
                     ...options,
                     allSeatsBlank: !options.allSeatsBlank,
                   }))}
@@ -136,7 +133,7 @@ const PrintOffering = ({
                   id="flash-card-reverse"
                   name="flash-card-reverse"
                   checked={options.namesOnReverse}
-                  onChange={() => setOptions((options) => ({
+                  onChange={() => setOptions(options => ({
                     ...options,
                     namesOnReverse: !options.namesOnReverse,
                   }))}
@@ -162,7 +159,7 @@ const PrintOffering = ({
                       name="roster-ais-only"
                       id="ais-only"
                       checked={options.aisOnly}
-                      onChange={() => setOptions((options) => ({
+                      onChange={() => setOptions(options => ({
                         ...options,
                         aisOnly: true,
                       }))}
@@ -177,7 +174,7 @@ const PrintOffering = ({
                       name="roster-ais-only"
                       id="all-students"
                       checked={!options.aisOnly}
-                      onChange={() => setOptions((options) => ({
+                      onChange={() => setOptions(options => ({
                         ...options,
                         aisOnly: false,
                       }))}
@@ -199,6 +196,4 @@ const PrintOffering = ({
   )
 }
 
-export default connect(null, {
-  initiatePrint,
-})(PrintOffering)
+export default PrintOffering

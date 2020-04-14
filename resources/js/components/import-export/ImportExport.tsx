@@ -11,7 +11,7 @@ const Container = styled('div')`
   margin: 5em auto;
   background: white;
   padding: 2em;
-  box-shadow: ${(props) => props.theme.boxShadow};
+  box-shadow: ${props => props.theme.boxShadow};
   h4 {
     text-align: center;
   }

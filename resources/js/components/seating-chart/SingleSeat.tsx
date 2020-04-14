@@ -53,13 +53,13 @@ const SingleSeat = ({
           ]
         case 'first_only':
           return [
-            `${usePrefixes && occupant.prefix && `${occupant.prefix} `}${useNicknames && occupant.nickname ? occupant.nickname : occupant.short_first_name}`,
+            `${usePrefixes && occupant.prefix ? `${occupant.prefix} ` : ''}${useNicknames && occupant.nickname ? occupant.nickname : occupant.short_first_name}`,
             '',
           ]
         case 'last_only':
           return [
             '',
-            `${usePrefixes && occupant.prefix && `${occupant.prefix} `}${occupant.short_last_name}`,
+            `${usePrefixes && occupant.prefix ? `${occupant.prefix} ` : ''}${occupant.short_last_name}`,
           ]
         case 'first_and_last_initial':
           return [
@@ -79,16 +79,18 @@ const SingleSeat = ({
     <div
       className={getSeatClasses()}
       data-seat-id={seat.id}
-      onClick={(e: React.BaseSyntheticEvent) => handleClick(e)}
-      onKeyPress={(e: React.BaseSyntheticEvent) => handleClick(e)}
-      role="button"
-      tabIndex={0}
       style={{
         top: seat.y,
         left: seat.x,
       }}
     >
-      <div className="pic-container">
+      <div
+        className="pic-container"
+        onClick={(e: React.BaseSyntheticEvent) => handleClick(e)}
+        onKeyPress={(e: React.BaseSyntheticEvent) => handleClick(e)}
+        role="button"
+        tabIndex={0}
+      >
         {/* If there's no occupant and we're not printing, show the Add User image */}
         {!occupant && !printing.isPrinting && isOffering && (
           <svg

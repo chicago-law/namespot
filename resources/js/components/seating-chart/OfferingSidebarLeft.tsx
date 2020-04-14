@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { RouteComponentProps } from 'react-router-dom'
 import styled from '../../utils/styledComponents'
@@ -18,12 +18,12 @@ const Container = styled('div')`
     display: flex;
     align-items: center;
     margin-bottom: 2em;
-    font-size: ${(props) => props.theme.ms(-1)};
-    color: ${(props) => props.theme.middleGray};
+    font-size: ${props => props.theme.ms(-1)};
+    color: ${props => props.theme.middleGray};
     svg {
       margin-right: 0.5em;
-      font-size: ${(props) => props.theme.ms(2)};
-      @media (max-width: ${(props) => props.theme.break.medium}) {
+      font-size: ${props => props.theme.ms(2)};
+      @media (max-width: ${props => props.theme.break.medium}) {
         display: none;
       }
     }
@@ -35,13 +35,13 @@ const Container = styled('div')`
 
 interface StoreProps {
   offering: Offering;
-  updateOffering: typeof updateOffering;
 }
 interface RouteParams {
   offeringId: string;
 }
 
-const OfferingOptions = ({ offering, updateOffering }: StoreProps) => {
+const OfferingSidebarLeft = ({ offering }: StoreProps) => {
+  const dispatch = useDispatch()
   const [paperSize, setPaperSize] = useState(offering.paper_size || 'tabloid')
   const [fontSize, setFontSize] = useState(offering.font_size || 'default')
   const [namesToShow, setNamesToShow] = useState(offering.names_to_show || 'first_and_last')
@@ -52,18 +52,18 @@ const OfferingOptions = ({ offering, updateOffering }: StoreProps) => {
   function handlePaperSize(size: string) {
     if (size === 'letter' || size === 'tabloid') {
       setPaperSize(size)
-      updateOffering(offering.id, {
+      dispatch(updateOffering(offering.id, {
         paper_size: size,
-      }, true)
+      }, true))
     }
   }
 
   function handleFontSize(size: string) {
     if (size === 'default' || size === 'smaller' || size === 'larger' || size === 'x-large') {
       setFontSize(size)
-      updateOffering(offering.id, {
+      dispatch(updateOffering(offering.id, {
         font_size: size,
-      }, true)
+      }, true))
     }
   }
 
@@ -74,31 +74,31 @@ const OfferingOptions = ({ offering, updateOffering }: StoreProps) => {
       || format === 'last_only'
     ) {
       setNamesToShow(format)
-      updateOffering(offering.id, {
+      dispatch(updateOffering(offering.id, {
         names_to_show: format,
-      }, true)
+      }, true))
     }
   }
 
   function handleUseNicknames(checked: boolean) {
     setUseNicknames(checked)
-    updateOffering(offering.id, {
+    dispatch(updateOffering(offering.id, {
       use_nicknames: checked ? 1 : 0,
-    }, true)
+    }, true))
   }
 
   function handleUsePrefixes(checked: boolean) {
     setUsePrefixes(checked)
-    updateOffering(offering.id, {
+    dispatch(updateOffering(offering.id, {
       use_prefixes: checked ? 1 : 0,
-    }, true)
+    }, true))
   }
 
   function handleFlipPerspective(checked: boolean) {
     setFlipPerspective(checked)
-    updateOffering(offering.id, {
+    dispatch(updateOffering(offering.id, {
       flipped: checked ? 1 : 0,
-    }, true)
+    }, true))
   }
 
   return (
@@ -108,7 +108,7 @@ const OfferingOptions = ({ offering, updateOffering }: StoreProps) => {
           <FontAwesomeIcon icon={['far', 'file']} fixedWidth style={{ transform: 'rotate(90deg)' }} />
           <div>
             <h5>Paper Size</h5>
-            <select value={paperSize} onChange={(e) => handlePaperSize(e.target.value)}>
+            <select value={paperSize} onChange={e => handlePaperSize(e.target.value)}>
               <option value="tabloid">11 x 17</option>
               <option value="letter">8.5 x 11</option>
             </select>
@@ -118,7 +118,7 @@ const OfferingOptions = ({ offering, updateOffering }: StoreProps) => {
           <FontAwesomeIcon icon={['far', 'text-size']} fixedWidth />
           <div>
             <h5>Name Size</h5>
-            <select value={fontSize} onChange={(e) => handleFontSize(e.target.value)}>
+            <select value={fontSize} onChange={e => handleFontSize(e.target.value)}>
               <option value="smaller">Smaller</option>
               <option value="default">Default</option>
               <option value="larger">Larger</option>
@@ -130,7 +130,7 @@ const OfferingOptions = ({ offering, updateOffering }: StoreProps) => {
           <FontAwesomeIcon icon={['far', 'id-card']} fixedWidth />
           <div>
             <h5>Names To Show</h5>
-            <select value={namesToShow} onChange={(e) => handleNamesToShow(e.target.value)}>
+            <select value={namesToShow} onChange={e => handleNamesToShow(e.target.value)}>
               <option value="first_and_last">First and Last</option>
               <option value="first_and_last_initial">First and Last Initial</option>
               <option value="first_only">First Only</option>
@@ -147,7 +147,7 @@ const OfferingOptions = ({ offering, updateOffering }: StoreProps) => {
                   id="use_nicknames"
                   type="checkbox"
                   checked={useNicknames}
-                  onChange={(e) => handleUseNicknames(e.target.checked)}
+                  onChange={e => handleUseNicknames(e.target.checked)}
                 />
                 Use Nicknames
               </label>
@@ -163,7 +163,7 @@ const OfferingOptions = ({ offering, updateOffering }: StoreProps) => {
                   id="use_prefixes"
                   type="checkbox"
                   checked={usePrefixes}
-                  onChange={(e) => handleUsePrefixes(e.target.checked)}
+                  onChange={e => handleUsePrefixes(e.target.checked)}
                 />
                 Use Prefixes
               </label>
@@ -179,7 +179,7 @@ const OfferingOptions = ({ offering, updateOffering }: StoreProps) => {
                   id="flipped"
                   type="checkbox"
                   checked={flipPerspective}
-                  onChange={(e) => handleFlipPerspective(e.target.checked)}
+                  onChange={e => handleFlipPerspective(e.target.checked)}
                 />
                 Flip Perspective
               </label>
@@ -195,6 +195,4 @@ const mapState = ({ offerings }: AppState, { match }: RouteComponentProps<RouteP
   offering: offerings[match.params.offeringId],
 })
 
-export default connect(mapState, {
-  updateOffering,
-})(OfferingOptions)
+export default connect(mapState)(OfferingSidebarLeft)

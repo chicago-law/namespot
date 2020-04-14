@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { setTask, selectSeat } from '../../store/session/actions'
 import IconButton from '../IconButton'
@@ -52,10 +52,10 @@ const Container = styled('div')`
         p {
           display: block;
           margin: 0;
-          font-size: ${(props) => props.theme.ms(-1)};
+          font-size: ${props => props.theme.ms(-1)};
         }
         &:hover {
-          background-color: ${(props) => props.theme.lightGray};
+          background-color: ${props => props.theme.lightGray};
           .student-thumbnail {
             opacity: 0.5;
           }
@@ -66,7 +66,7 @@ const Container = styled('div')`
   .all-seated {
     margin-left: 1em;
     font-style: italic;
-    color: ${(props) => props.theme.middleGray};
+    color: ${props => props.theme.middleGray};
   }
 `
 
@@ -75,9 +75,6 @@ interface StoreProps {
   students: StudentsState;
   enrollments: Enrollments;
   session: SessionState;
-  assignSeat: typeof assignSeat;
-  setTask: typeof setTask;
-  selectSeat: typeof selectSeat;
 }
 interface OwnProps {
   actionBarRef: HTMLDivElement | null;
@@ -89,16 +86,14 @@ const SeatStudent = ({
   students,
   enrollments,
   session,
-  setTask,
-  assignSeat,
-  selectSeat,
   actionBarRef,
 }: Props) => {
+  const dispatch = useDispatch()
   const [query, setQuery] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
   const filteredStudents = useMemo(() => Object.keys(enrollments)
-    .filter((studentId) => enrollments[studentId].seat === null)
-    .filter((studentId) => {
+    .filter(studentId => enrollments[studentId].seat === null)
+    .filter(studentId => {
       const student = students[studentId]
       const nameConcat = student.short_first_name
         + student.short_last_name
@@ -112,15 +107,15 @@ const SeatStudent = ({
       return false
     })
     .sort((a, b) => (students[a].last_name > students[b].last_name ? 1 : -1))
-    .map((studentId) => students[studentId]), [enrollments, students, query])
+    .map(studentId => students[studentId]), [enrollments, students, query])
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     setQuery(e.target.value)
   }
 
   function reset() {
-    setTask(null)
-    selectSeat(null)
+    dispatch(setTask(null))
+    dispatch(selectSeat(null))
   }
 
   useOutsideClickDetector(actionBarRef, reset)
@@ -132,7 +127,7 @@ const SeatStudent = ({
 
   function handleStudentClick(studentId: string) {
     if (session.selectedSeat) {
-      assignSeat(offering.id, studentId, session.selectedSeat)
+      dispatch(assignSeat(offering.id, studentId, session.selectedSeat))
     }
   }
 
@@ -150,7 +145,7 @@ const SeatStudent = ({
       </SearchInputContainer>
       {filteredStudents.length > 0 && (
         <ul>
-          {filteredStudents.map((student) => (
+          {filteredStudents.map(student => (
             <li key={student.id}>
               <button type="button" onClick={() => handleStudentClick(student.id)}>
                 <StudentThumbnail student={student} />
@@ -182,8 +177,4 @@ const mapState = ({
   session,
 })
 
-export default withRouter(connect(mapState, {
-  assignSeat,
-  setTask,
-  selectSeat,
-})(SeatStudent))
+export default withRouter(connect(mapState)(SeatStudent))

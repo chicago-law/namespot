@@ -1,6 +1,6 @@
 import { ThunkDispatch } from 'redux-thunk'
 import { AnyAction } from 'redux'
-import { RECEIVE_ENROLLMENTS, EnrollmentsActionTypes, Enrollment, UPDATE_ENROLLMENT, EnrollmentsState, REMOVE_ENROLLMENT } from './types'
+import { RECEIVE_ENROLLMENTS, EnrollmentsActionTypes, Enrollment, UPDATE_ENROLLMENT, EnrollmentsState, REMOVE_ENROLLMENT, REMOVE_ALL_ENROLLMENTS } from './types'
 import api from '../../utils/api'
 import { setLoadingStatus } from '../loading/actions'
 import { receiveStudents } from '../students/actions'
@@ -22,6 +22,10 @@ export const removeEnrollment = (
   studentId,
 })
 
+export const removeAllEnrollments = (): EnrollmentsActionTypes => ({
+  type: REMOVE_ALL_ENROLLMENTS,
+})
+
 export const getEnrollments = (
   offeringId: string,
 ) => (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
@@ -31,7 +35,7 @@ export const getEnrollments = (
       dispatch(receiveEnrollments(data.enrollments))
       dispatch(setLoadingStatus('enrollments', false))
     })
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .catch(response => dispatch(reportAxiosError(response)))
 }
 
 export const updateEnrollment = (
@@ -53,21 +57,25 @@ export const assignSeat = (
   dispatch(updateEnrollment(offeringId, studentId, { seat: seatId }))
   api.updateEnrollment(offeringId, studentId, { seat: seatId })
     .then(({ data }) => {
+      // This has already been done optimistically, but we can do it again
+      // just to make sure everything's in sync.
       dispatch(receiveEnrollments(data.enrollments))
     })
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .catch(response => dispatch(reportAxiosError(response)))
 }
 
 export const createEnrollment = (
   offeringId: string,
   studentId: string,
-) => (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
+) => (
+  dispatch: ThunkDispatch<{}, {}, AnyAction>,
+) => {
   api.createEnrollment(offeringId, studentId)
     .then(({ data }) => {
       dispatch(receiveEnrollments(data.enrollments))
       dispatch(receiveStudents(data.students))
     })
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .catch(response => dispatch(reportAxiosError(response)))
 }
 
 export const deleteEnrollment = (
@@ -76,5 +84,5 @@ export const deleteEnrollment = (
 ) => (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
   dispatch(removeEnrollment(offeringId, studentId))
   api.deleteEnrollment(offeringId, studentId)
-    .catch((response) => dispatch(reportAxiosError(response)))
+    .catch(response => dispatch(reportAxiosError(response)))
 }

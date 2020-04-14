@@ -60,7 +60,7 @@ const SingleTable = ({
         const seatId = `${table.id}_${i}`
         const coords = i === 0
           ? pathRef.current.getPointAtLength(0)
-          : pathRef.current.getPointAtLength(pathLength / (table.seat_count - 1) * i)
+          : pathRef.current.getPointAtLength((pathLength / (table.seat_count - 1)) * i)
 
         seats[seatId] = {
           id: seatId,
@@ -74,13 +74,7 @@ const SingleTable = ({
       // Load the seats into the store.
       receiveTableSeats(table.room_id, table.id, seats)
     }
-  }, [
-    pathRef.current,
-    table,
-    session.tempTable,
-    rowHeight,
-    columnWidth,
-  ])
+  }, [table, session.tempTable, rowHeight, columnWidth, receiveTableSeats])
 
   function getTablePathClassNames() {
     if (selectedTable) {

@@ -15,8 +15,10 @@ const rooms = (
       }
     case REMOVE_TABLE: {
       const tablesInRoom = { ...state[action.roomId] }
-      Object.keys(tablesInRoom).forEach((tableId) => {
-        if (tableId === action.tableId) delete tablesInRoom[tableId]
+      Object.keys(tablesInRoom).forEach(tableId => {
+        if (tableId === action.tableId) {
+          delete tablesInRoom[tableId as keyof typeof tablesInRoom]
+        }
       })
       return {
         ...state,

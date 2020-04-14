@@ -84,6 +84,10 @@ class FetchAisEnrollment implements ShouldQueue
               $student = Student::firstOrNew(['emplid' => $ais_student->EMPLID]);
             }
 
+            // TODO: We also create new students from the FetchLawStudents job. Can we
+            // change to only create students from there, so we're not doing this in
+            // multiple places?
+
             // Proceed only if we were able to find/make a student with cnet or emplid.
             if ($student) {
               // IDs

@@ -17,7 +17,7 @@ function useOutsideClickDetector(
     return () => {
       window.removeEventListener('click', handleClick)
     }
-  }, [])
+  }, [containerRef, handler])
 }
 
 export default useOutsideClickDetector

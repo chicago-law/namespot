@@ -94,3 +94,15 @@ function safeArray($haystack, $needle): array {
   }
   return [];
 }
+
+/**
+ * If a name string is all caps or all lowercase, return back a version
+ * with the first letter of each word capitalized.
+ */
+function nameCasing($name): string {
+  if (strtoupper($name) === $name || strtolower($name) === $name) {
+    return ucwords(strtolower($name));
+  } else {
+    return $name;
+  }
+}
