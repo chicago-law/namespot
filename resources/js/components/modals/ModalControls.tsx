@@ -20,14 +20,14 @@ const Container = styled('div')`
 
 interface Props {
   confirmText?: string;
-  handleConfirm?: Function;
+  handleConfirm?: () => void;
   confirmButtonType?: 'button' | 'submit';
   confirmDisabled?: boolean;
   showLoading?: boolean;
   cancelText?: string;
-  handleCancel?: Function;
+  handleCancel?: () => void;
   cancelButtonType?: 'button' | 'submit';
-  deferDismissal?: boolean;
+  deferDismissal?: boolean; // Tell the modal not to close itself
   cancelOnly?: boolean;
   returnKeyConfirms?: boolean;
 }
@@ -54,14 +54,17 @@ const ModalControls = ({
 
     // If a confirm handler was passed in through props, fire that.
     if (handleConfirm) {
-      handleConfirm(() => dispatch(dismissModal()))
-      // Unless we're deferring dismissal, dismiss the modal.
       // If you are deferring, we assume you will dispatch dismissModal from
-      // elsewhere.
-      if (!deferDismissal) {
+      // inside handleConfirm (or wherever, I guess).
+      // Otherwise, fire confirm as well as dismiss.
+      if (deferDismissal) {
+        handleConfirm()
+      } else {
         dispatch(dismissModal())
+        handleConfirm()
       }
     } else {
+      // If there's no confirm handler, just close the modal.
       dispatch(dismissModal())
     }
   }

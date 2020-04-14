@@ -3,7 +3,7 @@ import { connect, useDispatch } from 'react-redux'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { setTask, selectTable, setChoosingPoint, loadTempTable, updateTempTable, saveTempTable } from '../../store/session/actions'
 import { AppState } from '../../store'
-import { SessionState } from '../../store/session/types'
+import { SessionState, TempTable } from '../../store/session/types'
 import styled from '../../utils/styledComponents'
 import ActionBarButton from './ActionBarButton'
 import ActionBarDivider from './ActionBarDivider'
@@ -23,7 +23,7 @@ import NudgeControls from './NudgeControls'
 import { Offering } from '../../store/offerings/types'
 import { Enrollments } from '../../store/enrollments/types'
 import { Seat } from '../../store/seats/types'
-import { assignSeat } from '../../store/enrollments/actions'
+import { removeAllEnrollments } from '../../store/enrollments/actions'
 import { validateTempTable } from '../../utils/validateTempTable'
 import useEscapeKeyListener from '../../hooks/useEscapeKeyListener'
 
@@ -115,23 +115,12 @@ const EditTable = ({
     }))
   }
 
-  function removeBadSeating() {
-    if (offering && enrollments && Object.keys(seats).length) {
-      Object.values(enrollments).forEach(enrollment => {
-        if (enrollment.seat && !(enrollment.seat in seats)) {
-          // eslint-disable-next-line
-          console.log(`deleting seat ${enrollment.seat} for student ID ${enrollment.student_id}`)
-          dispatch(assignSeat(offering.id, enrollment.student_id, null))
-        }
-      })
-    }
-  }
-
   function handleSave() {
     if (session.tempTable) {
       dispatch(saveTempTable(session.tempTable, () => {
+        // Clear out the seating data so we pull it fresh.
+        dispatch(removeAllEnrollments())
         resetAndExit()
-        removeBadSeating()
       }))
     }
   }
@@ -149,7 +138,11 @@ const EditTable = ({
       dispatch(setModal<DeleteTableModalData>(ModalTypes.deleteTable, {
         tableId: tempTable.id,
         roomId: tempTable.room_id,
-        onConfirm: resetAndExit,
+        onConfirm: () => {
+          // Clear out the seating data so we pull it fresh.
+          dispatch(removeAllEnrollments())
+          resetAndExit()
+        },
       }))
     } else {
       resetAndExit()
@@ -198,7 +191,7 @@ const EditTable = ({
         <ActionBarDivider />
         <NudgeControls
           tempTable={tempTable}
-          updateTempTable={updateTempTable}
+          updateTempTable={(updates: Partial<TempTable>) => dispatch(updateTempTable(updates))}
         />
         <ActionBarDivider />
         <ActionBarButton

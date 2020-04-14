@@ -38,6 +38,13 @@ class TableController extends Controller
         if (array_key_exists('seat_count', $updates)) $table->seat_count = $updates['seat_count'];
 
         $table->save();
+
+        // If the number of seats at the table changed, we should go through
+        // and nuke any invalid seats.
+        if (array_key_exists('seat_count', $updates)) {
+            $table->removeInvalidSeats();
+        }
+
         return response()->json([
             'tables' => [
                 $table->id => new TableResource($table)
@@ -68,8 +75,12 @@ class TableController extends Controller
         return response()->json(new TableResource($table));
     }
 
-    public function delete(Request $request, $table_id)
+    public function delete($table_id)
     {
-        Table::destroy($table_id);
+        // First unseat anyone seated there.
+        $table = Table::find($table_id);
+        $table->removeAllSeatAssignments();
+
+        Table::destroy($table->id);
     }
 }

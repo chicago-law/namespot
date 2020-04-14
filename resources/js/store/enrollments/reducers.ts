@@ -1,4 +1,4 @@
-import { EnrollmentsState, EnrollmentsActionTypes, RECEIVE_ENROLLMENTS, UPDATE_ENROLLMENT, REMOVE_ENROLLMENT } from './types'
+import { EnrollmentsState, EnrollmentsActionTypes, RECEIVE_ENROLLMENTS, UPDATE_ENROLLMENT, REMOVE_ENROLLMENT, REMOVE_ALL_ENROLLMENTS } from './types'
 
 const enrollments = (
   state: EnrollmentsState = {},
@@ -29,6 +29,8 @@ const enrollments = (
         [action.offeringId]: enrollments,
       }
     }
+    case REMOVE_ALL_ENROLLMENTS:
+      return {}
     default:
       return state
   }

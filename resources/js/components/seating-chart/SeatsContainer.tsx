@@ -22,6 +22,7 @@ interface ContainerProps {
   paperSize: 'letter' | 'tabloid';
   offering: Offering | null;
 }
+
 const Container = styled('div')<ContainerProps>`
   position: absolute;
   top: 0;
@@ -110,7 +111,7 @@ const Container = styled('div')<ContainerProps>`
         right: -30%;
         text-align: center;
         transform-origin: below;
-        transform: scale(${seatScale}) translateY(-0.25em);
+        transform: scale(${seatScale}) translateY(-1em);
         ${props => props.offering && !!props.offering.flipped && `
           bottom: auto;
           top: 100%;

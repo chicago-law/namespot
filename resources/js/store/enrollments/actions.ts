@@ -1,6 +1,6 @@
 import { ThunkDispatch } from 'redux-thunk'
 import { AnyAction } from 'redux'
-import { RECEIVE_ENROLLMENTS, EnrollmentsActionTypes, Enrollment, UPDATE_ENROLLMENT, EnrollmentsState, REMOVE_ENROLLMENT } from './types'
+import { RECEIVE_ENROLLMENTS, EnrollmentsActionTypes, Enrollment, UPDATE_ENROLLMENT, EnrollmentsState, REMOVE_ENROLLMENT, REMOVE_ALL_ENROLLMENTS } from './types'
 import api from '../../utils/api'
 import { setLoadingStatus } from '../loading/actions'
 import { receiveStudents } from '../students/actions'
@@ -20,6 +20,10 @@ export const removeEnrollment = (
   type: REMOVE_ENROLLMENT,
   offeringId,
   studentId,
+})
+
+export const removeAllEnrollments = (): EnrollmentsActionTypes => ({
+  type: REMOVE_ALL_ENROLLMENTS,
 })
 
 export const getEnrollments = (

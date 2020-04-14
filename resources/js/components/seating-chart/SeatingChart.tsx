@@ -19,7 +19,7 @@ const Container = styled('div')`
   grid-template-columns: 15em minmax(auto, 70em) 15em;
   justify-content: center;
   padding: 0 1.5em;
-  overflow: visible;
+  overflow: hidden;
   >div {
     margin-top: 2em;
   }

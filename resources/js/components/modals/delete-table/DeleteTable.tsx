@@ -1,14 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import ModalControls from '../ModalControls'
 import ModalHeader from '../ModalHeader'
 import { deleteTable } from '../../../store/tables/actions'
 import ModalContent from '../ModalContent'
+import { dismissModal } from '../../../store/modal/actions'
 
 export interface DeleteTableModalData {
   tableId: string;
   roomId: string;
-  onConfirm: Function;
+  onConfirm: () => void;
 }
 interface Props {
   modalData: DeleteTableModalData;
@@ -19,10 +20,17 @@ const DeleteTable = ({
 }: Props) => {
   const dispatch = useDispatch()
   const { tableId, roomId, onConfirm } = modalData
+  const [loading, setLoading] = useState(false)
 
   function handleConfirm() {
-    dispatch(deleteTable(tableId, roomId))
-    if (onConfirm) onConfirm()
+    setLoading(true)
+    dispatch(deleteTable(tableId, roomId, () => {
+      // After deleting, fire the optional onConfirm.
+      if (onConfirm) onConfirm()
+      // Close the modal.
+      setLoading(false)
+      dispatch(dismissModal())
+    }))
   }
 
   return (
@@ -36,6 +44,8 @@ const DeleteTable = ({
       <ModalControls
         confirmText="Yes, Delete"
         handleConfirm={handleConfirm}
+        deferDismissal
+        showLoading={loading}
       />
     </>
   )
