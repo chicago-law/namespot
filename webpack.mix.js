@@ -18,6 +18,6 @@ mix.ts('resources/js/index.js', 'public/js')
   .copyDirectory('resources/templates', 'public/templates')
   .sourceMaps()
   .browserSync({
-    proxy: 'namespot2.localhost',
+    proxy: 'namespot.localhost',
   })
   .version()

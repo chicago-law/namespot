@@ -3,9 +3,12 @@
 namespace App\Exceptions;
 
 use Exception;
+use Throwable;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Symfony\Component\Debug\ExceptionHandler as SymfonyExceptionHandler;
-use Symfony\Component\Debug\Exception\FlattenException;
+// use Symfony\Component\Debug\ExceptionHandler as SymfonyExceptionHandler;
+use Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer;
+// use Symfony\Component\Debug\Exception\FlattenException;
+use Symfony\Component\ErrorHandler\Exception\FlattenException;
 use App\Mail\ExceptionOccurred;
 use Illuminate\Support\Facades\Mail;
 
@@ -36,7 +39,7 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $exception
      * @return void
      */
-    public function report(Exception $exception)
+    public function report(Throwable $exception)
     {
         if (config('app.env') === 'prod') {
             $this->sendEmail($exception);
@@ -54,12 +57,11 @@ class Handler extends ExceptionHandler
     {
         try {
             $e = FlattenException::create($exception);
+            $handler = new HtmlErrorRenderer(true); // boolean, true raises debug flag...
+            $css = $handler->getStylesheet();
+            $content = $handler->getBody($e);
 
-            $handler = new SymfonyExceptionHandler();
-
-            $html = $handler->getHtml($e);
-
-            Mail::to(config('app.dev_email'))->send(new ExceptionOccurred($html));
+            Mail::to(config('app.dev_email'))->send(new ExceptionOccurred($css, $content));
         } catch (Exception $ex) {
             // Used the try block to avoid the infinite loop if the mail command fails.
         }
@@ -72,7 +74,7 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $exception
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $exception)
+    public function render($request, Throwable $exception)
     {
         return parent::render($request, $exception);
     }
