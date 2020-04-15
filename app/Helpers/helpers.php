@@ -61,7 +61,7 @@ function safeString($haystack, $needle): string {
  */
 function safeStringOrNull($haystack, $needle) {
   $value = safeString($haystack, $needle);
-  return $value ? $value : null;
+  return strlen($value) > 0 ? $value : null;
 }
 
 /**

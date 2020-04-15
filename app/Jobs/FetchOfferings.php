@@ -84,7 +84,7 @@ class FetchOfferings implements ShouldQueue
         $offering->section = safeStringOrNull($ais_class, 'SECTION');
 
         // names
-        $offering->title = safeString($ais_class, 'TITLE');
+        $offering->title = safeStringOrNull($ais_class, 'TITLE');
         $offering->long_title = safeStringOrNull($ais_class, 'LONG_TITLE');
         $offering->component = safeStringOrNull($ais_class, 'COMPONENT');
         $offering->component_descr = safeStringOrNull($ais_class, 'COMPONENT_DESCR');
