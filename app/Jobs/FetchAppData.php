@@ -54,13 +54,17 @@ class FetchAppData implements ShouldQueue
     sleep(1);
 
     // Grab the current academic year from the Settings table in DB.
-    // Fall back to 2018 if there is no academic year set.
+    // Fall back to current year if no year is set.
     $academic_year_setting = Setting::where('setting_name','academic_year')->first();
-    $year = $academic_year_setting ? $academic_year_setting->setting_value : '2018';
+    $year = $academic_year_setting ? $academic_year_setting->setting_value : date('Y');
 
-    // Convert the single year into an array of AIS term codes.
+    // Convert the single year into an array of AIS term codes (as strings).
     // Ie, 2018 becomes 2188, 2192, 2194.
-    $term_codes = getTermCodesFromYear($year);
+    $term_codes = array_merge(getTermCodesFromYear($year),
+      [
+        // Add in any additional term codes you want to fetch for as well.
+      ]
+    );
 
     foreach ($term_codes as $term) {
       // Get the offerings from AIS
