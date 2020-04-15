@@ -30,7 +30,7 @@ class Shibboleth
       }
 
       // Abort if we couldn't find a CNet.
-      abort_if(!$cnet_id, 401);
+      abort_if(!$cnet_id, 401, 'No CNet ID found');
 
       // Now look for a user in our table with the cnet.
       $user = User::where('cnet_id', $cnet_id)->first();
@@ -45,7 +45,7 @@ class Shibboleth
 
         // Abort if we didn't find what we need for new user.
         if (!$cnet_id || !$chicago_id || !$first_name || !$last_name || !$email) {
-          abort(401);
+          abort(401, 'Missing required identity attribute');
         }
 
         // Next check if there are classes with this user as an instructor.
@@ -54,7 +54,7 @@ class Shibboleth
           $inst->where('cnet_id', $cnet_id);
         })->count();
         if (!$relevant_offerings) {
-          abort(401);
+          abort(401, 'No relevant offerings found');
         }
 
         $user = new User;
