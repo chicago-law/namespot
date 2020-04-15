@@ -19,8 +19,8 @@ class OfferingResource extends JsonResource
         foreach ($this->instructors as $instructor):
             $instructors[] = [
                 'cnet_id' => $instructor->cnet_id,
-                'first_name' => $instructor->first_name,
-                'last_name' => $instructor->last_name,
+                'first_name' => utf8_encode($instructor->first_name),
+                'last_name' => utf8_encode($instructor->last_name),
             ];
         endforeach;
 
@@ -38,10 +38,10 @@ class OfferingResource extends JsonResource
             'title' => $this->title(),
             'class_nbr' => $this->class_nbr,
             'catalog_nbr' => $this->catalog_nbr,
-            // Temporarily, we'll fall back to "LAWS" if this is null.
-            'section' => !is_null($this->section) ? $this->section : 'LAWS',
+            'section' => $this->section,
             'term_code' => intOrNull($this->term_code),
-            'subject' => $this->subject,
+            // Temporarily, we'll fall back to "LAWS" if this is null.
+            'subject' => !is_null($this->subject) ? $this->subject : 'LAWS',
             'instructors' => $instructors,
             'manually_created_by' => stringOrNull($this->manually_created_by),
             'paper_size' => $this->paper_size,
