@@ -1,6 +1,6 @@
 import { ThunkDispatch } from 'redux-thunk'
 import { AnyAction } from 'redux'
-import { RECEIVE_OFFERINGS, OfferingsActionTypes, Offering, REMOVE_OFFERING } from './types'
+import { RECEIVE_OFFERINGS, OfferingsActionTypes, Offering, REMOVE_OFFERING, REMOVE_ALL_OFFERINGS } from './types'
 import api, { CreateOfferingParams } from '../../utils/api'
 import { markTermOfferingsReceived } from '../session/actions'
 import { setLoadingStatus } from '../loading/actions'
@@ -20,6 +20,10 @@ export const removeOffering = (
 ): OfferingsActionTypes => ({
   type: REMOVE_OFFERING,
   offeringId,
+})
+
+export const removeAllOfferings = (): OfferingsActionTypes => ({
+  type: REMOVE_ALL_OFFERINGS,
 })
 
 export const getOfferingsByTerm = (

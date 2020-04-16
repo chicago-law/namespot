@@ -24,4 +24,21 @@ class Room extends Model
     {
         return $this->hasMany('App\Table');
     }
+
+    /**
+     * Find any offerings assigned to this room and set their room_id to null.
+     */
+    public function unassignOfferings() {
+        $offerings = Offering::where('room_id', $this->id)->get();
+
+        foreach ($offerings as $offering) {
+            $offering->room_id = null;
+
+            // We also need to clear out any seating assignments for this offering's
+            // students.
+            $offering->unseatStudents();
+
+            $offering->save();
+        }
+    }
 }

@@ -39,6 +39,12 @@ export interface RemoveOffering {
   offeringId: string;
 }
 
+export const REMOVE_ALL_OFFERINGS = 'REMOVE_ALL_OFFERINGS'
+export interface RemoveAllOfferings {
+  type: typeof REMOVE_ALL_OFFERINGS;
+}
+
 export type OfferingsActionTypes =
   | ReceiveOfferings
   | RemoveOffering
+  | RemoveAllOfferings

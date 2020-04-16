@@ -15,6 +15,7 @@ import {
   REPORT_MEASUREMENTS,
   REPORT_SCROLL_POS,
   MeasuredElements,
+  CLEAR_TERM_OFFERINGS_RECEIVED,
 } from './types'
 
 export const initialState: SessionState = {
@@ -84,6 +85,11 @@ const session = (
       return {
         ...state,
         termOfferingsReceived: [...state.termOfferingsReceived, action.termCode],
+      }
+    case CLEAR_TERM_OFFERINGS_RECEIVED:
+      return {
+        ...state,
+        termOfferingsReceived: [],
       }
     case MARK_OFFERING_STUDENTS_RECEIVED:
       return {

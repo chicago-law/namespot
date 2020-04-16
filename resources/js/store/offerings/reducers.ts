@@ -1,4 +1,4 @@
-import { OfferingsState, OfferingsActionTypes, RECEIVE_OFFERINGS, REMOVE_OFFERING } from './types'
+import { OfferingsState, OfferingsActionTypes, RECEIVE_OFFERINGS, REMOVE_OFFERING, REMOVE_ALL_OFFERINGS } from './types'
 
 const offerings = (
   state: OfferingsState = {},
@@ -15,6 +15,8 @@ const offerings = (
       delete offerings[action.offeringId]
       return offerings
     }
+    case REMOVE_ALL_OFFERINGS:
+      return {}
     default:
       return state
   }

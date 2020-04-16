@@ -19,6 +19,7 @@ import {
   REPORT_SCROLL_POS,
   MeasuredElements,
   TempTable,
+  CLEAR_TERM_OFFERINGS_RECEIVED,
 } from './types'
 import { validateTempTable } from '../../utils/validateTempTable'
 import { Table } from '../tables/types'
@@ -62,6 +63,10 @@ export const setChoosingPoint = (pointType: 'start' | 'curve' | 'end' | null): S
 export const markTermOfferingsReceived = (termCode: number): SessionActionTypes => ({
   type: MARK_TERM_OFFERINGS_RECEIVED,
   termCode,
+})
+
+export const clearTermOfferingsReceived = (): SessionActionTypes => ({
+  type: CLEAR_TERM_OFFERINGS_RECEIVED,
 })
 
 export const markOfferingStudentsReceived = (offeringId: string): SessionActionTypes => ({

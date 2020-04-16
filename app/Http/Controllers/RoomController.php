@@ -158,9 +158,15 @@ class RoomController extends Controller
 
   public function delete($room_id)
   {
+    // First remove any attached offerings.
+    $room = Room::findOrFail($room_id);
+    $room->unassignOfferings();
+
     $delete = Room::destroy($room_id);
 
-    if ($delete === 1) return response('Delete successful', 200);
+    if ($delete === 1) {
+      return response('Delete successful', 200);
+    }
     return response('Delete unsuccessful', 500);
   }
 }

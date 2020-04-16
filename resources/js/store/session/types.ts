@@ -84,6 +84,11 @@ export interface MarkTermOfferingsReceived {
   termCode: number;
 }
 
+export const CLEAR_TERM_OFFERINGS_RECEIVED = 'CLEAR_TERM_OFFERINGS_RECEIVED'
+export interface ClearTermOfferingsReceived {
+  type: typeof CLEAR_TERM_OFFERINGS_RECEIVED;
+}
+
 export const MARK_OFFERING_STUDENTS_RECEIVED = 'MARK_OFFERING_STUDENTS_RECEIVED'
 export interface MarkOfferingStudentsReceived {
   type: typeof MARK_OFFERING_STUDENTS_RECEIVED;
@@ -128,3 +133,4 @@ export type SessionActionTypes =
   | MarkRoomTablesReceived
   | ReportMeasurements
   | ReportScrollPos
+  | ClearTermOfferingsReceived

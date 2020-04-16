@@ -2,11 +2,11 @@ import { ThunkDispatch, ThunkAction } from 'redux-thunk'
 import { AnyAction } from 'redux'
 import { RECEIVE_ROOMS, RoomsActionTypes, Room, REMOVE_ROOM } from './types'
 import api from '../../utils/api'
-import { markRoomTemplatesReceived } from '../session/actions'
+import { markRoomTemplatesReceived, clearTermOfferingsReceived } from '../session/actions'
 import { setLoadingStatus } from '../loading/actions'
 import { AppState } from '..'
-import { receiveOfferings } from '../offerings/actions'
-import { receiveEnrollments } from '../enrollments/actions'
+import { receiveOfferings, removeAllOfferings } from '../offerings/actions'
+import { receiveEnrollments, removeAllEnrollments } from '../enrollments/actions'
 import { reportAxiosError } from '../errors/actions'
 
 export const receiveRooms = (
@@ -103,4 +103,10 @@ export const deleteRoom = (
 ) => {
   dispatch(removeRoom(roomId))
   api.deleteRoom(roomId)
+
+  // Remove offerings and enrollments from the store, forcing
+  // app to grab fresh copies.
+  dispatch(removeAllOfferings())
+  dispatch(removeAllEnrollments())
+  dispatch(clearTermOfferingsReceived())
 }

@@ -110,8 +110,20 @@ class Offering extends Model
      */
     public function title()
     {
-        if ($this->long_title) return $this->long_title;
-        if ($this->title) return $this->title;
+        if ($this->long_title) return utf8_encode($this->long_title);
+        if ($this->title) return utf8_encode($this->title);
         return '';
+    }
+
+    /**
+     * Unseat all students in this offering.
+     */
+    public function unseatStudents()
+    {
+        foreach ($this->students as $student) {
+            $this->students()->updateExistingPivot($student->id, [
+                'assigned_seat' => null
+            ]);
+        }
     }
 }
