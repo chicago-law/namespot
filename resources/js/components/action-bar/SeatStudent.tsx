@@ -41,8 +41,8 @@ const Container = styled('div')`
         padding: 0.5em;
         transition: background 100ms ease-out, color 100ms ease-out;
         .student-thumbnail {
-          height: 3em;
-          width: 3em;
+          height: 2.5em;
+          width: 2.75em;
           margin-bottom: 0.25em;
           background-position: center;
           background-size: cover;
@@ -56,9 +56,6 @@ const Container = styled('div')`
         }
         &:hover {
           background-color: ${props => props.theme.lightGray};
-          .student-thumbnail {
-            opacity: 0.5;
-          }
         }
       }
     }

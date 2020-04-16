@@ -113,7 +113,7 @@ const OfferingDefault = ({
           ? (
             <ActionBarButton
               icon={['far', 'wrench']}
-              text="Edit Tables and Seats"
+              text="Edit Tables &amp; Seats"
               handler={handleEditTables}
             />
           ) : (

@@ -108,7 +108,7 @@ const Menu = ({ authedUser }: StoreProps) => {
               </Link>
               <Link to="/students" onClick={() => setOpen(false)}>
                 <FontAwesomeIcon icon={['far', 'users']} fixedWidth />
-                <p>Students</p>
+                <p>Student Body</p>
               </Link>
             </>
           )}
