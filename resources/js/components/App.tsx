@@ -20,6 +20,7 @@ import SiteFooter from './SiteFooter'
 
 const Container = styled('div')<{ isPrinting: boolean }>`
   position: relative;
+  min-width: 1000px;
   /* html2canvas doesn't like transitions */
   ${props => props.isPrinting && `
     overflow: hidden;
