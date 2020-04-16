@@ -16,6 +16,7 @@ class Student extends Model
         'short_name_first',
         'short_name_last',
         'nickname',
+        'prefix',
         'sortable_name',
         'picture'
     ];
