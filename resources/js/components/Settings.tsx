@@ -62,7 +62,7 @@ const Settings = ({ settings }: Props) => {
   function editSchoolName() {
     dispatch(setModal<EditTextInputModalData>(ModalTypes.editTextInput, {
       title: 'Edit School Name',
-      p: 'The name of your school or institution. Shown on seating charts, rosters, etc.',
+      p: 'The name of your school or institution.',
       previousValue: settings.school_name || '',
       onConfirm: (text: string) => saveSetting('school_name', text),
     }))
@@ -91,7 +91,7 @@ const Settings = ({ settings }: Props) => {
         </div>
         <div className="right">
           <h3>School Name</h3>
-          <p>The name of your school or institution. Shown on seating charts, rosters, etc.</p>
+          <p>The name of your school or institution.</p>
           <h2>
             {settings.school_name || '(none)'}
             <button type="button" onClick={editSchoolName}>Edit</button>
