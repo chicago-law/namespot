@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useMemo } from 'react'
 import { connect } from 'react-redux'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -78,24 +78,22 @@ const OfferingSidebarRight = ({
   const room = offering.room_id ? rooms[offering.room_id] : null
   const currentSeats = room ? seats[room.id] : null
   const seatCount = (room && currentSeats) ? Object.keys(currentSeats).length : null
-  const seatedStudents = useRef<string[]>([])
-  const notSeatedStudents = useRef<string[]>([])
 
-  useEffect(() => {
-    seatedStudents.current = []
-    notSeatedStudents.current = []
+  const { seatedStudents, notSeatedStudents } = useMemo(() => {
+    const seatedStudents: string[] = []
+    const notSeatedStudents: string[] = []
     Object.keys(students)
       .filter(studentId => enrollments[studentId])
       .forEach(studentId => {
         const enrollment = enrollments[studentId]
         if (enrollment.seat !== null) {
-          seatedStudents.current.push(studentId)
+          seatedStudents.push(studentId)
         } else {
-          notSeatedStudents.current.push(studentId)
+          notSeatedStudents.push(studentId)
         }
       })
-  }, [enrollments, notSeatedStudents, seatedStudents, students])
-
+    return { seatedStudents, notSeatedStudents }
+  }, [enrollments, students])
 
   function handleStudentClick(e: React.MouseEvent, studentId: string) {
     e.stopPropagation()
@@ -132,11 +130,11 @@ const OfferingSidebarRight = ({
           </li>
         )}
 
-        {seatedStudents.current.length > 0 && (
+        {seatedStudents.length > 0 && (
           <li>
             <div>
               <h5>Seated:</h5>
-              {seatedStudents.current.map(studentId => (
+              {seatedStudents.map(studentId => (
                 <div className="thumbnail-container" key={studentId}>
                   <StudentThumbnail
                     student={students[studentId]}
@@ -148,11 +146,11 @@ const OfferingSidebarRight = ({
           </li>
         )}
 
-        {notSeatedStudents.current.length > 0 && (
+        {notSeatedStudents.length > 0 && (
           <li>
             <div>
               <h5>Not Seated:</h5>
-              {notSeatedStudents.current.map(studentId => (
+              {notSeatedStudents.map(studentId => (
                 <div className="thumbnail-container" key={studentId}>
                   <StudentThumbnail
                     key={studentId}
