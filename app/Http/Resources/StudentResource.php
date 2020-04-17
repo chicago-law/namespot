@@ -17,17 +17,11 @@ class StudentResource extends JsonResource
         return [
             'id' => (string) $this->id,
             'cnet_id' => $this->cnet_id,
-            'first_name' => utf8_encode(nameCasing($this->first_name)),
-            'middle_name' => $this->middle_name !== null
-                ? utf8_encode(nameCasing($this->middle_name))
-                : null,
-            'last_name' => utf8_encode(nameCasing($this->last_name)),
-            'short_first_name' => $this->short_first_name
-                ? utf8_encode(nameCasing($this->short_first_name))
-                : utf8_encode(nameCasing($this->first_name)),
-            'short_last_name' => $this->short_last_name
-                ? utf8_encode(nameCasing($this->short_last_name))
-                : utf8_encode(nameCasing($this->last_name)),
+            'first_name' => $this->firstName(),
+            'middle_name' => $this->middleName(),
+            'last_name' => $this->lastName(),
+            'short_first_name' => $this->shortFirstName(),
+            'short_last_name' => $this->shortLastName(),
             'nickname' => $this->nickname,
             'prefix' => $this->prefix,
             'picture' => $this->picture === null ? 'no-face.png' : $this->picture,

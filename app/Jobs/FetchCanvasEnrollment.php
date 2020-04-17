@@ -128,15 +128,28 @@ class FetchCanvasEnrollment implements ShouldQueue
 
               // Names. Some of these will get blown away by AIS, because they actually
               // break names down into first, m, last. Full name and full short name are kept though.
+
+              // Canvas has both a regular name and a short name field.
+              // Both are first + last in the one field.
               $student->full_name = $canvas_student->user->name;
               $student->short_full_name = $canvas_student->user->short_name;
+              $student->sortable_name = $canvas_student->user->sortable_name;
+
+              // Only set first and last if they're null (Canvas defers to AIS for these).
+              // What's coming from AIS will overwrite what happens here.
+
               // Guess first and last names by exploding the full name. Everything
               // before the first space is first name. Everything after is last.
               if (is_null($student->first_name)) $student->first_name = explode(' ', $canvas_student->user->name)[0];
               if (is_null($student->last_name)) $student->last_name = substr($canvas_student->user->name, strpos($canvas_student->user->name, ' ') + 1);
-              $student->sortable_name = $canvas_student->user->sortable_name;
-              // Defer to AIS's "preferred first name" field for short_first_name, if it's set.
+
+              // Short first name is primarily going to be AIS's preferred first name, but if it's
+              // null we can take a guess here.
+              // Guess short first name by taking everything up to the first space from canvas's short name.
               if (is_null($student->short_first_name)) $student->short_first_name = explode(' ', $canvas_student->user->short_name)[0];
+
+              // Create short last name by taking everything up to the first comma from canvas's sortable name.
+              // (This field is Canvas-only).
               $student->short_last_name = substr($canvas_student->user->sortable_name, 0, strpos($canvas_student->user->sortable_name, ', '));
 
               // Timestamp
