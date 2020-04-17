@@ -69,8 +69,7 @@ class FetchPhotoRoster implements ShouldQueue
         $json_body = $response->getBody()->getContents();
         $body = json_decode($json_body);
 
-        if (
-          property_exists($body, 'ROW_COUNT')
+        if (property_exists($body, 'ROW_COUNT')
           && $body->ROW_COUNT > 0
           && property_exists($body, 'PHOTO_ROSTER')
         ) {
@@ -86,20 +85,27 @@ class FetchPhotoRoster implements ShouldQueue
               // Store if the student is FERPA or not
               $student->is_ferpa = $ais_student->FERPA === 'N' ? 0 : 1;
 
-              // Create the file name and save it as a student attribute.
-              $file_name = !is_null($student->cnet_id)
-                ? "{$student->cnet_id}_{$ais_student->EMPLID}.jpg"
-                : "{$student->last_name}_{$ais_student->EMPLID}.jpg";
-              $student->picture = $file_name;
+              // We don't want to update the photo if a user has uploaded a custom image.
+              $should_get_photo = $student->picture === null
+                ? true
+                : explode('_', $student->picture)[0] !== 'uploaded';
+
+              if ($should_get_photo) {
+                // Create the file name and save it as a student attribute.
+                $file_name = $student->cnet_id !== null
+                  ? "{$student->cnet_id}_{$ais_student->EMPLID}.jpg"
+                  : "{$student->last_name}_{$ais_student->EMPLID}.jpg";
+
+                $student->picture = $file_name;
+
+                // create and save the jpg file
+                $photo_data = $ais_student->PHOTO_DATA;
+                $decoded = base64_decode($photo_data);
+                Storage::disk('public')->put("student_pictures/{$file_name}", $decoded);
+              }
 
               // Save
               $student->save();
-
-              // create and save the jpg file
-              $photo_data = $ais_student->PHOTO_DATA;
-              $decoded = base64_decode($photo_data);
-              Storage::disk('public')->put("student_pictures/{$file_name}", $decoded);
-
             } // end if student
           endforeach; // end the student loop
 
