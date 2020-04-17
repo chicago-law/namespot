@@ -46,16 +46,16 @@ const ChangePicture = ({
 
       <ModalContent>
         <>
-          <p>Upload a new picture for this student. Image must be PNG or JPG filetypes and under 1MB.</p>
+          <p>Upload a new picture for this student. Image must be PNG or JPG filetypes and should be under 1MB.</p>
           {newPicturePath && (
             <img
               className="picture-preview"
               style={{ display: 'block', marginBottom: '1em', maxWidth: '8em' }}
               src={`${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}/storage/student_pictures/${newPicturePath}`}
-              alt=""
+              alt="preview"
             />
           )}
-          <input id="pic-id" name="pic-name" type="file" accept="image/png, image/jpeg" onChange={onFileSelect} />
+          <input id="pic-id" name="pic-name" type="file" accept="image/*" onChange={onFileSelect} />
         </>
       </ModalContent>
 
