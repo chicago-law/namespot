@@ -18,7 +18,9 @@ class Student extends Model
         'nickname',
         'prefix',
         'sortable_name',
-        'picture'
+        'picture',
+        'ais_last_seen',
+        'canvas_last_seen',
     ];
 
     public function offerings()

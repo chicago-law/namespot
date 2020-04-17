@@ -16,6 +16,7 @@ use GuzzleHttp\Psr7;
 use App\Mail\JobException;
 use App\Mail\JobResults;
 use App\Student;
+use Illuminate\Support\Carbon;
 
 class FetchLawStudents implements ShouldQueue
 {
@@ -89,6 +90,9 @@ class FetchLawStudents implements ShouldQueue
               $student->academic_prog_descr = safeStringOrNull($ais_student, 'ACAD_PROG_DESCR');
               $student->exp_grad_term = safeStringOrNull($ais_student, 'EXP_GRAD_TERM');
 
+              // Timestamp
+              $student->ais_last_seen = new Carbon();
+
               // Save!
               $student->save();
             }
@@ -111,12 +115,15 @@ class FetchLawStudents implements ShouldQueue
         ];
       }
 
-     // Attempt to send an email with exceptions summary.
-     if (config('app.env') === 'prod') {
-      $message =  'Prod: FetchLawStudents had an exception!';
-      Mail::to(config('app.dev_email'))->send(new JobException($message, $errors_array));
-    }
-
+      // Attempt to send an email with exceptions summary.
+      if (config('app.env') === 'prod') {
+        $message =  'Prod: FetchLawStudents had an exception!';
+        Mail::to(config('app.dev_email'))->send(new JobException($message, $errors_array));
+      }
+      if (config('app.env') === 'dev') {
+        $message =  'Dev: FetchLawStudents had an exception!';
+        Mail::to(config('app.dev_email'))->send(new JobException($message, $errors_array));
+      }
     }
   }
 }

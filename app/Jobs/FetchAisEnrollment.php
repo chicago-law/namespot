@@ -17,7 +17,7 @@ use App\Mail\JobException;
 use App\Mail\JobResults;
 use App\Offering;
 use App\Student;
-
+use Illuminate\Support\Carbon;
 
 class FetchAisEnrollment implements ShouldQueue
 {
@@ -107,6 +107,9 @@ class FetchAisEnrollment implements ShouldQueue
               $student->academic_prog_descr = safeStringOrNull($ais_student, 'ACAD_PROG_DESCR');
               $student->academic_level = safeStringOrNull($ais_student, 'ACADEMIC_LEVEL');
               $student->exp_grad_term = safeStringOrNull($ais_student, 'EXP_GRAD_TERM');
+
+              // Timestamp
+              $student->ais_last_seen = new Carbon();
 
               // Save!
               $student->save();

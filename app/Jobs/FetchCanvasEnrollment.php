@@ -16,6 +16,7 @@ use App\Mail\JobException;
 use App\Mail\JobResults;
 use App\Offering;
 use App\Student;
+use Illuminate\Support\Carbon;
 
 class FetchCanvasEnrollment implements ShouldQueue
 {
@@ -137,6 +138,9 @@ class FetchCanvasEnrollment implements ShouldQueue
               // Defer to AIS's "preferred first name" field for short_first_name, if it's set.
               if (is_null($student->short_first_name)) $student->short_first_name = explode(' ', $canvas_student->user->short_name)[0];
               $student->short_last_name = substr($canvas_student->user->sortable_name, 0, strpos($canvas_student->user->sortable_name, ', '));
+
+              // Timestamp
+              $student->canvas_last_seen = new Carbon();
 
               // save in DB
               $student->save();
