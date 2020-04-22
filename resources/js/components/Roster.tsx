@@ -109,12 +109,12 @@ const Roster = ({
   const offering = (offeringId && offerings[offeringId]) || null
   const dispatch = useDispatch()
 
-  const currentStudents = useMemo(() => (
-    offering
-      ? Object.keys(students)
+  const includedStudents = useMemo(() => {
+    if (offering) { // Create offering roster
+      return Object.keys(students)
         .filter(studentId => {
           if (enrollments[offering.id]) {
-            // If student isn't in class, return false.
+          // If student isn't in class, return false.
             if (!(studentId in enrollments[offering.id])) return false
             // Now we know student is in there, but if it's AIS only, check their enrollment reason.
             if (printing.options.aisOnly && !enrollments[offering.id][studentId].is_in_ais) return false
@@ -125,10 +125,20 @@ const Roster = ({
         })
         .map(studentId => students[studentId])
         .sort((a, b) => (a.last_name > b.last_name ? 1 : -1))
-      : Object.keys(students)
+    }
+    if (printing.options.academicPlan && printing.options.gradTerm) { // Create student body roster
+      return Object.keys(students)
+        .filter(studentId => (
+          // Include if matches academic program and the graduating term.
+          students[studentId].academic_prog?.toUpperCase() === printing.options.academicPlan?.toUpperCase()
+          && students[studentId].exp_grad_term === printing.options.gradTerm
+        ))
         .map(studentId => students[studentId])
         .sort((a, b) => (a.last_name > b.last_name ? 1 : -1))
-  ), [enrollments, offering, printing.options.aisOnly, students])
+    }
+    // If neither of those, something isn't working as expected. Return empty array.
+    return []
+  }, [enrollments, offering, printing.options, students])
 
   function updateProgress(progress: string) {
     dispatch(updatePrintProgress(progress))
@@ -177,11 +187,11 @@ const Roster = ({
         {printing.options.gradTerm && (
           <span>Expected Graduation: <strong>{termCodeToString(printing.options.gradTerm)}</strong></span>
         )}
-        <span>Students Enrolled: <strong>{currentStudents.length}</strong></span>
+        <span>Students Enrolled: <strong>{includedStudents.length}</strong></span>
         <span className="date">Printed {new Date().toLocaleDateString()}</span>
       </header>
 
-      {currentStudents.map(student => (
+      {includedStudents.map(student => (
         <div key={student.id} className="roster-row" ref={ref => { if (ref && !rowsRef.current.includes(ref)) rowsRef.current.push(ref) }}>
           <div className="thumbnail-container">
             <StudentThumbnail student={student} />

@@ -9,8 +9,10 @@ export interface Student {
   nickname: string | null;
   prefix: string | null;
   picture: string;
+  academic_prog: string | null;
   academic_prog_descr: string | null;
   academic_level: string | null;
+  exp_grad_term: string | null;
 }
 
 export interface StudentsState {

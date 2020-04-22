@@ -25,8 +25,10 @@ class StudentResource extends JsonResource
             'nickname' => $this->nickname,
             'prefix' => $this->prefix,
             'picture' => $this->picture === null ? 'no-face.png' : $this->picture,
+            'academic_prog' => $this->academic_prog,
             'academic_prog_descr' => $this->academic_prog_descr,
             'academic_level' => $this->academic_level,
+            'exp_grad_term' => $this->exp_grad_term,
         ];
     }
 }

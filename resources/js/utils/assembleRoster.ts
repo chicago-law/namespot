@@ -58,7 +58,7 @@ const assembleRoster = async (
       // It will fit! Proceed with adding to the PDF.
       html2canvas(elements[i], {
         scale: 4,
-      }).then((canvas) => {
+      }).then(canvas => {
         pdf.addImage(
           canvas,
           'jpeg',
