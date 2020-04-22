@@ -132,12 +132,14 @@ const Container = styled('div')<ContainerProps>`
         top: 50%;
         left: 100%;
         align-items: flex-start;
+        text-align: left;
         transform-origin: top left;
         transform: scale(${seatScale}) translate(0.5em, -50%);
         ${props => props.offering && !!props.offering.flipped && `
           left: auto;
           right: 100%;
           align-items: flex-end;
+          text-align: right;
           transform-origin: top right;
           transform: scale(${seatScale}) translate(-0.5em, -50%);
         `}
@@ -146,12 +148,14 @@ const Container = styled('div')<ContainerProps>`
         top: 50%;
         right: 100%;
         align-items: flex-end;
+        text-align: right;
         transform-origin: top right;
         transform: scale(${seatScale}) translate(-0.5em, -50%);
         ${props => props.offering && !!props.offering.flipped && `
           left: 100%;
           right: auto;
           align-items: flex-start;
+          text-align: left;
           transform-origin: top left;
           transform: scale(${seatScale}) translate(0.5em, -50%);
         `}
