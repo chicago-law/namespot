@@ -11,14 +11,6 @@
 |
 */
 
-// Send all web requests through our Shib Auth middleware.
-Route::middleware(['uchicago-shibboleth'])->group(function () {
-  // Logout
-  Route::get('/logout', 'HomeController@logout');
-
-  // route for all printable deliveries
-  Route::get('/print/{path?}', 'HomeController@print')->where('path', '.*');
-
-  // all others go to regular react page
-  Route::get('/{path?}', 'HomeController@react')->where('path', '.*');
-});
+Route::get('/logout', 'HomeController@logout');
+// Route everything else to our React view
+Route::get('/{path?}', 'HomeController@react')->where('path', '.*');

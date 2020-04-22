@@ -30,19 +30,22 @@ class EnrollmentsExport implements FromArray, WithHeadings, ShouldQueue
   public function array(): array
   {
     $results = [];
-    $offerings = Offering::all();
-    foreach($offerings as $offering):
-      foreach ($offering->students as $student) {
-        $results[] = [
-          $offering->id,
-          $student->id,
-          $student->getOriginal('pivot_assigned_seat'),
-          $student->getOriginal('pivot_canvas_enrollment_state'),
-          $student->getOriginal('pivot_ais_enrollment_state'),
-          $student->getOriginal('pivot_is_namespot_addition'),
-        ];
-      }
-    endforeach;
+
+    // Process in chunks because there are so many.
+    Offering::chunk(100, function($offerings) use(&$results) {
+      foreach ($offerings as $offering) {
+        foreach ($offering->students as $student) {
+          array_push($results, [
+            $offering->id,
+            $student->id,
+            $student->getOriginal('pivot_assigned_seat'),
+            $student->getOriginal('pivot_canvas_enrollment_state'),
+            $student->getOriginal('pivot_ais_enrollment_state'),
+            $student->getOriginal('pivot_is_namespot_addition'),
+          ]);
+        }
+      };
+    });
 
     return $results;
   }

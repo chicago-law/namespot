@@ -16,6 +16,7 @@ use App\Mail\JobException;
 use App\Mail\JobResults;
 use App\Offering;
 use App\Student;
+use Illuminate\Support\Carbon;
 
 class FetchCanvasEnrollment implements ShouldQueue
 {
@@ -36,7 +37,7 @@ class FetchCanvasEnrollment implements ShouldQueue
   {
     $this->term = $term;
     $this->token = "Bearer " . config('api.canvas_prod_token');
-    $this->offerings = Offering::where('term_code', $this->term)->get();
+    $this->offerings = Offering::where('term_code', $this->term)->whereNull('manually_created_by')->get();
     $this->errors = [];
     $this->remaining = [];
   }
@@ -55,10 +56,10 @@ class FetchCanvasEnrollment implements ShouldQueue
       $base_url = config('api.canvas_prod_url');
       $YYYY = '20' . substr($offering->term_code, 1, 2);
       $QQ = quarterFromTermCode($offering->term_code);
-      $Subj = 'LAWS';
+      $subj = 'LAWS';
       $AIS_catalog_nbr = $offering->catalog_nbr;
       $AIS_section_id = $offering->section;
-      $first_url = "{$base_url}/courses/sis_course_id:{$YYYY}.{$QQ}.{$Subj}.{$AIS_catalog_nbr}.{$AIS_section_id}/enrollments";
+      $first_url = "{$base_url}/courses/sis_course_id:{$YYYY}.{$QQ}.{$subj}.{$AIS_catalog_nbr}.{$AIS_section_id}/enrollments";
 
       // Keep track of whether or not this is the last offering in the loop.
       // If it is, we want to fire off our done_fetching function
@@ -109,14 +110,14 @@ class FetchCanvasEnrollment implements ShouldQueue
           ):
 
             // Find this student in the DB, or make a new one with cnet, or canvas id.
-            if (isset($canvas_student->user->login_id) && !is_null($canvas_student->user->login_id)) {
-              $student = Student::firstOrNew([
-                'cnet_id' => $canvas_student->user->login_id
-              ]);
-            } else if (isset($canvas_student->user->id) && !is_null($canvas_student->user->id)) {
-              $student = Student::firstOrNew([
-                'canvas_id' => strval($canvas_student->user->id)
-              ]);
+            if (property_exists($canvas_student->user, 'login_id') && !is_null($canvas_student->user->login_id)) {
+              $student = Student::firstOrNew(['cnet_id' => $canvas_student->user->login_id]);
+            } else if (property_exists($canvas_student->user, 'id') && !is_null($canvas_student->user->id)) {
+              // There is a student who's canvas ID has a letter in it for some reason. It looks
+              // like a Chicago ID. Anyway, if you try to compare it with something that SQL thinks
+              // is an integer, it'll try to turn it into an integer and fail. So, we'll first
+              // coerce the canvas user id into a string.
+              $student = Student::firstOrNew(['canvas_id' => strval($canvas_student->user->id)]);
             }
 
             // Proceed only if we were able to make a student with cnet or canvas id.
@@ -127,14 +128,32 @@ class FetchCanvasEnrollment implements ShouldQueue
 
               // Names. Some of these will get blown away by AIS, because they actually
               // break names down into first, m, last. Full name and full short name are kept though.
+
+              // Canvas has both a regular name and a short name field.
+              // Both are first + last in the one field.
               $student->full_name = $canvas_student->user->name;
               $student->short_full_name = $canvas_student->user->short_name;
+              $student->sortable_name = $canvas_student->user->sortable_name;
+
+              // Only set first and last if they're null (Canvas defers to AIS for these).
+              // What's coming from AIS will overwrite what happens here.
+
+              // Guess first and last names by exploding the full name. Everything
+              // before the first space is first name. Everything after is last.
               if (is_null($student->first_name)) $student->first_name = explode(' ', $canvas_student->user->name)[0];
               if (is_null($student->last_name)) $student->last_name = substr($canvas_student->user->name, strpos($canvas_student->user->name, ' ') + 1);
-              $student->sortable_name = $canvas_student->user->sortable_name;
-              // Defer to AIS's "preferred first name" field for short_first_name, if it's set.
+
+              // Short first name is primarily going to be AIS's preferred first name, but if it's
+              // null we can take a guess here.
+              // Guess short first name by taking everything up to the first space from canvas's short name.
               if (is_null($student->short_first_name)) $student->short_first_name = explode(' ', $canvas_student->user->short_name)[0];
+
+              // Create short last name by taking everything up to the first comma from canvas's sortable name.
+              // (This field is Canvas-only).
               $student->short_last_name = substr($canvas_student->user->sortable_name, 0, strpos($canvas_student->user->sortable_name, ', '));
+
+              // Timestamp
+              $student->canvas_last_seen = new Carbon();
 
               // save in DB
               $student->save();
@@ -202,7 +221,7 @@ class FetchCanvasEnrollment implements ShouldQueue
       // send an email with exceptions summary
       if (config('app.env') === 'prod') {
         $message = "Prod: FetchCanvasEnrollment for {$this->term} finished with " . count($this->errors) . " error(s) out of " . count($this->offerings) . " offerings.";
-        Mail::to('dramus@uchicago.edu')->send(new JobException($message, $this->errors));
+        Mail::to(config('app.dev_email'))->send(new JobException($message, $this->errors));
       }
     endif;
   }

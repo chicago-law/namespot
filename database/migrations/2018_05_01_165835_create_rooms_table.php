@@ -15,10 +15,11 @@ class CreateRoomsTable extends Migration
     {
         Schema::create('rooms', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('seat_size')->nullable();
+            $table->timestamps();
+            $table->string('type')->default('template');
             $table->string('name')->nullable();
             $table->string('db_match_name')->nullable();
-            $table->string('type')->default('template');
-            $table->integer('seat_size')->default(25);
         });
     }
 

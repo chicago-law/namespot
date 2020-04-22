@@ -1,4 +1,4 @@
-const mix = require('laravel-mix')
+const mix = require('laravel-mix') //eslint-disable-line
 
 /*
  |--------------------------------------------------------------------------
@@ -11,26 +11,13 @@ const mix = require('laravel-mix')
  |
  */
 
-mix.react('resources/assets/js/main.js', 'public/js')
-   .sass('resources/assets/sass/app.scss', 'public/css')
-   .copyDirectory('resources/assets/images', 'public/images')
-   .copyDirectory('resources/assets/js/vendor', 'public/js')
-   .copyDirectory('resources/assets/spreadsheets', 'public/spreadsheets')
-   .sourceMaps()
-   .browserSync({
-     proxy: 'namespot.localhost',
-   })
-   .options({
-    uglify: {
-      uglifyOptions: {
-        compress: {
-          collapse_vars: false,
-        },
-      },
-    },
+mix.ts('resources/js/index.js', 'public/js')
+  .sass('resources/sass/main.scss', 'public/css')
+  .copyDirectory('resources/images', 'public/images')
+  .copyDirectory('resources/js/vendor', 'public/js')
+  .copyDirectory('resources/templates', 'public/templates')
+  .sourceMaps()
+  .browserSync({
+    proxy: 'namespot.localhost',
   })
-  .disableSuccessNotifications()
-
-if (mix.inProduction()) {
-  mix.version()
-}
+  .version()

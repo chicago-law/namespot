@@ -17,10 +17,10 @@ class CreateTablesTable extends Migration
             $table->increments('id');
             $table->integer('room_id');
             $table->integer('seat_count')->nullable();
-            $table->integer('sX');
-            $table->integer('sY');
-            $table->integer('eX');
-            $table->integer('eY');
+            $table->integer('sX')->nullable();
+            $table->integer('sY')->nullable();
+            $table->integer('eX')->nullable();
+            $table->integer('eY')->nullable();
             $table->integer('qX')->nullable();
             $table->integer('qY')->nullable();
             $table->string('label_position')->nullable();

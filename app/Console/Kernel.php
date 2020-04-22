@@ -6,7 +6,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Jobs\FetchAppData;
 use App\Jobs\SetAcademicYear;
-use App\Jobs\TestJob;
+use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {
@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // record the start time
+        // Get the start time
         $started = date('h:i:s');
 
         if (config('app.env') === 'prod') {

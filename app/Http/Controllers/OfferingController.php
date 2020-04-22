@@ -4,150 +4,243 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\OfferingsExport;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\OfferingResource;
+use App\Http\Resources\EnrollmentsResource;
+use App\Http\Resources\StudentResource;
 use App\Offering;
-use App\Http\Resources\Offering as OfferingResource;
+use App\Student;
 
 class OfferingController extends Controller
 {
-  public function offerings(Request $request)
+  public function get(Request $request)
   {
-    // Filter by term code
-    $termCode = $request->input('termCode');
-    if ($termCode && $termCode !== 'all') {
-      $offerings = Offering::where('term_code', $request->input('termCode'))->get();
-      $offeringResources = OfferingResource::collection($offerings);
-      return response()->json($offeringResources);
+    $query = Offering::query();
+
+    // Search by ID
+    $id = $request->post('id');
+    if ($id) {
+      $query = $query->where('id', $id);
     }
 
-    $offerings = Offering::all();
-    $offeringResources = OfferingResource::collection($offerings);
+    // If user is inst, restrict offerings to ones they're teaching or
+    // manual creations they made. If staff, they can see all regular
+    // offerings but still only manual creations they made.
+    // Dev can see all 😇
+    if (Auth::user()->role === 'inst') {
+      $query = $query->where(function($subQ) {
+        $subQ->whereHas('instructors', function($instQ) {
+          $instQ->where('cnet_id', Auth::user()->cnet_id);
+        });
+        $subQ->orWhere('manually_created_by', '=', Auth::user()->id);
+      });
+    }
+    if (Auth::user()->role === 'staff') {
+      $query = $query->where(function($subQ) {
+        $subQ->whereNull('manually_created_by');
+        $subQ->orWhere(function($subSubQ) {
+          $subSubQ->whereNotNull('manually_created_by');
+          $subSubQ->where('manually_created_by', '=', Auth::user()->id);
+        });
+      });
+    }
 
-    return response()->json($offeringResources);
+    // Search by term.
+    $term_code = $request->post('termCode');
+    if ($term_code) {
+      $query = $query->where('term_code', $term_code);
+    }
+
+    // Get the results, eager loaded with the instructors.
+    $query = $query->with('instructors')->get();
+
+    $offerings = OfferingResource::collection($query)->keyBy->id;
+
+    return response()->json([
+      'offerings' => $offerings
+    ]);
   }
 
-  public function update($offering_id, Request $request)
+  public function update(Request $request, $offering_id)
   {
-    // find the offering
     $offering = Offering::findOrFail($offering_id);
+    $updates = $request->all();
 
-    // update room_id
-    if ($request->input('room_id')):
+    // Perform updates
+    if (array_key_exists('room_id', $updates)) {
       $offering->room_id = $request->input('room_id');
       // Because this room assignment was initiated by the user, we want to preserve
       // it, rather than just blow it away with our next nightly data fetch.
       $offering->is_preserve_room_id = 1;
-    endif;
 
-    // update students
-    if ($request->input('students')):
-      $offering->students()->syncWithoutDetaching($request->input('students'));
-    endif;
+      // Because we just changed the room, we have to unseat everyone in it.
+      $student_ids = $offering->students()->pluck('id')->toArray();
+      $updated_students = [];
+      foreach ($student_ids as $id) {
+        $updated_students[$id] = ['assigned_seat' => null];
+      }
+      $offering->students()->sync($updated_students);
+    }
+    if (array_key_exists('student_id', $updates)) {
+      $offering->students()->attach($updates['student_id']);
+    }
+    if (array_key_exists('paper_size', $updates)) {
+      $offering->paper_size = $updates['paper_size'];
+    }
+    if (array_key_exists('font_size', $updates)) {
+      $offering->font_size = $updates['font_size'];
+    }
+    if (array_key_exists('names_to_show', $updates)) {
+      $offering->names_to_show = $updates['names_to_show'];
+    }
+    if (array_key_exists('use_nicknames', $updates)) {
+      $offering->use_nicknames = $updates['use_nicknames'];
+    }
+    if (array_key_exists('use_prefixes', $updates)) {
+      $offering->use_prefixes = $updates['use_prefixes'];
+    }
+    if (array_key_exists('flipped', $updates)) {
+      $offering->flipped = $updates['flipped'];
+    }
+    if (array_key_exists('title', $updates)) {
+      $offering->long_title = $updates['title'];
+    }
+    if (array_key_exists('term_code', $updates)) {
+      $offering->term_code = $updates['term_code'];
+    }
+    if (array_key_exists('catalog_nbr', $updates)) {
+      $offering->catalog_nbr = $updates['catalog_nbr'];
+    }
+    if (array_key_exists('section', $updates)) {
+      $offering->section = $updates['section'];
+    }
 
-    // update paper size
-    if ($request->input('paper_size')):
-      $offering->paper_size = $request->input('paper_size');
-    endif;
-
-    // update font size
-    if ($request->input('font_size')):
-      $offering->font_size = $request->input('font_size');
-    endif;
-
-    // update flip perspective
-    if ($request->input('flipped') !== null):
-      $offering->flipped = (bool) $request->input('flipped');
-    endif;
-
-    // update names to show
-    if ($request->input('names_to_show')):
-      $offering->names_to_show = $request->input('names_to_show');
-    endif;
-
-    // update use nicknames
-    if ($request->input('use_nicknames') !== null):
-      $offering->use_nicknames = (bool) $request->input('use_nicknames');
-    endif;
-
-    // timestamp this update
+    // Timestamp this update
     $offering->updated_at = new Carbon();
 
+    // Save and return
     $offering->save();
-
-    return response()->json($offering,200);
+    return response()->json([
+      'offerings' => [
+        $offering->id => new OfferingResource($offering)
+      ],
+      'enrollments' => [
+        $offering->id => new EnrollmentsResource($offering)
+      ]
+    ]);
   }
 
-  public function createRoomFor($offering_id)
+  public function create(Request $request)
   {
-    // find the offering
-    $offering = Offering::findOrFail($offering_id);
+    $new_offering = new Offering;
 
-    // find the offering's current room and replicate it
-    $old_room = $offering->room;
-    $new_room = $old_room->replicate();
-    $new_room->type = 'custom';
-    $new_room->db_match_name = null;
+    // Assign the authed user as the creator.
+    $new_offering->manually_created_by = auth()->user()->id;
 
-    // Note: Going to just keep the same room name. In places where it's relevant
-    // for user to know that this is not the original template, just output
-    // "(edited)" after the room name.
+    // Attributes
+    $title = $request->input('title');
+    $term_code = $request->input('term_code');
+    $catalog_nbr = $request->input('catalog_nbr');
+    $section = $request->input('section');
 
-    $new_room->save();
+    if (!$title) abort(400);
 
-    // Store the student seat changes, so we can include in returned JSON.
-    $seat_changes = [];
+    $new_offering->long_title = $title;
+    $new_offering->term_code = $term_code;
+    $new_offering->catalog_nbr = $catalog_nbr;
+    $new_offering->section = $section;
 
-    // Replicate the tables attached to the old room.
-    foreach ($old_room->tables as $table):
-      $new_table = $table->replicate();
-      $new_table->room_id = $new_room->id;
-      $new_table->save();
-
-      // Get any students that were seated at this table for this
-      // offering and reassign them to its replicant.
-      foreach ($offering->students as $student):
-        if (!is_null($student->pivot->assigned_seat)):
-
-          // if the table that we're looping through is the same as the table that
-          // the student was assigned to, then do the replacement!
-          list($old_table, $seat) = explode('_',$student->pivot->assigned_seat);
-          if ( (String) $table->id === (String) $old_table) {
-            $new_assignment = $new_table->id . '_' . $seat;
-            $student->offerings()->updateExistingPivot($offering->id,['assigned_seat' => $new_assignment]);
-            $student->save();
-            $seat_changes[] = [
-              $student->id => [
-                'old seat' => $student->pivot->assigned_seat,
-                'new seat' => $new_assignment
-              ]
-            ];
-          }
-        endif;
-        unset($new_assignment, $old_table, $seat);
-      endforeach;
-
-    endforeach;
-
-    // update the offering's room association
-    $offering->room_id = $new_room->id;
-    // Because this room assignment was initiated by the user, we want to preserve
-    // it, rather than just blow it away with our next nightly data fetch.
-    $offering->is_preserve_room_id = 1;
-
-    // Timestamp this update.
-    $offering->updated_at = new Carbon();
-
-    $offering->save();
+    $new_offering->save();
 
     return response()->json([
-      'newRoomId' => $new_room->id,
-      'seatChanges' => $seat_changes
-    ], 200);
+      'offerings' => [
+        $new_offering->id => new OfferingResource($new_offering)
+      ]
+    ]);
   }
 
-  public function export()
+  public function delete($offering_id)
   {
-    return Excel::download(new OfferingsExport, 'offerings.xlsx');
+    $offering = Offering::findOrFail($offering_id);
+    $offering->delete();
+    return response('Delete successful');
+  }
+
+  public function enrollments($offering_id)
+  {
+    $offering = Offering::findOrFail($offering_id);
+    return response()->json([
+      'enrollments' => [
+        $offering->id => new EnrollmentsResource($offering)
+      ]
+    ]);
+  }
+
+  public function updateEnrollment(Request $request, $offering_id, $student_id)
+  {
+    if (!$offering_id || !$student_id) {
+      abort(500, 'Missing required parameters.');
+    }
+
+    $offering = Offering::findOrFail($offering_id);
+
+    if (!$offering) {
+      abort(500, 'Offering not find with supplied ID.');
+    }
+
+    // We'll do a sync to attach the student id, in case this is a new relationship.
+    $offering->students()->syncWithoutDetaching([$student_id]);
+
+    // So far, updatable params include just seat.
+    $updates = [];
+    if (array_key_exists('seat', $request->all())) $updates['assigned_seat'] = $request->input('seat');
+
+    if (count($updates)) {
+      $offering->students()->updateExistingPivot($student_id, $updates);
+    }
+
+    return response()->json([
+      'enrollments' => [
+        $offering->id => new EnrollmentsResource($offering)
+      ]
+    ]);
+  }
+  public function createEnrollment(Request $request, $offering_id, $student_id)
+  {
+    $offering = Offering::findOrFail($offering_id);
+    $student = Student::findOrFail($student_id);
+
+    $existing_student_ids = $offering->students()->pluck('id')->toArray();
+    if (in_array($student_id, $existing_student_ids)) {
+      abort(500, 'Student already enrolled in offering.');
+    }
+
+    $offering->students()->attach($student_id, [
+      'is_namespot_addition' => 1,
+    ]);
+
+    return response()->json([
+      'enrollments' => [
+        $offering->id => new EnrollmentsResource($offering)
+      ],
+      'students' => [
+        $student_id => new StudentResource($student)
+      ]
+    ]);
+  }
+
+  public function deleteEnrollment(Request $request, $offering_id, $student_id)
+  {
+    $offering = Offering::findOrFail($offering_id);
+    $student = Student::findOrFail($student_id);
+
+    $existing_student_ids = $offering->students()->pluck('id')->toArray();
+    if (!in_array($student_id, $existing_student_ids)) {
+      abort(500, 'Student already not enrolled in offering.');
+    }
+
+    $offering->students()->detach($student_id);
+
+    return response('Student removed from offering', 200);
   }
 }

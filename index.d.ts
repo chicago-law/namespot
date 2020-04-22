@@ -1,0 +1,6 @@
+declare module '*.png'
+declare module '*.svg'
+declare module '*.jpg'
+declare module '*.gif'
+declare module 'changedpi'
+declare module 'jspdf'

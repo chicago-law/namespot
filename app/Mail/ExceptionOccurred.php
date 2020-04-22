@@ -28,9 +28,12 @@ class ExceptionOccurred extends Mailable
      */
     public function build()
     {
+        $env = config('app.env');
+        $subject = "Error in Namespot {$env}";
+
         return $this->view('emails.exception-occurred')
             ->from('no-reply@namespot.uchicago.edu')
-            ->subject('Yikes, Namespot production error!!')
+            ->subject($subject)
             ->with('content', $this->content);
     }
 }

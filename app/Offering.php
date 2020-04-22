@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Offering extends Model
 {
-    protected $fillable = ['room_id', 'catalog_nbr', 'long_title'];
+    protected $fillable = ['room_id', 'catalog_nbr', 'long_title', 'use_nicknames', 'use_prefixes'];
 
     // We're disabling the built in timestamp functionality. There is still the updated_at
     // column though, and we're going to use it manually. Why? Because otherwise everything
@@ -83,17 +83,47 @@ class Offering extends Model
             ->where(function($q) {
                 $q->where('full_name', '!=', 'Test Student')
                   ->orWhereNull('full_name');
-            });
+            })
+            ->orderBy('last_name');
     }
 
+    /**
+     * Get only the students that were added through the "Add Student" button.
+     */
     public function namespotAddedStudents()
     {
         return $this->students()->where('is_namespot_addition',1);
     }
 
-    public function title() {
-        if ($this->long_title) return $this->long_title;
-        if ($this->title) return $this->title;
+    /**
+     * Takes in a CNet, sees if they are attached as an instructor.
+     */
+    public function isBeingTaughtBy($cnet_id)
+    {
+        $insts = $this->instructors()->pluck('cnet_id')->toArray();
+        return in_array($cnet_id, $insts);
+    }
+
+    /**
+     * Usually just the long_title field, but sometimes that comes back
+     * blank from AIS.
+     */
+    public function title()
+    {
+        if ($this->long_title) return utf8_encode($this->long_title);
+        if ($this->title) return utf8_encode($this->title);
         return '';
+    }
+
+    /**
+     * Unseat all students in this offering.
+     */
+    public function unseatStudents()
+    {
+        foreach ($this->students as $student) {
+            $this->students()->updateExistingPivot($student->id, [
+                'assigned_seat' => null
+            ]);
+        }
     }
 }

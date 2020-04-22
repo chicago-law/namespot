@@ -16,6 +16,7 @@ use GuzzleHttp\Psr7;
 use App\Mail\JobException;
 use App\Mail\JobResults;
 use App\Student;
+use Illuminate\Support\Carbon;
 
 class FetchLawStudents implements ShouldQueue
 {
@@ -67,7 +68,7 @@ class FetchLawStudents implements ShouldQueue
 
         if (is_array($ais_students) && count($ais_students) > 0) {
           foreach ($ais_students as $ais_student) {
-            $cnet_id = safeString($ais_student, 'CNET_ID');
+            $cnet_id = safeStringOrNull($ais_student, 'CNET_ID');
             if ($cnet_id) {
               $student = Student::firstOrNew(['cnet_id' => $cnet_id]);
             }
@@ -77,17 +78,20 @@ class FetchLawStudents implements ShouldQueue
               // The basics
               $student->emplid = $ais_student->EMPLID;
               $student->first_name = $ais_student->FIRST_NAME;
-              $middle_name = safeString($ais_student, 'MIDDLE_NAME');
+              $middle_name = safeStringOrNull($ais_student, 'MIDDLE_NAME');
               if ($middle_name) $student->middle_name = $middle_name;
               $student->last_name = $ais_student->LAST_NAME;
-              $student->short_first_name = safeString($ais_student, 'PREF_FIRST_NAME');
-              $email = safeString($ais_student, 'EMAIL_ADDR');
+              if (safeStringOrNull($ais_student, 'PREF_FIRST_NAME')) $student->short_first_name = $ais_student->PREF_FIRST_NAME;
+              $student->email = safeStringOrNull($ais_student, 'EMAIL_ADDR');
 
               // Academics
-              $student->academic_career = safeString($ais_student, 'ACAD_CAREER');
-              $student->academic_prog = safeString($ais_student, 'ACAD_PROG');
-              $student->academic_prog_descr = safeString($ais_student, 'ACAD_PROG_DESCR');
-              $student->exp_grad_term = safeString($ais_student, 'EXP_GRAD_TERM');
+              $student->academic_career = safeStringOrNull($ais_student, 'ACAD_CAREER');
+              $student->academic_prog = safeStringOrNull($ais_student, 'ACAD_PROG');
+              $student->academic_prog_descr = safeStringOrNull($ais_student, 'ACAD_PROG_DESCR');
+              $student->exp_grad_term = safeStringOrNull($ais_student, 'EXP_GRAD_TERM');
+
+              // Timestamp
+              $student->ais_last_seen = new Carbon();
 
               // Save!
               $student->save();
@@ -111,12 +115,15 @@ class FetchLawStudents implements ShouldQueue
         ];
       }
 
-     // Attempt to send an email with exceptions summary.
-     if (config('app.env') === 'prod') {
-      $message =  'Prod: FetchLawStudents had an exception!';
-      Mail::to(config('app.admin_email'))->send(new JobException($message, $errors_array));
-    }
-
+      // Attempt to send an email with exceptions summary.
+      if (config('app.env') === 'prod') {
+        $message =  'Prod: FetchLawStudents had an exception!';
+        Mail::to(config('app.dev_email'))->send(new JobException($message, $errors_array));
+      }
+      if (config('app.env') === 'dev') {
+        $message =  'Dev: FetchLawStudents had an exception!';
+        Mail::to(config('app.dev_email'))->send(new JobException($message, $errors_array));
+      }
     }
   }
 }

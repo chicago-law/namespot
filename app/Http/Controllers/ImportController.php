@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use App\Student;
 use App\Offering;
 use App\Instructor;
-use App\Http\Resources\Offering as OfferingResource;
-use App\Http\Resources\Student as StudentResource;
+use App\Http\Resources\OfferingResource;
+use App\Http\Resources\StudentResource;
 
 class ImportController extends Controller
 {
@@ -98,9 +98,9 @@ class ImportController extends Controller
               if (in_array($property, $this->valid_props[$type])) {
                 $included_props[] = $property;
               } else if (empty($property)) {
-                abort(500, "Empty column header found");
+                abort(400, "Empty column header found");
               } else {
-                abort(500, "Invalid property found in header row: {$property}");
+                abort(400, "Invalid property found in header row: {$property}");
               }
             }
           }
@@ -127,6 +127,7 @@ class ImportController extends Controller
                 $enroll_results = $this->processEnrollment($entity_props);
                 $offering_ids[] = $enroll_results[0];
                 $student_ids[] = $enroll_results[1];
+                // $enrollments[] = $enroll_results[2];
                 break;
               case 'instructors':
                 $taught_offerings = $this->processInstructor($entity_props);
@@ -149,9 +150,9 @@ class ImportController extends Controller
 
     // Prepare the results by turning our ID arrays into JSON resources.
     $student_ids = array_unique($student_ids);
-    $students = StudentResource::collection(Student::whereIn('id', $student_ids)->get());
+    $students = StudentResource::collection(Student::whereIn('id', $student_ids)->get())->keyBy->id;
     $offering_ids = array_unique($offering_ids);
-    $offerings = OfferingResource::collection(Offering::whereIn('id', $offering_ids)->get());
+    $offerings = OfferingResource::collection(Offering::whereIn('id', $offering_ids)->get())->keyBy->id;
 
     $results = [
       'students' => $students,
@@ -164,6 +165,12 @@ class ImportController extends Controller
 
   public function processStudent($entity_props)
   {
+    // Required parameters.
+    $first_name = !empty($entity_props['first_name']) ? $entity_props['first_name'] : null;
+    $last_name = !empty($entity_props['last_name']) ? $entity_props['last_name'] : null;
+
+    if (!$first_name || !$last_name) abort(400, 'Missing required parameter');
+
     // Check id, canvas id, and cnet id to find if student exists already.
     $id = !empty($entity_props['id']) ? $entity_props['id'] : null;
     $canvas_id = !empty($entity_props['canvas_id']) ? $entity_props['canvas_id'] : null;
@@ -181,13 +188,9 @@ class ImportController extends Controller
 
     if (is_null($student)) {
       // New student! Welcome!
-      // The only two fields required for making a new student are first and last names.
-      if (empty($entity_props['first_name']) || empty($entity_props['last_name'])) {
-        abort(500, "First and last names are required to generate a new student. Failed at row {$this->row}.");
-      }
       $student = Student::create([
-        'first_name' => $entity_props['first_name'],
-        'last_name' => $entity_props['last_name'],
+        'first_name' => $first_name,
+        'last_name' => $last_name,
       ]);
       $student->save();
       $this->created_entities++;
@@ -212,22 +215,35 @@ class ImportController extends Controller
 
   public function processOffering($entity_props)
   {
-    // check id and class_nbr to see if offering exists already.
+    // Get required parameters.
+    $catalog_nbr = !empty($entity_props['catalog_nbr']) ? $entity_props['catalog_nbr'] : null;
+    $long_title = !empty($entity_props['long_title']) ? $entity_props['long_title'] : null;
+    $term_code = !empty($entity_props['term_code']) ? $entity_props['term_code'] : null;
+
+    if (!$catalog_nbr || !$long_title || !$term_code) abort(400, 'Missing required field.');
+
+    // Check if exists already...
+    $query = Offering::query();
+
+    // ...with ID
     $id = !empty($entity_props['id']) ? $entity_props['id'] : null;
+    if ($id) {
+      $query = $query->where('id', $id);
+    }
+
+    // ...with class number
     $class_nbr = !empty($entity_props['class_nbr']) ? $entity_props['class_nbr'] : null;
-    $offering = Offering::where('id', $id)
-                        ->orWhere(function ($q) use ($class_nbr) {
-                          $q->whereNotNull('class_nbr')
-                            ->where('class_nbr', $class_nbr);
-                          })
-                        ->first();
+    if ($class_nbr) {
+      $query = $query->where(function($q) use($class_nbr) {
+        $q->whereNotNull('class_nbr')
+          ->where('class_nbr', $class_nbr);
+      });
+    }
+
+    $offering = ($class_nbr || $id) ? $query->first() : null;
 
     if (is_null($offering)) {
       // New Offering!
-      // Required fields for new offerings: catalog_nbr and long_title.
-      if (empty($entity_props['catalog_nbr']) || empty($entity_props['long_title'])) {
-        abort(500, "Catalog number and title are required for new offerings. Failed at row {$this->row}.");
-      }
       $offering = new Offering;
       $offering->catalog_nbr = $entity_props['catalog_nbr'];
       $offering->long_title = $entity_props['long_title'];
@@ -255,18 +271,18 @@ class ImportController extends Controller
   public function processEnrollment($entity_props)
   {
     // Store the IDs and then remove from entity_props
-    $offering_id = $entity_props['offering_id'];
-    $student_id = $entity_props['student_id'];
+    $offering_id = !empty($entity_props['offering_id']) ? $entity_props['offering_id'] : null;
+    $student_id = !empty($entity_props['student_id']) ? $entity_props['student_id'] : null;
     unset($entity_props['offering_id'], $entity_props['student_id']);
 
     // Requires valid offering_id and student_id.
     $offering = Offering::find($offering_id);
     if (is_null($offering_id) || is_null($offering)) {
-      abort(500, "Invalid offering ID found: {$offering_id}");
+      abort(400, "Invalid offering ID found: {$offering_id}");
     }
     $student = Student::find($student_id);
     if (is_null($student_id) || is_null($student)) {
-      abort(500, "Invalid student ID found: {$student_id}");
+      abort(400, "Invalid student ID found: {$student_id}");
     }
 
     // Is this going to be an update or a new entry?
@@ -300,11 +316,18 @@ class ImportController extends Controller
     return [
       $offering->id,
       $student->id,
+      // enrollments
     ];
   }
 
   public function processInstructor($entity_props)
   {
+    // First and last names are required.
+    $first_name = !empty($entity_props['first_name']) ? $entity_props['first_name'] : null;
+    $last_name = !empty($entity_props['last_name']) ? $entity_props['last_name'] : null;
+
+    if (!$first_name || !$last_name) abort(400, 'Missing required parameter');
+
     // Check id, emplid, and cnet id to find if instructor exists already.
     $id = !empty($entity_props['id']) ? $entity_props['id'] : null;
     $emplid = !empty($entity_props['emplid']) ? $entity_props['emplid'] : null;
@@ -322,10 +345,6 @@ class ImportController extends Controller
 
     if (is_null($instructor)) {
       // New Instructor
-      // The only two fields required for making a new instructor are first and last names.
-      if (empty($entity_props['first_name']) || empty($entity_props['last_name'])) {
-        abort(500, "First and last names are required to generate a new instructor. Failed at row {$this->row}.");
-      }
       $instructor = Instructor::create([
         'first_name' => $entity_props['first_name'],
         'last_name' => $entity_props['last_name'],
@@ -361,11 +380,11 @@ class ImportController extends Controller
     // Requires valid offering_id and instructor_id.
     $instructor = Instructor::find($instructor_id);
     if (is_null($instructor_id) || is_null($instructor)) {
-      abort(500, "Invalid instructor ID found: {$instructor_id}");
+      abort(400, "Invalid instructor ID found: {$instructor_id}");
     }
     $offering = Offering::find($offering_id);
     if (is_null($offering_id) || is_null($offering)) {
-      abort(500, "Invalid offering ID found: {$offering_id}");
+      abort(400, "Invalid offering ID found: {$offering_id}");
     }
 
     // Is this going to be an update or a new entry?

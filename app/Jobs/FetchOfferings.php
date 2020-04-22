@@ -43,7 +43,6 @@ class FetchOfferings implements ShouldQueue
    */
   public function handle()
   {
-
     // record errors here
     $errors_array = [];
 
@@ -63,16 +62,7 @@ class FetchOfferings implements ShouldQueue
       $json_body = $response->getBody()->getContents();
       $body = json_decode($json_body);
 
-      // If the term has a single class, then UC_CLASS_TBL will be an object,
-      // otherwise it will be an array of objects. So we'll normalize to an
-      // array first.
-
-      $ais_class_tbl = [];
-      if (is_array($body->UC_CLASS_TBL)) {
-        $ais_class_tbl = $body->UC_CLASS_TBL;
-      } else {
-        $ais_class_tbl[] = $body->UC_CLASS_TBL;
-      }
+      $ais_class_tbl = safeArray($body, 'UC_CLASS_TBL');
 
       foreach($ais_class_tbl as $ais_class):
         // Look for the offering in our DB. If it exists already, we'll
@@ -80,6 +70,7 @@ class FetchOfferings implements ShouldQueue
         $offering = Offering::where([
           ['term_code', '=', $this->term],
           ['class_nbr', '=', $ais_class->CLASS_NBR],
+          ['manually_created_by', '=', null]
         ])->first();
 
         if (!$offering) {
@@ -87,27 +78,28 @@ class FetchOfferings implements ShouldQueue
         }
 
         // ids
-        $offering->catalog_nbr = safeString($ais_class, 'CATALOG_NBR');
-        $offering->crse_id = safeString($ais_class, 'CRSE_ID');
-        $offering->class_nbr = safeString($ais_class, 'CLASS_NBR');
-        $offering->section = safeString($ais_class, 'SECTION');
+        $offering->catalog_nbr = safeStringOrNull($ais_class, 'CATALOG_NBR');
+        $offering->crse_id = safeStringOrNull($ais_class, 'CRSE_ID');
+        $offering->class_nbr = safeStringOrNull($ais_class, 'CLASS_NBR');
+        $offering->section = safeStringOrNull($ais_class, 'SECTION');
 
         // names
-        $offering->title = safeString($ais_class, 'TITLE');
-        $offering->long_title = safeString($ais_class, 'LONG_TITLE');
-        $offering->component = safeString($ais_class, 'COMPONENT');
-        $offering->component_descr = safeString($ais_class, 'COMPONENT_DESCR');
+        $offering->title = safeStringOrNull($ais_class, 'TITLE');
+        $offering->long_title = safeStringOrNull($ais_class, 'LONG_TITLE');
+        $offering->component = safeStringOrNull($ais_class, 'COMPONENT');
+        $offering->component_descr = safeStringOrNull($ais_class, 'COMPONENT_DESCR');
+        $offering->subject = safeStringOrNull($ais_class, 'SUBJECT');
 
         // location
-        $offering->ais_location = is_string($ais_class->LOCATION) ? $ais_class->LOCATION : null;
+        $offering->ais_location = safeStringOrNull($ais_class, 'LOCATION');
         $offering->term_code = $this->term;
 
         // enrollment numbers
-        $offering->enrl_cap = $ais_class->ENRL_CAP;
-        $offering->enrl_tot = $ais_class->ENRL_TOT;
+        $offering->enrl_cap = safeStringOrNull($ais_class, 'ENRL_CAP');
+        $offering->enrl_tot = safeStringOrNull($ais_class, 'ENRL_TOT');
 
         // meeting info
-        if (isset($ais_class->UC_MEETING_TBL) && !is_null($ais_class->UC_MEETING_TBL)):
+        if (property_exists($ais_class, 'UC_MEETING_TBL') && !is_null($ais_class->UC_MEETING_TBL)):
 
           // UC_MEETING_TBL can sometimes be an array, but the primary meeting
           // time is what we're concerned with.
@@ -117,17 +109,15 @@ class FetchOfferings implements ShouldQueue
             $meeting_time = $ais_class->UC_MEETING_TBL;
           endif;
 
-          // When there is no data, it's returned from API as an empty object.
-          // If that's the case, we're just going to assign it null.
-          $offering->ais_room = is_string($meeting_time->ROOM) ? $meeting_time->ROOM : null;
-          $offering->ais_room_capacity = is_string($meeting_time->ROOM_CAPACITY) ? $meeting_time->ROOM_CAPACITY : null;
-          $offering->building = is_string($meeting_time->BUILDING) ? $meeting_time->BUILDING : null;
-          $offering->building_desc = is_string($meeting_time->BUILDING_DESCR) ? $meeting_time->BUILDING_DESCR : null;
-          $offering->days = is_string($meeting_time->DAYS) ? $meeting_time->DAYS : null;
-          $offering->start_time = is_string($meeting_time->START_TIME) ? $meeting_time->START_TIME : null;
-          $offering->end_time = is_string($meeting_time->END_TIME) ? $meeting_time->END_TIME : null;
-          $offering->start_dt = is_string($meeting_time->START_DT) ? $meeting_time->START_DT : null;
-          $offering->end_dt = is_string($meeting_time->END_DT) ? $meeting_time->END_DT : null;
+          $offering->ais_room = safeStringOrNull($meeting_time, 'ROOM');
+          $offering->ais_room_capacity = safeStringOrNull($meeting_time, 'ROOM_CAPACITY');
+          $offering->building = safeStringOrNull($meeting_time, 'BUILDING');
+          $offering->building_desc = safeStringOrNull($meeting_time, 'BUILDING_DESCR');
+          $offering->days = safeStringOrNull($meeting_time, 'DAYS');
+          $offering->start_time = safeStringOrNull($meeting_time, 'START_TIME');
+          $offering->end_time = safeStringOrNull($meeting_time, 'END_TIME');
+          $offering->start_dt = safeStringOrNull($meeting_time, 'START_DT');
+          $offering->end_dt = safeStringOrNull($meeting_time, 'END_DT');
         endif;
 
         // Save
@@ -157,15 +147,8 @@ class FetchOfferings implements ShouldQueue
         $ais_inst_array = [];
         $db_inst_array = [];
 
-        if (isset($meeting_time) && isset($meeting_time->UC_INSTRUCTOR_TBL)):
-
-          // API returns one instructor as an object, more than one as array
-          // of objects, so we'll normalize it to make it always an array.
-          if (is_array($meeting_time->UC_INSTRUCTOR_TBL)):
-            $ais_inst_array = $meeting_time->UC_INSTRUCTOR_TBL;
-          else:
-            $ais_inst_array[] = $meeting_time->UC_INSTRUCTOR_TBL;
-          endif;
+        if (isset($meeting_time) && property_exists($meeting_time, 'UC_INSTRUCTOR_TBL')):
+          $ais_inst_array = safeArray($meeting_time, 'UC_INSTRUCTOR_TBL');
 
           // First, we loop through the instructors to update or create their
           // basic info.
@@ -177,11 +160,11 @@ class FetchOfferings implements ShouldQueue
             // If there isn't, we'll make a new one.
             if (!$db_inst):
               $new_inst = new Instructor;
-              $new_inst->emplid = is_string($ais_inst->EMPLID) ? $ais_inst->EMPLID : null;
-              $new_inst->first_name = is_string($ais_inst->FIRST_NAME) ? $ais_inst->FIRST_NAME : null;
-              $new_inst->last_name = is_string($ais_inst->LAST_NAME) ? $ais_inst->LAST_NAME : null;
-              $new_inst->email = is_string($ais_inst->EMAIL_ADDR) ? $ais_inst->EMAIL_ADDR : null;
-              $new_inst->cnet_id = is_string($ais_inst->CNET_ID) ? $ais_inst->CNET_ID : null;
+              $new_inst->emplid = safeStringOrNull($ais_inst, 'EMPLID');
+              $new_inst->first_name = safeStringOrNull($ais_inst, 'FIRST_NAME');
+              $new_inst->last_name = safeStringOrNull($ais_inst, 'LAST_NAME');
+              $new_inst->email = safeStringOrNull($ais_inst, 'EMAIL_ADDR');
+              $new_inst->cnet_id = safeStringOrNull($ais_inst, 'CNET_ID');
               $new_inst->save();
               $db_inst = $new_inst;
             endif;
@@ -225,7 +208,7 @@ class FetchOfferings implements ShouldQueue
       // send an email with exceptions summary
       if (config('app.env') === 'prod') {
         $message = "Prod FetchOfferings for {$this->term} finished with " . count($errors_array) . " errors.";
-        Mail::to(config('app.admin_email'))->send(new JobException($message, $errors_array));
+        Mail::to(config('app.dev_email'))->send(new JobException($message, $errors_array));
       };
     endif;
   }

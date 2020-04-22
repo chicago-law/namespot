@@ -49,7 +49,7 @@ class FetchPhotoRoster implements ShouldQueue
     $empty_responses = 0;
 
     // Grab the Offerings
-    $offerings = Offering::where('term_code', $this->term)->get();
+    $offerings = Offering::where('term_code', $this->term)->whereNull('manually_created_by')->get();
 
     foreach ($offerings as $offering):
 
@@ -69,52 +69,43 @@ class FetchPhotoRoster implements ShouldQueue
         $json_body = $response->getBody()->getContents();
         $body = json_decode($json_body);
 
-        if (
-          property_exists($body, 'ROW_COUNT')
-          && isset($body->ROW_COUNT)
+        if (property_exists($body, 'ROW_COUNT')
           && $body->ROW_COUNT > 0
           && property_exists($body, 'PHOTO_ROSTER')
-          && isset($body->PHOTO_ROSTER)
         ) {
-
-          // If there's more than one student, AIS will return an array of
-          // student objects. If there's only one, it will return just one
-          // student object. Let's standardize it into an array no matter what.
-          $ais_student_array = [];
-          if (is_array($body->PHOTO_ROSTER)):
-            $ais_student_array = $body->PHOTO_ROSTER;
-          elseif (is_object($body)):
-            $ais_student_array[] = $body->PHOTO_ROSTER;
-          endif;
+          $ais_student_array = safeArray($body, 'PHOTO_ROSTER');
 
           foreach ($ais_student_array as $ais_student):
-
             // Find student in DB with emplid. We should indeed have that
             // because if you're in this list, you were in the AIS enrollment list.
             $student = Student::where('emplid', $ais_student->EMPLID)->first();
 
             // If we found a student, proceed with updating them!
             if ($student) {
-
               // Store if the student is FERPA or not
               $student->is_ferpa = $ais_student->FERPA === 'N' ? 0 : 1;
 
-              // Create the file name and save it as a student attribute
-              // Temporarily including last name as well, because students from
-              // AIS test endpoints come back with cnet 'nobody' for everybody.
-              $file_name = !is_null($student->cnet_id)
-                ? "{$student->cnet_id}_{$ais_student->EMPLID}.jpg"
-                : "{$student->last_name}_{$ais_student->EMPLID}.jpg";
-              $student->picture = $file_name;
+              // We don't want to update the photo if a user has uploaded a custom image.
+              $should_get_photo = $student->picture === null
+                ? true
+                : explode('_', $student->picture)[0] !== 'uploaded';
+
+              if ($should_get_photo) {
+                // Create the file name and save it as a student attribute.
+                $file_name = $student->cnet_id !== null
+                  ? "{$student->cnet_id}_{$ais_student->EMPLID}.jpg"
+                  : "{$student->last_name}_{$ais_student->EMPLID}.jpg";
+
+                $student->picture = $file_name;
+
+                // create and save the jpg file
+                $photo_data = $ais_student->PHOTO_DATA;
+                $decoded = base64_decode($photo_data);
+                Storage::disk('public')->put("student_pictures/{$file_name}", $decoded);
+              }
 
               // Save
               $student->save();
-
-              // create and save the jpg file
-              $photo_data = $ais_student->PHOTO_DATA;
-              $decoded = base64_decode($photo_data);
-              Storage::disk('public')->put("student_pictures/{$file_name}", $decoded);
-
             } // end if student
           endforeach; // end the student loop
 
@@ -150,7 +141,7 @@ class FetchPhotoRoster implements ShouldQueue
       // send an email with exceptions summary
       if (config('app.env') === 'prod') {
         $message =  "Prod: FetchPhotoRoster for {$this->term} finished with " . count($errors_array) . " errors, out of " . count($offerings) . " offerings.";
-        Mail::to(config('app.admin_email'))->send(new JobException($message, array_slice($errors_array, 0, 3)));
+        Mail::to(config('app.dev_email'))->send(new JobException($message, array_slice($errors_array, 0, 3)));
       }
     endif;
   }
