@@ -39,8 +39,12 @@ const Container = styled('div')<ContainerProps>`
     position: absolute;
     height: ${props => (props.paperSize === 'letter' ? props.seatSize * 0.65 : props.seatSize) * seatScale}px;
     width: ${props => (props.paperSize === 'letter' ? props.seatSize * 0.65 : props.seatSize) * seatScale}px;
-    transform-origin: top left;
+    /* translate(-50%, -50%) because the actual pixel point of the seat is the top left.
+    This moves it so the middle of the seat is over that point. */
     transform: scale(${1 / seatScale}) translate(-50%, -50%) ${props => props.offering && !!props.offering.flipped && ' rotate(180deg)'};
+    /* Transform origin defaults to center. Except center is not the regular center anymore,
+    because the pixel point is top left. We'll set it to top left instead. */
+    transform-origin: top left;
     ${props => props.offering && !!props.offering.flipped && `
       transform-origin: 20% 20%;
     `}
@@ -85,6 +89,8 @@ const Container = styled('div')<ContainerProps>`
     }
     .name-label {
       position: absolute;
+      display: flex;
+      flex-direction: column;
       margin: 0;
       line-height: 1em;
       font-size: ${props => calcSeatFontSize(props.offering)};
@@ -94,8 +100,9 @@ const Container = styled('div')<ContainerProps>`
       }
       &.below {
         top: 100%;
-        left: -30%;
-        right: -30%;
+        left: 27%;
+        right: 27%;
+        align-items: center;
         text-align: center;
         transform-origin: top;
         transform: scale(${seatScale}) translateY(0.25em);
@@ -108,11 +115,12 @@ const Container = styled('div')<ContainerProps>`
       }
       &.above {
         bottom: 100%;
-        left: -30%;
-        right: -30%;
+        left: 27%;
+        right: 27%;
+        align-items: center;
         text-align: center;
-        transform-origin: below;
-        transform: scale(${seatScale}) translateY(-1em);
+        transform-origin: bottom;
+        transform: scale(${seatScale}) translateY(-0.25em);
         ${props => props.offering && !!props.offering.flipped && `
           bottom: auto;
           top: 100%;
@@ -123,12 +131,13 @@ const Container = styled('div')<ContainerProps>`
       &.right {
         top: 50%;
         left: 100%;
+        align-items: flex-start;
         transform-origin: top left;
         transform: scale(${seatScale}) translate(0.5em, -50%);
         ${props => props.offering && !!props.offering.flipped && `
           left: auto;
           right: 100%;
-          text-align: right;
+          align-items: flex-end;
           transform-origin: top right;
           transform: scale(${seatScale}) translate(-0.5em, -50%);
         `}
@@ -136,13 +145,13 @@ const Container = styled('div')<ContainerProps>`
       &.left {
         top: 50%;
         right: 100%;
-        text-align: right;
+        align-items: flex-end;
         transform-origin: top right;
         transform: scale(${seatScale}) translate(-0.5em, -50%);
         ${props => props.offering && !!props.offering.flipped && `
           left: 100%;
           right: auto;
-          text-align: left;
+          align-items: flex-start;
           transform-origin: top left;
           transform: scale(${seatScale}) translate(0.5em, -50%);
         `}
