@@ -16,9 +16,10 @@ class ExceptionOccurred extends Mailable
      *
      * @return void
      */
-    public function __construct($content)
+    public function __construct($content, $css)
     {
         $this->content = $content;
+        $this->css = $css;
     }
 
     /**
@@ -34,6 +35,9 @@ class ExceptionOccurred extends Mailable
         return $this->view('emails.exception-occurred')
             ->from('no-reply@namespot.uchicago.edu')
             ->subject($subject)
-            ->with('content', $this->content);
+            ->with([
+                'content' => $this->content,
+                'css' => $this->css
+            ]);
     }
 }

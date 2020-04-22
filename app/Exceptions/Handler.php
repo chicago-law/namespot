@@ -58,10 +58,10 @@ class Handler extends ExceptionHandler
         try {
             $e = FlattenException::create($exception);
             $handler = new HtmlErrorRenderer(true); // boolean, true raises debug flag...
-            $css = $handler->getStylesheet();
             $content = $handler->getBody($e);
+            $css = $handler->getStylesheet();
+            Mail::to(config('app.dev_email'))->send(new ExceptionOccurred($content, $css));
 
-            Mail::to(config('app.dev_email'))->send(new ExceptionOccurred($css, $content));
         } catch (Exception $ex) {
             // Used the try block to avoid the infinite loop if the mail command fails.
         }

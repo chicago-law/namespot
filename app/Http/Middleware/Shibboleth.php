@@ -54,7 +54,7 @@ class Shibboleth
           $inst->where('cnet_id', $cnet_id);
         })->count();
         if (!$relevant_offerings) {
-          abort(401, 'No relevant offerings found');
+          abort(401, "No relevant offerings found for cnet '{$cnet_id}'");
         }
 
         $user = new User;
