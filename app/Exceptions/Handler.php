@@ -53,7 +53,7 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $exception
      * @return void
      */
-    public function sendEmail(Exception $exception)
+    public function sendEmail(Throwable $exception)
     {
         try {
             $e = FlattenException::create($exception);
