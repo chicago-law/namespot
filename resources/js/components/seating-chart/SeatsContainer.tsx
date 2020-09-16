@@ -67,6 +67,7 @@ const Container = styled('div')<ContainerProps>`
     }
     &.background .pic-container {
       background: ${props => props.theme.lightGray};
+      filter: contrast(80%); /* Make a tad darker so they're more visible. */
     }
     &.border-only .pic-container {
       background: white;

@@ -35,15 +35,21 @@ class OfferingController extends Controller
         $subQ->orWhere('manually_created_by', '=', Auth::user()->id);
       });
     }
-    if (Auth::user()->role === 'staff') {
-      $query = $query->where(function($subQ) {
-        $subQ->whereNull('manually_created_by');
-        $subQ->orWhere(function($subSubQ) {
-          $subSubQ->whereNotNull('manually_created_by');
-          $subSubQ->where('manually_created_by', '=', Auth::user()->id);
-        });
-      });
-    }
+    /**
+     * 09/16/20: Removing the code that restricts custom classes to only be
+     * visible to their authors. Because of COVID we need to have alternate
+     * sections of some classes, and we're using custom classes for that.
+     * These need to be visible by all, just like regular classes.
+     */
+    // if (Auth::user()->role === 'staff') {
+    //   $query = $query->where(function($subQ) {
+    //     $subQ->whereNull('manually_created_by');
+    //     $subQ->orWhere(function($subSubQ) {
+    //       $subSubQ->whereNotNull('manually_created_by');
+    //       $subSubQ->where('manually_created_by', '=', Auth::user()->id);
+    //     });
+    //   });
+    // }
 
     // Search by term.
     $term_code = $request->post('termCode');
