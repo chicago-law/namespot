@@ -21,11 +21,18 @@ const assembleSeatingChart = async (
   // html2canvas in Safari.
   chartPage.normalize()
 
+  // SVG dimensions must be explicitly declared to show up properly on printout.
+  const tableSvg = document.getElementById('tables-container')
+  if (tableSvg) {
+    tableSvg.setAttribute('width', (tableSvg.parentNode as HTMLElement)?.offsetWidth.toString())
+    tableSvg.setAttribute('height', (tableSvg.parentNode as HTMLElement)?.offsetHeight.toString())
+  }
+
   html2canvas(chartPage, {
     logging: false,
     scale: 4, // Cranking up scale to increase clarity.
   })
-    .then((canvas) => {
+    .then(canvas => {
       const pdf = new jsPDF({
         orientation: 'landscape',
         unit: 'in',

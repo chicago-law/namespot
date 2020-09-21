@@ -77,9 +77,7 @@ const Room = ({
       className={loading.tables || !tables[roomId] ? 'room loading' : 'room'}
       flipped={!!(offering && offering.flipped)}
     >
-      {!printing.isPrinting && (
-        <TablesContainer roomId={roomId} roomPxDimensions={roomPxDimensions} />
-      )}
+      <TablesContainer roomId={roomId} roomPxDimensions={roomPxDimensions} />
       <SeatsContainer roomId={roomId} />
       {(task === 'choose-point' || task === 'edit-table') && (
         <>
