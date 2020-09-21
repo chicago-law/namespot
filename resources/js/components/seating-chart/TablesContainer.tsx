@@ -10,8 +10,9 @@ import { SessionState } from '../../store/session/types'
 import gridDimensions from '../../utils/gridDimensions'
 import { validateTempTable } from '../../utils/validateTempTable'
 import { Offering } from '../../store/offerings/types'
+import { PrintingState } from '../../store/printing/types'
 
-const Container = styled('svg')<{ editingRoom: boolean }>`
+const Container = styled('svg')<{ editingRoom: boolean; printing: PrintingState }>`
   position: absolute;
   top: 0;
   right: 0;
@@ -21,7 +22,7 @@ const Container = styled('svg')<{ editingRoom: boolean }>`
   path {
     stroke-width: 15;
     stroke-linecap: round;
-    stroke: ${props => (props.editingRoom ? props.theme.middleGray : props.theme.lightGray)};
+    stroke: ${props => ((props.editingRoom && !props.printing.isPrinting) ? props.theme.middleGray : 'rgba(226, 224, 224)')};
     fill: none;
     transition: stroke 200ms ease-out, opacity 200ms ease-out;
     &.selected {
@@ -46,6 +47,7 @@ interface StoreProps {
   tables: {
     [key: string]: Table | undefined;
   };
+  printing: PrintingState;
   setTask: typeof setTask;
   selectTable: typeof selectTable;
   loadTempTable: typeof loadTempTable;
@@ -67,6 +69,7 @@ const TablesContainer = ({
   offering,
   session,
   tables,
+  printing,
   roomPxDimensions,
   match,
   setTask,
@@ -96,6 +99,7 @@ const TablesContainer = ({
       viewBox={`0 0 ${roomPxDimensions.width} ${roomPxDimensions.height}`}
       className="tables-container"
       editingRoom={!!match.params.roomId}
+      printing={printing}
     >
       {Object.keys(tables).map(tableId => {
         const table = tables[tableId]
@@ -130,6 +134,7 @@ const mapState = ({
   offerings,
   session,
   tables,
+  printing,
 }: AppState, {
   roomId,
   match,
@@ -140,6 +145,7 @@ const mapState = ({
     offering,
     session,
     tables: tables[roomId] || {},
+    printing,
   }
 }
 
