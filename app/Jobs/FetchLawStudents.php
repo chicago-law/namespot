@@ -116,14 +116,14 @@ class FetchLawStudents implements ShouldQueue
       }
 
       // Attempt to send an email with exceptions summary.
-      if (config('app.env') === 'prod') {
-        $message =  'Prod: FetchLawStudents had an exception!';
-        Mail::to(config('app.dev_email'))->send(new JobException($message, $errors_array));
-      }
-      if (config('app.env') === 'dev') {
-        $message =  'Dev: FetchLawStudents had an exception!';
-        Mail::to(config('app.dev_email'))->send(new JobException($message, $errors_array));
-      }
+      // if (config('app.env') === 'prod') {
+      //   $message =  'Prod: FetchLawStudents had an exception!';
+      //   Mail::to(config('app.dev_email'))->send(new JobException($message, $errors_array));
+      // }
+      // if (config('app.env') === 'dev') {
+      //   $message =  'Dev: FetchLawStudents had an exception!';
+      //   Mail::to(config('app.dev_email'))->send(new JobException($message, $errors_array));
+      // }
     }
   }
 }

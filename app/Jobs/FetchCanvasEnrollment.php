@@ -219,10 +219,10 @@ class FetchCanvasEnrollment implements ShouldQueue
       Log::error('FetchCanvasEnrollment error!', $this->errors);
 
       // send an email with exceptions summary
-      if (config('app.env') === 'prod') {
-        $message = "Prod: FetchCanvasEnrollment for {$this->term} finished with " . count($this->errors) . " error(s) out of " . count($this->offerings) . " offerings.";
-        Mail::to(config('app.dev_email'))->send(new JobException($message, $this->errors));
-      }
+      // if (config('app.env') === 'prod') {
+      //   $message = "Prod: FetchCanvasEnrollment for {$this->term} finished with " . count($this->errors) . " error(s) out of " . count($this->offerings) . " offerings.";
+      //   Mail::to(config('app.dev_email'))->send(new JobException($message, $this->errors));
+      // }
     endif;
   }
 }

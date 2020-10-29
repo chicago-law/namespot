@@ -172,10 +172,10 @@ class FetchAisEnrollment implements ShouldQueue
       Log::error('FetchAisEnrollment error!', $errors_array);
 
       // Attempt to send an email with exceptions summary.
-      if (config('app.env') === 'prod') {
-        $message =  "Prod: FetchAisEnrollment for {$this->term} finished with " . count($errors_array) . " errors, out of " . count($offerings) . " offerings.";
-        Mail::to(config('app.dev_email'))->send(new JobException($message, array_slice($errors_array, 0, 20)));
-      }
+      // if (config('app.env') === 'prod') {
+      //   $message =  "Prod: FetchAisEnrollment for {$this->term} finished with " . count($errors_array) . " errors, out of " . count($offerings) . " offerings.";
+      //   Mail::to(config('app.dev_email'))->send(new JobException($message, array_slice($errors_array, 0, 20)));
+      // }
     endif;
   }
 }

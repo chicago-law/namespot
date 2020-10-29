@@ -87,10 +87,10 @@ class FetchAppData implements ShouldQueue
     } // end term loop
 
     // Send an email confirming that all jobs finished without errors.
-    if (config('app.env') === 'prod') {
-      $results =  "Prod: FetchAppData started at {$this->started} and finished at " . date('h:i:s');
-      Mail::to(config('app.dev_email'))->send(new JobResults($results));
-    }
+    // if (config('app.env') === 'prod') {
+    //   $results =  "Prod: FetchAppData started at {$this->started} and finished at " . date('h:i:s');
+    //   Mail::to(config('app.dev_email'))->send(new JobResults($results));
+    // }
 
     // Log that we finished.
     $finished = date('h:i:s');

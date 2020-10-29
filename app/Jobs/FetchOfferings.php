@@ -206,10 +206,10 @@ class FetchOfferings implements ShouldQueue
       Log::error('FetchOfferings error', $errors_array);
 
       // send an email with exceptions summary
-      if (config('app.env') === 'prod') {
-        $message = "Prod FetchOfferings for {$this->term} finished with " . count($errors_array) . " errors.";
-        Mail::to(config('app.dev_email'))->send(new JobException($message, $errors_array));
-      };
+      // if (config('app.env') === 'prod') {
+      //   $message = "Prod FetchOfferings for {$this->term} finished with " . count($errors_array) . " errors.";
+      //   Mail::to(config('app.dev_email'))->send(new JobException($message, $errors_array));
+      // };
     endif;
   }
 }
