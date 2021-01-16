@@ -6,11 +6,11 @@ module.exports = {
   extends: [
     'airbnb',
     'airbnb/hooks',
-    'plugin:@typescript-eslint/recommended'
+    'plugin:@typescript-eslint/recommended',
   ],
   globals: {
     Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly'
+    SharedArrayBuffer: 'readonly',
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -23,47 +23,53 @@ module.exports = {
   plugins: [
     'react',
     'react-hooks',
-    '@typescript-eslint'
+    '@typescript-eslint',
   ],
   rules: {
+    '@typescript-eslint/ban-types': 0,
     '@typescript-eslint/camelcase': 0,
     '@typescript-eslint/indent': ['error', 2],
-    '@typescript-eslint/explicit-member-accessibility': 0,
     '@typescript-eslint/explicit-function-return-type': 0,
+    '@typescript-eslint/explicit-member-accessibility': 0,
+    '@typescript-eslint/explicit-module-boundary-types': 0,
     '@typescript-eslint/no-unused-vars': 0,
     '@typescript-eslint/semi': 0,
     'arrow-body-style': 0,
     'arrow-parens': ['error', 'as-needed'],
-    "indent": 0,
-    "import/extensions": [
-      "error",
-      "ignorePackages",
+    camelcase: 0,
+    indent: 0,
+    'import/extensions': [
+      'error',
+      'ignorePackages',
       {
-        "js": "never",
-        "jsx": "never",
-        "ts": "never",
-        "tsx": "never"
-      }
+        js: 'never',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never',
+      },
     ],
     'import/prefer-default-export': 0,
     'jsx-a11y/label-has-for': 0,
     'max-len': 0,
     'new-cap': 0,
     'no-shadow': 0,
+    'no-use-before-define': 0,
     'object-curly-newline': 0,
-    'radix': 0,
+    radix: 0,
     'react/jsx-filename-extension': 'off',
     'react/jsx-one-expression-per-line': 'off',
     'react/jsx-props-no-spreading': 'off',
+    'react/no-array-index-key': 0,
     'react/no-unescaped-entities': 0,
+    'react/require-default-props': 0,
     'react/prop-types': 0,
-    'semi': [1, "never"]
+    semi: [1, 'never'],
   },
-  'settings': {
+  settings: {
     'import/resolver': {
-      'node': {
-        'extensions': ['.js', '.jsx', '.ts', '.tsx']
-      }
-    }
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
+    },
   },
-};
+}
