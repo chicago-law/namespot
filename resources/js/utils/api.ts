@@ -206,6 +206,7 @@ export interface CreateOfferingParams {
   term_code: number;
   catalog_nbr?: string;
   section?: string;
+  manual_instructor_cnets?: string[];
 }
 interface FetchEnrollmentsResponse {
   enrollments: {

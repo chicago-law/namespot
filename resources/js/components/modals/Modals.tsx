@@ -16,7 +16,7 @@ import PrintOffering, { PrintOfferingModalData } from './print-offering'
 import AddStudent, { AddStudentModalData } from './add-student'
 import ChangePicture, { ChangePictureModalData } from './change-picture'
 import EditSelect, { EditSelectModalData } from './edit-select'
-import CreateOffering, { EditOfferingModalData } from './edit-offering'
+import EditOffering, { EditOfferingModalData } from './edit-offering'
 
 const Container = styled('div')<{ isActive: boolean }>`
   position: fixed;
@@ -131,7 +131,7 @@ const Modals = ({ modal }: StoreProps) => {
             <ChangePicture modalData={modal.data as ChangePictureModalData} />
           )}
           {modal.modalType === ModalTypes.editOffering && (
-            <CreateOffering modalData={modal.data as EditOfferingModalData} />
+            <EditOffering modalData={modal.data as EditOfferingModalData} />
           )}
         </div>
       </CSSTransition>

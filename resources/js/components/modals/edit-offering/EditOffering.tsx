@@ -11,8 +11,12 @@ import { dismissModal } from '../../../store/modal/actions'
 import useRecentOfferings from '../../../hooks/useRecentOfferings'
 import { AppState } from '../../../store'
 import { OfferingsState, Offering } from '../../../store/offerings/types'
+import TextButton from '../../TextButton'
+import IconButton from '../../IconButton'
 
 const Content = styled('div')`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   position: relative;
   h5 {
     margin-bottom: 0.25em;
@@ -27,10 +31,7 @@ const Content = styled('div')`
     }
   }
   .delete-container {
-    position: absolute;
-    top: 0;
-    right: 0;
-    display: inline-block;
+    margin-top: 3rem;
     button {
       display: inline-flex;
       align-items: center;
@@ -50,6 +51,7 @@ export interface EditOfferingModalData {
   term_code?: number;
   catalog_nbr?: string | null;
   section?: string | null;
+  manual_instructor_cnets?: string[];
 }
 interface StoreProps {
   offerings: OfferingsState;
@@ -70,12 +72,31 @@ const EditOffering: React.FC<StoreProps & OwnProps & RouteComponentProps> = ({
   const [term_code, setTerm] = useState(modalData.term_code || guessCurrentTerm())
   const [catalog_nbr, setCatalog] = useState(modalData.catalog_nbr || '')
   const [section, setSection] = useState(modalData.section || '')
+  const [instructors, setInstructors] = useState([...(modalData.manual_instructor_cnets ?? []), ''])
   const [isLoading, setIsLoading] = useState(false)
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false)
   const termList = useMemo(() => getTermCodeRange(), [])
   const [, addRecentOffering, removeRecentOffering] = useRecentOfferings()
 
+  function handleAddCnetRow() {
+    setInstructors(prev => [...prev, ''])
+  }
+
+  function handleRemoveCnetRow(indexToRemove: number) {
+    setInstructors(prev => prev.filter((inst, i) => i !== indexToRemove))
+  }
+
+  function handleInstructorCNetIdChange(e: React.ChangeEvent<HTMLInputElement>, indexToChange: number) {
+    const { value } = e.target
+
+    const newInstructors = instructors.map((inst, i) => (i === indexToChange ? value : inst))
+    setInstructors(newInstructors)
+  }
+
   function handleConfirm() {
+    // Filter out the empty strings. May just be an empty array.
+    const manual_instructor_cnets = instructors.filter(inst => !!inst)
+
     // Update an offering.
     if (offeringId && offering && title && term_code) {
       dispatch(updateOffering(offeringId, {
@@ -83,6 +104,7 @@ const EditOffering: React.FC<StoreProps & OwnProps & RouteComponentProps> = ({
         term_code,
         catalog_nbr,
         section,
+        manual_instructor_cnets,
       }, true, (offering: Offering) => {
         // We also need to update our entry for this offering in local storage.
         addRecentOffering(offering)
@@ -96,6 +118,7 @@ const EditOffering: React.FC<StoreProps & OwnProps & RouteComponentProps> = ({
         catalog_nbr,
         section,
         term_code,
+        manual_instructor_cnets,
       }, (offeringId: string) => {
         dispatch(dismissModal())
         setIsLoading(false)
@@ -119,7 +142,7 @@ const EditOffering: React.FC<StoreProps & OwnProps & RouteComponentProps> = ({
       <ModalHeader title={offeringId ? 'Edit Custom Class' : 'New Custom Class'} />
 
       <Content>
-        <>
+        <div>
           <label htmlFor="title">
             <h5 className="required">Title</h5>
             <input
@@ -162,6 +185,25 @@ const EditOffering: React.FC<StoreProps & OwnProps & RouteComponentProps> = ({
               onChange={e => setSection(e.target.value)}
             />
           </label>
+        </div>
+        <div>
+          <h5>Instructor CNet IDs</h5>
+          <p><small>Add the CNet IDs (including possible aliases) of any instructors who should have access to this class in Namespot.</small></p>
+          {instructors.map((inst, i) => (
+            <div key={i}>
+              <input type="text" value={inst} onChange={e => handleInstructorCNetIdChange(e, i)} />
+              {instructors.length > 1 && (
+                <IconButton icon={['far', 'times']} handler={() => handleRemoveCnetRow(i)} />
+              )}
+            </div>
+          ))}
+          <TextButton
+            leftIcon={['far', 'plus-circle']}
+            text="Add another CNet"
+            clickHandler={handleAddCnetRow}
+            variant="clear"
+            style={{ marginTop: '1rem' }}
+          />
           {offeringId && (
             <div className="delete-container">
               {!isConfirmingDelete && (
@@ -169,7 +211,7 @@ const EditOffering: React.FC<StoreProps & OwnProps & RouteComponentProps> = ({
                   type="button"
                   onClick={handleDeleteRequest}
                 >
-                  <FontAwesomeIcon icon={['far', 'trash-alt']} /> Delete this class?
+                  <FontAwesomeIcon icon={['far', 'trash-alt']} /> Delete this class
                 </button>
               )}
               {isConfirmingDelete && (
@@ -182,7 +224,7 @@ const EditOffering: React.FC<StoreProps & OwnProps & RouteComponentProps> = ({
               )}
             </div>
           )}
-        </>
+        </div>
       </Content>
 
       <ModalControls

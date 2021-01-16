@@ -25,13 +25,14 @@ const EditOfferingTitles = ({
   }
 
   function handleEdit() {
-    const { id, title, term_code, catalog_nbr, section } = offering
+    const { id, title, term_code, catalog_nbr, section, manual_instructor_cnets } = offering
     setModal<EditOfferingModalData>(ModalTypes.editOffering, {
       offeringId: id,
       title,
       term_code,
       catalog_nbr,
       section,
+      manual_instructor_cnets,
     })
   }
 
