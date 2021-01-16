@@ -30,7 +30,7 @@ class Shibboleth
       }
 
       // Abort if we couldn't find a CNet.
-      abort_if(!$cnet_id, 401, 'No CNet ID found');
+      abort_if(!$cnet_id, 401, 'No CNet ID found in request');
 
       // Now look for a user in our table with the cnet.
       $user = User::where('cnet_id', $cnet_id)->first();
