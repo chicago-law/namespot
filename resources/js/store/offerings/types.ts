@@ -19,6 +19,7 @@ export interface Offering {
   flipped: number | null;
   use_nicknames: number | null;
   use_prefixes: number | null;
+  manual_instructor_cnets: string[];
 }
 
 export interface OfferingsState {

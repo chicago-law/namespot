@@ -10,6 +10,7 @@ use App\Http\Resources\EnrollmentsResource;
 use App\Http\Resources\StudentResource;
 use App\Offering;
 use App\Student;
+use App\Instructor;
 
 class OfferingController extends Controller
 {
@@ -33,6 +34,7 @@ class OfferingController extends Controller
           $instQ->where('cnet_id', Auth::user()->cnet_id);
         });
         $subQ->orWhere('manually_created_by', '=', Auth::user()->id);
+        $subQ->orWhere('manual_instructor_cnets', 'like', '%' . Auth::user()->cnet_id . '%');
       });
     }
     /**
@@ -73,6 +75,8 @@ class OfferingController extends Controller
     $updates = $request->all();
 
     // Perform updates
+
+    // Change the room.
     if (array_key_exists('room_id', $updates)) {
       $offering->room_id = $request->input('room_id');
       // Because this room assignment was initiated by the user, we want to preserve
@@ -87,6 +91,15 @@ class OfferingController extends Controller
       }
       $offering->students()->sync($updated_students);
     }
+
+    // Add instructor CNets to a custom class.
+    if (array_key_exists('manual_instructor_cnets', $updates)) {
+      $cnets = implode(',', $updates['manual_instructor_cnets']);
+
+      $offering->manual_instructor_cnets = $cnets ? $cnets : null;
+    }
+
+    // Rest of the updates.
     if (array_key_exists('student_id', $updates)) {
       $offering->students()->attach($updates['student_id']);
     }
@@ -148,13 +161,16 @@ class OfferingController extends Controller
     $term_code = $request->input('term_code');
     $catalog_nbr = $request->input('catalog_nbr');
     $section = $request->input('section');
+    $manual_instructor_cnets = implode(',', $request->input('manual_instructor_cnets'));
 
+    // Title is required
     if (!$title) abort(400);
 
     $new_offering->long_title = $title;
     $new_offering->term_code = $term_code;
     $new_offering->catalog_nbr = $catalog_nbr;
     $new_offering->section = $section;
+    $new_offering->manual_instructor_cnets = $manual_instructor_cnets ? $manual_instructor_cnets : null;
 
     $new_offering->save();
 

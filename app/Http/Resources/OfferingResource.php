@@ -51,7 +51,8 @@ class OfferingResource extends JsonResource
             'flipped' => intOrNull($this->flipped),
             'use_nicknames' => intOrNull($this->use_nicknames),
             'use_prefixes' => intOrNull($this->use_prefixes),
-            'updated_at' => !is_null($this->updated_at) ? $this->updated_at : null
+            'updated_at' => !is_null($this->updated_at) ? $this->updated_at : null,
+            'manual_instructor_cnets' => !is_null($this->manual_instructor_cnets) ? explode(',', $this->manual_instructor_cnets) : null
         ];
     }
 }
