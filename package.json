@@ -22,7 +22,7 @@
         "changedpi": "^1.0.4",
         "html2canvas": "^1.0.0-rc.5",
         "jsdom": "^15.2.1",
-        "jspdf": "^1.5.3",
+        "jspdf": "^2.3.1",
         "laravel-mix": "^5.0.5",
         "query-string": "^6.9.0",
         "react": "^16.13.0",
