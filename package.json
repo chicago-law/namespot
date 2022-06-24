@@ -21,7 +21,7 @@
         "axios": "^0.21.1",
         "changedpi": "^1.0.4",
         "html2canvas": "^1.0.0-rc.5",
-        "jsdom": "^15.2.1",
+        "jsdom": "^16.5.0",
         "jspdf": "^1.5.3",
         "laravel-mix": "^5.0.5",
         "query-string": "^6.9.0",
